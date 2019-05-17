@@ -17,7 +17,7 @@ Features
 Requirements
 ------------
 
--  Python 2.7, 3.4, 3.5, 3.6, 3.7
+-  Python 3.4, 3.5, 3.6, 3.7
 
 Installation
 ------------

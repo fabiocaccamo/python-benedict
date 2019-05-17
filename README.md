@@ -15,7 +15,7 @@ python-benedict is the Python dictionary that helps humans dealing with evil dat
 - Many **utility methods** to retrieve data as needed *(all methods listed below)*
 
 ## Requirements
-- Python 2.7, 3.4, 3.5, 3.6, 3.7
+- Python 3.4, 3.5, 3.6, 3.7
 
 ## Installation
 - Run `pip install python-benedict`

@@ -5,7 +5,7 @@ from setuptools import find_packages, setup
 
 import os
 
-exec(open('benedict/__init__.py').read())
+exec(open('benedict/metadata.py').read())
 
 github_url = 'https://github.com/fabiocaccamo'
 package_name = 'python-benedict'
@@ -31,10 +31,9 @@ setup(
     download_url='%s/%s/archive/%s.tar.gz' % (github_url, package_name, __version__, ),
     keywords=['benedict', 'python', 'dict', 'keypath', 'parse', 'utility'],
     install_requires=[
-        'ftfy == 4.4.3;python_version<"3.4"',
-        'ftfy >= 4.5.0, < 6.0.0;python_version>="3.4"',
-        'python-dateutil >= 2.6.0, < 3.0.0',
-        'python-slugify >= 1.2.0, < 4.0.0',
+        'ftfy',             # >= 5.0.0, < 6.0.0;
+        'python-dateutil',  # >= 2.6.0, < 3.0.0',
+        'python-slugify',   # >= 1.2.0, < 4.0.0',
         # 'pyyaml',
         # 'xmltodict',
     ],
@@ -45,8 +44,6 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',

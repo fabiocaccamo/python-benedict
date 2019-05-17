@@ -1,7 +1,6 @@
 language: python
 python: 3.5
 env:
-  - TOX_ENV=py27
   - TOX_ENV=py34
   - TOX_ENV=py35
   # - TOX_ENV=py36
@@ -18,5 +17,5 @@ matrix:
 install:
   - pip install tox
 script:
-  - tox -e 
+  - tox -e
 sudo: false
