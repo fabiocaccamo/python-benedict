@@ -1,4 +1,5 @@
 language: python
+cache: pip
 python: 3.5
 env:
   - TOX_ENV=py34
@@ -8,14 +9,16 @@ env:
 matrix:
   include:
     - python: "3.6"
-      env: TOX_ENV=py36
+      env:
+        - TOX_ENV=py36
     - python: "3.7"
-      env: TOX_ENV=py37
+      env:
+        - TOX_ENV=py37
       dist: xenial
       language: python
       sudo: required
 install:
   - pip install tox
 script:
-  - tox -e
+  - tox -e $TOX_ENV
 sudo: false
