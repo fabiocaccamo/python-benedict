@@ -30,40 +30,28 @@ class KeypathDict(dict):
         else:
             return [key]
 
-    def _delete_value_by_keys(self, keys):
-        item_keys = keys[:-1]
-        item_key = keys[-1]
-        item_parent = self.get(self._join_keys(item_keys), None)
-        if isinstance(item_parent, dict):
-            if item_key in item_parent:
-                del item_parent[item_key]
-                return True
-            else:
-                return False
-        else:
-            return False
-
-    def _get_value_by_keys(self, keys, default=None):
+    def _get_value_by_keys(self, keys):
         i = 0
         j = len(keys)
-        item = self
+        val = self
         while i < j:
             key = keys[i]
-            # if key not in item:
-            #    return default
             try:
-                item = item[key]
-                if item is None:
-                    return default
+                val = val[key]
             except KeyError:
-                return default
+                val = None
+                break
             i += 1
-        return (item if item != None else default)
+        return val
 
-    def _has_value_by_keys(self, keys):
+    def _get_value_context_by_keys(self, keys):
         item_keys = keys[:-1]
         item_key = keys[-1]
-        item_parent = self.get(self._join_keys(item_keys), None)
+        item_parent = self._get_value_by_keys(item_keys)
+        return (item_parent, item_key, )
+
+    def _has_value_by_keys(self, keys):
+        item_parent, item_key = self._get_value_context_by_keys(keys)
         if isinstance(item_parent, dict):
             if item_key in item_parent:
                 return True
@@ -97,23 +85,25 @@ class KeypathDict(dict):
     def __delitem__(self, key):
         keys = self._split_keys(key)
         if len(keys) > 1:
-            self._delete_value_by_keys(keys)
+            item_parent, item_key = self._get_value_context_by_keys(keys)
+            if isinstance(item_parent, dict):
+                del item_parent[item_key]
+            else:
+                raise KeyError
         else:
-            try:
-                super(KeypathDict, self).__delitem__(key)
-            except KeyError:
-                pass
+            super(KeypathDict, self).__delitem__(key)
 
     def __getitem__(self, key):
         keys = self._split_keys(key)
         value = None
         if len(keys) > 1:
-            value = self._get_value_by_keys(keys)
+            item_parent, item_key = self._get_value_context_by_keys(keys)
+            if isinstance(item_parent, dict):
+                return item_parent[item_key]
+            else:
+                raise KeyError
         else:
-            try:
-                value = super(KeypathDict, self).__getitem__(key)
-            except KeyError:
-                value = None
+            value = super(KeypathDict, self).__getitem__(key)
         return value
 
     def __setitem__(self, key, value):
@@ -139,7 +129,11 @@ class KeypathDict(dict):
     def get(self, key, default=None):
         keys = self._split_keys(key)
         if len(keys) > 1:
-            return self._get_value_by_keys(keys, default)
+            item_parent, item_key = self._get_value_context_by_keys(keys)
+            if isinstance(item_parent, dict):
+                return item_parent.get(item_key, default)
+            else:
+                return default
         else:
             return super(KeypathDict, self).get(key, default)
 
@@ -147,13 +141,33 @@ class KeypathDict(dict):
         def walk_keypaths(root, path):
             keypaths = []
             for key, val in root.items():
-                keypaths += ['.'.join(path + [key])]
+                keypaths += [self._join_keys(path + [key])]
                 if isinstance(val, dict):
                     keypaths += walk_keypaths(val, path + [key])
             return keypaths
         keypaths = walk_keypaths(self, [])
         keypaths.sort()
         return keypaths
+
+    def pop(self, key, default=None):
+        keys = self._split_keys(key)
+        if len(keys) > 1:
+            item_parent, item_key = self._get_value_context_by_keys(keys)
+            if isinstance(item_parent, dict):
+                if default is None:
+                    return item_parent.pop(item_key)
+                else:
+                    return item_parent.pop(item_key, default)
+            else:
+                if default is None:
+                    raise KeyError
+                else:
+                    return default
+        else:
+            if default is None:
+                return super(KeypathDict, self).pop(key)
+            else:
+                return super(KeypathDict, self).pop(key, default)
 
     def set(self, key, value):
         self[key] = value

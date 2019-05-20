@@ -139,7 +139,8 @@ class BenedictKeypathDictTestCase(unittest.TestCase):
             'a': 1,
         }
         b = benedict(d)
-        self.assertEqual(b['b'], None)
+        with self.assertRaises(KeyError):
+            val = b['b']
 
     def test_getitem_with_1_not_str_key(self):
         d = {
@@ -150,7 +151,8 @@ class BenedictKeypathDictTestCase(unittest.TestCase):
         b = benedict(d)
         self.assertEqual(b[None], None)
         self.assertEqual(b[False], False)
-        self.assertEqual(b[True], None)
+        with self.assertRaises(KeyError):
+            val = b[True]
         self.assertEqual(b[0], 0)
 
     def test_get_with_2_valid_keys(self):
@@ -187,7 +189,8 @@ class BenedictKeypathDictTestCase(unittest.TestCase):
             }
         }
         b = benedict(d)
-        self.assertEqual(b['b.a'], None)
+        with self.assertRaises(KeyError):
+            val = b['b.a']
 
     def test_get_with_3_valid_keys(self):
         d = {
@@ -231,7 +234,8 @@ class BenedictKeypathDictTestCase(unittest.TestCase):
             }
         }
         b = benedict(d)
-        self.assertEqual(b['c.b.a'], None)
+        with self.assertRaises(KeyError):
+            val = b['c.b.a']
 
     def test_has_with_1_key(self):
         d = {
@@ -376,16 +380,18 @@ class BenedictKeypathDictTestCase(unittest.TestCase):
         }
         b = benedict(d)
         del b['a']
-        self.assertEqual(b['a'], None)
+        with self.assertRaises(KeyError):
+            del b['a']
+        self.assertEqual(b.get('a'), None)
 
     def test_delitem_with_1_invalid_key(self):
         d = {
             'a': 1,
         }
         b = benedict(d)
-        del b['b']
-        self.assertEqual(b['a'], 1)
-        self.assertEqual(b['b'], None)
+        with self.assertRaises(KeyError):
+            del b['b']
+        self.assertEqual(b.get('b'), None)
 
     def test_delitem_with_2_valid_keys(self):
         d = {
@@ -394,10 +400,16 @@ class BenedictKeypathDictTestCase(unittest.TestCase):
             }
         }
         b = benedict(d)
+
         del b['a.b']
-        self.assertEqual(b['a'], {})
+        with self.assertRaises(KeyError):
+            del b['a.b']
+        self.assertEqual(b.get('a'), {})
+
         del b['a']
-        self.assertEqual(b['a'], None)
+        with self.assertRaises(KeyError):
+            del b['a']
+        self.assertEqual(b.get('a'), None)
 
     def test_delitem_with_2_invalid_keys(self):
         d = {
@@ -406,8 +418,9 @@ class BenedictKeypathDictTestCase(unittest.TestCase):
             }
         }
         b = benedict(d)
-        del b['a.c']
-        self.assertEqual(b['a'], { 'b': 1 })
+        with self.assertRaises(KeyError):
+            del b['a.c']
+        self.assertEqual(b.get('a'), { 'b': 1 })
 
     def test_delitem_with_3_valid_keys(self):
         d = {
@@ -419,12 +432,21 @@ class BenedictKeypathDictTestCase(unittest.TestCase):
             }
         }
         b = benedict(d)
+
         del b['a.b.c']
-        self.assertEqual(b['a.b'], { 'd':2 })
+        with self.assertRaises(KeyError):
+            del b['a.b.c']
+        self.assertEqual(b.get('a.b'), { 'd':2 })
+
         del b['a.b.d']
-        self.assertEqual(b['a.b'], {})
+        with self.assertRaises(KeyError):
+            del b['a.b.d']
+        self.assertEqual(b.get('a.b'), {})
+
         del b['a.b']
-        self.assertEqual(b['a.b'], None)
+        with self.assertRaises(KeyError):
+            del b['a.b']
+        self.assertEqual(b.get('a.b'), None)
 
     def test_delitem_with_3_invalid_keys(self):
         d = {
@@ -436,8 +458,64 @@ class BenedictKeypathDictTestCase(unittest.TestCase):
             }
         }
         b = benedict(d)
-        del b['a.b.c.d']
-        self.assertEqual(b['a.b.c'], 1)
+        with self.assertRaises(KeyError):
+            del b['a.b.c.d']
+        self.assertEqual(b.get('a.b.c'), 1)
+
+    def test_pop_with_1_valid_key(self):
+        d = {
+            'a': 1,
+        }
+        b = benedict(d)
+        val = b.pop('a')
+        self.assertEqual(val, 1)
+
+    def test_pop_with_1_invalid_key(self):
+        d = {
+            'a': 1,
+        }
+        b = benedict(d)
+        with self.assertRaises(KeyError):
+            val = b.pop('b')
+        val = b.pop('b', False)
+        self.assertFalse(val)
+
+    def test_pop_with_2_valid_keys(self):
+        d = {
+            'a': {
+                'b': 1,
+            }
+        }
+        b = benedict(d)
+
+        val = b.pop('a.b')
+        with self.assertRaises(KeyError):
+            val = b.pop('a.b')
+        self.assertEqual(val, 1)
+
+        val = b.pop('a')
+        with self.assertRaises(KeyError):
+            val = b.pop('a')
+        self.assertEqual(val, {})
+
+    def test_pop_with_2_invalid_keys(self):
+        d = {
+            'a': {
+                'b': 1,
+            }
+        }
+        b = benedict(d)
+
+        val = b.pop('a.c', 2)
+        self.assertEqual(val, 2)
+        with self.assertRaises(KeyError):
+            val = b.pop('a.c')
+        self.assertEqual(b.get('a'), { 'b': 1 })
+
+        val = b.pop('x.y', 1)
+        self.assertEqual(val, 1)
+        with self.assertRaises(KeyError):
+            val = b.pop('x.y')
 
     def test_setdefault_with_1_key(self):
         d = {
@@ -492,6 +570,14 @@ class BenedictKeypathDictTestCase(unittest.TestCase):
         self.assertEqual(b['a.b.b'], 0)
         self.assertEqual(b['a.b.c'], 1)
         self.assertEqual(b['a.b.d'], 2)
+
+    def test_use_existing_dict_with_keys_containing_dots_for_casting(self):
+        # TODO
+        pass
+
+    def test_use_existing_dict_with_keys_containing_dots_for_update(self):
+        # TODO
+        pass
 
 
 class BenedictUtilityDictTestCase(unittest.TestCase):
