@@ -1,4 +1,4 @@
-|Build Status| |codecov| |Code Health| |Requirements Status|
+|Build Status| |codecov| |Codacy| |Requirements Status|
 |PyPI version| |PyPI downloads| |Py versions| |License|
 
 python-benedict
@@ -35,8 +35,8 @@ Usage
 ``benedict`` is a dict subclass, so it is possible to use it as a normal
 dict *(you can just cast an existing dict)*.
 
-Basic get/set using keypath:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Basic get/set using keypath
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code:: python
 
@@ -49,8 +49,8 @@ Basic get/set using keypath:
     print(d['profile']) # -> { 'firstname':'Fabio', 'lastname':'Caccamo' }
     print('profile.lastname' in d) # -> True
 
-Utility methods:
-^^^^^^^^^^^^^^^^
+Utility methods
+^^^^^^^^^^^^^^^
 
 .. code:: python
 
@@ -156,18 +156,10 @@ License
 Released under `MIT License <LICENSE.txt>`__.
 
 .. |Build Status| image:: https://travis-ci.org/fabiocaccamo/python-benedict.svg?branch=master
-   :target: https://travis-ci.org/fabiocaccamo/python-benedict
 .. |codecov| image:: https://codecov.io/gh/fabiocaccamo/python-benedict/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/fabiocaccamo/python-benedict
-.. |Code Health| image:: https://landscape.io/github/fabiocaccamo/python-benedict/master/landscape.svg?style=flat
-   :target: https://landscape.io/github/fabiocaccamo/python-benedict/master
+.. |Codacy| image:: https://api.codacy.com/project/badge/Grade/0dbd5cc2089f4dce80a0e49e6822be3c
 .. |Requirements Status| image:: https://requires.io/github/fabiocaccamo/python-benedict/requirements.svg?branch=master
-   :target: https://requires.io/github/fabiocaccamo/python-benedict/requirements/?branch=master
 .. |PyPI version| image:: https://badge.fury.io/py/python-benedict.svg
-   :target: https://badge.fury.io/py/python-benedict
 .. |PyPI downloads| image:: https://img.shields.io/pypi/dm/python-benedict.svg
-   :target: https://img.shields.io/pypi/dm/python-benedict.svg
 .. |Py versions| image:: https://img.shields.io/pypi/pyversions/python-benedict.svg
-   :target: https://img.shields.io/pypi/pyversions/python-benedict.svg
 .. |License| image:: https://img.shields.io/pypi/l/python-benedict.svg
-   :target: https://img.shields.io/pypi/l/python-benedict.svg
