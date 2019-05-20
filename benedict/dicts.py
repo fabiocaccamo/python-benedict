@@ -29,6 +29,19 @@ class KeypathDict(dict):
         else:
             return [key]
 
+    def _delete_value_by_keys(self, keys):
+        item_keys = keys[:-1]
+        item_key = keys[-1]
+        item_parent = self.get(self._join_keys(item_keys), None)
+        if isinstance(item_parent, dict):
+            if item_key in item_parent:
+                del item_parent[item_key]
+                return True
+            else:
+                return False
+        else:
+            return False
+
     def _get_value_by_keys(self, keys, default=None):
         i = 0
         j = len(keys)
@@ -45,6 +58,18 @@ class KeypathDict(dict):
                 return default
             i += 1
         return (item if item != None else default)
+
+    def _has_value_by_keys(self, keys):
+        item_keys = keys[:-1]
+        item_key = keys[-1]
+        item_parent = self.get(self._join_keys(item_keys), None)
+        if isinstance(item_parent, dict):
+            if item_key in item_parent:
+                return True
+            else:
+                return False
+        else:
+            return False
 
     def _set_value_by_keys(self, keys, value):
         i = 0
@@ -64,28 +89,14 @@ class KeypathDict(dict):
     def __contains__(self, key):
         keys = self._split_keys(key)
         if len(keys) > 1:
-            item_keys = keys[:-1]
-            item_key = keys[-1]
-            item_parent = self.get(self._join_keys(item_keys), None)
-            if isinstance(item_parent, dict):
-                if item_key in item_parent:
-                    return True
-                else:
-                    return False
-            else:
-                return False
+            return self._has_value_by_keys(keys)
         else:
             return super(KeypathDict, self).__contains__(key)
 
     def __delitem__(self, key):
         keys = self._split_keys(key)
         if len(keys) > 1:
-            item_keys = keys[:-1]
-            item_key = keys[-1]
-            item_parent = self.get(self._join_keys(item_keys), None)
-            if isinstance(item_parent, dict):
-                if item_key in item_parent:
-                    del item_parent[item_key]
+            self._delete_value_by_keys(keys)
         else:
             try:
                 super(KeypathDict, self).__delitem__(key)
