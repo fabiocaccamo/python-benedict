@@ -279,6 +279,33 @@ class BenedictKeypathDictTestCase(unittest.TestCase):
         self.assertFalse('b.f' in b)
         self.assertFalse('f' in b)
 
+    def test_keypaths(self):
+        d = {
+            'x': {
+                'y': True,
+                'z': False,
+            },
+            'a': {
+                'b': {
+                    'c': 0,
+                    'd': None,
+                    'e': {},
+                },
+            },
+        }
+        b = benedict(d)
+        r = [
+            'a',
+            'a.b',
+            'a.b.c',
+            'a.b.d',
+            'a.b.e',
+            'x',
+            'x.y',
+            'x.z',
+        ]
+        self.assertEqual(b.get_keypaths(), r)
+
     def test_set_override_existing_item(self):
         d = {}
         b = benedict(d)

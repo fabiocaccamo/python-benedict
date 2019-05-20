@@ -143,6 +143,18 @@ class KeypathDict(dict):
         else:
             return super(KeypathDict, self).get(key, default)
 
+    def get_keypaths(self):
+        def walk_keypaths(root, path):
+            keypaths = []
+            for key, val in root.items():
+                keypaths += ['.'.join(path + [key])]
+                if isinstance(val, dict):
+                    keypaths += walk_keypaths(val, path + [key])
+            return keypaths
+        keypaths = walk_keypaths(self, [])
+        keypaths.sort()
+        return keypaths
+
     def set(self, key, value):
         self[key] = value
 
