@@ -62,14 +62,14 @@ def parse_dict(val):
         if not isinstance(val, dict):
             val = None
     except Exception:
+        pass
         # try:
         #     val = yaml.safe_load(str_val)
-        # except yaml.YAMLError as yaml_error:
+        # except yaml.YAMLError:
         #     try:
         #         val = xmltodict.parse(str_val)
-        #     except Exception as xml_error:
+        #     except Exception:
         #         pass
-        pass
     return val
 
 

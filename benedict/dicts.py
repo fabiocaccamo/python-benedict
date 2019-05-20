@@ -89,7 +89,7 @@ class KeypathDict(dict):
         else:
             try:
                 super(KeypathDict, self).__delitem__(key)
-            except KeyError as error:
+            except KeyError:
                 pass
 
     def __getitem__(self, key):
@@ -100,7 +100,7 @@ class KeypathDict(dict):
         else:
             try:
                 value = super(KeypathDict, self).__getitem__(key)
-            except KeyError as error:
+            except KeyError:
                 value = None
         return value
 
