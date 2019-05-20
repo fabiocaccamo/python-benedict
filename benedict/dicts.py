@@ -122,6 +122,10 @@ class KeypathDict(dict):
         else:
             super(KeypathDict, self).__setitem__(key, value)
 
+    def copy(self):
+        return KeypathDict(
+            super(KeypathDict, self).copy())
+
     def get(self, key, default=None):
         keys = self._split_keys(key)
         if len(keys) > 1:
@@ -321,3 +325,7 @@ class benedict(KeypathDict, UtilityDict):
 
     def __init__(self, *args, **kwargs):
         super(benedict, self).__init__(*args, **kwargs)
+
+    def copy(self):
+        return benedict(
+            super(benedict, self).copy())

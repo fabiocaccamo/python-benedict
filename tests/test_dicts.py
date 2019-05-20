@@ -9,6 +9,23 @@ import unittest
 
 class BenedictKeypathDictTestCase(unittest.TestCase):
 
+    def test_copy(self):
+        d = {
+            'a': {
+                'b': {
+                    'c': 1
+                }
+            }
+        }
+        b = benedict(d)
+        c = b.copy()
+        self.assertEqual(type(b), type(c))
+        self.assertEqual(b, c)
+        self.assertFalse(c is b)
+        c['a.b.c'] = 2
+        self.assertEqual(b.get('a.b.c'), 2)
+        self.assertEqual(c.get('a.b.c'), 2)
+
     def test_get_with_1_valid_key(self):
         d = {
             'a': 1,
