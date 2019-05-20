@@ -471,7 +471,6 @@ class BenedictUtilityDictTestCase(unittest.TestCase):
             'a': '2019-05-01',
         }
         b = benedict(d)
-        r = datetime(2019, 5, 1, 0, 0)
         self.assertEqual(b.get_datetime('a', format='%Y/%m/%d'), None)
         self.assertEqual(b.get_datetime('a', now, format='%Y/%m/%d',), now)
 

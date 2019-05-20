@@ -12,16 +12,17 @@ class KeypathDict(dict):
     def __init__(self, *args, **kwargs):
         super(KeypathDict, self).__init__(*args, **kwargs)
 
-    def _join_keys(self, keys):
+    @classmethod
+    def _join_keys(cls, keys):
         return '.'.join(keys)
 
-    def _split_keys(self, key):
+    @classmethod
+    def _split_keys(cls, key):
         if isinstance(key, string_types):
             keypath = key
             separator = '.'
             if separator in keypath:
                 keys = list(keypath.split(separator))
-                keys_count = len(keys)
                 return keys
             else:
                 return [key]
@@ -40,7 +41,7 @@ class KeypathDict(dict):
                 item = item[key]
                 if item is None:
                     return default
-            except KeyError as key_error:
+            except KeyError:
                 return default
             i += 1
         return (item if item != None else default)
@@ -141,7 +142,7 @@ class UtilityDict(dict):
         return self.get_value(
             key, default, [True, False], parser.parse_bool)
 
-    def get_bool_list(self, key, default=[], separator=','):
+    def get_bool_list(self, key, default=None, separator=','):
         """
         Get value by key or keypath trying to return it as list of bool values.
         If separator is specified and value is a string it will be splitted.
@@ -149,24 +150,26 @@ class UtilityDict(dict):
         return self.get_values_list(
             key, default, separator, parser.parse_bool)
 
-    def get_datetime(self, key, default=None, format=None, options=[]):
+    def get_datetime(self, key, default=None, format=None, options=None):
         """
         Get value by key or keypath trying to return it as datetime.
         If format is not specified it will be autodetected.
         If options and value is in options return value otherwise default.
         """
         return self.get_value(
-            key, default, options, parser.parse_datetime, {'format': format})
+            key, default, options, parser.parse_datetime,
+            {'format': format})
 
-    def get_datetime_list(self, key, default=[], format=None, separator=','):
+    def get_datetime_list(self, key, default=None, format=None, separator=','):
         """
         Get value by key or keypath trying to return it as list of datetime values.
         If separator is specified and value is a string it will be splitted.
         """
         return self.get_values_list(
-            key, default, separator, parser.parse_datetime, {'format': format})
+            key, default, separator, parser.parse_datetime,
+            {'format': format})
 
-    def get_decimal(self, key, default=Decimal('0.0'), options=[]):
+    def get_decimal(self, key, default=Decimal('0.0'), options=None):
         """
         Get value by key or keypath trying to return it as Decimal.
         If options and value is in options return value otherwise default.
@@ -174,7 +177,7 @@ class UtilityDict(dict):
         return self.get_value(
             key, default, options, parser.parse_decimal)
 
-    def get_decimal_list(self, key, default=[], separator=','):
+    def get_decimal_list(self, key, default=None, separator=','):
         """
         Get value by key or keypath trying to return it as list of Decimal values.
         If separator is specified and value is a string it will be splitted.
@@ -182,15 +185,15 @@ class UtilityDict(dict):
         return self.get_values_list(
             key, default, separator, parser.parse_decimal)
 
-    def get_dict(self, key, default={}):
+    def get_dict(self, key, default=None):
         """
         Get value by key or keypath trying to return it as dict.
         If value is a json string it will be automatically decoded.
         """
         return self.get_value(
-            key, default, None, parser.parse_dict)
+            key, default or {}, None, parser.parse_dict)
 
-    def get_float(self, key, default=0.0, options=[]):
+    def get_float(self, key, default=0.0, options=None):
         """
         Get value by key or keypath trying to return it as float.
         If options and value is in options return value otherwise default.
@@ -198,7 +201,7 @@ class UtilityDict(dict):
         return self.get_value(
             key, default, options, parser.parse_float)
 
-    def get_float_list(self, key, default=[], separator=','):
+    def get_float_list(self, key, default=None, separator=','):
         """
         Get value by key or keypath trying to return it as list of float values.
         If separator is specified and value is a string it will be splitted.
@@ -206,7 +209,7 @@ class UtilityDict(dict):
         return self.get_values_list(
             key, default, separator, parser.parse_float)
 
-    def get_int(self, key, default=0, options=[]):
+    def get_int(self, key, default=0, options=None):
         """
         Get value by key or keypath trying to return it as int.
         If options and value is in options return value otherwise default.
@@ -214,7 +217,7 @@ class UtilityDict(dict):
         return self.get_value(
             key, default, options, parser.parse_int)
 
-    def get_int_list(self, key, default=[], separator=','):
+    def get_int_list(self, key, default=None, separator=','):
         """
         Get value by key or keypath trying to return it as list of int values.
         If separator is specified and value is a string it will be splitted.
@@ -222,15 +225,16 @@ class UtilityDict(dict):
         return self.get_values_list(
             key, default, separator, parser.parse_int)
 
-    def get_list(self, key, default=[], separator=','):
+    def get_list(self, key, default=None, separator=','):
         """
         Get value by key or keypath trying to return it as list.
         If separator is specified and value is a string it will be splitted.
         """
         return self.get_value(
-            key, default, None, parser.parse_list, {'separator': separator})
+            key, default or [], None, parser.parse_list,
+            {'separator': separator})
 
-    def get_slug(self, key, default='', options=[]):
+    def get_slug(self, key, default='', options=None):
         """
         Get value by key or keypath trying to return it as slug.
         If options and value is in options return value otherwise default.
@@ -238,7 +242,7 @@ class UtilityDict(dict):
         return self.get_value(
             key, default, options, parser.parse_slug)
 
-    def get_slug_list(self, key, default=[], separator=','):
+    def get_slug_list(self, key, default=None, separator=','):
         """
         Get value by key or keypath trying to return it as list of slug values.
         If separator is specified and value is a string it will be splitted.
@@ -246,7 +250,7 @@ class UtilityDict(dict):
         return self.get_values_list(
             key, default, separator, parser.parse_slug)
 
-    def get_str(self, key, default='', options=[]):
+    def get_str(self, key, default='', options=None):
         """
         Get value by key or keypath trying to return it as string.
         Encoding issues will be automatically fixed.
@@ -255,7 +259,7 @@ class UtilityDict(dict):
         return self.get_value(
             key, default, options, parser.parse_str)
 
-    def get_str_list(self, key, default=[], separator=','):
+    def get_str_list(self, key, default=None, separator=','):
         """
         Get value by key or keypath trying to return it as list of str values.
         If separator is specified and value is a string it will be splitted.
@@ -263,8 +267,8 @@ class UtilityDict(dict):
         return self.get_values_list(
             key, default, separator, parser.parse_str)
 
-    def get_value(self, key, default=None, options=[],
-                  parser_func=lambda val: val, parser_kwargs={}):
+    def get_value(self, key, default=None, options=None,
+                  parser_func=lambda val: val, parser_kwargs=None):
         """
         Get value by key or keypath core method.
         If options and value is in options return value otherwise default.
@@ -276,7 +280,7 @@ class UtilityDict(dict):
             return default
         # If not of the desired type, try to parse it using parser_func.
         if parser_func and callable(parser_func):
-            value = parser_func(self.get(key, ''), **parser_kwargs)
+            value = parser_func(self.get(key, ''), **(parser_kwargs or {}))
             # If value is None after parsing return default value.
             if value is None:
                 return default
@@ -289,21 +293,20 @@ class UtilityDict(dict):
         else:
             return value
 
-    def get_values_list(self, key, default=[], separator=',',
-                       parser_func=lambda val: val, parser_kwargs={}):
+    def get_values_list(self, key, default=None, separator=',',
+                        parser_func=lambda val: val, parser_kwargs=None):
         """
         Get value by key or keypath trying to return it as list of bool values.
         If separator is specified and value is a string it will be splitted.
         """
-        values_list = self.get_list(key, None, separator)
-        if values_list is None:
-            return default
-        else:
-            return [parser_func(value, **parser_kwargs) for value in values_list]
+        if key not in self:
+            return default or []
+        values_list = self.get_list(key, [], separator)
+        return [parser_func(value, **(parser_kwargs or {}))
+                for value in values_list]
 
 
 class benedict(KeypathDict, UtilityDict):
 
     def __init__(self, *args, **kwargs):
         super(benedict, self).__init__(*args, **kwargs)
-

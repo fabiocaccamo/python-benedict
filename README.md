@@ -8,7 +8,7 @@
 [![License](https://img.shields.io/pypi/l/python-benedict.svg)](https://img.shields.io/pypi/l/python-benedict.svg)
 
 # python-benedict
-python-benedict is the Python dictionary that helps humans dealing with evil data.
+python-benedict is the Python dictionary for humans dealing with evil data.
 
 ## Features
 - Full **keypath** support *(using the dot syntax)*

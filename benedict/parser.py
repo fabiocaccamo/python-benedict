@@ -33,7 +33,7 @@ def parse_datetime(val, format=None):
             val = datetime.strptime(str_val, format)
         else:
             val = date_parser.parse(str_val)
-    except Exception as datetime_error:
+    except Exception:
         pass
     return val
 
@@ -45,7 +45,7 @@ def parse_decimal(val):
     val = None
     try:
         val = Decimal(str_val)
-    except (ValueError, DecimalException) as decimal_error:
+    except (ValueError, DecimalException):
         pass
     return val
 
@@ -61,7 +61,7 @@ def parse_dict(val):
         val = json.loads(str_val)
         if not isinstance(val, dict):
             val = None
-    except Exception as json_error:
+    except Exception:
         # try:
         #     val = yaml.safe_load(str_val)
         # except yaml.YAMLError as yaml_error:
@@ -80,7 +80,7 @@ def parse_float(val):
     val = None
     try:
         val = float(str_val)
-    except ValueError as float_error:
+    except ValueError:
         pass
     return val
 
@@ -92,7 +92,7 @@ def parse_int(val):
     val = None
     try:
         val = int(str_val)
-    except ValueError as int_error:
+    except ValueError:
         pass
     return val
 
@@ -108,7 +108,7 @@ def parse_list(val, separator=None):
         val = json.loads(str_val)
         if not isinstance(val, list):
             val = None
-    except Exception as json_error:
+    except Exception:
         if separator:
             val = list(str_val.split(separator))
     return val

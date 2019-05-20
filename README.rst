@@ -4,7 +4,7 @@
 python-benedict
 ===============
 
-python-benedict is the Python dictionary that helps humans dealing with
+python-benedict is the Python dictionary for humans dealing with
 evil data.
 
 Features
