@@ -16,9 +16,9 @@ def parse_bool(val):
         return val
     str_val = str(val).lower()
     val = None
-    if str_val in ['1', 'true', 'yes', 'on']:
+    if str_val in ['1', 'true', 'yes', 'ok', 'on']:
         val = True
-    elif str_val in ['0', 'false', 'no', 'off']:
+    elif str_val in ['0', 'false', 'no', 'ko', 'off']:
         val = False
     return val
 
