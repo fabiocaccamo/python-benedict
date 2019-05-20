@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from benedict import parser
+from copy import deepcopy
 from decimal import Decimal
 from six import string_types
 
@@ -125,6 +126,9 @@ class KeypathDict(dict):
     def copy(self):
         return KeypathDict(
             super(KeypathDict, self).copy())
+
+    def deepcopy(self):
+        return KeypathDict(deepcopy(self))
 
     def get(self, key, default=None):
         keys = self._split_keys(key)
@@ -329,3 +333,7 @@ class benedict(KeypathDict, UtilityDict):
     def copy(self):
         return benedict(
             super(benedict, self).copy())
+
+    def deepcopy(self):
+        return benedict(
+            super(benedict, self).deepcopy())
