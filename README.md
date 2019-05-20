@@ -11,17 +11,18 @@
 python-benedict is the Python dictionary for humans dealing with evil data.
 
 ## Features
-- Full **keypath** support *(using the dot syntax)*
-- Many **utility methods** to retrieve data as needed *(all methods listed below)*
+-  Full **keypath** support *(using the dot syntax)*
+-  Many **utility methods** to retrieve data as needed *(all methods listed below)*
+-  100% **backward-compatible** *(you can replace existing dicts without pain)*
 
 ## Requirements
-- Python 3.4, 3.5, 3.6, 3.7
+-  Python 3.4, 3.5, 3.6, 3.7
 
 ## Installation
-- Run `pip install python-benedict`
+-  Run `pip install python-benedict`
 
 ## Testing
-- Run `tox` / `python setup.py test`
+-  Run `tox` / `python setup.py test`
 
 ## Usage
 `benedict` is a dict subclass, so it is possible to use it as a normal dict *(you can just cast an existing dict)*.
@@ -39,11 +40,29 @@ print(d['profile']) # -> { 'firstname':'Fabio', 'lastname':'Caccamo' }
 print('profile.lastname' in d) # -> True
 ```
 
+### Extra methods
+
+```python
+# Return a deepcopy of the dict.
+d.deepcopy()
+```
+
+```python
+# Return a list of all keypaths in the dict.
+d.get_keypaths()
+```
+
 ### Utility methods
 
 ```python
 # Get value by key or keypath trying to return it as bool.
-# Values like `1`, `true`, `yes`, `on` will be returned as `True`.
+# Values like `1`, `true`, `yes`, `on`, `ok` will be returned as `True`.
+d.get_bool(key, default=False)
+```
+
+```python
+# Get value by key or keypath trying to return it as bool.
+# Values like `1`, `true`, `yes`, `on`, `ok` will be returned as `True`.
 d.get_bool(key, default=False)
 ```
 

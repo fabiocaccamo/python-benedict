@@ -13,6 +13,7 @@ Features
 -  Full **keypath** support *(using the dot syntax)*
 -  Many **utility methods** to retrieve data as needed *(all methods
    listed below)*
+-  100% **backward-compatible** *(you can replace existing dicts without pain)*
 
 Requirements
 ------------
@@ -49,13 +50,26 @@ Basic get/set using keypath
     print(d['profile']) # -> { 'firstname':'Fabio', 'lastname':'Caccamo' }
     print('profile.lastname' in d) # -> True
 
+Extra methods
+^^^^^^^^^^^^^
+
+.. code:: python
+
+    # Return a deepcopy of the dict.
+    d.deepcopy()
+
+.. code:: python
+
+    # Return a list of all keypaths in the dict.
+    d.get_keypaths()
+
 Utility methods
 ^^^^^^^^^^^^^^^
 
 .. code:: python
 
     # Get value by key or keypath trying to return it as bool.
-    # Values like `1`, `true`, `yes`, `on` will be returned as `True`.
+    # Values like `1`, `true`, `yes`, `on`, `ok` will be returned as `True`.
     d.get_bool(key, default=False)
 
 .. code:: python
