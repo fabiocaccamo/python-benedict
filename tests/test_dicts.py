@@ -43,6 +43,62 @@ class BenedictKeypathDictTestCase(unittest.TestCase):
         self.assertEqual(b.get('a.b.c'), 1)
         self.assertEqual(c.get('a.b.c'), 2)
 
+    def test_fromkeys(self):
+        k = [
+            'a',
+            'a.b',
+            'a.b.c',
+            'a.b.d',
+            'a.b.e',
+            'x',
+            'x.y',
+            'x.z',
+        ]
+        b = benedict.fromkeys(k)
+        r = {
+            'x': {
+                'y': None,
+                'z': None,
+            },
+            'a': {
+                'b': {
+                    'c': None,
+                    'd': None,
+                    'e': None,
+                },
+            },
+        }
+        self.assertEqual(b, r)
+        self.assertEqual(type(b), benedict)
+
+    def test_fromkeys_with_value(self):
+        k = [
+            'a',
+            'a.b',
+            'a.b.c',
+            'a.b.d',
+            'a.b.e',
+            'x',
+            'x.y',
+            'x.z',
+        ]
+        b = benedict.fromkeys(k, True)
+        r = {
+            'x': {
+                'y': True,
+                'z': True,
+            },
+            'a': {
+                'b': {
+                    'c': True,
+                    'd': True,
+                    'e': True,
+                },
+            },
+        }
+        self.assertEqual(b, r)
+        self.assertEqual(type(b), benedict)
+
     def test_get_with_1_valid_key(self):
         d = {
             'a': 1,

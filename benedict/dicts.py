@@ -130,6 +130,12 @@ class KeypathDict(dict):
     def deepcopy(self):
         return KeypathDict(deepcopy(self))
 
+    def fromkeys(sequence, value=None):
+        d = KeypathDict()
+        for key in sequence:
+            d[key] = value
+        return d
+
     def get(self, key, default=None):
         keys = self._split_keys(key)
         if len(keys) > 1:
@@ -337,3 +343,8 @@ class benedict(KeypathDict, UtilityDict):
     def deepcopy(self):
         return benedict(
             super(benedict, self).deepcopy())
+
+    def fromkeys(sequence, value=None):
+        return benedict(
+            KeypathDict.fromkeys(sequence, value))
+
