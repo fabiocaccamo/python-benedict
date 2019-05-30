@@ -8,21 +8,21 @@
 [![License](https://img.shields.io/pypi/l/python-benedict.svg)](https://img.shields.io/pypi/l/python-benedict.svg)
 
 # python-benedict
-python-benedict is the Python dictionary for humans dealing with evil data.
+python-benedict is the Python dictionary for humans dealing with evil/complex data.
 
 ## Features
--  Full **keypath** support *(using the dot syntax)*
--  Many **utility methods** to retrieve data as needed *(all methods listed below)*
--  100% **backward-compatible** *(you can replace existing dicts without pain)*
+-   Full **keypath** support *(using the dot syntax)*
+-   Many **utility methods** to retrieve data as needed *(all methods listed below)*
+-   100% **backward-compatible** *(you can replace existing dicts without pain)*
 
 ## Requirements
--  Python 3.4, 3.5, 3.6, 3.7
+-   Python 3.4, 3.5, 3.6, 3.7
 
 ## Installation
--  Run `pip install python-benedict`
+-   Run `pip install python-benedict`
 
 ## Testing
--  Run `tox` / `python setup.py test`
+-   Run `tox` / `python setup.py test`
 
 ## Usage
 `benedict` is a dict subclass, so it is possible to use it as a normal dict *(you can just cast an existing dict)*.
