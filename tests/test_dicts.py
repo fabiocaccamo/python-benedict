@@ -140,19 +140,22 @@ class BenedictKeypathDictTestCase(unittest.TestCase):
         }
         b = benedict(d)
         with self.assertRaises(KeyError):
-            b['b']
+            val = b['b']
+            print(val)
 
     def test_getitem_with_1_not_str_key(self):
         d = {
             None: None,
             False: False,
-            0: 0,
+            # 0: 0,
         }
         b = benedict(d)
         self.assertEqual(b[None], None)
         self.assertEqual(b[False], False)
         with self.assertRaises(KeyError):
-            b[True]
+            val = b[True]
+            print(val)
+
         self.assertEqual(b[0], 0)
 
     def test_get_with_2_valid_keys(self):
@@ -190,7 +193,8 @@ class BenedictKeypathDictTestCase(unittest.TestCase):
         }
         b = benedict(d)
         with self.assertRaises(KeyError):
-            b['b.a']
+            val = b['b.a']
+            print(val)
 
     def test_get_with_3_valid_keys(self):
         d = {
@@ -235,7 +239,8 @@ class BenedictKeypathDictTestCase(unittest.TestCase):
         }
         b = benedict(d)
         with self.assertRaises(KeyError):
-            b['c.b.a']
+            val = b['c.b.a']
+            print(val)
 
     def test_has_with_1_key(self):
         d = {

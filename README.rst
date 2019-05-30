@@ -11,8 +11,7 @@ Features
 --------
 
 -  Full **keypath** support *(using the dot syntax)*
--  Many **utility methods** to retrieve data as needed *(all methods
-   listed below)*
+-  Many **utility methods** to retrieve data as needed *(all methods listed below)*
 -  100% **backward-compatible** *(you can replace existing dicts without pain)*
 
 Requirements

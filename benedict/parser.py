@@ -61,7 +61,7 @@ def parse_dict(val):
         val = json.loads(str_val)
         if not isinstance(val, dict):
             val = None
-    except Exception:
+    except ValueError:
         pass
         # try:
         #     val = yaml.safe_load(str_val)
