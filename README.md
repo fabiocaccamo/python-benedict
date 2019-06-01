@@ -16,7 +16,7 @@ python-benedict is the Python dictionary for humans dealing with evil/complex da
 -   100% **backward-compatible** *(you can replace existing dicts without pain)*
 
 ## Requirements
--   Python 3.4, 3.5, 3.6, 3.7
+-   Python 2.7, 3.4, 3.5, 3.6, 3.7
 
 ## Installation
 -   Run `pip install python-benedict`

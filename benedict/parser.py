@@ -115,9 +115,13 @@ def parse_list(val, separator=None):
 
 
 def parse_slug(val):
-    return slugify(ftfy.fix_text(str(val)))
+    return slugify(parse_str(val))
 
 
 def parse_str(val):
-    return ftfy.fix_text(str(val))
+    try:
+        val = ftfy.fix_text(str(val))
+    except UnicodeError:
+        val = str(val)
+    return val
 

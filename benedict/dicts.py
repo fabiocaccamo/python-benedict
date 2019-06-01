@@ -120,7 +120,8 @@ class KeypathDict(dict):
     def deepcopy(self):
         return KeypathDict(deepcopy(self))
 
-    def fromkeys(sequence, value=None):
+    @classmethod
+    def fromkeys(cls, sequence, value=None):
         d = KeypathDict()
         for key in sequence:
             d[key] = value
@@ -370,7 +371,8 @@ class benedict(KeypathDict, UtilityDict):
         return benedict(
             super(benedict, self).deepcopy())
 
-    def fromkeys(sequence, value=None):
+    @classmethod
+    def fromkeys(cls, sequence, value=None):
         return benedict(
             KeypathDict.fromkeys(sequence, value))
 
