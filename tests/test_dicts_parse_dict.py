@@ -300,6 +300,23 @@ class ParseDictTestCase(unittest.TestCase):
         self.assertEqual(b.get_list('d', separator=','), [])
         self.assertEqual(b.get_list('e', [0], separator=','), [0])
 
+    def test_get_list_item(self):
+        d = {
+            'a': (1, 2, 3, 4, 5, ),
+            'b': [6, 7, 8, 9, 0],
+            'c': {},
+        }
+        b = ParseDict(d)
+        self.assertEqual(b.get_list_item('a'), 1)
+        self.assertEqual(b.get_list_item('a', index=1), 2)
+        self.assertEqual(b.get_list_item('a', index=-1), 5)
+        self.assertEqual(b.get_list_item('a', index=10), None)
+        self.assertEqual(b.get_list_item('b'), 6)
+        self.assertEqual(b.get_list_item('b', index=1), 7)
+        self.assertEqual(b.get_list_item('b', index=-1), 0)
+        self.assertEqual(b.get_list_item('b', index=10), None)
+        self.assertEqual(b.get_list_item('c', index=1), None)
+
     def test_get_slug(self):
         d = {
             'a': ' Hello World ',

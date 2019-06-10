@@ -148,6 +148,21 @@ class ParseDict(dict):
             key, default or [], None, parse_util.parse_list,
             {'separator': separator})
 
+    def get_list_item(self, key, index=0, default=None, separator=','):
+        """
+        Get list by key or keypath and return value at the specified index.
+        If separator is specified and list value is a string it will be splitted.
+        """
+        values = self.get_list(key, None, separator)
+        if values:
+            try:
+                value = values[index]
+                return value
+            except IndexError:
+                return default
+        else:
+            return default
+
     def get_slug(self, key, default='', options=None):
         """
         Get value by key or keypath trying to return it as slug.

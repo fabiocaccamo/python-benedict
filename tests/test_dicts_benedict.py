@@ -124,6 +124,19 @@ class BenedictTestCase(unittest.TestCase):
         self.assertTrue(isinstance(b.get_dict('a'), benedict))
         self.assertEqual(b.get('a.x'), 1)
 
+    def test_get_list_item(self):
+        d = {
+            'a': {
+                'b': {
+                    'c': 1,
+                }
+            },
+        }
+        b = benedict(d)
+        self.assertTrue(isinstance(b.get_dict('a'), benedict))
+        self.assertTrue(isinstance(b.get_dict('a.b'), benedict))
+        self.assertEqual(b.get('a.b.c'), 1)
+
     def test_get(self):
         d = {
             'a': 1,
