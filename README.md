@@ -13,6 +13,7 @@ python-benedict is the Python dictionary for humans dealing with evil/complex da
 ## Features
 -   Full **keypath** support *(using the dot syntax)*
 -   Many **utility methods** to retrieve data as needed *(all methods listed below)*
+-   Give **benediction to dict objects** before they are returned *(they receive benedict casting)*
 -   100% **backward-compatible** *(you can replace existing dicts without pain)*
 
 ## Requirements
@@ -49,7 +50,7 @@ d.deepcopy()
 
 ```python
 # Return a list of all keypaths in the dict.
-d.get_keypaths()
+d.keypaths()
 ```
 
 ### Utility methods
@@ -131,6 +132,12 @@ d.get_int_list(key, default=[], separator=',')
 # Get value by key or keypath trying to return it as list.
 # If separator is specified and value is a string it will be splitted.
 d.get_list(key, default=[], separator=',')
+```
+
+```python
+# Get list by key or keypath and return value at the specified index.
+# If separator is specified and list value is a string it will be splitted.
+d.get_list_item(key, index=0, default=None, separator=',')
 ```
 
 ```python
