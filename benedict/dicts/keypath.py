@@ -67,7 +67,10 @@ class KeypathDict(dict):
         while i < j:
             key = keys[i]
             if i < (j - 1):
-                subitem = item.get(key, None)
+                if item == self:
+                    subitem = super(KeypathDict, self).get(key, None)
+                else:
+                    subitem = item.get(key, None)
                 if not isinstance(subitem, dict):
                     subitem = item[key] = {}
                 item = subitem
@@ -112,10 +115,6 @@ class KeypathDict(dict):
             self._set_value_by_keys(keys, value)
         else:
             super(KeypathDict, self).__setitem__(key, value)
-
-    def copy(self):
-        return KeypathDict(
-            super(KeypathDict, self).copy())
 
     @classmethod
     def fromkeys(cls, sequence, value=None):

@@ -14,23 +14,6 @@ class KeypathDictTestCase(unittest.TestCase):
     #     print(d)
     #     print(d[keys])
 
-    def test_copy(self):
-        d = {
-            'a': {
-                'b': {
-                    'c': 1
-                }
-            }
-        }
-        b = KeypathDict(d)
-        c = b.copy()
-        self.assertEqual(type(b), type(c))
-        self.assertEqual(b, c)
-        self.assertFalse(c is b)
-        c['a.b.c'] = 2
-        self.assertEqual(b.get('a.b.c'), 2)
-        self.assertEqual(c.get('a.b.c'), 2)
-
     def test_fromkeys(self):
         k = [
             'a',
@@ -335,7 +318,7 @@ class KeypathDictTestCase(unittest.TestCase):
             'x.y',
             'x.z',
         ]
-        self.assertEqual(b.get_keypaths(), r)
+        self.assertEqual(b.keypaths(), r)
 
     def test_set_override_existing_item(self):
         d = {}

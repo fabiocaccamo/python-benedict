@@ -97,3 +97,68 @@ class BenedictTestCase(unittest.TestCase):
         self.assertEqual(b, r)
         self.assertEqual(type(b), benedict)
 
+    def test_get_item(self):
+        d = {
+            'a': 1,
+            'b': {
+                'c': 2,
+                'd': {
+                    'e': 3,
+                }
+            }
+        }
+        b = benedict(d)
+        self.assertEqual(b['a'], 1)
+        self.assertEqual(b['b.c'], 2)
+        self.assertTrue(isinstance(b['b'], benedict))
+        self.assertTrue(isinstance(b['b.d'], benedict))
+        bb = b['b']
+        self.assertTrue(isinstance(bb['d'], benedict))
+
+    def test_get(self):
+        d = {
+            'a': 1,
+            'b': {
+                'c': 2,
+                'd': {
+                    'e': 3,
+                }
+            }
+        }
+        b = benedict(d)
+        self.assertEqual(b.get('a'), 1)
+        self.assertEqual(b.get('b.c'), 2)
+        self.assertTrue(isinstance(b.get('b'), benedict))
+        self.assertTrue(isinstance(b.get('b.d'), benedict))
+        bb = b.get('b')
+        self.assertTrue(isinstance(bb.get('d'), benedict))
+
+    def test_pop(self):
+        d = {
+            'a': 1,
+            'b': {
+                'c': 2,
+                'd': {
+                    'e': 3,
+                }
+            }
+        }
+        b = benedict(d)
+        self.assertEqual(b.pop('a'), 1)
+        self.assertEqual(b.pop('b.c'), 2)
+        self.assertTrue(isinstance(b.pop('b.d'), benedict))
+
+    def test_setdefault(self):
+        d = {
+            'a': 1,
+            'b': {
+                'c': 2,
+                'd': {
+                    'e': 3,
+                }
+            }
+        }
+        b = benedict(d)
+        self.assertTrue(isinstance(b.setdefault('b', 1), benedict))
+        self.assertTrue(isinstance(b.setdefault('b.d', 1), benedict))
+
