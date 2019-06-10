@@ -7,3 +7,4 @@ __email__ = 'fabio.caccamo@gmail.com'
 __license__ = 'MIT'
 __title__ = 'benedict'
 __version__ = '0.3.0'
+

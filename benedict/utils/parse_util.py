@@ -7,8 +7,6 @@ from slugify import slugify
 
 import ftfy
 import json
-# import xmltodict
-# import yaml
 
 
 def parse_bool(val):
@@ -119,9 +117,10 @@ def parse_slug(val):
 
 
 def parse_str(val):
+    val = str(val).strip()
     try:
-        val = ftfy.fix_text(str(val))
+        val = ftfy.fix_text(val)
     except UnicodeError:
-        val = str(val)
+        pass
     return val
 
