@@ -262,7 +262,6 @@ class ParseDictTestCase(unittest.TestCase):
             'd': '{}',
             'e': '[]',
             'f': '',
-
         }
         b = ParseDict(d)
         self.assertEqual(b.get_list('a'), [0, 1, 2, 3])

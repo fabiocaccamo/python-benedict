@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from benedict.dicts.keypath import KeypathDict
+# from benedict.dicts.io import IODict
 from benedict.dicts.parse import ParseDict
 
-from copy import deepcopy
+import copy
 
 
 class benedict(KeypathDict, ParseDict):
@@ -11,39 +12,35 @@ class benedict(KeypathDict, ParseDict):
     def __init__(self, *args, **kwargs):
         super(benedict, self).__init__(*args, **kwargs)
 
-    @staticmethod
-    def cast(val):
-        if isinstance(val, dict) and not isinstance(val, benedict):
-            return benedict(val)
+    def __getattribute__(self, name):
+        attr = super(benedict, self).__getattribute__(name)
+        if hasattr(attr, '__call__'):
+            def attr_wrapper(*args, **kwargs):
+                value = attr(*args, **kwargs)
+                if name.startswith('_'):
+                    return value
+                else:
+                    return benedict._cast(value)
+            return attr_wrapper
         else:
-            return val
+            return attr
 
-    def copy(self):
-        return benedict.cast(
-            super(benedict, self).copy())
+    def __getitem__(self, key):
+        return benedict._cast(
+            super(benedict, self).__getitem__(key))
+
+    @staticmethod
+    def _cast(value):
+        if isinstance(value, dict) and not isinstance(value, benedict):
+            return benedict(value)
+        else:
+            return value
 
     def deepcopy(self):
-        return benedict.cast(
-            deepcopy(self))
+        return copy.deepcopy(self)
 
     @classmethod
     def fromkeys(cls, sequence, value=None):
-        return benedict.cast(
+        return benedict._cast(
             KeypathDict.fromkeys(sequence, value))
-
-    def __getitem__(self, key):
-        return benedict.cast(
-            super(benedict, self).__getitem__(key))
-
-    def get(self, key, default=None):
-        return benedict.cast(
-            super(benedict, self).get(key, default))
-
-    def pop(self, key, default=None):
-        return benedict.cast(
-            super(benedict, self).pop(key, default))
-
-    def setdefault(self, key, default=None):
-        return benedict.cast(
-            super(benedict, self).setdefault(key, default))
 
