@@ -14,13 +14,13 @@ class benedict(KeypathDict, ParseDict):
 
     def __getattribute__(self, name):
         attr = super(benedict, self).__getattribute__(name)
-        if hasattr(attr, '__call__'):
+        if name.startswith('_'):
+            return attr
+        elif hasattr(attr, '__call__'):
+            # print(attr, name)
             def attr_wrapper(*args, **kwargs):
                 value = attr(*args, **kwargs)
-                if name.startswith('_'):
-                    return value
-                else:
-                    return benedict._cast(value)
+                return benedict._cast(value)
             return attr_wrapper
         else:
             return attr
