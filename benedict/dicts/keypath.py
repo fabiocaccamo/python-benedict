@@ -134,7 +134,7 @@ class KeypathDict(dict):
         else:
             return super(KeypathDict, self).get(key, default)
 
-    def get_keypaths(self):
+    def keypaths(self):
         def walk_keypaths(root, path):
             keypaths = []
             for key, val in root.items():
