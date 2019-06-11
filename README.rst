@@ -59,6 +59,16 @@ Extra methods
     d.deepcopy()
 
 .. code:: python
+    # Return a readable representation of any dict/list.
+    s = benedict.dump(d.keypaths())
+    print(s)
+
+.. code:: python
+    # Return a readable representation of the dict for the given key (optional).
+    s = d.dump_items(key=None)
+    print(s)
+
+.. code:: python
 
     # Return a list of all keypaths in the dict.
     d.keypaths()

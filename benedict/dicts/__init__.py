@@ -5,6 +5,7 @@ from benedict.dicts.keypath import KeypathDict
 from benedict.dicts.parse import ParseDict
 
 import copy
+import json
 
 
 class benedict(KeypathDict, ParseDict):
@@ -38,6 +39,17 @@ class benedict(KeypathDict, ParseDict):
 
     def deepcopy(self):
         return copy.deepcopy(self)
+
+    @staticmethod
+    def dump(data):
+        def encoder(obj):
+            if not isinstance(obj, (bool, dict, float, int, list, tuple, str, )):
+                return str(obj)
+        return json.dumps(data, indent=4, sort_keys=True, default=encoder)
+
+    def dump_items(self, key=None):
+        return benedict.dump(
+            self.get(key) if key else self)
 
     @classmethod
     def fromkeys(cls, sequence, value=None):

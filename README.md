@@ -49,17 +49,21 @@ d.deepcopy()
 ```
 
 ```python
+# Return a readable representation of any dict/list.
+s = benedict.dump(d.keypaths())
+print(s)
+
+# Return a readable representation of the dict for the given key (optional).
+s = d.dump_items(key=None)
+print(s)
+```
+
+```python
 # Return a list of all keypaths in the dict.
 d.keypaths()
 ```
 
 ### Utility methods
-
-```python
-# Get value by key or keypath trying to return it as bool.
-# Values like `1`, `true`, `yes`, `on`, `ok` will be returned as `True`.
-d.get_bool(key, default=False)
-```
 
 ```python
 # Get value by key or keypath trying to return it as bool.
