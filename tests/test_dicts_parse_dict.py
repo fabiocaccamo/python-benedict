@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from benedict.dicts import ParseDict
+from benedict.dicts.parse import ParseDict
 
 from datetime import datetime
 from decimal import Decimal

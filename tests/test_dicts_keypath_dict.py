@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from benedict.dicts import KeypathDict
+from benedict.dicts.keypath import KeypathDict
 
 import unittest
 
@@ -40,7 +40,6 @@ class KeypathDictTestCase(unittest.TestCase):
             },
         }
         self.assertEqual(b, r)
-        # self.assertEqual(type(b), benedict)
 
     def test_fromkeys_with_value(self):
         k = [
@@ -68,7 +67,6 @@ class KeypathDictTestCase(unittest.TestCase):
             },
         }
         self.assertEqual(b, r)
-        # self.assertEqual(type(b), benedict)
 
     def test_get_with_1_valid_key(self):
         d = {
