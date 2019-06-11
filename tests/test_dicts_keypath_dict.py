@@ -7,13 +7,6 @@ import unittest
 
 class KeypathDictTestCase(unittest.TestCase):
 
-    # def test_list_as_key(self):
-    #     keys = ['a', 'b', 'c']
-    #     d = {}
-    #     d[keys] = 1
-    #     print(d)
-    #     print(d[keys])
-
     def test_fromkeys(self):
         k = [
             'a',
@@ -204,6 +197,21 @@ class KeypathDictTestCase(unittest.TestCase):
         b = KeypathDict(d)
         self.assertEqual(b.get('c.b.a', 2), 2)
 
+    def test_get_with_keys_list(self):
+        d = {
+            'a': {
+                'b': {
+                    'c': 1,
+                    'd': 2,
+                },
+            },
+        }
+        b = KeypathDict(d)
+        self.assertEqual(b.get(['a', 'b.c']), 1)
+        self.assertEqual(b.get(['a', 'b', 'c']), 1)
+        self.assertEqual(b.get(['a', 'b', 'd']), 2)
+        self.assertEqual(b.get(['a', 'b', 'e']), None)
+
     def test_getitem_with_3_valid_keys(self):
         d = {
             'a': {
@@ -228,22 +236,22 @@ class KeypathDictTestCase(unittest.TestCase):
             val = b['c.b.a']
             print(val)
 
-    # def test_get_item_with_keys_list(self):
-    #     d = {
-    #         'a': {
-    #             'b': {
-    #                 'c': 1,
-    #                 'd': 2,
-    #             },
-    #         },
-    #     }
-    #     b = KeypathDict(d)
-    #     self.assertEqual(b['a.b.c'], 1)
-    #     self.assertEqual(b['a.b', 'c'], 1)
-    #     self.assertEqual(b.get(['a', 'b.c']), 1)
-    #     self.assertEqual(b.get(['a', 'b', 'c']), 1)
-    #     self.assertEqual(b.get(['a', 'b', 'd']), 2)
-    #     self.assertEqual(b.get(['a', 'b', 'e']), None)
+    def test_get_item_with_keys_list(self):
+        d = {
+            'a': {
+                'b': {
+                    'c': 1,
+                    'd': 2,
+                },
+            },
+        }
+        b = KeypathDict(d)
+        self.assertEqual(b['a', 'b.c'], 1)
+        self.assertEqual(b['a', 'b', 'c'], 1)
+        self.assertEqual(b['a', 'b', 'd'], 2)
+        with self.assertRaises(KeyError):
+            val = b['a', 'b', 'e']
+            print(val)
 
     def test_has_with_1_key(self):
         d = {
@@ -290,6 +298,21 @@ class KeypathDictTestCase(unittest.TestCase):
         self.assertFalse('a.b.f' in b)
         self.assertFalse('b.f' in b)
         self.assertFalse('f' in b)
+
+    def test_has_with_keys_list(self):
+        d = {
+            'a': {
+                'b': {
+                    'c': 1,
+                    'd': 2,
+                },
+            },
+        }
+        b = KeypathDict(d)
+        self.assertTrue(['a', 'b.c'] in b)
+        self.assertTrue(['a', 'b', 'c'] in b)
+        self.assertTrue(['a', 'b', 'd'] in b)
+        self.assertFalse(['a', 'b', 'e'] in b)
 
     def test_keypaths(self):
         d = {
@@ -382,6 +405,25 @@ class KeypathDictTestCase(unittest.TestCase):
         }
         self.assertEqual(b, r)
 
+    def test_setitem_with_keys_list(self):
+        d = {
+            'a': {
+                'b': {
+                    'c': 1,
+                    'd': 2,
+                },
+            },
+        }
+        b = KeypathDict(d)
+        b['a', 'b.c'] = 2
+        self.assertEqual(b['a.b.c'], 2)
+        b['a', 'b', 'c'] = 3
+        self.assertEqual(b['a.b.c'], 3)
+        b['a', 'b', 'd'] = 4
+        self.assertEqual(b['a.b.d'], 4)
+        b['a', 'b', 'e'] = 5
+        self.assertEqual(b['a.b.e'], 5)
+
     def test_delitem_with_1_valid_key(self):
         d = {
             'a': 1,
@@ -470,6 +512,21 @@ class KeypathDictTestCase(unittest.TestCase):
             del b['a.b.c.d']
         self.assertEqual(b.get('a.b.c'), 1)
 
+    def test_delitem_with_keys_list(self):
+        d = {
+            'a': {
+                'b': {
+                    'c': 1,
+                    'd': 2,
+                },
+            }
+        }
+        b = KeypathDict(d)
+        with self.assertRaises(KeyError):
+            del b['a', 'b', 'c', 'd']
+        del b['a', 'b', 'c']
+        self.assertEqual(b.get('a.b.c', 3), 3)
+
     def test_pop_with_1_valid_key(self):
         d = {
             'a': 1,
@@ -524,6 +581,25 @@ class KeypathDictTestCase(unittest.TestCase):
         self.assertEqual(val, 1)
         with self.assertRaises(KeyError):
             val = b.pop('x.y')
+
+    def test_pop_with_keys_list(self):
+        d = {
+            'a': {
+                'b': 1,
+            }
+        }
+        b = KeypathDict(d)
+
+        val = b.pop(['a', 'c'], 2)
+        self.assertEqual(val, 2)
+        with self.assertRaises(KeyError):
+            val = b.pop(['a', 'c'])
+        self.assertEqual(b.get('a'), { 'b': 1 })
+
+        val = b.pop(['x', 'y'], 1)
+        self.assertEqual(val, 1)
+        with self.assertRaises(KeyError):
+            val = b.pop(['x', 'y'])
 
     def test_setdefault_with_1_key(self):
         d = {
