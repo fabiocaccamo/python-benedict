@@ -3,7 +3,7 @@
 
 from setuptools import find_packages, setup
 
-import os, sys
+import os
 
 exec(open('benedict/metadata.py').read())
 
@@ -18,23 +18,6 @@ try:
 except IOError:
     pass
 
-if sys.version_info <= (2, 7):
-    requirements = [
-        'ftfy==4.4.3',
-        'python-dateutil',
-        'python-slugify',
-        # 'pyyaml',
-        # 'xmltodict',
-    ]
-else:
-    requirements = [
-        'ftfy',             # >= 5.0.0, < 6.0.0;
-        'python-dateutil',  # >= 2.6.0, < 3.0.0',
-        'python-slugify',   # >= 1.2.0, < 4.0.0',
-        # 'pyyaml',
-        # 'xmltodict',
-    ]
-
 setup(
     name=package_name,
     packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
@@ -47,7 +30,12 @@ setup(
     url='%s/%s' % (github_url, package_name, ),
     download_url='%s/%s/archive/%s.tar.gz' % (github_url, package_name, __version__, ),
     keywords=['benedict', 'python', 'dict', 'keypath', 'parse', 'utility'],
-    install_requires=requirements,
+    install_requires=[
+        'ftfy==4.4.3;python_version<"3.4"',
+        'ftfy;python_version>"2.7"',
+        'python-dateutil',
+        'python-slugify',
+    ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
