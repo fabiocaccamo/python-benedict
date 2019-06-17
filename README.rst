@@ -10,7 +10,7 @@ Features
 --------
 
 -  Full **keypath** support *(using the dot syntax)*
--  Many **utility methods** to retrieve data as needed *(all methods listed below)*
+-  Many **utility** and **parse methods** to retrieve data as needed *(all methods listed below)*
 -  Give **benediction to dict objects** before they are returned *(they receive benedict casting)*
 -  100% **backward-compatible** *(you can replace existing dicts without pain)*
 
@@ -49,8 +49,14 @@ Basic get/set using keypath
     print(d['profile']) # -> { 'firstname':'Fabio', 'lastname':'Caccamo' }
     print('profile.lastname' in d) # -> True
 
-Extra methods
+API
 ^^^^^^^^^^^^^
+
+.. code:: python
+
+    # Clean the current dict removing empty values: None, '', {}, [], ().
+    # If strings, dicts or lists args are set to False, related empty values will be ignored.
+    d.clean(strings=True, dicts=True, lists=True)
 
 .. code:: python
 
@@ -68,14 +74,6 @@ Extra methods
     # Return a readable representation of the dict for the given key (optional).
     s = d.dump_items(key=None)
     print(s)
-
-.. code:: python
-
-    # Return a list of all keypaths in the dict.
-    d.keypaths()
-
-Utility methods
-^^^^^^^^^^^^^^^
 
 .. code:: python
 
@@ -122,6 +120,13 @@ Utility methods
 
 .. code:: python
 
+    # Get email by key or keypath and return it.
+    # If value is blacklisted it will be automatically ignored.
+    # If check_blacklist is False, it will be not ignored even if blacklisted.
+    d.get_email(key, default='', options=None, check_blacklist=True)
+
+.. code:: python
+
     # Get value by key or keypath trying to return it as float.
     # If options and value is in options return value otherwise default.
     d.get_float(key, default=0.0, options=[])
@@ -158,6 +163,12 @@ Utility methods
 
 .. code:: python
 
+    # Get phone number by key or keypath and return a dict with different formats (e164, international, national).
+    # If phone number doesn't include country code, country should be specified to parse it correctly.
+    d.get_phonenumber(key, country=None, default=None)
+
+.. code:: python
+
     # Get value by key or keypath trying to return it as slug.
     # If options and value is in options return value otherwise default.
     d.get_slug(key, default='', options=[])
@@ -180,6 +191,11 @@ Utility methods
     # Get value by key or keypath trying to return it as list of str values.
     # If separator is specified and value is a string it will be splitted.
     d.get_str_list(key, default=[], separator=',')
+
+.. code:: python
+
+    # Return a list of all keypaths in the dict.
+    d.keypaths()
 
 License
 -------

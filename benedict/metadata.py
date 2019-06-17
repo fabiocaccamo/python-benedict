@@ -6,5 +6,5 @@ __description__ = 'The Python dictionary for humans dealing with evil/complex da
 __email__ = 'fabio.caccamo@gmail.com'
 __license__ = 'MIT'
 __title__ = 'benedict'
-__version__ = '0.3.2'
+__version__ = '0.4.0'
 
