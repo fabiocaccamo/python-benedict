@@ -3,10 +3,14 @@
 from datetime import datetime
 from dateutil import parser as date_parser
 from decimal import Decimal, DecimalException
+from MailChecker import MailChecker
+from phonenumbers import phonenumberutil, PhoneNumberFormat
 from slugify import slugify
 
 import ftfy
 import json
+import phonenumbers
+import re
 
 
 def parse_bool(val):
@@ -83,6 +87,20 @@ def parse_float(val):
     return val
 
 
+def parse_email(val, check_blacklist=True):
+    val = parse_str(val)
+    if not val:
+        return None
+    val = val.lower()
+    if check_blacklist:
+        if not MailChecker.is_valid(val):
+            return None
+    else:
+        if not MailChecker.is_valid_email_format(val):
+            return None
+    return val
+
+
 def parse_int(val):
     if isinstance(val, int):
         return val
@@ -110,6 +128,38 @@ def parse_list(val, separator=None):
         if separator:
             val = list(str_val.split(separator))
     return val
+
+
+def parse_phonenumber(val, country=None):
+    val = parse_str(val)
+    if not val:
+        return None
+    phone_raw = re.sub(r'[^0-9\+]', ' ', val)
+    phone_raw = phone_raw.strip()
+    if phone_raw.startswith('00'):
+        phone_raw = '+{}'.format(phone_raw[2:])
+    phone_data = None
+    phone_e164 = ''
+    phone_international = ''
+    phone_national = ''
+    try:
+        phone_obj = phonenumbers.parse(phone_raw, country)
+        if phonenumbers.is_valid_number(phone_obj):
+            phone_e164 = phonenumbers.format_number(
+                phone_obj, PhoneNumberFormat.E164)
+            if phone_e164:
+                phone_international = phonenumbers.format_number(
+                    phone_obj, PhoneNumberFormat.INTERNATIONAL)
+                phone_national = phonenumbers.format_number(
+                    phone_obj, PhoneNumberFormat.NATIONAL)
+                phone_data = {
+                    'e164': phone_e164,
+                    'international': phone_international,
+                    'national': phone_national,
+                }
+    except phonenumberutil.NumberParseException:
+        pass
+    return phone_data
 
 
 def parse_slug(val):

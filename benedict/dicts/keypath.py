@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from six import string_types
+from benedict.utils import keypath_util
 
 
 class KeypathDict(dict):
@@ -8,27 +8,6 @@ class KeypathDict(dict):
     def __init__(self, *args, **kwargs):
         self._separator = kwargs.pop('separator', '.')
         super(KeypathDict, self).__init__(*args, **kwargs)
-
-    @staticmethod
-    def _join_keys(keys, separator):
-        return separator.join(keys)
-
-    @staticmethod
-    def _split_keys(key, separator):
-        if isinstance(key, string_types):
-            keypath = key
-            if separator in keypath:
-                keys = list(keypath.split(separator))
-                return keys
-            else:
-                return [key]
-        elif isinstance(key, (list, tuple, )):
-            keys = []
-            for key_item in key:
-                keys += KeypathDict._split_keys(key_item, separator)
-            return keys
-        else:
-            return [key]
 
     def _get_value_by_keys(self, keys):
         i = 0
@@ -79,14 +58,14 @@ class KeypathDict(dict):
             i += 1
 
     def __contains__(self, key):
-        keys = self._split_keys(key, self._separator)
+        keys = keypath_util.split_keys(key, self._separator)
         if len(keys) > 1:
             return self._has_value_by_keys(keys)
         else:
             return super(KeypathDict, self).__contains__(key)
 
     def __delitem__(self, key):
-        keys = self._split_keys(key, self._separator)
+        keys = keypath_util.split_keys(key, self._separator)
         if len(keys) > 1:
             item_parent, item_key = self._get_value_context_by_keys(keys)
             if isinstance(item_parent, dict):
@@ -97,7 +76,7 @@ class KeypathDict(dict):
             super(KeypathDict, self).__delitem__(key)
 
     def __getitem__(self, key):
-        keys = self._split_keys(key, self._separator)
+        keys = keypath_util.split_keys(key, self._separator)
         value = None
         if len(keys) > 1:
             item_parent, item_key = self._get_value_context_by_keys(keys)
@@ -110,7 +89,7 @@ class KeypathDict(dict):
         return value
 
     def __setitem__(self, key, value):
-        keys = self._split_keys(key, self._separator)
+        keys = keypath_util.split_keys(key, self._separator)
         if len(keys) > 1:
             self._set_value_by_keys(keys, value)
         else:
@@ -124,7 +103,7 @@ class KeypathDict(dict):
         return d
 
     def get(self, key, default=None):
-        keys = self._split_keys(key, self._separator)
+        keys = keypath_util.split_keys(key, self._separator)
         if len(keys) > 1:
             item_parent, item_key = self._get_value_context_by_keys(keys)
             if isinstance(item_parent, dict):
@@ -138,7 +117,7 @@ class KeypathDict(dict):
         def walk_keypaths(root, path):
             keypaths = []
             for key, val in root.items():
-                keypaths += [self._join_keys(path + [key], self._separator)]
+                keypaths += [keypath_util.join_keys(path + [key], self._separator)]
                 if isinstance(val, dict):
                     keypaths += walk_keypaths(val, path + [key])
             return keypaths
@@ -147,7 +126,7 @@ class KeypathDict(dict):
         return keypaths
 
     def pop(self, key, default=None):
-        keys = self._split_keys(key, self._separator)
+        keys = keypath_util.split_keys(key, self._separator)
         if len(keys) > 1:
             item_parent, item_key = self._get_value_context_by_keys(keys)
             if isinstance(item_parent, dict):

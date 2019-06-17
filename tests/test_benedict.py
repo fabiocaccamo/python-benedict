@@ -175,6 +175,24 @@ class BenedictTestCase(unittest.TestCase):
         self.assertEqual(b, r)
         self.assertEqual(type(b), benedict)
 
+    def test_get(self):
+        d = {
+            'a': 1,
+            'b': {
+                'c': 2,
+                'd': {
+                    'e': 3,
+                }
+            }
+        }
+        b = benedict(d)
+        self.assertEqual(b.get('a'), 1)
+        self.assertEqual(b.get('b.c'), 2)
+        self.assertTrue(isinstance(b.get('b'), benedict))
+        self.assertTrue(isinstance(b.get('b.d'), benedict))
+        bb = b.get('b')
+        self.assertTrue(isinstance(bb.get('d'), benedict))
+
     def test_get_item(self):
         d = {
             'a': 1,
@@ -202,36 +220,83 @@ class BenedictTestCase(unittest.TestCase):
         self.assertTrue(isinstance(b.get_dict('a'), benedict))
         self.assertEqual(b.get('a.x'), 1)
 
+    def test_get_list(self):
+        d = {
+            'a': [
+                {
+                    'b': {
+                        'c': 1,
+                    }
+                },
+                {
+                    'b': {
+                        'c': 2,
+                    }
+                },
+                {
+                    'b': {
+                        'c': 3,
+                    }
+                },
+            ]
+        }
+        b = benedict(d)
+        l = b.get_list('a')
+        self.assertTrue(isinstance(l[0], benedict))
+        self.assertTrue(isinstance(l[1], benedict))
+        self.assertTrue(isinstance(l[2], benedict))
+        self.assertEqual(l[0].get('b.c'), 1)
+        self.assertEqual(l[1].get('b.c'), 2)
+        self.assertEqual(l[2].get('b.c'), 3)
+
     def test_get_list_item(self):
         d = {
-            'a': {
-                'b': {
-                    'c': 1,
-                }
-            },
+            'a': [
+                {
+                    'b': {
+                        'c': 1,
+                    }
+                },
+                {
+                    'b': {
+                        'c': 2,
+                    }
+                },
+                {
+                    'b': {
+                        'c': 3,
+                    }
+                },
+            ]
         }
         b = benedict(d)
-        self.assertTrue(isinstance(b.get_dict('a'), benedict))
-        self.assertTrue(isinstance(b.get_dict('a.b'), benedict))
-        self.assertEqual(b.get('a.b.c'), 1)
+        i = b.get_list_item('a', index=1)
+        self.assertTrue(isinstance(i, benedict))
+        self.assertEqual(i.get('b.c'), 2)
 
-    def test_get(self):
+    def test_get_phonenumber(self):
         d = {
-            'a': 1,
-            'b': {
-                'c': 2,
-                'd': {
-                    'e': 3,
-                }
+            'a': {
+                'b': ' (0039) 3334445566 ',
+                'c': '+393334445566  ',
+                'd': '+39333444556677889900',
             }
         }
+        r = {
+            'e164': '+393334445566',
+            'international': '+39 333 444 5566',
+            'national': '333 444 5566'
+        }
         b = benedict(d)
-        self.assertEqual(b.get('a'), 1)
-        self.assertEqual(b.get('b.c'), 2)
-        self.assertTrue(isinstance(b.get('b'), benedict))
-        self.assertTrue(isinstance(b.get('b.d'), benedict))
-        bb = b.get('b')
-        self.assertTrue(isinstance(bb.get('d'), benedict))
+
+        p = b.get_phonenumber('a.b')
+        self.assertTrue(isinstance(p, benedict))
+
+        p = b.get_phonenumber('a.c')
+        self.assertTrue(isinstance(p, benedict))
+
+        p = b.get_phonenumber('a.d')
+        self.assertTrue(isinstance(p, benedict))
 
     def test_pop(self):
         d = {

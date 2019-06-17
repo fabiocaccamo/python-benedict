@@ -215,6 +215,31 @@ class ParseDictTestCase(unittest.TestCase):
         self.assertEqual(b.get_float_list('a'), [0.0, 0.5, 1.0, None])
         self.assertEqual(b.get_float_list('b'), [0.0, 0.5, 1.0])
 
+    def test_get_email(self):
+        d = {
+            'a': 'fabio@caccamo.com',
+            'b': 'fabio@@caccamo.com',
+            'c': 'fabio.caccamo@mailinator.com',
+            'd': '',
+        }
+        b = ParseDict(d)
+        # valid
+        self.assertEqual(b.get_email('a'), d.get('a'))
+        # valid (don't check blacklist)
+        self.assertEqual(b.get_email('a', check_blacklist=False), d.get('a'))
+        # invalid
+        self.assertEqual(b.get_email('b'), '')
+        # invalid (don't check blacklist)
+        self.assertEqual(b.get_email('b', check_blacklist=False), '')
+        # valid but disposable
+        self.assertEqual(b.get_email('c'), '')
+        # valid but disposable (don't check blacklist)
+        self.assertEqual(b.get_email('c', check_blacklist=False), d.get('c'))
+        # invalid email (empty)
+        self.assertEqual(b.get_email('d'), '')
+        # invalid key
+        self.assertEqual(b.get_email('e'), '')
+
     def test_get_int(self):
         d = {
             'a': 1,
@@ -317,6 +342,38 @@ class ParseDictTestCase(unittest.TestCase):
         self.assertEqual(b.get_list_item('b', index=10), None)
         self.assertEqual(b.get_list_item('c', index=1), None)
 
+    def test_get_phonenumber(self):
+        d = {
+            'b': ' (0039) 3334445566 ',
+            'c': '+393334445566  ',
+            'd': '+39333444556677889900',
+            'e': '',
+        }
+        r = {
+            'e164': '+393334445566',
+            'international': '+39 333 444 5566',
+            'national': '333 444 5566',
+        }
+        b = ParseDict(d)
+
+        p = b.get_phonenumber('b')
+        self.assertEqual(p, r)
+
+        p = b.get_phonenumber('c')
+        self.assertEqual(p, r)
+
+        # invalid phone number
+        p = b.get_phonenumber('d')
+        self.assertEqual(p, {})
+
+        # invalid phone number (empty)
+        p = b.get_phonenumber('e')
+        self.assertEqual(p, {})
+
+        # invalid phone number dict key
+        p = b.get_phonenumber('f')
+        self.assertEqual(p, {})
+
     def test_get_slug(self):
         d = {
             'a': ' Hello World ',
@@ -354,6 +411,14 @@ class ParseDictTestCase(unittest.TestCase):
         b = ParseDict(d)
         self.assertEqual(b.get_str('a'), 'Hello World')
         self.assertEqual(b.get_str('b'), '1')
+
+    # # only python 3
+    # def test_get_str_fix_encoding(self):
+    #     d = {
+    #         'a': 'Sexâ\x80\x99n Drug',
+    #     }
+    #     b = ParseDict(d)
+    #     self.assertEqual(b.get_str('a'), 'Sex\'n Drug')
 
     def test_get_str_list(self):
         d = {

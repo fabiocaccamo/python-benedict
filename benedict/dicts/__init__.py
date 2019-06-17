@@ -2,56 +2,67 @@
 
 from benedict.dicts.keypath import KeypathDict
 from benedict.dicts.parse import ParseDict
-
-import copy
-import json
+from benedict.dicts.utility import UtilityDict
 
 
-class benedict(KeypathDict, ParseDict):
+def benediction(method):
+    def wrapper(*args, **kwargs):
+        value = method(*args, **kwargs)
+        value_benedicted = benedict.cast(value)
+        return value_benedicted if value_benedicted is not None else value
+    return wrapper
+
+
+class benedict(KeypathDict, ParseDict, UtilityDict):
 
     def __init__(self, *args, **kwargs):
         super(benedict, self).__init__(*args, **kwargs)
 
-    def __getattribute__(self, name):
-        attr = super(benedict, self).__getattribute__(name)
-        if name.startswith('_'):
-            return attr
-        elif hasattr(attr, '__call__'):
-            # print(attr, name)
-            def attr_wrapper(*args, **kwargs):
-                value = attr(*args, **kwargs)
-                return benedict._cast(value)
-            return attr_wrapper
-        else:
-            return attr
+    @benediction
+    def copy(self):
+        return super(benedict, self).copy()
 
-    def __getitem__(self, key):
-        return benedict._cast(
-            super(benedict, self).__getitem__(key))
-
-    @staticmethod
-    def _cast(value):
-        if isinstance(value, dict) and not isinstance(value, benedict):
-            return benedict(value)
-        else:
-            return value
-
+    @benediction
     def deepcopy(self):
-        return copy.deepcopy(self)
-
-    @staticmethod
-    def dump(data):
-        def encoder(obj):
-            if not isinstance(obj, (bool, dict, float, int, list, tuple, str, )):
-                return str(obj)
-        return json.dumps(data, indent=4, sort_keys=True, default=encoder)
-
-    def dump_items(self, key=None):
-        return benedict.dump(
-            self.get(key) if key else self)
+        return super(benedict, self).deepcopy()
 
     @classmethod
+    @benediction
     def fromkeys(cls, sequence, value=None):
-        return benedict._cast(
-            KeypathDict.fromkeys(sequence, value))
+        return KeypathDict.fromkeys(sequence, value)
+
+    @benediction
+    def __getitem__(self, key):
+        return super(benedict, self).__getitem__(key)
+
+    @benediction
+    def get(self, key, default=None):
+        return super(benedict, self).get(key, default)
+
+    @benediction
+    def get_dict(self, key, default=None):
+        return super(benedict, self).get_dict(key, default)
+
+    def get_list(self, key, default=None, separator=','):
+        values = super(benedict, self).get_list(key, default, separator)
+        values = [(benedict.cast(value) or value) for value in values]
+        return values
+
+    @benediction
+    def get_list_item(self, key, index=0, default=None, separator=','):
+        return super(benedict, self).get_list_item(
+            key, index, default, separator)
+
+    @benediction
+    def get_phonenumber(self, key, country=None, default=''):
+        return super(benedict, self).get_phonenumber(
+            key, country, default)
+
+    @benediction
+    def pop(self, key, default=None):
+        return super(benedict, self).pop(key, default)
+
+    @benediction
+    def setdefault(self, key, default=None):
+        return super(benedict, self).setdefault(key, default)
 

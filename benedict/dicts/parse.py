@@ -11,7 +11,7 @@ class ParseDict(dict):
         super(ParseDict, self).__init__(*args, **kwargs)
 
     def _get_value(self, key, default=None, options=None,
-                  parser_func=lambda val: val, parser_kwargs=None):
+                   parser_func=lambda val: val, parser_kwargs=None):
         """
         Get value by key or keypath core method.
         If options and value is in options return value otherwise default.
@@ -21,12 +21,13 @@ class ParseDict(dict):
         # If value is None return default value.
         if value is None:
             return default
+
         # If not of the desired type, try to parse it using parser_func.
-        if parser_func and callable(parser_func):
-            value = parser_func(self.get(key, ''), **(parser_kwargs or {}))
-            # If value is None after parsing return default value.
-            if value is None:
-                return default
+        value = parser_func(value, **(parser_kwargs or {}))
+        # If value is None after parsing return default value.
+        if value is None:
+            return default
+
         # If options and value in options return value otherwise default.
         if isinstance(options, (list, tuple, )) and len(options):
             if value in options:
@@ -37,7 +38,7 @@ class ParseDict(dict):
             return value
 
     def _get_values_list(self, key, default=None, separator=',',
-                        parser_func=lambda val: val, parser_kwargs=None):
+                         parser_func=lambda val: val, parser_kwargs=None):
         """
         Get value by key or keypath trying to return it as list of bool values.
         If separator is specified and value is a string it will be splitted.
@@ -107,6 +108,16 @@ class ParseDict(dict):
         return self._get_value(
             key, default or {}, None, parse_util.parse_dict)
 
+    def get_email(self, key, default='', options=None, check_blacklist=True):
+        """
+        Get email by key or keypath and return it.
+        If value is blacklisted it will be automatically ignored.
+        If check_blacklist is False, it will be not ignored even if blacklisted.
+        """
+        return self._get_value(
+            key, default, options, parse_util.parse_email,
+            { 'check_blacklist': check_blacklist })
+
     def get_float(self, key, default=0.0, options=None):
         """
         Get value by key or keypath trying to return it as float.
@@ -163,6 +174,14 @@ class ParseDict(dict):
         else:
             return default
 
+    def get_phonenumber(self, key, country=None, default=None):
+        """
+        Get phone number by key or keypath and return a dict with different formats (e164, international, national).
+        If phone number doesn't include country code, country should be specified to parse it correctly.
+        """
+        return self._get_value(
+            key, default or {}, None, parse_util.parse_phonenumber)
+
     def get_slug(self, key, default='', options=None):
         """
         Get value by key or keypath trying to return it as slug.
@@ -195,4 +214,3 @@ class ParseDict(dict):
         """
         return self._get_values_list(
             key, default, separator, parse_util.parse_str)
-
