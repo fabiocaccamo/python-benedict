@@ -130,7 +130,7 @@ def parse_list(val, separator=None):
     return val
 
 
-def parse_phonenumber(val, country=None):
+def parse_phonenumber(val, country_code=None):
     val = parse_str(val)
     if not val:
         return None
@@ -138,28 +138,25 @@ def parse_phonenumber(val, country=None):
     phone_raw = phone_raw.strip()
     if phone_raw.startswith('00'):
         phone_raw = '+{}'.format(phone_raw[2:])
-    phone_data = None
-    phone_e164 = ''
-    phone_international = ''
-    phone_national = ''
+    if country_code and len(country_code) >= 2:
+        country_code = country_code[0:2].upper()
+    else:
+        country_code = None
     try:
-        phone_obj = phonenumbers.parse(phone_raw, country)
+        phone_obj = phonenumbers.parse(phone_raw, country_code)
         if phonenumbers.is_valid_number(phone_obj):
-            phone_e164 = phonenumbers.format_number(
-                phone_obj, PhoneNumberFormat.E164)
-            if phone_e164:
-                phone_international = phonenumbers.format_number(
-                    phone_obj, PhoneNumberFormat.INTERNATIONAL)
-                phone_national = phonenumbers.format_number(
-                    phone_obj, PhoneNumberFormat.NATIONAL)
-                phone_data = {
-                    'e164': phone_e164,
-                    'international': phone_international,
-                    'national': phone_national,
-                }
+            return {
+                'e164': phonenumbers.format_number(
+                    phone_obj, PhoneNumberFormat.E164),
+                'international': phonenumbers.format_number(
+                    phone_obj, PhoneNumberFormat.INTERNATIONAL),
+                'national': phonenumbers.format_number(
+                    phone_obj, PhoneNumberFormat.NATIONAL),
+            }
+        else:
+            return None
     except phonenumberutil.NumberParseException:
-        pass
-    return phone_data
+        return None
 
 
 def parse_slug(val):

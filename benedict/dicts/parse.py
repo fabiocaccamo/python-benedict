@@ -174,13 +174,14 @@ class ParseDict(dict):
         else:
             return default
 
-    def get_phonenumber(self, key, country=None, default=None):
+    def get_phonenumber(self, key, country_code=None, default=None):
         """
         Get phone number by key or keypath and return a dict with different formats (e164, international, national).
-        If phone number doesn't include country code, country should be specified to parse it correctly.
+        If country code is specified (alpha 2 code), it will be used to parse phone number correctly.
         """
         return self._get_value(
-            key, default or {}, None, parse_util.parse_phonenumber)
+            key, default or {}, None, parse_util.parse_phonenumber,
+            {'country_code': country_code})
 
     def get_slug(self, key, default='', options=None):
         """

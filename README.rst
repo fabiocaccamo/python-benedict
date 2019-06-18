@@ -164,8 +164,8 @@ API
 .. code:: python
 
     # Get phone number by key or keypath and return a dict with different formats (e164, international, national).
-    # If phone number doesn't include country code, country should be specified to parse it correctly.
-    d.get_phonenumber(key, country=None, default=None)
+    # If country code is specified (alpha 2 code), it will be used to parse phone number correctly.
+    d.get_phonenumber(key, country_code=None, default=None)
 
 .. code:: python
 

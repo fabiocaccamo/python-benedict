@@ -54,9 +54,9 @@ class benedict(KeypathDict, ParseDict, UtilityDict):
             key, index, default, separator)
 
     @benediction
-    def get_phonenumber(self, key, country=None, default=''):
+    def get_phonenumber(self, key, country_code=None, default=''):
         return super(benedict, self).get_phonenumber(
-            key, country, default)
+            key, country_code, default)
 
     @benediction
     def pop(self, key, default=None):

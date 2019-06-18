@@ -344,10 +344,11 @@ class ParseDictTestCase(unittest.TestCase):
 
     def test_get_phonenumber(self):
         d = {
-            'b': ' (0039) 3334445566 ',
-            'c': '+393334445566  ',
-            'd': '+39333444556677889900',
-            'e': '',
+            'b': ' (0039) 3334445566 ', # valid phone number with 00 prefix
+            'c': '+393334445566  ', # valid phone number with + prefix
+            'd': '+39333444556677889900', # invalid phone number
+            'e': '3334445566', # valid phone number without prefix
+            'y': '',
         }
         r = {
             'e164': '+393334445566',
@@ -356,9 +357,11 @@ class ParseDictTestCase(unittest.TestCase):
         }
         b = ParseDict(d)
 
+        # valid phone number with 00 prefix
         p = b.get_phonenumber('b')
         self.assertEqual(p, r)
 
+        # valid phone number with + prefix
         p = b.get_phonenumber('c')
         self.assertEqual(p, r)
 
@@ -366,12 +369,36 @@ class ParseDictTestCase(unittest.TestCase):
         p = b.get_phonenumber('d')
         self.assertEqual(p, {})
 
-        # invalid phone number (empty)
+        # valid phone number without prefix, without country code
         p = b.get_phonenumber('e')
         self.assertEqual(p, {})
 
+        # valid phone number without prefix, with lowercase alpha_2 country code
+        p = b.get_phonenumber('e', country_code='it')
+        self.assertEqual(p, r)
+
+        # valid phone number without prefix, with uppercase alpha_2 uppercase
+        p = b.get_phonenumber('e', country_code='IT')
+        self.assertEqual(p, r)
+
+        # valid phone number without prefix, with lowercase alpha_3 country code
+        p = b.get_phonenumber('e', country_code='ita')
+        self.assertEqual(p, r)
+
+        # valid phone number without prefix, with uppercase alpha_3 uppercase
+        p = b.get_phonenumber('e', country_code='ITA')
+        self.assertEqual(p, r)
+
+        # valid phone number without prefix, with wrong country code
+        p = b.get_phonenumber('e', country_code='fr')
+        self.assertEqual(p, {})
+
+        # invalid phone number (empty)
+        p = b.get_phonenumber('y')
+        self.assertEqual(p, {})
+
         # invalid phone number dict key
-        p = b.get_phonenumber('f')
+        p = b.get_phonenumber('z')
         self.assertEqual(p, {})
 
     def test_get_slug(self):
