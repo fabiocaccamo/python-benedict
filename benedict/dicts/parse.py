@@ -116,7 +116,7 @@ class ParseDict(dict):
         """
         return self._get_value(
             key, default, options, parse_util.parse_email,
-            { 'check_blacklist': check_blacklist })
+            {'check_blacklist': check_blacklist})
 
     def get_float(self, key, default=0.0, options=None):
         """
@@ -215,3 +215,4 @@ class ParseDict(dict):
         """
         return self._get_values_list(
             key, default, separator, parse_util.parse_str)
+

@@ -89,23 +89,6 @@ class KeypathDictTestCase(unittest.TestCase):
         self.assertEqual(b.get(True, True), True)
         self.assertEqual(b.get(0, 1), 0)
 
-    def test_get_with_keys_list(self):
-        d = {
-            'a': {
-                'b': {
-                    'c': 1,
-                    'd': 2,
-                },
-            },
-        }
-        b = KeypathDict(d)
-        self.assertEqual(b.get(['a.b.c']), 1)
-        self.assertEqual(b.get(['a.b', 'c']), 1)
-        self.assertEqual(b.get(['a', 'b.c']), 1)
-        self.assertEqual(b.get(['a', 'b', 'c']), 1)
-        self.assertEqual(b.get(['a', 'b', 'd']), 2)
-        self.assertEqual(b.get(['a', 'b', 'e']), None)
-
     def test_getitem_with_1_valid_key(self):
         d = {
             'a': 1,
