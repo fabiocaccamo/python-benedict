@@ -433,19 +433,23 @@ class ParseDictTestCase(unittest.TestCase):
     def test_get_str(self):
         d = {
             'a': 'Hello World',
-            'b': 1,
+            'b': 'Hello  World',
+            'c': 1,
         }
         b = ParseDict(d)
         self.assertEqual(b.get_str('a'), 'Hello World')
-        self.assertEqual(b.get_str('b'), '1')
+        self.assertEqual(b.get_str('b'), 'Hello World')
+        self.assertEqual(b.get_str('c'), '1')
 
     # # only python 3
     # def test_get_str_fix_encoding(self):
     #     d = {
     #         'a': 'Sexâ\x80\x99n Drug',
+    #         'b': 'Localit\xe0',
     #     }
     #     b = ParseDict(d)
-    #     self.assertEqual(b.get_str('a'), 'Sex\'n Drug')
+    #     # self.assertEqual(b.get_str('a'), 'Sex\'n Drug')
+    #     # self.assertEqual(b.get_str('b'), 'Località')
 
     def test_get_str_list(self):
         d = {

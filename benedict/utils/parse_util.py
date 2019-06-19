@@ -5,6 +5,7 @@ from dateutil import parser as date_parser
 from decimal import Decimal, DecimalException
 from MailChecker import MailChecker
 from phonenumbers import phonenumberutil, PhoneNumberFormat
+from six import string_types
 from slugify import slugify
 
 import ftfy
@@ -164,10 +165,14 @@ def parse_slug(val):
 
 
 def parse_str(val):
-    val = str(val).strip()
-    try:
-        val = ftfy.fix_text(val)
-    except UnicodeError:
-        pass
+    if (isinstance(val, string_types)):
+        try:
+            val = ftfy.fix_text(val)
+        except UnicodeError:
+            pass
+    else:
+        val = str(val)
+    val = val.strip()
+    val = ' '.join(val.split())
     return val
 
