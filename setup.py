@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from benedict.metadata import (
+    __author__, __description__, __email__, __license__, __version__, )
+
 from setuptools import find_packages, setup
 
 import os
-
-exec(open('benedict/metadata.py').read())
 
 github_url = 'https://github.com/fabiocaccamo'
 package_name = 'python-benedict'
@@ -27,8 +28,9 @@ setup(
     long_description=long_description,
     author=__author__,
     author_email=__email__,
-    url='%s/%s' % (github_url, package_name, ),
-    download_url='%s/%s/archive/%s.tar.gz' % (github_url, package_name, __version__, ),
+    url='{}/{}'.format(github_url, package_name),
+    download_url='{}/{}/archive/{}.tar.gz'.format(
+        github_url, package_name, __version__),
     keywords=['benedict', 'python', 'dict', 'keypath', 'parse', 'utility'],
     install_requires=[
         'ftfy==4.4.3;python_version<"3.4"',
@@ -37,6 +39,7 @@ setup(
         'phonenumbers',
         'python-dateutil',
         'python-slugify',
+        # 'requests',
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
@@ -54,6 +57,7 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Topic :: Software Development :: Build Tools',
     ],
-    license='MIT',
+    license=__license__,
     test_suite='tests'
 )
+
