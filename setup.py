@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from benedict.metadata import (
-    __author__, __description__, __email__, __license__, __version__, )
-
 from setuptools import find_packages, setup
 
 import os
+
+exec(open('benedict/metadata.py').read())
 
 github_url = 'https://github.com/fabiocaccamo'
 package_name = 'python-benedict'
