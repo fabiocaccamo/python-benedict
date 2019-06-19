@@ -55,7 +55,7 @@ API
 .. code:: python
 
     # Clean the current dict removing empty values: None, '', {}, [], ().
-    # If strings, dicts or lists args are set to False, related empty values will be ignored.
+    # If strings, dicts or lists flags are False, related empty values will not be deleted.
     d.clean(strings=True, dicts=True, lists=True)
 
 .. code:: python
