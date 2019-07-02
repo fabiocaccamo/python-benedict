@@ -1,6 +1,8 @@
+dist: xenial
+sudo: required
 language: python
-cache: pip
 python: 3.5
+cache: pip
 env:
   - TOX_ENV=py27
   - TOX_ENV=py34
@@ -15,11 +17,7 @@ matrix:
     - python: "3.7"
       env:
         - TOX_ENV=py37
-      dist: xenial
-      language: python
-      sudo: required
 install:
   - pip install tox
 script:
   - tox -e $TOX_ENV
-sudo: false
