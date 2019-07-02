@@ -4,6 +4,7 @@ from benedict.dicts.parse import ParseDict
 
 from datetime import datetime
 from decimal import Decimal
+from six import PY3
 
 import unittest
 
@@ -441,15 +442,16 @@ class ParseDictTestCase(unittest.TestCase):
         self.assertEqual(b.get_str('b'), 'Hello World')
         self.assertEqual(b.get_str('c'), '1')
 
-    # # only python 3
-    # def test_get_str_fix_encoding(self):
-    #     d = {
-    #         'a': 'Sexâ\x80\x99n Drug',
-    #         'b': 'Localit\xe0',
-    #     }
-    #     b = ParseDict(d)
-    #     # self.assertEqual(b.get_str('a'), 'Sex\'n Drug')
-    #     # self.assertEqual(b.get_str('b'), 'Località')
+    def test_get_str_fix_encoding(self):
+        d = {
+            'a': 'Sexâ\x80\x99n Drug',
+            'b': 'Localit\xe0',
+        }
+        b = ParseDict(d)
+        # only python 3
+        if PY3:
+            self.assertEqual(b.get_str('a'), 'Sex\'n Drug')
+            self.assertEqual(b.get_str('b'), 'Località')
 
     def test_get_str_list(self):
         d = {
