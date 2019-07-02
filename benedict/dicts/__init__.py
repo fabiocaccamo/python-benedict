@@ -27,8 +27,8 @@ class benedict(KeypathDict, ParseDict, UtilityDict):
         return super(benedict, self).deepcopy()
 
     @benediction
-    def filter(self, func):
-        return super(benedict, self).filter(func)
+    def filter(self, predicate):
+        return super(benedict, self).filter(predicate)
 
     @classmethod
     @benediction
