@@ -172,4 +172,5 @@ class UtilityDictTestCase(unittest.TestCase):
             'g': 7,
         }
         self.assertEqual(f, r)
+        self.assertFalse(b is f)
 

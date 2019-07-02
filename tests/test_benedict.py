@@ -119,6 +119,43 @@ class BenedictTestCase(unittest.TestCase):
         output = b.dump_items()
         self.assertEqual(output, expected_output)
 
+    def test_filter(self):
+        d = {
+            'a': {
+                'ok': 'yes',
+            },
+            'b': {
+                'ok': 'no',
+            },
+            'c': {
+                'ok': 'yes',
+            },
+            'e': {
+                'ok': 'no',
+            },
+            'f': {
+                'ok': 'yes',
+            },
+            'g': {
+                'ok': 'no',
+            },
+        }
+        b = benedict(d)
+        f = b.filter(lambda key, val: val.get_bool('ok'))
+        r = {
+            'a': {
+                'ok': 'yes',
+            },
+            'c': {
+                'ok': 'yes',
+            },
+            'f': {
+                'ok': 'yes',
+            },
+        }
+        self.assertEqual(f, r)
+        self.assertTrue(isinstance(f, benedict))
+
     def test_fromkeys(self):
         k = [
             'a',
