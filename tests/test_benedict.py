@@ -327,12 +327,15 @@ class BenedictTestCase(unittest.TestCase):
         b = benedict(d)
 
         p = b.get_phonenumber('a.b')
+        self.assertEqual(p, r)
         self.assertTrue(isinstance(p, benedict))
 
         p = b.get_phonenumber('a.c')
+        self.assertEqual(p, r)
         self.assertTrue(isinstance(p, benedict))
 
         p = b.get_phonenumber('a.d')
+        self.assertEqual(p, {})
         self.assertTrue(isinstance(p, benedict))
 
     def test_pop(self):
