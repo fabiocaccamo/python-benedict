@@ -26,6 +26,10 @@ class benedict(KeypathDict, ParseDict, UtilityDict):
     def deepcopy(self):
         return super(benedict, self).deepcopy()
 
+    @benediction
+    def filter(self, func):
+        return super(benedict, self).filter(func)
+
     @classmethod
     @benediction
     def fromkeys(cls, sequence, value=None):

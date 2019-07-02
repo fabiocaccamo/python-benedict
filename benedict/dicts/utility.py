@@ -43,3 +43,14 @@ class UtilityDict(dict):
     def dump_items(self, key=None):
         return self.dump(self.get(key) if key else self)
 
+    def filter(self, predicate):
+        if not callable(predicate):
+            raise ValueError('predicate argument must be a callable.')
+        d = {}
+        keys = self.keys()
+        for key in keys:
+            val = self.get(key, None)
+            if predicate(key, val):
+                d[key] = val
+        return d
+

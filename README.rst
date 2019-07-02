@@ -77,6 +77,13 @@ API
 
 .. code:: python
 
+    # Return a filtered dict using the given predicate function.
+    # Predicate function receives key, value arguments and should return a bool value.
+    predicate = lambda k, v: v is not None
+    d.filter(predicate)
+
+.. code:: python
+
     # Get value by key or keypath trying to return it as bool.
     # Values like `1`, `true`, `yes`, `on`, `ok` will be returned as `True`.
     d.get_bool(key, default=False)
