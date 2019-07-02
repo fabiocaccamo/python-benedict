@@ -164,6 +164,8 @@ class UtilityDictTestCase(unittest.TestCase):
             'g': 7,
         }
         b = UtilityDict(d)
+        with self.assertRaises(ValueError):
+            f = b.filter(True)
         f = b.filter(lambda key, val: isinstance(val, int))
         r = {
             'a': 1,
