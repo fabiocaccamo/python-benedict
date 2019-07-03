@@ -10,7 +10,8 @@ exec(open('benedict/metadata.py').read())
 github_url = 'https://github.com/fabiocaccamo'
 package_name = 'python-benedict'
 package_path = os.path.abspath(os.path.dirname(__file__))
-long_description_file_path = os.path.join(package_path, 'README.rst')
+long_description_file_path = os.path.join(package_path, 'README.md')
+long_description_content_type = 'text/markdown'
 long_description = ''
 try:
     with open(long_description_file_path) as f:
@@ -25,6 +26,7 @@ setup(
     version=__version__,
     description=__description__,
     long_description=long_description,
+    long_description_content_type=long_description_content_type,
     author=__author__,
     author_email=__email__,
     url='{}/{}'.format(github_url, package_name),
@@ -38,7 +40,11 @@ setup(
         'phonenumbers',
         'python-dateutil',
         'python-slugify',
-        # 'requests',
+        'pyyaml',
+        'requests',
+        'six',
+        'toml',
+        'xmltodict',
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
