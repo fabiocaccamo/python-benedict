@@ -602,26 +602,26 @@ class KeypathDictTestCase(unittest.TestCase):
 
     def test_setdefault_with_2_keys(self):
         d = {
-            'a': {
+            'x': {
                 'a': None,
                 'b': 0,
                 'c': 1,
             },
         }
         b = KeypathDict(d)
-        b.setdefault('a.a', 2)
-        b.setdefault('a.b', 2)
-        b.setdefault('a.c', 2)
-        b.setdefault('a.d', 2)
-        self.assertEqual(b['a.a'], None)
-        self.assertEqual(b['a.b'], 0)
-        self.assertEqual(b['a.c'], 1)
-        self.assertEqual(b['a.d'], 2)
+        b.setdefault('x.a', 2)
+        b.setdefault('x.b', 2)
+        b.setdefault('x.c', 2)
+        b.setdefault('x.d', 2)
+        self.assertEqual(b['x.a'], None)
+        self.assertEqual(b['x.b'], 0)
+        self.assertEqual(b['x.c'], 1)
+        self.assertEqual(b['x.d'], 2)
 
     def test_setdefault_with_3_keys(self):
         d = {
-            'a': {
-                'b': {
+            'y': {
+                'z': {
                     'a': None,
                     'b': 0,
                     'c': 1,
@@ -629,14 +629,14 @@ class KeypathDictTestCase(unittest.TestCase):
             },
         }
         b = KeypathDict(d)
-        b.setdefault('a.b.a', 2)
-        b.setdefault('a.b.b', 2)
-        b.setdefault('a.b.c', 2)
-        b.setdefault('a.b.d', 2)
-        self.assertEqual(b['a.b.a'], None)
-        self.assertEqual(b['a.b.b'], 0)
-        self.assertEqual(b['a.b.c'], 1)
-        self.assertEqual(b['a.b.d'], 2)
+        b.setdefault('y.z.a', 2)
+        b.setdefault('y.z.b', 2)
+        b.setdefault('y.z.c', 2)
+        b.setdefault('y.z.d', 2)
+        self.assertEqual(b['y.z.a'], None)
+        self.assertEqual(b['y.z.b'], 0)
+        self.assertEqual(b['y.z.c'], 1)
+        self.assertEqual(b['y.z.d'], 2)
 
     def test_cast_existing_dict_with_keys_containing_dots_for_casting(self):
         # TODO

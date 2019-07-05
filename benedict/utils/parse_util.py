@@ -25,7 +25,6 @@ def parse_bool(val):
         val = False
     return val
 
-
 def parse_datetime(val, format=None):
     if isinstance(val, datetime):
         return val
@@ -40,7 +39,6 @@ def parse_datetime(val, format=None):
         pass
     return val
 
-
 def parse_decimal(val):
     if isinstance(val, Decimal):
         return val
@@ -51,7 +49,6 @@ def parse_decimal(val):
     except (ValueError, DecimalException):
         pass
     return val
-
 
 def parse_dict(val):
     if isinstance(val, dict):
@@ -75,7 +72,6 @@ def parse_dict(val):
         #         pass
     return val
 
-
 def parse_float(val):
     if isinstance(val, float):
         return val
@@ -86,7 +82,6 @@ def parse_float(val):
     except ValueError:
         pass
     return val
-
 
 def parse_email(val, check_blacklist=True):
     val = parse_str(val)
@@ -101,7 +96,6 @@ def parse_email(val, check_blacklist=True):
             return None
     return val
 
-
 def parse_int(val):
     if isinstance(val, int):
         return val
@@ -112,7 +106,6 @@ def parse_int(val):
     except ValueError:
         pass
     return val
-
 
 def parse_list(val, separator=None):
     if isinstance(val, (list, tuple, )):
@@ -129,7 +122,6 @@ def parse_list(val, separator=None):
         if separator:
             val = list(str_val.split(separator))
     return val
-
 
 def parse_phonenumber(val, country_code=None):
     val = parse_str(val)
@@ -159,10 +151,8 @@ def parse_phonenumber(val, country_code=None):
     except phonenumberutil.NumberParseException:
         return None
 
-
 def parse_slug(val):
     return slugify(parse_str(val))
-
 
 def parse_str(val):
     if (isinstance(val, string_types)):
@@ -175,4 +165,3 @@ def parse_str(val):
     val = val.strip()
     val = ' '.join(val.split())
     return val
-

@@ -154,4 +154,3 @@ class KeypathDict(dict):
             return default
         else:
             return self[key]
-

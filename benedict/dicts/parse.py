@@ -10,8 +10,8 @@ class ParseDict(dict):
     def __init__(self, *args, **kwargs):
         super(ParseDict, self).__init__(*args, **kwargs)
 
-    def _get_value(self, key, default=None, options=None,
-                   parser_func=lambda val: val, parser_kwargs=None):
+    def _get_value(self, key, default, options,
+                   parser_func, parser_kwargs=None):
         """
         Get value by key or keypath core method.
         If options and value is in options return value otherwise default.
@@ -37,8 +37,8 @@ class ParseDict(dict):
         else:
             return value
 
-    def _get_values_list(self, key, default=None, separator=',',
-                         parser_func=lambda val: val, parser_kwargs=None):
+    def _get_values_list(self, key, default, separator,
+                         parser_func, parser_kwargs=None):
         """
         Get value by key or keypath trying to return it as list of bool values.
         If separator is specified and value is a string it will be splitted.
@@ -215,4 +215,3 @@ class ParseDict(dict):
         """
         return self._get_values_list(
             key, default, separator, parse_util.parse_str)
-

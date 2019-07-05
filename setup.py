@@ -65,4 +65,3 @@ setup(
     license=__license__,
     test_suite='tests'
 )
-

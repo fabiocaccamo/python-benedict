@@ -53,4 +53,3 @@ class UtilityDict(dict):
             if predicate(key, val):
                 d[key] = val
         return d
-

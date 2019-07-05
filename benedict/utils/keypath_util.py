@@ -6,7 +6,6 @@ from six import string_types
 def join_keys(keys, separator):
     return separator.join(keys)
 
-
 def split_keys(key, separator):
     if isinstance(key, string_types):
         keypath = key
@@ -22,4 +21,3 @@ def split_keys(key, separator):
         return keys
     else:
         return [key]
-

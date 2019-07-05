@@ -471,4 +471,3 @@ class ParseDictTestCase(unittest.TestCase):
         self.assertEqual(b.get_str('a', options=['Sunday', 'Saturday']), 'Sunday')
         self.assertEqual(b.get_str('b', options=['Sunday', 'Saturday'], default='Saturday'), 'Saturday')
         self.assertEqual(b.get_str('c', options=['Sunday', 'Saturday'], default='Saturday'), 'Saturday')
-
