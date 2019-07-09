@@ -18,7 +18,7 @@ class KeypathDictTestCase(unittest.TestCase):
                 'k.l': 4,
             },
         }
-        b = KeypathDict(d, separator='/')
+        b = KeypathDict(d, keypath_separator='/')
         self.assertEqual(b.get('a.b/c.d'), 1)
         self.assertEqual(b.get('a.b/e.f'), 2)
         self.assertEqual(b.get('g.h/i.j'), 3)
@@ -35,7 +35,7 @@ class KeypathDictTestCase(unittest.TestCase):
                 'f': 4,
             },
         }
-        b = KeypathDict(d, separator=None)
+        b = KeypathDict(d, keypath_separator=None)
         self.assertEqual(b.keypaths(), [])
         self.assertEqual(b.get('a.b'), None)
         self.assertEqual(b.get('a.c'), None)
@@ -76,7 +76,7 @@ class KeypathDictTestCase(unittest.TestCase):
             'a.y': 5,
             'a.z': 6,
         }
-        b = KeypathDict(d1, separator='/')
+        b = KeypathDict(d1, keypath_separator='/')
         b.update(d2)
         self.assertEqual(b.get('a'), 1)
         self.assertEqual(b.get('b'), 2)

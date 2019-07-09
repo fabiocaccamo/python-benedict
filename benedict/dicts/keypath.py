@@ -6,20 +6,20 @@ from benedict.utils import keypath_util
 class KeypathDict(dict):
 
     def __init__(self, *args, **kwargs):
-        self._separator = kwargs.pop('separator', None) \
-            if 'separator' in kwargs else '.'
+        self._keypath_separator = kwargs.pop('keypath_separator', None) \
+            if 'keypath_separator' in kwargs else '.'
         super(KeypathDict, self).__init__(*args, **kwargs)
         self._check_keys(self)
 
     def _check_keys(self, d):
         keys = keypath_util.all_keys(d)
-        keypath_util.check_keys(keys, self._separator)
+        keypath_util.check_keys(keys, self._keypath_separator)
 
     def _join_keys(self, keys):
-        return keypath_util.join_keys(keys, self._separator)
+        return keypath_util.join_keys(keys, self._keypath_separator)
 
     def _split_keys(self, key):
-        return keypath_util.split_keys(key, self._separator)
+        return keypath_util.split_keys(key, self._keypath_separator)
 
     def _get_value_by_keys(self, keys):
         i = 0
@@ -128,7 +128,7 @@ class KeypathDict(dict):
             return super(KeypathDict, self).get(key, default)
 
     def keypaths(self):
-        if not self._separator:
+        if not self._keypath_separator:
             return []
         def walk_keypaths(root, path):
             keypaths = []
