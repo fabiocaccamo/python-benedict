@@ -4,8 +4,9 @@ from benedict.dicts.parse import ParseDict
 
 from datetime import datetime
 from decimal import Decimal
-from six import PY3
+from six import PY2, PY3
 
+import time
 import unittest
 
 
@@ -91,21 +92,21 @@ class ParseDictTestCase(unittest.TestCase):
 
     def test_get_datetime_with_timestamp_int(self):
         now = datetime.now()
-        ts = datetime.timestamp(now)
+        ts = time.mktime(now.timetuple()) if PY2 else datetime.timestamp(now)
         d = {
             'a': ts,
         }
         b = ParseDict(d)
-        self.assertEqual(b.get_datetime('a'), now)
+        self.assertEqual(b.get_datetime('a'), datetime.fromtimestamp(ts))
 
     def test_get_datetime_with_timestamp_string(self):
         now = datetime.now()
-        ts = datetime.timestamp(now)
+        ts = time.mktime(now.timetuple()) if PY2 else datetime.timestamp(now)
         d = {
             'a': str(ts),
         }
         b = ParseDict(d)
-        self.assertEqual(b.get_datetime('a'), now)
+        self.assertEqual(b.get_datetime('a'), datetime.fromtimestamp(ts))
 
     def test_get_datetime_with_valid_format(self):
         d = {
