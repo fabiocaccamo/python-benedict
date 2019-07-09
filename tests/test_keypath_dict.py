@@ -7,6 +7,64 @@ import unittest
 
 class KeypathDictTestCase(unittest.TestCase):
 
+    def test_init_with_custom_separator(self):
+        d = {
+            'a.b': {
+                'c.d': 1,
+                'e.f': 2,
+            },
+            'g.h': {
+                'i.j': 3,
+                'k.l': 4,
+            },
+        }
+        b = KeypathDict(d, separator='/')
+        self.assertEqual(b.get('a.b/c.d'), 1)
+        self.assertEqual(b.get('a.b/e.f'), 2)
+        self.assertEqual(b.get('g.h/i.j'), 3)
+        self.assertEqual(b.get('g.h/k.l'), 4)
+
+    def test_init_without_keypath_separator(self):
+        d = {
+            'a': {
+                'b': 1,
+                'c': 2,
+            },
+            'd': {
+                'e': 3,
+                'f': 4,
+            },
+        }
+        b = KeypathDict(d, separator=None)
+        self.assertEqual(b.keypaths(), [])
+        self.assertEqual(b.get('a.b'), None)
+        self.assertEqual(b.get('a.c'), None)
+        self.assertEqual(b.get('d.e'), None)
+        self.assertEqual(b.get('d.f'), None)
+
+    def test_init_with_dict_with_separator_in_keys(self):
+        d = {
+            'a.b.c': 1,
+            'c.d.e': 2,
+        }
+        with self.assertRaises(ValueError):
+            b = KeypathDict(d)
+
+    def test_update_with_dict_with_separator_in_keys(self):
+        d1 = {
+            'a': 1,
+            'b': 2,
+            'c': 3,
+        }
+        d2 = {
+            'a.x': 4,
+            'a.y': 5,
+            'a.z': 6,
+        }
+        b = KeypathDict(d1)
+        with self.assertRaises(ValueError):
+            b.update(d2)
+
     def test_fromkeys(self):
         k = [
             'a',
@@ -407,6 +465,25 @@ class KeypathDictTestCase(unittest.TestCase):
         b['a', 'b', 'e'] = 5
         self.assertEqual(b['a.b.e'], 5)
 
+    def test_setitem_with_dict_value_with_separator_in_keys(self):
+        d = {
+            'a': {
+                'b': {
+                    'c': 1,
+                    'd': 2,
+                },
+            },
+        }
+        b = KeypathDict(d)
+        v = {
+            'i.j.k': 3,
+            'x.y.z': 4,
+        }
+        # print(b['a.b.e.x.y.z'])
+        # print(b.keypaths())
+        with self.assertRaises(ValueError):
+            b['a.b.e'] = v
+
     def test_delitem_with_1_valid_key(self):
         d = {
             'a': 1,
@@ -637,12 +714,3 @@ class KeypathDictTestCase(unittest.TestCase):
         self.assertEqual(b['y.z.b'], 0)
         self.assertEqual(b['y.z.c'], 1)
         self.assertEqual(b['y.z.d'], 2)
-
-    def test_cast_existing_dict_with_keys_containing_dots_for_casting(self):
-        # TODO
-        pass
-
-    def test_cast_existing_dict_with_keys_containing_dots_for_update(self):
-        # TODO
-        pass
-

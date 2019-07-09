@@ -6,8 +6,20 @@ from benedict.utils import keypath_util
 class KeypathDict(dict):
 
     def __init__(self, *args, **kwargs):
-        self._separator = kwargs.pop('separator', '.')
+        self._separator = kwargs.pop('separator', None) \
+            if 'separator' in kwargs else '.'
         super(KeypathDict, self).__init__(*args, **kwargs)
+        self._check_keys(self)
+
+    def _check_keys(self, d):
+        keys = keypath_util.all_keys(d)
+        keypath_util.check_keys(keys, self._separator)
+
+    def _join_keys(self, keys):
+        return keypath_util.join_keys(keys, self._separator)
+
+    def _split_keys(self, key):
+        return keypath_util.split_keys(key, self._separator)
 
     def _get_value_by_keys(self, keys):
         i = 0
@@ -58,14 +70,14 @@ class KeypathDict(dict):
             i += 1
 
     def __contains__(self, key):
-        keys = keypath_util.split_keys(key, self._separator)
+        keys = self._split_keys(key)
         if len(keys) > 1:
             return self._has_value_by_keys(keys)
         else:
             return super(KeypathDict, self).__contains__(key)
 
     def __delitem__(self, key):
-        keys = keypath_util.split_keys(key, self._separator)
+        keys = self._split_keys(key)
         if len(keys) > 1:
             item_parent, item_key = self._get_value_context_by_keys(keys)
             if isinstance(item_parent, dict):
@@ -76,7 +88,7 @@ class KeypathDict(dict):
             super(KeypathDict, self).__delitem__(key)
 
     def __getitem__(self, key):
-        keys = keypath_util.split_keys(key, self._separator)
+        keys = self._split_keys(key)
         value = None
         if len(keys) > 1:
             item_parent, item_key = self._get_value_context_by_keys(keys)
@@ -89,7 +101,9 @@ class KeypathDict(dict):
         return value
 
     def __setitem__(self, key, value):
-        keys = keypath_util.split_keys(key, self._separator)
+        if isinstance(value, dict):
+            self._check_keys(value)
+        keys = self._split_keys(key)
         if len(keys) > 1:
             self._set_value_by_keys(keys, value)
         else:
@@ -103,7 +117,7 @@ class KeypathDict(dict):
         return d
 
     def get(self, key, default=None):
-        keys = keypath_util.split_keys(key, self._separator)
+        keys = self._split_keys(key)
         if len(keys) > 1:
             item_parent, item_key = self._get_value_context_by_keys(keys)
             if isinstance(item_parent, dict):
@@ -114,19 +128,23 @@ class KeypathDict(dict):
             return super(KeypathDict, self).get(key, default)
 
     def keypaths(self):
-        def walk_keypaths(root, path):
-            keypaths = []
-            for key, val in root.items():
-                keypaths += [keypath_util.join_keys(path + [key], self._separator)]
-                if isinstance(val, dict):
-                    keypaths += walk_keypaths(val, path + [key])
+        if self._separator:
+            def walk_keypaths(root, path):
+                keypaths = []
+                for key, val in root.items():
+                    keys = path + [key]
+                    keypaths += [self._join_keys(keys)]
+                    if isinstance(val, dict):
+                        keypaths += walk_keypaths(val, keys)
+                return keypaths
+            keypaths = walk_keypaths(self, [])
+            keypaths.sort()
             return keypaths
-        keypaths = walk_keypaths(self, [])
-        keypaths.sort()
-        return keypaths
+        else:
+            return []
 
     def pop(self, key, default=None):
-        keys = keypath_util.split_keys(key, self._separator)
+        keys = self._split_keys(key)
         if len(keys) > 1:
             item_parent, item_key = self._get_value_context_by_keys(keys)
             if isinstance(item_parent, dict):
@@ -154,3 +172,8 @@ class KeypathDict(dict):
             return default
         else:
             return self[key]
+
+    def update(self, other):
+        d = dict(other)
+        self._check_keys(d)
+        return super(KeypathDict, self).update(d)
