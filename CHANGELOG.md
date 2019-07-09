@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.5.0) - 2019-07-09
+-   Added custom or `None` keypath `separator` support.
+-   Added `filter` utility method.
+-   Improved tests and code quality.
+
 ## [0.4.2](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.4.2) - 2019-06-19
 -   Fixed `parse_str` UnicodeEncodeError on python 2.
 

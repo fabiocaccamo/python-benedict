@@ -12,7 +12,7 @@
 The Python dictionary for humans dealing with evil/complex data.
 
 ## Features
--   Full **keypath** support *(using the dot syntax)*
+-   Full **keypath** support *(using the dot syntax by default)*
 -   Many **utility** and **parse methods** to retrieve data as needed *(all methods listed below)*
 -   Give **benediction to dict objects** before they are returned *(they receive benedict casting)*
 -   100% **backward-compatible** *(you can replace existing dicts without pain)*
@@ -29,11 +29,32 @@ The Python dictionary for humans dealing with evil/complex data.
 ## Usage
 `benedict` is a dict subclass, so it is possible to use it as a normal dict *(you can just cast an existing dict)*.
 
-### Basic get/set using keypath
+### Import
 
 ```python
 from benedict import benedict
+```
 
+### Init
+Create a new instance:
+
+```python
+d = benedict()
+```
+
+... or cast an existing `dict`:
+
+```python
+d = benedict(existing_dict)
+```
+
+If the existing dict keys contain the keypath separator a `ValueError` will be raised.
+In this case you need to use a [custom keypath separator](#custom-keypath-separator).
+
+### Keypath
+`.` is the default keypath separator, you can customize it passing the `keypath_separator` argument in the constructor.
+
+```python
 d = benedict()
 d['profile.firstname'] = 'Fabio'
 d['profile.lastname'] = 'Caccamo'
@@ -42,7 +63,23 @@ print(d['profile']) # -> { 'firstname':'Fabio', 'lastname':'Caccamo' }
 print('profile.lastname' in d) # -> True
 ```
 
+#### Custom keypath separator
+
+```python
+d = benedict(existing_dict, keypath_separator='/')
+```
+
 ### API
+
+#### Keypath
+
+```python
+# Return a list of all keypaths in the dict.
+d.keypaths()
+```
+
+#### Utility
+These methods are common utilities that will speed up your everyday work.
 
 ```python
 # Clean the current dict removing all empty values: None, '', {}, [], ().
@@ -71,6 +108,9 @@ print(s)
 predicate = lambda k, v: v is not None
 d.filter(predicate)
 ```
+
+#### Parse methods
+These methods are wrappers of the `get` method, and they will parse data trying to return it in the expected type.
 
 ```python
 # Get value by key or keypath trying to return it as bool.
@@ -187,11 +227,6 @@ d.get_str(key, default='', options=[])
 # Get value by key or keypath trying to return it as list of str values.
 # If separator is specified and value is a string it will be splitted.
 d.get_str_list(key, default=[], separator=',')
-```
-
-```python
-# Return a list of all keypaths in the dict.
-d.keypaths()
 ```
 
 ## License
