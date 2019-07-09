@@ -65,6 +65,26 @@ class KeypathDictTestCase(unittest.TestCase):
         with self.assertRaises(ValueError):
             b.update(d2)
 
+    def test_update_with_dict_without_separator_in_keys(self):
+        d1 = {
+            'a': 1,
+            'b': 2,
+            'c': 3,
+        }
+        d2 = {
+            'a.x': 4,
+            'a.y': 5,
+            'a.z': 6,
+        }
+        b = KeypathDict(d1, separator='/')
+        b.update(d2)
+        self.assertEqual(b.get('a'), 1)
+        self.assertEqual(b.get('b'), 2)
+        self.assertEqual(b.get('c'), 3)
+        self.assertEqual(b.get('a.x'), 4)
+        self.assertEqual(b.get('a.y'), 5)
+        self.assertEqual(b.get('a.z'), 6)
+
     def test_fromkeys(self):
         k = [
             'a',

@@ -14,13 +14,13 @@ def all_keys(d):
 
 
 def check_keys(keys, separator):
-    if separator:
-        for key in keys:
-            if key and isinstance(key, string_types):
-                if separator in key:
-                    raise ValueError(
-                        'keys should not contain keypath separator '
-                        '\'{}\'.'.format(separator))
+    if not separator:
+        return
+    for key in keys:
+        if key and isinstance(key, string_types) and separator in key:
+            raise ValueError(
+                'keys should not contain keypath separator '
+                '\'{}\'.'.format(separator))
 
 
 def join_keys(keys, separator):
@@ -28,20 +28,19 @@ def join_keys(keys, separator):
 
 
 def split_keys(key, separator):
-    if separator:
-        if isinstance(key, string_types):
-            keypath = key
-            if separator in keypath:
-                keys = list(keypath.split(separator))
-                return keys
-            else:
-                return [key]
-        elif isinstance(key, (list, tuple, )):
-            keys = []
-            for key_item in key:
-                keys += split_keys(key_item, separator)
+    if not separator:
+        return [key]
+    elif isinstance(key, string_types):
+        keypath = key
+        if separator in keypath:
+            keys = list(keypath.split(separator))
             return keys
         else:
             return [key]
+    elif isinstance(key, (list, tuple, )):
+        keys = []
+        for key_item in key:
+            keys += split_keys(key_item, separator)
+        return keys
     else:
         return [key]

@@ -128,20 +128,19 @@ class KeypathDict(dict):
             return super(KeypathDict, self).get(key, default)
 
     def keypaths(self):
-        if self._separator:
-            def walk_keypaths(root, path):
-                keypaths = []
-                for key, val in root.items():
-                    keys = path + [key]
-                    keypaths += [self._join_keys(keys)]
-                    if isinstance(val, dict):
-                        keypaths += walk_keypaths(val, keys)
-                return keypaths
-            keypaths = walk_keypaths(self, [])
-            keypaths.sort()
-            return keypaths
-        else:
+        if not self._separator:
             return []
+        def walk_keypaths(root, path):
+            keypaths = []
+            for key, val in root.items():
+                keys = path + [key]
+                keypaths += [self._join_keys(keys)]
+                if isinstance(val, dict):
+                    keypaths += walk_keypaths(val, keys)
+            return keypaths
+        keypaths = walk_keypaths(self, [])
+        keypaths.sort()
+        return keypaths
 
     def pop(self, key, default=None):
         keys = self._split_keys(key)
@@ -176,4 +175,4 @@ class KeypathDict(dict):
     def update(self, other):
         d = dict(other)
         self._check_keys(d)
-        return super(KeypathDict, self).update(d)
+        super(KeypathDict, self).update(d)
