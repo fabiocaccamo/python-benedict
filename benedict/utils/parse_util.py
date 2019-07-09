@@ -31,13 +31,19 @@ def parse_datetime(val, format=None):
         return val
     str_val = str(val)
     val = None
-    try:
-        if format:
+    if format:
+        try:
             val = datetime.strptime(str_val, format)
-        else:
+        except Exception:
+            val = None
+    else:
+        try:
             val = date_parser.parse(str_val)
-    except Exception:
-        pass
+        except Exception:
+            try:
+                val = datetime.fromtimestamp(float(str_val))
+            except Exception:
+                val = None
     return val
 
 

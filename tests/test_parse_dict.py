@@ -89,6 +89,24 @@ class ParseDictTestCase(unittest.TestCase):
         b = ParseDict(d)
         self.assertEqual(b.get_datetime('a'), now)
 
+    def test_get_datetime_with_timestamp_int(self):
+        now = datetime.now()
+        ts = datetime.timestamp(now)
+        d = {
+            'a': ts,
+        }
+        b = ParseDict(d)
+        self.assertEqual(b.get_datetime('a'), now)
+
+    def test_get_datetime_with_timestamp_string(self):
+        now = datetime.now()
+        ts = datetime.timestamp(now)
+        d = {
+            'a': str(ts),
+        }
+        b = ParseDict(d)
+        self.assertEqual(b.get_datetime('a'), now)
+
     def test_get_datetime_with_valid_format(self):
         d = {
             'a': '2019-05-01',
