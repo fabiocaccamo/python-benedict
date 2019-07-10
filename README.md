@@ -57,11 +57,18 @@ In this case you need to use a [custom keypath separator](#custom-keypath-separa
 
 ```python
 d = benedict()
+
+# set values by keypath
 d['profile.firstname'] = 'Fabio'
 d['profile.lastname'] = 'Caccamo'
 print(d) # -> { 'profile':{ 'firstname':'Fabio', 'lastname':'Caccamo' } }
 print(d['profile']) # -> { 'firstname':'Fabio', 'lastname':'Caccamo' }
+
+# check if keypath exists in dict
 print('profile.lastname' in d) # -> True
+
+# delete value by keypath
+del d['profile.lastname']
 ```
 
 #### Custom keypath separator
