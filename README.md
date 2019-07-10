@@ -50,7 +50,7 @@ d = benedict(existing_dict)
 
 If the existing dict keys contain the keypath separator a `ValueError` will be raised.
 
-In this case you need to use a [custom keypath separator](#custom-keypath-separator).
+In this case you should need to use a [custom keypath separator](#custom-keypath-separator).
 
 ### Keypath
 `.` is the default keypath separator.
@@ -133,7 +133,7 @@ d.filter(predicate)
 ```
 
 #### Parse methods
-These methods are wrappers of the `get` method, and they will parse data trying to return it in the expected type.
+These methods are wrappers of the `get` method, they parse data trying to return it in the expected type.
 
 -   ##### get_bool
 
