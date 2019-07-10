@@ -32,7 +32,10 @@ setup(
     url='{}/{}'.format(github_url, package_name),
     download_url='{}/{}/archive/{}.tar.gz'.format(
         github_url, package_name, __version__),
-    keywords=['benedict', 'python', 'dict', 'keypath', 'parse', 'utility'],
+    keywords=[
+        'python', 'dictionary', 'dict', 'subclass', 'extended',
+        'benedict', 'io', 'keypath', 'parse', 'utility', 'data',
+        'base64', 'json', 'querystring', 'toml', 'yaml', 'xml'],
     install_requires=[
         'ftfy==4.4.3;python_version<"3.4"',
         'ftfy;python_version>"2.7"',

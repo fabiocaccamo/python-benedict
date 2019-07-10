@@ -14,7 +14,7 @@ The Python dictionary for humans dealing with evil/complex data.
 ## Features
 -   Full **keypath** support *(using the dot syntax by default)*
 -   Many **utility** and **parse methods** to retrieve data as needed *(all methods listed below)*
--   Give **benediction to dict objects** before they are returned *(they receive benedict casting)*
+-   Give **benediction** :) to `dict` values before they are returned *(they receive benedict casting)*
 -   100% **backward-compatible** *(you can replace existing dicts without pain)*
 
 ## Requirements
@@ -27,7 +27,7 @@ The Python dictionary for humans dealing with evil/complex data.
 -   Run `tox` / `python setup.py test`
 
 ## Usage
-`benedict` is a dict subclass, so it is possible to use it as a normal dict *(you can just cast an existing dict)*.
+`benedict` is a `dict` subclass, so it is possible to use it as a normal dictionary *(you can just cast an existing dict)*.
 
 ### Import
 
@@ -49,10 +49,11 @@ d = benedict(existing_dict)
 ```
 
 If the existing dict keys contain the keypath separator a `ValueError` will be raised.
+
 In this case you need to use a [custom keypath separator](#custom-keypath-separator).
 
 ### Keypath
-`.` is the default keypath separator, you can customize it passing the `keypath_separator` argument in the constructor.
+`.` is the default keypath separator.
 
 ```python
 d = benedict()
@@ -64,6 +65,7 @@ print('profile.lastname' in d) # -> True
 ```
 
 #### Custom keypath separator
+You can customize the keypath separator passing the `keypath_separator` argument in the constructor.
 
 ```python
 d = benedict(existing_dict, keypath_separator='/')
@@ -73,6 +75,8 @@ d = benedict(existing_dict, keypath_separator='/')
 
 #### Keypath
 
+-   ##### keypaths
+
 ```python
 # Return a list of all keypaths in the dict.
 d.keypaths()
@@ -81,26 +85,38 @@ d.keypaths()
 #### Utility
 These methods are common utilities that will speed up your everyday work.
 
+-   ##### clean
+
 ```python
 # Clean the current dict removing all empty values: None, '', {}, [], ().
 # If strings, dicts or lists flags are False, related empty values will not be deleted.
 d.clean(strings=True, dicts=True, lists=True)
 ```
 
+-   ##### deepcopy
+
 ```python
 # Return a deepcopy of the dict.
 d.deepcopy()
 ```
 
+-   ##### dump
+
 ```python
 # Return a readable representation of any dict/list.
 s = benedict.dump(d.keypaths())
 print(s)
+```
 
+-   ##### dump_items
+
+```python
 # Return a readable representation of the dict for the given key (optional).
 s = d.dump_items(key=None)
 print(s)
 ```
+
+-   ##### filter
 
 ```python
 # Return a filtered dict using the given predicate function.
@@ -112,17 +128,23 @@ d.filter(predicate)
 #### Parse methods
 These methods are wrappers of the `get` method, and they will parse data trying to return it in the expected type.
 
+-   ##### get_bool
+
 ```python
 # Get value by key or keypath trying to return it as bool.
 # Values like `1`, `true`, `yes`, `on`, `ok` will be returned as `True`.
 d.get_bool(key, default=False)
 ```
 
+-   ##### get_bool_list
+
 ```python
 # Get value by key or keypath trying to return it as list of bool values.
 # If separator is specified and value is a string it will be splitted.
 d.get_bool_list(key, default=[], separator=',')
 ```
+
+-   ##### get_datetime
 
 ```python
 # Get value by key or keypath trying to return it as datetime.
@@ -131,11 +153,15 @@ d.get_bool_list(key, default=[], separator=',')
 d.get_datetime(key, default=None, format=None, options=[])
 ```
 
+-   ##### get_datetime_list
+
 ```python
 # Get value by key or keypath trying to return it as list of datetime values.
 # If separator is specified and value is a string it will be splitted.
 d.get_datetime_list(key, default=[], format=None, separator=',')
 ```
+
+-   ##### get_decimal
 
 ```python
 # Get value by key or keypath trying to return it as Decimal.
@@ -143,11 +169,15 @@ d.get_datetime_list(key, default=[], format=None, separator=',')
 d.get_decimal(key, default=Decimal('0.0'), options=[])
 ```
 
+-   ##### get_decimal_list
+
 ```python
 # Get value by key or keypath trying to return it as list of Decimal values.
 # If separator is specified and value is a string it will be splitted.
 d.get_decimal_list(key, default=[], separator=',')
 ```
+
+-   ##### get_dict
 
 ```python
 # Get value by key or keypath trying to return it as dict.
@@ -155,11 +185,7 @@ d.get_decimal_list(key, default=[], separator=',')
 d.get_dict(key, default={})
 ```
 
-```python
-# Get value by key or keypath trying to return it as float.
-# If options and value is in options return value otherwise default.
-d.get_float(key, default=0.0, options=[])
-```
+-   ##### get_email
 
 ```python
 # Get email by key or keypath and return it.
@@ -168,11 +194,23 @@ d.get_float(key, default=0.0, options=[])
 d.get_email(key, default='', options=None, check_blacklist=True)
 ```
 
+-   ##### get_float
+
+```python
+# Get value by key or keypath trying to return it as float.
+# If options and value is in options return value otherwise default.
+d.get_float(key, default=0.0, options=[])
+```
+
+-   ##### get_float_list
+
 ```python
 # Get value by key or keypath trying to return it as list of float values.
 # If separator is specified and value is a string it will be splitted.
 d.get_float_list(key, default=[], separator=',')
 ```
+
+-   ##### get_int
 
 ```python
 # Get value by key or keypath trying to return it as int.
@@ -180,11 +218,15 @@ d.get_float_list(key, default=[], separator=',')
 d.get_int(key, default=0, options=[])
 ```
 
+-   ##### get_int_list
+
 ```python
 # Get value by key or keypath trying to return it as list of int values.
 # If separator is specified and value is a string it will be splitted.
 d.get_int_list(key, default=[], separator=',')
 ```
+
+-   ##### get_list
 
 ```python
 # Get value by key or keypath trying to return it as list.
@@ -192,11 +234,15 @@ d.get_int_list(key, default=[], separator=',')
 d.get_list(key, default=[], separator=',')
 ```
 
+-   ##### get_list_item
+
 ```python
 # Get list by key or keypath and return value at the specified index.
 # If separator is specified and list value is a string it will be splitted.
 d.get_list_item(key, index=0, default=None, separator=',')
 ```
+
+-   ##### get_phonenumber
 
 ```python
 # Get phone number by key or keypath and return a dict with different formats (e164, international, national).
@@ -204,11 +250,15 @@ d.get_list_item(key, index=0, default=None, separator=',')
 d.get_phonenumber(key, country_code=None, default=None)
 ```
 
+-   ##### get_slug
+
 ```python
 # Get value by key or keypath trying to return it as slug.
 # If options and value is in options return value otherwise default.
 d.get_slug(key, default='', options=[])
 ```
+
+-   ##### get_slug_list
 
 ```python
 # Get value by key or keypath trying to return it as list of slug values.
@@ -216,12 +266,16 @@ d.get_slug(key, default='', options=[])
 d.get_slug_list(key, default=[], separator=',')
 ```
 
+-   ##### get_str
+
 ```python
 # Get value by key or keypath trying to return it as string.
 # Encoding issues will be automatically fixed.
 # If options and value is in options return value otherwise default.
 d.get_str(key, default='', options=[])
 ```
+
+-   ##### get_str_list
 
 ```python
 # Get value by key or keypath trying to return it as list of str values.
