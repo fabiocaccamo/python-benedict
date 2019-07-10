@@ -80,7 +80,7 @@ d = benedict(existing_dict, keypath_separator='/')
 
 ### API
 
-#### Keypath
+#### Keypath methods
 
 -   ##### keypaths
 
@@ -89,7 +89,7 @@ d = benedict(existing_dict, keypath_separator='/')
 d.keypaths()
 ```
 
-#### Utility
+#### Utility methods
 These methods are common utilities that will speed up your everyday work.
 
 -   ##### clean

@@ -35,7 +35,8 @@ setup(
     keywords=[
         'python', 'dictionary', 'dict', 'subclass', 'extended',
         'benedict', 'io', 'keypath', 'parse', 'utility', 'data',
-        'base64', 'json', 'querystring', 'toml', 'yaml', 'xml'],
+        'base64', 'json', 'querystring', 'toml', 'yaml', 'xml',
+    ],
     install_requires=[
         'ftfy==4.4.3;python_version<"3.4"',
         'ftfy;python_version>"2.7"',
