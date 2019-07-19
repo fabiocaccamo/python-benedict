@@ -5,7 +5,7 @@ from dateutil import parser as date_parser
 from decimal import Decimal, DecimalException
 from MailChecker import MailChecker
 from phonenumbers import phonenumberutil, PhoneNumberFormat
-from six import string_types
+from six import string_types, text_type
 from slugify import slugify
 
 import ftfy
@@ -17,7 +17,7 @@ import re
 def parse_bool(val):
     if isinstance(val, bool):
         return val
-    str_val = str(val).lower()
+    str_val = text_type(val).lower()
     val = None
     if str_val in ['1', 'true', 'yes', 'ok', 'on']:
         val = True
@@ -29,7 +29,7 @@ def parse_bool(val):
 def parse_datetime(val, format=None):
     if isinstance(val, datetime):
         return val
-    str_val = str(val)
+    str_val = text_type(val)
     val = None
     if format:
         try:
@@ -50,7 +50,7 @@ def parse_datetime(val, format=None):
 def parse_decimal(val):
     if isinstance(val, Decimal):
         return val
-    str_val = str(val)
+    str_val = text_type(val)
     val = None
     try:
         val = Decimal(str_val)
@@ -62,7 +62,7 @@ def parse_decimal(val):
 def parse_dict(val):
     if isinstance(val, dict):
         return val
-    str_val = str(val)
+    str_val = text_type(val)
     if not len(str_val):
         return None
     val = None
@@ -85,7 +85,7 @@ def parse_dict(val):
 def parse_float(val):
     if isinstance(val, float):
         return val
-    str_val = str(val)
+    str_val = text_type(val)
     val = None
     try:
         val = float(str_val)
@@ -111,7 +111,7 @@ def parse_email(val, check_blacklist=True):
 def parse_int(val):
     if isinstance(val, int):
         return val
-    str_val = str(val)
+    str_val = text_type(val)
     val = None
     try:
         val = int(str_val)
@@ -123,7 +123,7 @@ def parse_int(val):
 def parse_list(val, separator=None):
     if isinstance(val, (list, tuple, )):
         return list(val)
-    str_val = str(val)
+    str_val = text_type(val)
     if not len(str_val):
         return None
     val = None
@@ -177,7 +177,7 @@ def parse_str(val):
         except UnicodeError:
             pass
     else:
-        val = str(val)
+        val = text_type(val)
     val = val.strip()
     val = ' '.join(val.split())
     return val
