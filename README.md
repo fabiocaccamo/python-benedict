@@ -132,6 +132,20 @@ predicate = lambda k, v: v is not None
 d.filter(predicate)
 ```
 
+-   ##### remove
+
+```python
+# Remove multiple keys from the dict.
+d.remove(['firstname', 'lastname', 'email'])
+```
+
+-   ##### subset
+
+```python
+# Return a dict subset for the given keys.
+d.subset(['firstname', 'lastname', 'email'])
+```
+
 #### Parse methods
 These methods are wrappers of the `get` method, they parse data trying to return it in the expected type.
 
@@ -288,6 +302,13 @@ d.get_str(key, default='', options=[])
 # Get value by key or keypath trying to return it as list of str values.
 # If separator is specified and value is a string it will be splitted.
 d.get_str_list(key, default=[], separator=',')
+```
+
+#### Django
+`benedict` could be very useful in `django` views too:
+
+```python
+params = benedict(request.GET.items())
 ```
 
 ## License
