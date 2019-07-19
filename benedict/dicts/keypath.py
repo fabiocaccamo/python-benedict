@@ -21,67 +21,45 @@ class KeypathDict(dict):
     def _split_keys(self, key):
         return keypath_util.split_keys(key, self._keypath_separator)
 
-    def _get_value_by_keys(self, keys):
-        i = 0
-        j = len(keys)
-        val = self
-        while i < j:
-            key = keys[i]
-            try:
-                val = val[key]
-            except KeyError:
-                val = None
-                break
-            i += 1
-        return val
-
-    def _get_value_context_by_keys(self, keys):
+    def _walk_keys(self, keys):
         item_keys = keys[:-1]
         item_key = keys[-1]
-        item_parent = self._get_value_by_keys(item_keys)
-        return (item_parent, item_key, )
-
-    def _has_value_by_keys(self, keys):
-        item_parent, item_key = self._get_value_context_by_keys(keys)
-        if isinstance(item_parent, dict):
-            if item_key in item_parent:
-                return True
-            else:
-                return False
-        else:
-            return False
-
-    def _set_value_by_keys(self, keys, value):
+        item_parent = self
         i = 0
-        j = len(keys)
-        item = self
+        j = len(item_keys)
         while i < j:
-            key = keys[i]
-            if i < (j - 1):
-                if item == self:
-                    subitem = super(KeypathDict, self).get(key, None)
+            key = item_keys[i]
+            try:
+                if item_parent is self:
+                    item_parent = super(KeypathDict, self).__getitem__(key)
                 else:
-                    subitem = item.get(key, None)
-                if not isinstance(subitem, dict):
-                    subitem = item[key] = {}
-                item = subitem
-            else:
-                item[key] = value
+                    item_parent = item_parent.__getitem__(key)
+            except KeyError:
+                item_parent = None
+                break
             i += 1
+        return (item_parent, item_key, )
 
     def __contains__(self, key):
         keys = self._split_keys(key)
         if len(keys) > 1:
-            return self._has_value_by_keys(keys)
+            item_parent, item_key = self._walk_keys(keys)
+            if isinstance(item_parent, dict):
+                if item_parent.__contains__(item_key):
+                    return True
+                else:
+                    return False
+            else:
+                return False
         else:
             return super(KeypathDict, self).__contains__(key)
 
     def __delitem__(self, key):
         keys = self._split_keys(key)
         if len(keys) > 1:
-            item_parent, item_key = self._get_value_context_by_keys(keys)
+            item_parent, item_key = self._walk_keys(keys)
             if isinstance(item_parent, dict):
-                del item_parent[item_key]
+                item_parent.__delitem__(item_key)
             else:
                 raise KeyError
         else:
@@ -91,9 +69,9 @@ class KeypathDict(dict):
         keys = self._split_keys(key)
         value = None
         if len(keys) > 1:
-            item_parent, item_key = self._get_value_context_by_keys(keys)
+            item_parent, item_key = self._walk_keys(keys)
             if isinstance(item_parent, dict):
-                return item_parent[item_key]
+                return item_parent.__getitem__(item_key)
             else:
                 raise KeyError
         else:
@@ -105,7 +83,22 @@ class KeypathDict(dict):
             self._check_keys(value)
         keys = self._split_keys(key)
         if len(keys) > 1:
-            self._set_value_by_keys(keys, value)
+            i = 0
+            j = len(keys)
+            item = self
+            while i < j:
+                key = keys[i]
+                if i < (j - 1):
+                    if item is self:
+                        subitem = super(KeypathDict, self).get(key, None)
+                    else:
+                        subitem = item.get(key, None)
+                    if not isinstance(subitem, dict):
+                        subitem = item[key] = {}
+                    item = subitem
+                else:
+                    item[key] = value
+                i += 1
         else:
             super(KeypathDict, self).__setitem__(key, value)
 
@@ -119,7 +112,7 @@ class KeypathDict(dict):
     def get(self, key, default=None):
         keys = self._split_keys(key)
         if len(keys) > 1:
-            item_parent, item_key = self._get_value_context_by_keys(keys)
+            item_parent, item_key = self._walk_keys(keys)
             if isinstance(item_parent, dict):
                 return item_parent.get(item_key, default)
             else:
@@ -142,35 +135,44 @@ class KeypathDict(dict):
         keypaths.sort()
         return keypaths
 
-    def pop(self, key, default=None):
+    def pop(self, key, *args, **kwargs):
+        if kwargs and 'default' in kwargs:
+            default_arg = True
+            default = kwargs.get('default', None)
+        elif args:
+            default_arg = True
+            default = args[0]
+        else:
+            default_arg = False
+            default = None
         keys = self._split_keys(key)
         if len(keys) > 1:
-            item_parent, item_key = self._get_value_context_by_keys(keys)
+            item_parent, item_key = self._walk_keys(keys)
             if isinstance(item_parent, dict):
-                if default is None:
-                    return item_parent.pop(item_key)
-                else:
+                if default_arg:
                     return item_parent.pop(item_key, default)
-            else:
-                if default is None:
-                    raise KeyError
                 else:
-                    return default
-        else:
-            if default is None:
-                return super(KeypathDict, self).pop(key)
+                    return item_parent.pop(item_key)
             else:
+                if default_arg:
+                    return default
+                else:
+                    raise KeyError
+        else:
+            if default_arg:
                 return super(KeypathDict, self).pop(key, default)
+            else:
+                return super(KeypathDict, self).pop(key)
 
     def set(self, key, value):
-        self[key] = value
+        self.__setitem__(key, value)
 
     def setdefault(self, key, default=None):
         if key not in self:
-            self[key] = default
+            self.__setitem__(key, default)
             return default
         else:
-            return self[key]
+            return self.__getitem__(key)
 
     def update(self, other):
         d = dict(other)

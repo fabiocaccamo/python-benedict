@@ -624,6 +624,8 @@ class KeypathDictTestCase(unittest.TestCase):
             val = b.pop('b')
         val = b.pop('b', False)
         self.assertFalse(val)
+        val = b.pop('b', None)
+        self.assertEqual(val, None)
 
     def test_pop_with_2_valid_keys(self):
         d = {
