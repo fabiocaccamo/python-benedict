@@ -366,3 +366,53 @@ class BenedictTestCase(unittest.TestCase):
         b = benedict(d)
         self.assertTrue(isinstance(b.setdefault('b', 1), benedict))
         self.assertTrue(isinstance(b.setdefault('b.d', 1), benedict))
+
+    def test_subset(self):
+        d = {
+            'x': {
+                'a': 1,
+                'aa': 1,
+            },
+            'y': {
+                'b': 2,
+                'bb': 2,
+            },
+            'z': {
+                'c': 3,
+                'cc': 3,
+            },
+        }
+        b = benedict(d)
+        f = b.subset(['x', 'y'])
+        r = {
+            'x': {
+                'a': 1,
+                'aa': 1,
+            },
+            'y': {
+                'b': 2,
+                'bb': 2,
+            },
+        }
+        self.assertEqual(f, r)
+        self.assertFalse(f is b)
+        self.assertTrue(isinstance(f, benedict))
+        self.assertEqual(f.get('x.a'), 1)
+        self.assertEqual(f.get('x.aa'), 1)
+        self.assertEqual(f.get('y.b'), 2)
+        self.assertEqual(f.get('y.bb'), 2)
+        # test with keypath
+        f = b.subset(['x.a', 'y.b'])
+        r = {
+            'x': {
+                'a': 1,
+            },
+            'y': {
+                'b': 2,
+            },
+        }
+        self.assertEqual(f, r)
+        self.assertFalse(f is b)
+        self.assertTrue(isinstance(f, benedict))
+        self.assertEqual(f.get('x.a'), 1)
+        self.assertEqual(f.get('y.b'), 2)

@@ -69,3 +69,7 @@ class benedict(KeypathDict, ParseDict, UtilityDict):
     @benediction
     def setdefault(self, key, default=None):
         return super(benedict, self).setdefault(key, default)
+
+    @benediction
+    def subset(self, keys):
+        return super(benedict, self).subset(keys)

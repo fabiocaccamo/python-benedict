@@ -53,3 +53,9 @@ class UtilityDict(dict):
             if predicate(key, val):
                 d[key] = val
         return d
+
+    def subset(self, keys):
+        d = self.__class__()
+        for key in keys:
+            d[key] = self.get(key, None)
+        return d

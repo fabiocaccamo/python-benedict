@@ -175,3 +175,22 @@ class UtilityDictTestCase(unittest.TestCase):
         }
         self.assertEqual(f, r)
         self.assertFalse(b is f)
+
+    def test_subset(self):
+        d = {
+            'a': 1,
+            'b': 2,
+            'c': '4',
+            'e': '5',
+            'f': 6,
+            'g': 7,
+        }
+        b = UtilityDict(d)
+        f = b.subset(['c', 'f', 'x'])
+        r = {
+            'c': '4',
+            'f': 6,
+            'x': None,
+        }
+        self.assertEqual(f, r)
+        self.assertFalse(f is b)
