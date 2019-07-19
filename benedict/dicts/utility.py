@@ -54,6 +54,15 @@ class UtilityDict(dict):
                 d[key] = val
         return d
 
+    def remove(self, keys):
+        for key in keys:
+            try:
+                del self[key]
+            except KeyError:
+                continue
+            # print('REMOVE', key)
+            # self.pop(key, 1)
+
     def subset(self, keys):
         d = self.__class__()
         for key in keys:

@@ -353,6 +353,39 @@ class BenedictTestCase(unittest.TestCase):
         self.assertEqual(b.pop('b.c'), 2)
         self.assertTrue(isinstance(b.pop('b.d'), benedict))
 
+    def test_remove(self):
+        d = {
+            'a': {
+                'x': 1,
+                'y': 1,
+            },
+            'b': {
+                'x': 2,
+                'y': 2,
+            },
+            'c': {
+                'x': 3,
+                'y': 3,
+            },
+            'd': {
+                'x': 4,
+                'y': 4,
+            },
+        }
+        b = benedict(d)
+        b.remove(['a.x', 'b.y', 'c.x', 'c.y', 'd'])
+        r = {
+            'a': {
+                'y': 1
+            },
+            'b': {
+                'x': 2
+            },
+            'c': {
+            },
+        }
+        self.assertEqual(b, r)
+
     def test_setdefault(self):
         d = {
             'a': 1,
