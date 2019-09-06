@@ -9,6 +9,20 @@ import unittest
 
 class BenedictTestCase(unittest.TestCase):
 
+    def test_cast(self):
+        d = {
+            'a': 1,
+        }
+        b = benedict.cast(d)
+        self.assertEqual(d, b)
+        self.assertFalse(b is d)
+        self.assertTrue(isinstance(b, benedict))
+        v = [0, 1, 2, 3]
+        b = benedict.cast(v)
+        self.assertEqual(v, b)
+        self.assertTrue(b is v)
+        self.assertFalse(isinstance(b, benedict))
+
     def test_copy(self):
         d = {
             'a': {
@@ -61,43 +75,10 @@ class BenedictTestCase(unittest.TestCase):
 }"""
         output = benedict.dump(b)
         self.assertEqual(output, expected_output)
-
-    def test_dump_items(self):
-        d = {
-            'a': {
-                'b': {
-                    'c': 1
-                }
-            }
-        }
-        b = benedict(d)
-        print(b.dump_items())
-        expected_output = """{
-    "a": {
-        "b": {
-            "c": 1
-        }
-    }
-}"""
-        output = b.dump_items()
+        output = b.dump()
         self.assertEqual(output, expected_output)
 
-    def test_dump_items_with_key(self):
-        d = {
-            'a': {
-                'b': {
-                    'c': 1
-                }
-            }
-        }
-        b = benedict(d)
-        expected_output = """{
-    "c": 1
-}"""
-        output = b.dump_items('a.b')
-        self.assertEqual(output, expected_output)
-
-    def test_dump_items_with_datetime(self):
+    def test_dump_with_datetime(self):
         d = {
             'datetime': datetime(2019, 6, 11),
         }
@@ -105,10 +86,10 @@ class BenedictTestCase(unittest.TestCase):
         expected_output = """{
     "datetime": "2019-06-11 00:00:00"
 }"""
-        output = b.dump_items()
+        output = b.dump()
         self.assertEqual(output, expected_output)
 
-    def test_dump_items_with_decimal(self):
+    def test_dump_with_decimal(self):
         d = {
             'decimal': Decimal('1.75'),
         }
@@ -116,7 +97,7 @@ class BenedictTestCase(unittest.TestCase):
         expected_output = """{
     "decimal": "1.75"
 }"""
-        output = b.dump_items()
+        output = b.dump()
         self.assertEqual(output, expected_output)
 
     def test_filter(self):

@@ -8,8 +8,7 @@ from benedict.dicts.utility import UtilityDict
 def benediction(method):
     def wrapper(*args, **kwargs):
         value = method(*args, **kwargs)
-        value_benedicted = benedict.cast(value)
-        return value_benedicted if value_benedicted is not None else value
+        return benedict.cast(value)
     return wrapper
 
 
@@ -17,6 +16,17 @@ class benedict(KeypathDict, ParseDict, UtilityDict):
 
     def __init__(self, *args, **kwargs):
         super(benedict, self).__init__(*args, **kwargs)
+
+    @classmethod
+    def cast(cls, value):
+        if isinstance(value, dict) and not isinstance(value, cls):
+            return cls(value)
+        else:
+            return value
+
+    @benediction
+    def clone(self):
+        return super(benedict, self).clone()
 
     @benediction
     def copy(self):
@@ -49,7 +59,7 @@ class benedict(KeypathDict, ParseDict, UtilityDict):
 
     def get_list(self, key, default=None, separator=','):
         values = super(benedict, self).get_list(key, default, separator)
-        values = [(benedict.cast(value) or value) for value in values]
+        values = [benedict.cast(value) for value in values]
         return values
 
     @benediction

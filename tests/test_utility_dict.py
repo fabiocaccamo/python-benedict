@@ -64,6 +64,22 @@ class UtilityDictTestCase(unittest.TestCase):
         }
         self.assertEqual(b, r)
 
+    def test_clone(self):
+        d = {
+            'a': {
+                'b': {
+                    'c': 1
+                }
+            }
+        }
+        b = UtilityDict(d)
+        c = b.clone()
+        self.assertEqual(b, c)
+        self.assertFalse(c is b)
+        c['a']['b']['c'] = 2
+        self.assertEqual(b['a']['b']['c'], 1)
+        self.assertEqual(c['a']['b']['c'], 2)
+
     def test_deepcopy(self):
         d = {
             'a': {
@@ -79,6 +95,119 @@ class UtilityDictTestCase(unittest.TestCase):
         c['a']['b']['c'] = 2
         self.assertEqual(b['a']['b']['c'], 1)
         self.assertEqual(c['a']['b']['c'], 2)
+
+    def test_deepupdate_with_single_dict(self):
+        d = {
+            'a': 1,
+            'b': 1,
+        }
+        a = {
+            'b': 2,
+            'c': 3,
+        }
+        d = UtilityDict(d)
+        d.deepupdate(a)
+        r = {
+            'a': 1,
+            'b': 2,
+            'c': 3,
+        }
+        self.assertEqual(d, r)
+
+    def test_deepupdate_with_multiple_dicts(self):
+        d = {
+            'a': 1,
+            'b': 1,
+        }
+        a = {
+            'b': 2,
+            'c': 3,
+            'd': 3,
+        }
+        b = {
+            'd': 5,
+            'e': 5,
+        }
+        c = {
+            'd': 4,
+            'f': 6,
+        }
+        d = UtilityDict(d)
+        d.deepupdate(a, b, c)
+        r = {
+            'a': 1,
+            'b': 2,
+            'c': 3,
+            'd': 4,
+            'e': 5,
+            'f': 6,
+        }
+        self.assertEqual(d, r)
+
+    def test_deepupdate(self):
+        d = {
+            'a': 1,
+            'b': {
+                'c': {
+                    'x': 2,
+                    'y': 3,
+                },
+                'd': {
+                    'x': 4,
+                    'y': 5,
+                },
+                'e': {
+                    'x': 6,
+                    'y': 7,
+                },
+            },
+        }
+        a = {
+            'a': 0,
+            'b': {
+                'c': 1,
+                'd': {
+                    'y': 1,
+                    'z': 2,
+                },
+                'e': {
+                    'f': {
+                        'x': 2,
+                        'y': 3,
+                    },
+                    'g': {
+                        'x': 4,
+                        'y': 5,
+                    },
+                },
+            },
+        }
+        d = UtilityDict(d)
+        d.deepupdate(a)
+        r = {
+            'a': 0,
+            'b': {
+                'c': 1,
+                'd': {
+                    'x': 4,
+                    'y': 1,
+                    'z': 2,
+                },
+                'e': {
+                    'f': {
+                        'x': 2,
+                        'y': 3,
+                    },
+                    'g': {
+                        'x': 4,
+                        'y': 5,
+                    },
+                    'x': 6,
+                    'y': 7,
+                },
+            },
+        }
+        self.assertEqual(d, r)
 
     def test_dump(self):
         d = {
@@ -98,41 +227,10 @@ class UtilityDictTestCase(unittest.TestCase):
 }"""
         output = UtilityDict.dump(b)
         self.assertEqual(output, expected_output)
-
-    def test_dump_items(self):
-        d = {
-            'a': {
-                'b': {
-                    'c': 1
-                }
-            }
-        }
-        b = UtilityDict(d)
-        print(b.dump_items())
-        expected_output = """{
-    "a": {
-        "b": {
-            "c": 1
-        }
-    }
-}"""
-        output = b.dump_items()
+        output = b.dump()
         self.assertEqual(output, expected_output)
 
-    def test_dump_items_with_key(self):
-        d = {
-            'a': {
-                'b': 1
-            }
-        }
-        b = UtilityDict(d)
-        expected_output = """{
-    "b": 1
-}"""
-        output = b.dump_items('a')
-        self.assertEqual(output, expected_output)
-
-    def test_dump_items_with_datetime(self):
+    def test_dump_with_datetime(self):
         d = {
             'datetime': datetime(2019, 6, 11),
         }
@@ -140,10 +238,10 @@ class UtilityDictTestCase(unittest.TestCase):
         expected_output = """{
     "datetime": "2019-06-11 00:00:00"
 }"""
-        output = b.dump_items()
+        output = b.dump()
         self.assertEqual(output, expected_output)
 
-    def test_dump_items_with_decimal(self):
+    def test_dump_with_decimal(self):
         d = {
             'decimal': Decimal('1.75'),
         }
@@ -151,7 +249,7 @@ class UtilityDictTestCase(unittest.TestCase):
         expected_output = """{
     "decimal": "1.75"
 }"""
-        output = b.dump_items()
+        output = b.dump()
         self.assertEqual(output, expected_output)
 
     def test_filter(self):
@@ -175,6 +273,119 @@ class UtilityDictTestCase(unittest.TestCase):
         }
         self.assertEqual(f, r)
         self.assertFalse(b is f)
+
+    def test_merge_with_single_dict(self):
+        d = {
+            'a': 1,
+            'b': 1,
+        }
+        a = {
+            'b': 2,
+            'c': 3,
+        }
+        d = UtilityDict(d)
+        d.merge(a)
+        r = {
+            'a': 1,
+            'b': 2,
+            'c': 3,
+        }
+        self.assertEqual(d, r)
+
+    def test_merge_with_multiple_dicts(self):
+        d = {
+            'a': 1,
+            'b': 1,
+        }
+        a = {
+            'b': 2,
+            'c': 3,
+            'd': 3,
+        }
+        b = {
+            'd': 5,
+            'e': 5,
+        }
+        c = {
+            'd': 4,
+            'f': 6,
+        }
+        d = UtilityDict(d)
+        d.merge(a, b, c)
+        r = {
+            'a': 1,
+            'b': 2,
+            'c': 3,
+            'd': 4,
+            'e': 5,
+            'f': 6,
+        }
+        self.assertEqual(d, r)
+
+    def test_merge(self):
+        d = {
+            'a': 1,
+            'b': {
+                'c': {
+                    'x': 2,
+                    'y': 3,
+                },
+                'd': {
+                    'x': 4,
+                    'y': 5,
+                },
+                'e': {
+                    'x': 6,
+                    'y': 7,
+                },
+            },
+        }
+        a = {
+            'a': 0,
+            'b': {
+                'c': 1,
+                'd': {
+                    'y': 1,
+                    'z': 2,
+                },
+                'e': {
+                    'f': {
+                        'x': 2,
+                        'y': 3,
+                    },
+                    'g': {
+                        'x': 4,
+                        'y': 5,
+                    },
+                },
+            },
+        }
+        d = UtilityDict(d)
+        d.merge(a)
+        r = {
+            'a': 0,
+            'b': {
+                'c': 1,
+                'd': {
+                    'x': 4,
+                    'y': 1,
+                    'z': 2,
+                },
+                'e': {
+                    'f': {
+                        'x': 2,
+                        'y': 3,
+                    },
+                    'g': {
+                        'x': 4,
+                        'y': 5,
+                    },
+                    'x': 6,
+                    'y': 7,
+                },
+            },
+        }
+        self.assertEqual(d, r)
 
     def test_remove(self):
         d = {

@@ -100,27 +100,23 @@ These methods are common utilities that will speed up your everyday work.
 d.clean(strings=True, dicts=True, lists=True)
 ```
 
--   ##### deepcopy
+-   ##### clone
 
 ```python
-# Return a deepcopy of the dict.
-d.deepcopy()
+# Return a clone (deepcopy) of the dict.
+d.clone()
 ```
 
 -   ##### dump
 
 ```python
 # Return a readable representation of any dict/list.
+# This method can be used both as static method or instance method.
 s = benedict.dump(d.keypaths())
 print(s)
-```
-
--   ##### dump_items
-
-```python
-# Return a readable representation of the dict for the given key (optional).
-s = d.dump_items(key=None)
-print(s)
+# or
+d = benedict()
+print(d.dump())
 ```
 
 -   ##### filter
@@ -130,6 +126,14 @@ print(s)
 # Predicate function receives key, value arguments and should return a bool value.
 predicate = lambda k, v: v is not None
 d.filter(predicate)
+```
+
+-   ##### merge
+
+```python
+# Merge one or more dictionary objects into current instance (deepupdate).
+# Sub-dictionaries keys will be merged toghether.
+d.merge(a, b, c)
 ```
 
 -   ##### remove
