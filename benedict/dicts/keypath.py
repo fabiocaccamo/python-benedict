@@ -175,6 +175,6 @@ class KeypathDict(dict):
             return self.__getitem__(key)
 
     def update(self, other):
-        d = dict(other)
-        self._check_keys(d)
-        super(KeypathDict, self).update(d)
+        if isinstance(other, dict):
+            self._check_keys(other)
+        super(KeypathDict, self).update(other)
