@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from benedict.dicts.io import IODict
 from benedict.dicts.keypath import KeypathDict
 from benedict.dicts.parse import ParseDict
 from benedict.dicts.utility import UtilityDict
@@ -12,7 +13,7 @@ def benediction(method):
     return wrapper
 
 
-class benedict(KeypathDict, ParseDict, UtilityDict):
+class benedict(IODict, KeypathDict, ParseDict, UtilityDict):
 
     def __init__(self, *args, **kwargs):
         super(benedict, self).__init__(*args, **kwargs)
@@ -44,6 +45,11 @@ class benedict(KeypathDict, ParseDict, UtilityDict):
     @benediction
     def fromkeys(cls, sequence, value=None):
         return KeypathDict.fromkeys(sequence, value)
+
+    @staticmethod
+    @benediction
+    def from_json(s, **kwargs):
+        return IODict.from_json(s, **kwargs)
 
     @benediction
     def __getitem__(self, key):

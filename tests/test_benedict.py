@@ -193,6 +193,17 @@ class BenedictTestCase(unittest.TestCase):
         self.assertEqual(b, r)
         self.assertEqual(type(b), benedict)
 
+    def test_from_json(self):
+        j = '{"a": 1, "b": 2, "c": 3}'
+        # static method
+        d = benedict.from_json(j)
+        self.assertTrue(isinstance(d, benedict))
+        self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, })
+        # constructor
+        d = benedict(j)
+        self.assertTrue(isinstance(d, benedict))
+        self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, })
+
     def test_get(self):
         d = {
             'a': 1,
