@@ -13,9 +13,9 @@ The Python dictionary for humans dealing with evil/complex data.
 
 ## Features
 -   Full **keypath** support *(using the dot syntax by default)*
+-   Easy **I/O operations** with most common formats: `base64`, `json`, `query-string`, `toml`, `yaml`, `xml`
 -   Many **utility** and **parse methods** to retrieve data as needed *(all methods listed below)*
 -   Give **benediction** :) to `dict` values before they are returned *(they receive benedict casting)*
--   Easy **I/O operations** with most common formats: `json`
 -   100% **backward-compatible** *(you can replace existing dicts without pain)*
 
 ## Requirements
@@ -91,25 +91,23 @@ d.keypaths()
 ```
 
 #### I/O methods
-These methods simplify I/O operations with most common formats: `json`
+These methods simplify I/O operations with most common formats: `base64`, `json`, `query-string`, `toml`, `yaml`, `xml`
 
 -   ##### from_json
 
 ```python
-# Try to load/decode a json and return it as dict.
+# Try to load/decode a json encoded string and return it as dict instance.
 # Accept as first argument: url, filepath or string.
 # A ValueError is raised in case of failure.
-# Return a dict instance.
 benedict.from_json(s)
 ```
 
 -   ##### to_json
 
 ```python
-# Encode the current dict in json format and optionally save it at filepath.
+# Return the dict instance encoded in json format and optionally save it at the specified filepath.
 # It's possible to pass custom options to the encoder using kwargs, eg. sort_keys=True.
 # A ValueError is raised in case of failure.
-# Return the current dict encoded in json format.
 s = d.to_json(filepath='', **kwargs)
 ```
 
@@ -150,6 +148,13 @@ print(d.dump())
 # Predicate function receives key, value arguments and should return a bool value.
 predicate = lambda k, v: v is not None
 d.filter(predicate)
+```
+
+-   ##### flatten
+
+```python
+# Return a flatten dict using the given separator to concat nested dict keys.
+d.flatten(separator='_')
 ```
 
 -   ##### merge
