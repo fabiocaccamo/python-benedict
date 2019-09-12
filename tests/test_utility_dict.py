@@ -468,7 +468,7 @@ class UtilityDictTestCase(unittest.TestCase):
             'g': 7,
         }
         b = UtilityDict(d)
-        b.remove(['c', 'e', 'f', 'g'])
+        b.remove(['c', 'e', 'f', 'g', 'x', 'y', 'z'])
         r = {
             'a': 1,
             'b': 2,
