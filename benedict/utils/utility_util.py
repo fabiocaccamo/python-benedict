@@ -30,6 +30,19 @@ def dump(data):
     return json.dumps(data, indent=4, sort_keys=True, default=encoder)
 
 
+def flatten(d, separator='_', base=''):
+    f = {}
+    keys = sorted(d.keys())
+    for key in keys:
+        value = d.get(key)
+        keypath = '{}{}{}'.format(base, separator, key) if base and separator else key
+        if isinstance(value, dict):
+            f.update(flatten(value, separator, keypath))
+        else:
+            f[keypath] = value
+    return f
+
+
 def filter(d, predicate):
     f = {}
     keys = d.keys()

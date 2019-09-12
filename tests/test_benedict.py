@@ -137,6 +137,32 @@ class BenedictTestCase(unittest.TestCase):
         self.assertEqual(f, r)
         self.assertTrue(isinstance(f, benedict))
 
+    def test_flatten(self):
+        d = {
+            'a': 1,
+            'b': 2,
+            'c': {
+                'd': {
+                    'e': 3,
+                    'f': 4,
+                    'g': {
+                        'h': 5,
+                    }
+                }
+            },
+        }
+        b = benedict(d)
+        f = b.flatten()
+        r = {
+            'a': 1,
+            'b': 2,
+            'c_d_e': 3,
+            'c_d_f': 4,
+            'c_d_g_h': 5,
+        }
+        self.assertEqual(f, r)
+        self.assertTrue(isinstance(f, benedict))
+
     def test_fromkeys(self):
         k = [
             'a',

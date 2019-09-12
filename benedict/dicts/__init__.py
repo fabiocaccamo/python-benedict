@@ -41,6 +41,10 @@ class benedict(IODict, KeypathDict, ParseDict, UtilityDict):
     def filter(self, predicate):
         return super(benedict, self).filter(predicate)
 
+    @benediction
+    def flatten(self, separator='_'):
+        return super(benedict, self).flatten(separator)
+
     @classmethod
     @benediction
     def fromkeys(cls, sequence, value=None):

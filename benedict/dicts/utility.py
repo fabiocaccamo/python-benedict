@@ -28,6 +28,9 @@ class UtilityDict(dict):
             raise ValueError('predicate argument must be a callable.')
         return utility_util.filter(self, predicate)
 
+    def flatten(self, separator='_'):
+        return utility_util.flatten(self, separator)
+
     def merge(self, other, *args):
         dicts = [other] + list(args)
         for d in dicts:

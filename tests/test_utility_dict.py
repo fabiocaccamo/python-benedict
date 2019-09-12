@@ -274,6 +274,77 @@ class UtilityDictTestCase(unittest.TestCase):
         self.assertEqual(f, r)
         self.assertFalse(b is f)
 
+    def test_flatten(self):
+        d = {
+            'a': 1,
+            'b': 2,
+            'c': {
+                'd': {
+                    'e': 3,
+                    'f': 4,
+                    'g': {
+                        'h': 5,
+                    }
+                }
+            },
+        }
+        b = UtilityDict(d)
+        f = b.flatten()
+        r = {
+            'a': 1,
+            'b': 2,
+            'c_d_e': 3,
+            'c_d_f': 4,
+            'c_d_g_h': 5,
+        }
+        self.assertEqual(f, r)
+        self.assertFalse(b is f)
+
+    def test_flatten_with_custom_separator(self):
+        d = {
+            'a': 1,
+            'b': 2,
+            'c': {
+                'd': {
+                    'e': 3,
+                    'f': 4,
+                    'g': {
+                        'h': 5,
+                    }
+                }
+            },
+        }
+        b = UtilityDict(d)
+        f = b.flatten(separator='|')
+        r = {
+            'a': 1,
+            'b': 2,
+            'c|d|e': 3,
+            'c|d|f': 4,
+            'c|d|g|h': 5,
+        }
+        self.assertEqual(f, r)
+        self.assertFalse(b is f)
+
+    def test_flatten_with_key_conflict(self):
+        d = {
+            'a': 1,
+            'b': 2,
+            'c_d': 4,
+            'c': {
+                'd': 3,
+            },
+        }
+        b = UtilityDict(d)
+        f = b.flatten()
+        r = {
+            'a': 1,
+            'b': 2,
+            'c_d': 4,
+        }
+        self.assertEqual(f, r)
+        self.assertFalse(b is f)
+
     def test_merge_with_single_dict(self):
         d = {
             'a': 1,
