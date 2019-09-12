@@ -607,6 +607,16 @@ class KeypathDictTestCase(unittest.TestCase):
         del b['a', 'b', 'c']
         self.assertEqual(b.get('a.b.c', 3), 3)
 
+    def test_pop_default(self):
+        d = {
+            'a': 1,
+        }
+        b = KeypathDict(d)
+        val = b.pop('b', 2)
+        self.assertEqual(val, 2)
+        val = b.pop('c', default=3)
+        self.assertEqual(val, 3)
+
     def test_pop_with_1_valid_key(self):
         d = {
             'a': 1,
