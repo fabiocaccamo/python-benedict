@@ -47,9 +47,9 @@ def filter(d, predicate):
     f = {}
     keys = d.keys()
     for key in keys:
-        val = d.get(key, None)
-        if predicate(key, val):
-            f[key] = val
+        value = d.get(key, None)
+        if predicate(key, value):
+            f[key] = value
     return f
 
 
