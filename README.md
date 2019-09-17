@@ -111,6 +111,24 @@ benedict.from_json(s)
 s = d.to_json(filepath='', **kwargs)
 ```
 
+-   ##### from_yaml
+
+```python
+# Try to load/decode a yaml encoded string and return it as dict instance.
+# Accept as first argument: url, filepath or string.
+# A ValueError is raised in case of failure.
+benedict.from_yaml(s)
+```
+
+-   ##### to_yaml
+
+```python
+# Return the dict instance encoded in yaml format and optionally save it at the specified filepath.
+# It's possible to pass custom options to the encoder using kwargs.
+# A ValueError is raised in case of failure.
+s = d.to_yaml(filepath='', **kwargs)
+```
+
 #### Utility methods
 These methods are common utilities that will speed up your everyday work.
 
