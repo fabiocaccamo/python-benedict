@@ -55,6 +55,11 @@ class benedict(IODict, KeypathDict, ParseDict, UtilityDict):
     def from_json(s, **kwargs):
         return IODict.from_json(s, **kwargs)
 
+    @staticmethod
+    @benediction
+    def from_yaml(s, **kwargs):
+        return IODict.from_yaml(s, **kwargs)
+
     @benediction
     def __getitem__(self, key):
         return super(benedict, self).__getitem__(key)

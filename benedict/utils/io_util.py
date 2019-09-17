@@ -4,15 +4,28 @@ import errno
 import json
 import os
 import requests
+import yaml
 
 
 def decode_json(s, **kwargs):
     data = json.loads(s, **kwargs)
-    return { 'values':data } if isinstance(data, list) else data
+    return data
+
+
+def decode_yaml(s, **kwargs):
+    kwargs.setdefault('Loader', yaml.Loader)
+    data = yaml.load(s, **kwargs)
+    return data
 
 
 def encode_json(d, **kwargs):
-    return json.dumps(d, **kwargs)
+    data = json.dumps(d, **kwargs)
+    return data
+
+
+def encode_yaml(d, **kwargs):
+    data = yaml.dump(d, **kwargs)
+    return data
 
 
 def read_file(filepath):

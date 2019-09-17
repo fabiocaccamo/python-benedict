@@ -122,70 +122,112 @@ class IODictTestCase(unittest.TestCase):
         })
         filepath = self.output_path('test_to_json_file.json')
         s = d.to_json(filepath=filepath, sort_keys=True)
+        self.assertTrue(d, os.path.isfile(filepath))
         self.assertEqual(d, IODict.from_json(filepath))
 
-    # def test_from_query_string(self):
-    #     pass
+    # YAML
 
-    # def test_from_query_string_file(self):
-    #     pass
+    def test_from_yaml_with_valid_data(self):
+        j = """
+            a: 1
+            b:
+              c: 3
+              d: 4
+        """
+        # static method
+        d = IODict.from_yaml(j)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, { 'a':1, 'b':{ 'c':3, 'd':4 },})
+        # constructor
+        d = IODict(j)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, { 'a':1, 'b':{ 'c':3, 'd':4 },})
 
-    # def test_from_query_string_url(self):
-    #     pass
+    def test_from_yaml_with_invalid_data(self):
+        j = 'Lorem ipsum est in ea occaecat nisi officia.'
+        # static method
+        with self.assertRaises(ValueError):
+            d = IODict.from_yaml(j)
+        # constructor
+        with self.assertRaises(ValueError):
+            d = IODict(j)
 
-    # def test_from_toml_string(self):
-    #     pass
+    def test_from_yaml_with_valid_file_valid_content(self):
+        filepath = self.input_path('valid-content.yml')
+        # static method
+        d = IODict.from_yaml(filepath)
+        self.assertTrue(isinstance(d, dict))
+        # constructor
+        d = IODict(filepath)
+        self.assertTrue(isinstance(d, dict))
 
-    # def test_from_toml_file(self):
-    #     pass
+    def test_from_yaml_with_valid_file_invalid_content(self):
+        filepath = self.input_path('invalid-content.yml')
+        # static method
+        with self.assertRaises(ValueError):
+            d = IODict.from_yaml(filepath)
+        # constructor
+        with self.assertRaises(ValueError):
+            d = IODict(filepath)
 
-    # def test_from_toml_url(self):
-    #     pass
+    def test_from_yaml_with_invalid_file(self):
+        filepath = self.input_path('invalid-file.yml')
+        # static method
+        with self.assertRaises(ValueError):
+            d = IODict.from_yaml(filepath)
+        # constructor
+        with self.assertRaises(ValueError):
+            d = IODict(filepath)
 
-    # def test_from_xml_string(self):
-    #     pass
+    # def test_from_yaml_with_valid_url_valid_content(self):
+    #     url = 'https://github.com/fabiocaccamo/python-benedict/tests/input/valid-content.yml'
+    #     # static method
+    #     d = IODict.from_yaml(url)
+    #     self.assertTrue(isinstance(d, dict))
+    #     # constructor
+    #     d = IODict(url)
+    #     self.assertTrue(isinstance(d, dict))
 
-    # def test_from_xml_file(self):
-    #     pass
+    def test_from_yaml_with_valid_url_invalid_content(self):
+        url = 'https://github.com/fabiocaccamo/python-benedict'
+        # static method
+        with self.assertRaises(ValueError):
+            d = IODict.from_yaml(url)
+        # constructor
+        with self.assertRaises(ValueError):
+            d = IODict(url)
 
-    # def test_from_xml_url(self):
-    #     pass
+    def test_from_yaml_with_invalid_url(self):
+        url = 'https://github.com/fabiocaccamo/python-benedict-invalid'
+        # static method
+        with self.assertRaises(ValueError):
+            d = IODict.from_yaml(url)
+        # constructor
+        with self.assertRaises(ValueError):
+            d = IODict(url)
 
-    # def test_from_yaml_string(self):
-    #     pass
+    def test_to_yaml(self):
+        d = IODict({
+            'x': 7,
+            'y': 8,
+            'z': 9,
+            'a': 1,
+            'b': 2,
+            'c': 3,
+        })
+        s = d.to_yaml()
+        self.assertEqual(d, IODict.from_yaml(s))
 
-    # def test_from_yaml_file(self):
-    #     pass
-
-    # def test_from_yaml_url(self):
-    #     pass
-
-    # def test_to_base64(self):
-    #     pass
-
-    # def test_to_base64_file(self):
-    #     pass
-
-    # def test_to_query_string(self):
-    #     pass
-
-    # def test_to_query_string_file(self):
-    #     pass
-
-    # def test_to_toml(self):
-    #     pass
-
-    # def test_to_toml_file(self):
-    #     pass
-
-    # def test_to_xml(self):
-    #     pass
-
-    # def test_to_xml_file(self):
-    #     pass
-
-    # def test_to_yaml(self):
-    #     pass
-
-    # def test_to_yaml_file(self):
-    #     pass
+    def test_to_yaml_file(self):
+        d = IODict({
+            'x': 7,
+            'y': 8,
+            'z': 9,
+            'a': 1,
+            'b': 2,
+            'c': 3,
+        })
+        filepath = self.output_path('test_to_yaml_file.yml')
+        s = d.to_yaml(filepath=filepath)
+        self.assertTrue(d, os.path.isfile(filepath))
+        self.assertEqual(d, IODict.from_yaml(filepath))

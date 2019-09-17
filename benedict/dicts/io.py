@@ -13,7 +13,7 @@ class IODict(dict):
         # if first argument is string,
         # try to decode it using all decoders.
         if len(args) and isinstance(args[0], string_types):
-            d = IODict._from_string(args[0])
+            d = IODict._from_any_string(args[0])
             if d and isinstance(d, dict):
                 args = list(args)
                 args[0] = d
@@ -32,7 +32,16 @@ class IODict(dict):
                 content = io_util.read_file(s)
             else:
                 content = s
-            d = decoder(content, **kwargs)
+            # decode content using the given decoder
+            data = decoder(content, **kwargs)
+            if isinstance(data, dict):
+                d = data
+            elif isinstance(data, list):
+                # force list to dict
+                d = { 'values':data }
+            else:
+                raise ValueError(
+                    'Invalid data type: {}, expected dict or list.'.format(type(data)))
         except Exception as e:
             raise ValueError(
                 'Invalid data or url or filepath input argument: {}\n{}'.format(s, text_type(e)))
@@ -46,12 +55,15 @@ class IODict(dict):
         return s
 
     @staticmethod
-    def _from_string(s, **kwargs):
+    def _from_any_string(s, **kwargs):
         d = None
         try:
             d = IODict.from_json(s, **kwargs)
         except ValueError:
-            d = None
+            try:
+                d = IODict.from_yaml(s, **kwargs)
+            except ValueError:
+                d = None
         return d
 
     @staticmethod
@@ -59,7 +71,17 @@ class IODict(dict):
         return IODict._load_and_decode(s,
             io_util.decode_json, **kwargs)
 
+    @staticmethod
+    def from_yaml(s, **kwargs):
+        return IODict._load_and_decode(s,
+            io_util.decode_yaml, **kwargs)
+
     def to_json(self, filepath=None, **kwargs):
         return IODict._encode_and_save(self,
             encoder=io_util.encode_json,
+            filepath=filepath, **kwargs)
+
+    def to_yaml(self, filepath=None, **kwargs):
+        return IODict._encode_and_save(self,
+            encoder=io_util.encode_yaml,
             filepath=filepath, **kwargs)

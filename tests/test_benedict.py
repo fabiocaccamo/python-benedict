@@ -230,6 +230,22 @@ class BenedictTestCase(unittest.TestCase):
         self.assertTrue(isinstance(d, benedict))
         self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, })
 
+    def test_from_yaml(self):
+        j = """
+            a: 1
+            b:
+              c: 3
+              d: 4
+        """
+        # static method
+        d = benedict.from_yaml(j)
+        self.assertTrue(isinstance(d, benedict))
+        self.assertEqual(d, { 'a':1, 'b':{ 'c':3, 'd':4 },})
+        # constructor
+        d = benedict(j)
+        self.assertTrue(isinstance(d, benedict))
+        self.assertEqual(d, { 'a':1, 'b':{ 'c':3, 'd':4 },})
+
     def test_get(self):
         d = {
             'a': 1,
