@@ -136,7 +136,7 @@ d = benedict(existing_dict, keypath_separator='/')
 You can disable the keypath functionality passing `keypath_separator=None` in the constructor.
 
 ```python
-d = benedict(existing_dict, keypath_separator='/')
+d = benedict(existing_dict, keypath_separator=None)
 ```
 
 ## API
