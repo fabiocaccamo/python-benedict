@@ -57,6 +57,11 @@ class benedict(IODict, KeypathDict, ParseDict, UtilityDict):
 
     @staticmethod
     @benediction
+    def from_toml(s, **kwargs):
+        return IODict.from_toml(s, **kwargs)
+
+    @staticmethod
+    @benediction
     def from_yaml(s, **kwargs):
         return IODict.from_yaml(s, **kwargs)
 

@@ -4,11 +4,17 @@ import errno
 import json
 import os
 import requests
+import toml
 import yaml
 
 
 def decode_json(s, **kwargs):
     data = json.loads(s, **kwargs)
+    return data
+
+
+def decode_toml(s, **kwargs):
+    data = toml.loads(s, **kwargs)
     return data
 
 
@@ -20,6 +26,11 @@ def decode_yaml(s, **kwargs):
 
 def encode_json(d, **kwargs):
     data = json.dumps(d, **kwargs)
+    return data
+
+
+def encode_toml(d, **kwargs):
+    data = toml.dumps(d, **kwargs)
     return data
 
 
