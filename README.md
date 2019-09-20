@@ -11,9 +11,59 @@
 # python-benedict
 The Python dictionary for humans dealing with evil/complex data.
 
+## Index
+-   [Features](#features)
+-   [Requirements](#requirements)
+-   [Installation](#installation)
+-   [Usage](#usage)
+    -   [Basics](#basics)
+    -   [Keypath](#keypath)
+        -   [List keypaths](#list-keypaths)
+        -   [Custom keypath separator](#custom-keypath-separator)
+        -   [Disable keypath functionality](#disable-keypath-functionality)
+-   [API](#api)
+    -   [I/O](#io)
+        -   [`from_json`](#from_json)
+        -   [`from_toml`](#from_toml)
+        -   [`from_yaml`](#from_yaml)
+        -   [`to_json`](#to_json)
+        -   [`to_toml`](#to_toml)
+        -   [`to_yaml`](#to_yaml)
+    -   [Parse](#parse)
+        -   [`get_bool`](#get_bool)
+        -   [`get_bool_list`](#get_bool_list)
+        -   [`get_datetime`](#get_datetime)
+        -   [`get_datetime_list`](#get_datetime_list)
+        -   [`get_decimal`](#get_decimal)
+        -   [`get_decimal_list`](#get_decimal_list)
+        -   [`get_dict`](#get_dict)
+        -   [`get_email`](#get_email)
+        -   [`get_float`](#get_float)
+        -   [`get_float_list`](#get_float_list)
+        -   [`get_int`](#get_int)
+        -   [`get_int_list`](#get_int_list)
+        -   [`get_list`](#get_list)
+        -   [`get_list_item`](#get_list_item)
+        -   [`get_phonenumber`](#get_phonenumber)
+        -   [`get_slug`](#get_slug)
+        -   [`get_slug_list`](#get_slug_list)
+        -   [`get_str`](#get_str)
+        -   [`get_str_list`](#get_str_list)
+    -   [Utility](#utility)
+        -   [`clean`](#clean)
+        -   [`clone`](#clone)
+        -   [`dump`](#dump)
+        -   [`filter`](#filter)
+        -   [`flatten`](#flatten)
+        -   [`merge`](#merge)
+        -   [`remove`](#remove)
+        -   [`subset`](#subset)
+-   [Testing](#testing)
+-   [License](#license)
+
 ## Features
 -   Full **keypath** support *(using the dot syntax by default)*
--   Easy **I/O operations** with most common formats: `base64`, `json`, `query-string`, `toml`, `yaml`, `xml`
+-   Easy **I/O operations** with most common formats: `json`, `toml`, `yaml`
 -   Many **utility** and **parse methods** to retrieve data as needed *(all methods listed below)*
 -   Give **benediction** :) to `dict` values before they are returned *(they receive benedict casting)*
 -   100% **backward-compatible** *(you can replace existing dicts without pain)*
@@ -24,37 +74,31 @@ The Python dictionary for humans dealing with evil/complex data.
 ## Installation
 -   Run `pip install python-benedict`
 
-## Testing
--   Run `tox` / `python setup.py test`
-
 ## Usage
-`benedict` is a `dict` subclass, so it is possible to use it as a normal dictionary *(you can just cast an existing dict)*.
 
-### Import
+### Basics
+`benedict` is a `dict` subclass, so it is possible to use it as a normal dictionary *(you can just cast an existing dict)*.
 
 ```python
 from benedict import benedict
-```
 
-### Init
-Create a new instance:
-
-```python
+# create a new instance
 d = benedict()
-```
 
-... or cast an existing `dict`:
-
-```python
+# or cast an existing dict
 d = benedict(existing_dict)
+
+# or in a Django view
+params = benedict(request.GET.items())
+page = params.get_int('p', 0)
 ```
-
-If the existing dict keys contain the keypath separator a `ValueError` will be raised.
-
-In this case you should need to use a [custom keypath separator](#custom-keypath-separator).
 
 ### Keypath
 `.` is the default keypath separator.
+
+If you cast an existing dict and its keys contain the keypath separator a `ValueError` will be raised.
+
+In this case you should use a [custom keypath separator](#custom-keypath-separator) or [disable keypath support](#disable-keypath-support).
 
 ```python
 d = benedict()
@@ -72,6 +116,15 @@ print('profile.lastname' in d) # -> True
 del d['profile.lastname']
 ```
 
+#### List keypaths
+You can list all the `keypaths` available in the `dict`:
+
+```python
+# return a list of all keypaths in the dict.
+k = d.keypaths()
+print(k)
+```
+
 #### Custom keypath separator
 You can customize the keypath separator passing the `keypath_separator` argument in the constructor.
 
@@ -79,19 +132,17 @@ You can customize the keypath separator passing the `keypath_separator` argument
 d = benedict(existing_dict, keypath_separator='/')
 ```
 
-### API
-
-#### Keypath methods
-
--   ##### keypaths
+#### Disable keypath functionality
+You can disable the keypath functionality passing `keypath_separator=None` in the constructor.
 
 ```python
-# Return a list of all keypaths in the dict.
-d.keypaths()
+d = benedict(existing_dict, keypath_separator='/')
 ```
 
-#### I/O methods
-These methods simplify I/O operations with most common formats: `base64`, `json`, `query-string`, `toml`, `yaml`, `xml`
+## API
+
+### I/O
+These methods simplify I/O operations with most common formats: `json`, `toml`, `yaml`
 
 -   ##### from_json
 
@@ -102,13 +153,13 @@ These methods simplify I/O operations with most common formats: `base64`, `json`
 benedict.from_json(s)
 ```
 
--   ##### to_json
+-   ##### from_toml
 
 ```python
-# Return the dict instance encoded in json format and optionally save it at the specified filepath.
-# It's possible to pass custom options to the encoder using kwargs, eg. sort_keys=True.
+# Try to load/decode a toml encoded string and return it as dict instance.
+# Accept as first argument: url, filepath or string.
 # A ValueError is raised in case of failure.
-s = d.to_json(filepath='', **kwargs)
+benedict.from_toml(s)
 ```
 
 -   ##### from_yaml
@@ -120,6 +171,24 @@ s = d.to_json(filepath='', **kwargs)
 benedict.from_yaml(s)
 ```
 
+-   ##### to_json
+
+```python
+# Return the dict instance encoded in json format and optionally save it at the specified filepath.
+# It's possible to pass custom options to the encoder using kwargs, eg. sort_keys=True.
+# A ValueError is raised in case of failure.
+s = d.to_json(filepath='', **kwargs)
+```
+
+-   ##### to_toml
+
+```python
+# Return the dict instance encoded in toml format and optionally save it at the specified filepath.
+# It's possible to pass custom options to the encoder using kwargs.
+# A ValueError is raised in case of failure.
+s = d.to_toml(filepath='', **kwargs)
+```
+
 -   ##### to_yaml
 
 ```python
@@ -129,75 +198,7 @@ benedict.from_yaml(s)
 s = d.to_yaml(filepath='', **kwargs)
 ```
 
-#### Utility methods
-These methods are common utilities that will speed up your everyday work.
-
--   ##### clean
-
-```python
-# Clean the current dict removing all empty values: None, '', {}, [], ().
-# If strings, dicts or lists flags are False, related empty values will not be deleted.
-d.clean(strings=True, dicts=True, lists=True)
-```
-
--   ##### clone
-
-```python
-# Return a clone (deepcopy) of the dict.
-d.clone()
-```
-
--   ##### dump
-
-```python
-# Return a readable representation of any dict/list.
-# This method can be used both as static method or instance method.
-s = benedict.dump(d.keypaths())
-print(s)
-# or
-d = benedict()
-print(d.dump())
-```
-
--   ##### filter
-
-```python
-# Return a filtered dict using the given predicate function.
-# Predicate function receives key, value arguments and should return a bool value.
-predicate = lambda k, v: v is not None
-d.filter(predicate)
-```
-
--   ##### flatten
-
-```python
-# Return a flatten dict using the given separator to concat nested dict keys.
-d.flatten(separator='_')
-```
-
--   ##### merge
-
-```python
-# Merge one or more dictionary objects into current instance (deepupdate).
-# Sub-dictionaries keys will be merged toghether.
-d.merge(a, b, c)
-```
-
--   ##### remove
-
-```python
-# Remove multiple keys from the dict.
-d.remove(['firstname', 'lastname', 'email'])
-```
-
--   ##### subset
-
-```python
-# Return a dict subset for the given keys.
-d.subset(['firstname', 'lastname', 'email'])
-```
-
-#### Parse methods
+#### Parse
 These methods are wrappers of the `get` method, they parse data trying to return it in the expected type.
 
 -   ##### get_bool
@@ -355,12 +356,76 @@ d.get_str(key, default='', options=[])
 d.get_str_list(key, default=[], separator=',')
 ```
 
-#### Django
-`benedict` could be very useful in `django` views too:
+#### Utility
+These methods are common utilities that will speed up your everyday work.
+
+-   ##### clean
 
 ```python
-params = benedict(request.GET.items())
+# Clean the current dict removing all empty values: None, '', {}, [], ().
+# If strings, dicts or lists flags are False, related empty values will not be deleted.
+d.clean(strings=True, dicts=True, lists=True)
 ```
+
+-   ##### clone
+
+```python
+# Return a clone (deepcopy) of the dict.
+d.clone()
+```
+
+-   ##### dump
+
+```python
+# Return a readable representation of any dict/list.
+# This method can be used both as static method or instance method.
+s = benedict.dump(d.keypaths())
+print(s)
+# or
+d = benedict()
+print(d.dump())
+```
+
+-   ##### filter
+
+```python
+# Return a filtered dict using the given predicate function.
+# Predicate function receives key, value arguments and should return a bool value.
+predicate = lambda k, v: v is not None
+d.filter(predicate)
+```
+
+-   ##### flatten
+
+```python
+# Return a flatten dict using the given separator to concat nested dict keys.
+d.flatten(separator='_')
+```
+
+-   ##### merge
+
+```python
+# Merge one or more dictionary objects into current instance (deepupdate).
+# Sub-dictionaries keys will be merged toghether.
+d.merge(a, b, c)
+```
+
+-   ##### remove
+
+```python
+# Remove multiple keys from the dict.
+d.remove(['firstname', 'lastname', 'email'])
+```
+
+-   ##### subset
+
+```python
+# Return a dict subset for the given keys.
+d.subset(['firstname', 'lastname', 'email'])
+```
+
+## Testing
+-   Run `tox` / `python setup.py test`
 
 ## License
 Released under [MIT License](LICENSE.txt).
