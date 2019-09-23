@@ -25,9 +25,11 @@ The Python dictionary for humans dealing with evil/complex data.
     -   [I/O](#io)
         -   [`from_json`](#from_json)
         -   [`from_toml`](#from_toml)
+        -   [`from_xml`](#from_xml)
         -   [`from_yaml`](#from_yaml)
         -   [`to_json`](#to_json)
         -   [`to_toml`](#to_toml)
+        -   [`to_xml`](#to_xml)
         -   [`to_yaml`](#to_yaml)
     -   [Parse](#parse)
         -   [`get_bool`](#get_bool)
@@ -63,7 +65,7 @@ The Python dictionary for humans dealing with evil/complex data.
 
 ## Features
 -   Full **keypath** support *(using the dot syntax by default)*
--   Easy **I/O operations** with most common formats: `json`, `toml`, `yaml`
+-   Easy **I/O operations** with most common formats: `json`, `toml`, `xml`, `yaml`
 -   Many **utility** and **parse methods** to retrieve data as needed *(all methods listed below)*
 -   Give **benediction** :) to `dict` values before they are returned *(they receive benedict casting)*
 -   100% **backward-compatible** *(you can replace existing dicts without pain)*
@@ -142,12 +144,12 @@ d = benedict(existing_dict, keypath_separator=None)
 ## API
 
 ### I/O
-These methods simplify I/O operations with most common formats: `json`, `toml`, `yaml`
+These methods simplify I/O operations with most common formats: `json`, `toml`, `xml`, `yaml`
 
 -   ##### from_json
 
 ```python
-# Try to load/decode a json encoded string and return it as dict instance.
+# Try to load/decode a json encoded data and return it as dict instance.
 # Accept as first argument: url, filepath or string.
 # A ValueError is raised in case of failure.
 benedict.from_json(s)
@@ -156,16 +158,25 @@ benedict.from_json(s)
 -   ##### from_toml
 
 ```python
-# Try to load/decode a toml encoded string and return it as dict instance.
+# Try to load/decode a toml encoded data and return it as dict instance.
 # Accept as first argument: url, filepath or string.
 # A ValueError is raised in case of failure.
 benedict.from_toml(s)
 ```
 
+-   ##### from_xml
+
+```python
+# Try to load/decode a xml encoded data and return it as dict instance.
+# Accept as first argument: url, filepath or string.
+# A ValueError is raised in case of failure.
+benedict.from_xml(s)
+```
+
 -   ##### from_yaml
 
 ```python
-# Try to load/decode a yaml encoded string and return it as dict instance.
+# Try to load/decode a yaml encoded data and return it as dict instance.
 # Accept as first argument: url, filepath or string.
 # A ValueError is raised in case of failure.
 benedict.from_yaml(s)
@@ -187,6 +198,15 @@ s = d.to_json(filepath='', **kwargs)
 # It's possible to pass custom options to the encoder using kwargs.
 # A ValueError is raised in case of failure.
 s = d.to_toml(filepath='', **kwargs)
+```
+
+-   ##### to_xml
+
+```python
+# Return the dict instance encoded in xml format and optionally save it at the specified filepath.
+# It's possible to pass custom options to the encoder using kwargs.
+# A ValueError is raised in case of failure.
+s = d.to_xml(filepath='', **kwargs)
 ```
 
 -   ##### to_yaml
