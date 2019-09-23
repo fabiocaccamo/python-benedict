@@ -64,9 +64,12 @@ class IODict(dict):
                 d = IODict.from_toml(s, **kwargs)
             except ValueError:
                 try:
-                    d = IODict.from_yaml(s, **kwargs)
+                    d = IODict.from_xml(s, **kwargs)
                 except ValueError:
-                    d = None
+                    try:
+                        d = IODict.from_yaml(s, **kwargs)
+                    except ValueError:
+                        d = None
         return d
 
     @staticmethod
@@ -78,6 +81,11 @@ class IODict(dict):
     def from_toml(s, **kwargs):
         return IODict._load_and_decode(s,
             io_util.decode_toml, **kwargs)
+
+    @staticmethod
+    def from_xml(s, **kwargs):
+        return IODict._load_and_decode(s,
+            io_util.decode_xml, **kwargs)
 
     @staticmethod
     def from_yaml(s, **kwargs):
@@ -92,6 +100,11 @@ class IODict(dict):
     def to_toml(self, filepath=None, **kwargs):
         return IODict._encode_and_save(self,
             encoder=io_util.encode_toml,
+            filepath=filepath, **kwargs)
+
+    def to_xml(self, filepath=None, **kwargs):
+        return IODict._encode_and_save(self,
+            encoder=io_util.encode_xml,
             filepath=filepath, **kwargs)
 
     def to_yaml(self, filepath=None, **kwargs):

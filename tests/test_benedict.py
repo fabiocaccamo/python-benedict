@@ -240,12 +240,31 @@ class BenedictTestCase(unittest.TestCase):
         """
         # static method
         d = benedict.from_toml(j)
-        self.assertTrue(isinstance(d, dict))
+        self.assertTrue(isinstance(d, benedict))
         self.assertEqual(d, { 'a':1, 'b':{ 'c':3, 'd':4 },})
         # constructor
         d = benedict(j)
-        self.assertTrue(isinstance(d, dict))
+        self.assertTrue(isinstance(d, benedict))
         self.assertEqual(d, { 'a':1, 'b':{ 'c':3, 'd':4 },})
+
+    def test_from_xml(self):
+        j = """<?xml version="1.0" ?>
+            <root>
+                <a>1</a>
+                <b>
+                    <c>3</c>
+                    <d>4</d>
+                </b>
+            </root>
+        """
+        # static method
+        d = benedict.from_xml(j)
+        self.assertTrue(isinstance(d, benedict))
+        self.assertEqual(d.get('root'), { 'a':'1', 'b':{ 'c':'3', 'd':'4' },})
+        # constructor
+        d = benedict(j)
+        self.assertTrue(isinstance(d, benedict))
+        self.assertEqual(d.get('root'), { 'a':'1', 'b':{ 'c':'3', 'd':'4' },})
 
     def test_from_yaml(self):
         j = """

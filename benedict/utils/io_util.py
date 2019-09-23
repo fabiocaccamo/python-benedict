@@ -4,12 +4,19 @@ import errno
 import json
 import os
 import requests
+import xmltodict
 import toml
 import yaml
 
 
 def decode_json(s, **kwargs):
     data = json.loads(s, **kwargs)
+    return data
+
+
+def decode_xml(s, **kwargs):
+    kwargs.setdefault('dict_constructor', dict)
+    data = xmltodict.parse(s, **kwargs)
     return data
 
 
@@ -31,6 +38,11 @@ def encode_json(d, **kwargs):
 
 def encode_toml(d, **kwargs):
     data = toml.dumps(d, **kwargs)
+    return data
+
+
+def encode_xml(d, **kwargs):
+    data = xmltodict.unparse(d, **kwargs)
     return data
 
 
