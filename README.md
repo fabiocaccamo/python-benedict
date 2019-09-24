@@ -91,8 +91,7 @@ d = benedict()
 # or cast an existing dict
 d = benedict(existing_dict)
 
-# or create from data source (filepath, url or data-string)
-# in a supported format (json, toml, xml, yaml)
+# or create from data source (filepath, url or data-string) in a supported format (json, toml, xml, yaml)
 d = benedict('https://localhost:8000/data.json')
 
 # or in a Django view
@@ -414,7 +413,7 @@ d.clean(strings=True, dicts=True, lists=True)
 
 ```python
 # Return a clone (deepcopy) of the dict.
-d.clone()
+c = d.clone()
 ```
 
 -   ##### dump
@@ -435,14 +434,14 @@ print(d.dump())
 # Return a filtered dict using the given predicate function.
 # Predicate function receives key, value arguments and should return a bool value.
 predicate = lambda k, v: v is not None
-d.filter(predicate)
+f = d.filter(predicate)
 ```
 
 -   ##### flatten
 
 ```python
 # Return a flatten dict using the given separator to concat nested dict keys.
-d.flatten(separator='_')
+f = d.flatten(separator='_')
 ```
 
 -   ##### merge
@@ -464,7 +463,7 @@ d.remove(['firstname', 'lastname', 'email'])
 
 ```python
 # Return a dict subset for the given keys.
-d.subset(['firstname', 'lastname', 'email'])
+s = d.subset(['firstname', 'lastname', 'email'])
 ```
 
 ## Testing
