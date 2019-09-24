@@ -50,10 +50,20 @@ class benedict(IODict, KeypathDict, ParseDict, UtilityDict):
     def fromkeys(cls, sequence, value=None):
         return KeypathDict.fromkeys(sequence, value)
 
+    # @staticmethod
+    # @benediction
+    # def from_base64(s, **kwargs):
+    #     return IODict.from_base64(s, **kwargs)
+
     @staticmethod
     @benediction
     def from_json(s, **kwargs):
         return IODict.from_json(s, **kwargs)
+
+    # @staticmethod
+    # @benediction
+    # def from_query_string(s, **kwargs):
+    #     return IODict.from_query_string(s, **kwargs)
 
     @staticmethod
     @benediction

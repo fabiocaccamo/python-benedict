@@ -2,7 +2,7 @@
 
 __author__ = 'Fabio Caccamo'
 __copyright__ = 'Copyright (c) 2019 Fabio Caccamo'
-__description__ = 'The Python dictionary for humans dealing with evil/complex data.'
+__description__ = 'python-benedict · dict subclass · keypath support · i/o shortcuts → json, toml, xml, yaml · many utilities... for humans, obviously.'
 __email__ = 'fabio.caccamo@gmail.com'
 __license__ = 'MIT'
 __title__ = 'benedict'
