@@ -9,7 +9,7 @@
 [![License](https://img.shields.io/pypi/l/python-benedict.svg)](https://img.shields.io/pypi/l/python-benedict.svg)
 
 # python-benedict
-The Python dictionary for humans dealing with evil/complex data.
+dict subclass · keypath support · i/o shortcuts → json, toml, xml, yaml · many utilities... for humans, obviously.
 
 ## Index
 -   [Features](#features)
@@ -68,6 +68,7 @@ The Python dictionary for humans dealing with evil/complex data.
 -   Easy **I/O operations** with most common formats: `json`, `toml`, `xml`, `yaml`
 -   Many **utility** and **parse methods** to retrieve data as needed *(all methods listed below)*
 -   Give **benediction** :) to `dict` values before they are returned *(they receive benedict casting)*
+-   Well **tested**, check the badges ;)
 -   100% **backward-compatible** *(you can replace existing dicts without pain)*
 
 ## Requirements
@@ -84,11 +85,15 @@ The Python dictionary for humans dealing with evil/complex data.
 ```python
 from benedict import benedict
 
-# create a new instance
+# create a new empty instance
 d = benedict()
 
 # or cast an existing dict
 d = benedict(existing_dict)
+
+# or create from data source (filepath, url or data-string)
+# in a supported format (json, toml, xml, yaml)
+d = benedict('https://localhost:8000/data.json')
 
 # or in a Django view
 params = benedict(request.GET.items())
@@ -144,49 +149,67 @@ d = benedict(existing_dict, keypath_separator=None)
 ## API
 
 ### I/O
+
+It is possible to create a `benedict` instance directly from data source (filepath, url or data-string) by passing the data source as first argument in the constructor.
+
+```python
+# filepath
+d = benedict('/root/data.yml')
+
+# url
+d = benedict('https://localhost:8000/data.xml')
+
+# data-string
+d = benedict('{"a": 1, "b": 2, "c": 3, "x": 7, "y": 8, "z": 9}')
+```
+
 These methods simplify I/O operations with most common formats: `json`, `toml`, `xml`, `yaml`
 
 -   ##### from_json
 
 ```python
-# Try to load/decode a json encoded data and return it as dict instance.
-# Accept as first argument: url, filepath or string.
+# Try to load/decode a json encoded data and return it as benedict instance.
+# Accept as first argument: url, filepath or data-string.
+# It's possible to pass decoder specific options using kwargs: https://docs.python.org/3/library/json.html
 # A ValueError is raised in case of failure.
-benedict.from_json(s)
+d = benedict.from_json(s, **kwargs)
 ```
 
 -   ##### from_toml
 
 ```python
-# Try to load/decode a toml encoded data and return it as dict instance.
-# Accept as first argument: url, filepath or string.
+# Try to load/decode a toml encoded data and return it as benedict instance.
+# Accept as first argument: url, filepath or data-string.
+# It's possible to pass decoder specific options using kwargs: https://pypi.org/project/toml/
 # A ValueError is raised in case of failure.
-benedict.from_toml(s)
+d = benedict.from_toml(s, **kwargs)
 ```
 
 -   ##### from_xml
 
 ```python
-# Try to load/decode a xml encoded data and return it as dict instance.
-# Accept as first argument: url, filepath or string.
+# Try to load/decode a xml encoded data and return it as benedict instance.
+# Accept as first argument: url, filepath or data-string.
+# It's possible to pass decoder specific options using kwargs: https://github.com/martinblech/xmltodict
 # A ValueError is raised in case of failure.
-benedict.from_xml(s)
+d = benedict.from_xml(s, **kwargs)
 ```
 
 -   ##### from_yaml
 
 ```python
-# Try to load/decode a yaml encoded data and return it as dict instance.
-# Accept as first argument: url, filepath or string.
+# Try to load/decode a yaml encoded data and return it as benedict instance.
+# Accept as first argument: url, filepath or data-string.
+# It's possible to pass decoder specific options using kwargs: https://pyyaml.org/wiki/PyYAMLDocumentation
 # A ValueError is raised in case of failure.
-benedict.from_yaml(s)
+d = benedict.from_yaml(s, **kwargs)
 ```
 
 -   ##### to_json
 
 ```python
 # Return the dict instance encoded in json format and optionally save it at the specified filepath.
-# It's possible to pass custom options to the encoder using kwargs, eg. sort_keys=True.
+# It's possible to pass encoder specific options using kwargs: https://docs.python.org/3/library/json.html
 # A ValueError is raised in case of failure.
 s = d.to_json(filepath='', **kwargs)
 ```
@@ -195,7 +218,7 @@ s = d.to_json(filepath='', **kwargs)
 
 ```python
 # Return the dict instance encoded in toml format and optionally save it at the specified filepath.
-# It's possible to pass custom options to the encoder using kwargs.
+# It's possible to pass encoder specific options using kwargs: https://pypi.org/project/toml/
 # A ValueError is raised in case of failure.
 s = d.to_toml(filepath='', **kwargs)
 ```
@@ -204,7 +227,7 @@ s = d.to_toml(filepath='', **kwargs)
 
 ```python
 # Return the dict instance encoded in xml format and optionally save it at the specified filepath.
-# It's possible to pass custom options to the encoder using kwargs.
+# It's possible to pass encoder specific options using kwargs: https://github.com/martinblech/xmltodict
 # A ValueError is raised in case of failure.
 s = d.to_xml(filepath='', **kwargs)
 ```
@@ -213,7 +236,7 @@ s = d.to_xml(filepath='', **kwargs)
 
 ```python
 # Return the dict instance encoded in yaml format and optionally save it at the specified filepath.
-# It's possible to pass custom options to the encoder using kwargs.
+# It's possible to pass encoder specific options using kwargs: https://pyyaml.org/wiki/PyYAMLDocumentation
 # A ValueError is raised in case of failure.
 s = d.to_yaml(filepath='', **kwargs)
 ```
