@@ -647,6 +647,131 @@ class BenedictTestCase(unittest.TestCase):
         self.assertEqual(p, {})
         # self.assertTrue(isinstance(p, benedict))
 
+    def test_invert(self):
+        d = {
+            'a': 1,
+            'b': 2,
+            'c': 3,
+            'd': 4,
+            'e': 5,
+        }
+        bd = benedict(d)
+        i = bd.invert()
+        r = {
+            1: ['a'],
+            2: ['b'],
+            3: ['c'],
+            4: ['d'],
+            5: ['e'],
+        }
+        self.assertEqual(i, r)
+
+    def test_invert_multiple_values(self):
+        d = {
+            'a': 1,
+            'b': 2,
+            'c': 3,
+            'd': 1,
+            'e': 2,
+            'f': 3,
+        }
+        bd = benedict(d)
+        i = bd.invert()
+        self.assertTrue('a' and 'd' in i[1])
+        self.assertTrue('b' and 'e' in i[2])
+        self.assertTrue('c' and 'f' in i[3])
+
+    def test_invert_flat(self):
+        d = {
+            'a': 1,
+            'b': 2,
+            'c': 3,
+            'd': 4,
+            'e': 5,
+        }
+        bd = benedict(d)
+        i = bd.invert(flat=True)
+        r = {
+            1: 'a',
+            2: 'b',
+            3: 'c',
+            4: 'd',
+            5: 'e',
+        }
+        self.assertEqual(i, r)
+
+    def test_items_sorted_by_keys(self):
+        d = {
+            'y': 3,
+            'a': 6,
+            'f': 9,
+            'z': 4,
+            'x': 1,
+        }
+        bd = benedict(d)
+        items = bd.items_sorted_by_keys()
+        self.assertEqual(items, [
+            ('a', 6,),
+            ('f', 9,),
+            ('x', 1,),
+            ('y', 3,),
+            ('z', 4,),
+        ])
+
+    def test_items_sorted_by_keys_reverse(self):
+        d = {
+            'y': 3,
+            'a': 6,
+            'f': 9,
+            'z': 4,
+            'x': 1,
+        }
+        bd = benedict(d)
+        items = bd.items_sorted_by_keys(reverse=True)
+        self.assertEqual(items, [
+            ('z', 4,),
+            ('y', 3,),
+            ('x', 1,),
+            ('f', 9,),
+            ('a', 6,),
+        ])
+
+    def test_items_sorted_by_values(self):
+        d = {
+            'a': 3,
+            'b': 6,
+            'c': 9,
+            'e': 4,
+            'd': 1,
+        }
+        bd = benedict(d)
+        items = bd.items_sorted_by_values()
+        self.assertEqual(items, [
+            ('d', 1,),
+            ('a', 3,),
+            ('e', 4,),
+            ('b', 6,),
+            ('c', 9,),
+        ])
+
+    def test_items_sorted_by_values_reverse(self):
+        d = {
+            'a': 3,
+            'b': 6,
+            'c': 9,
+            'e': 4,
+            'd': 1,
+        }
+        bd = benedict(d)
+        items = bd.items_sorted_by_values(reverse=True)
+        self.assertEqual(items, [
+            ('c', 9,),
+            ('b', 6,),
+            ('e', 4,),
+            ('a', 3,),
+            ('d', 1,),
+        ])
+
     def test_merge_with_single_dict(self):
         d = {
             'a': 1,

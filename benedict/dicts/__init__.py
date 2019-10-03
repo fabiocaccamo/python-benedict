@@ -73,8 +73,15 @@ class benedict(IODict, KeypathDict, ParseDict):
     def from_yaml(s, **kwargs):
         return IODict.from_yaml(s, **kwargs)
 
+    @benediction
+    def invert(self, flat=False):
+        return dict_util.invert(self, flat)
 
+    def items_sorted_by_keys(self, reverse=False):
+        return dict_util.items_sorted_by_keys(self, reverse=reverse)
 
+    def items_sorted_by_values(self, reverse=False):
+        return dict_util.items_sorted_by_values(self, reverse=reverse)
 
     def merge(self, other, *args):
         dicts = [other] + list(args)
