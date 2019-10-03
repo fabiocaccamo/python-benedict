@@ -9,7 +9,7 @@
 [![License](https://img.shields.io/pypi/l/python-benedict.svg)](https://img.shields.io/pypi/l/python-benedict.svg)
 
 # python-benedict
-python-benedict is a dict subclass with **keypath* support, **I/O** shortcuts (BASE64, JSON, TOML, XML, YAML) and many **utilities**... for humans, obviously.
+python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (BASE64, JSON, TOML, XML, YAML) and many **utilities**... for humans, obviously.
 
 ## Index
 -   [Features](#features)
