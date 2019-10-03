@@ -51,6 +51,17 @@ def encode_yaml(d, **kwargs):
     return data
 
 
+def read_content(s):
+    # s -> filepath or url or data
+    if s.startswith('http://') or s.startswith('https://'):
+        content = read_url(s)
+    elif os.path.isfile(s):
+        content = read_file(s)
+    else:
+        content = s
+    return content
+
+
 def read_file(filepath):
     handler = open(filepath, 'r')
     content = handler.read()
