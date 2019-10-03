@@ -50,6 +50,11 @@ class IODict(dict):
     @staticmethod
     def _from_any_data_string(s, **kwargs):
         try:
+            d = IODict.from_base64(s, **kwargs)
+            return d
+        except ValueError:
+            pass
+        try:
             d = IODict.from_json(s, **kwargs)
             return d
         except ValueError:
@@ -71,6 +76,11 @@ class IODict(dict):
             pass
 
     @staticmethod
+    def from_base64(s, **kwargs):
+        return IODict._decode(s,
+            decoder=io_util.decode_base64, **kwargs)
+
+    @staticmethod
     def from_json(s, **kwargs):
         return IODict._decode(s,
             decoder=io_util.decode_json, **kwargs)
@@ -89,6 +99,11 @@ class IODict(dict):
     def from_yaml(cls, s, **kwargs):
         return IODict._decode(s,
             decoder=io_util.decode_yaml, **kwargs)
+
+    def to_base64(self, filepath=None, **kwargs):
+        return IODict._encode(self,
+            encoder=io_util.encode_base64,
+            filepath=filepath, **kwargs)
 
     def to_json(self, filepath=None, **kwargs):
         return IODict._encode(self,

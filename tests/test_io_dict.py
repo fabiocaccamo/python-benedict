@@ -23,6 +23,117 @@ class IODictTestCase(unittest.TestCase):
         dir_path = os.path.dirname(os.path.realpath(__file__))
         return os.path.join(dir_path, 'output/{}'.format(filepath))
 
+# BASE64
+
+    def test_from_base64_with_valid_data(self):
+        j = 'eyJhIjogMSwgImIiOiAyLCAiYyI6IDN9'
+        # j = '{"a": 1, "b": 2, "c": 3}'
+        # static method
+        d = IODict.from_base64(j)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, })
+        # constructor
+        d = IODict(j)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, })
+
+    def test_from_base64_with_invalid_data(self):
+        j = 'Lorem ipsum est in ea occaecat nisi officia.'
+        # static method
+        with self.assertRaises(ValueError):
+            d = IODict.from_base64(j)
+        # constructor
+        with self.assertRaises(ValueError):
+            d = IODict(j)
+
+    def test_from_base64_with_valid_file_valid_content(self):
+        filepath = self.input_path('valid-content.base64')
+        # static method
+        d = IODict.from_base64(filepath)
+        self.assertTrue(isinstance(d, dict))
+        # constructor
+        d = IODict(filepath)
+        self.assertTrue(isinstance(d, dict))
+
+    def test_from_base64_with_valid_file_valid_content_invalid_format(self):
+        filepath = self.input_path('valid-content.json')
+        with self.assertRaises(ValueError):
+            d = IODict.from_base64(filepath)
+        filepath = self.input_path('valid-content.toml')
+        with self.assertRaises(ValueError):
+            d = IODict.from_base64(filepath)
+        filepath = self.input_path('valid-content.xml')
+        with self.assertRaises(ValueError):
+            d = IODict.from_base64(filepath)
+        filepath = self.input_path('valid-content.yml')
+        with self.assertRaises(ValueError):
+            d = IODict.from_base64(filepath)
+
+    def test_from_base64_with_valid_file_invalid_content(self):
+        filepath = self.input_path('invalid-content.base64')
+        # static method
+        with self.assertRaises(ValueError):
+            d = IODict.from_base64(filepath)
+        # constructor
+        with self.assertRaises(ValueError):
+            d = IODict(filepath)
+
+    def test_from_base64_with_invalid_file(self):
+        filepath = self.input_path('invalid-file.base64')
+        # static method
+        with self.assertRaises(ValueError):
+            d = IODict.from_base64(filepath)
+        # constructor
+        with self.assertRaises(ValueError):
+            d = IODict(filepath)
+
+    # def test_from_base64_with_valid_url_valid_content(self):
+    #     url = 'https://raw.githubusercontent.com/fabiocaccamo/python-benedict/master/tests/input/valid-content.base64'
+    #     # static method
+    #     d = IODict.from_base64(url)
+    #     self.assertTrue(isinstance(d, dict))
+    #     # constructor
+    #     d = IODict(url)
+    #     self.assertTrue(isinstance(d, dict))
+
+    def test_from_base64_with_valid_url_invalid_content(self):
+        url = 'https://github.com/fabiocaccamo/python-benedict'
+        # static method
+        with self.assertRaises(ValueError):
+            d = IODict.from_base64(url)
+        # constructor
+        with self.assertRaises(ValueError):
+            d = IODict(url)
+
+    def test_from_base64_with_invalid_url(self):
+        url = 'https://github.com/fabiocaccamo/python-benedict-invalid'
+        # static method
+        with self.assertRaises(ValueError):
+            d = IODict.from_base64(url)
+        # constructor
+        with self.assertRaises(ValueError):
+            d = IODict(url)
+
+    def test_to_base64(self):
+        d = IODict({
+            'a': 1,
+            'b': 2,
+            'c': 3,
+        })
+        s = d.to_base64(sort_keys=True)
+        self.assertEqual(s, 'eyJhIjogMSwgImIiOiAyLCAiYyI6IDN9')
+
+    def test_to_base64_file(self):
+        d = IODict({
+            'a': 1,
+            'b': 2,
+            'c': 3,
+        })
+        filepath = self.output_path('test_to_base64_file.base64')
+        s = d.to_base64(filepath=filepath, sort_keys=True)
+        self.assertTrue(d, os.path.isfile(filepath))
+        self.assertEqual(d, IODict.from_base64(filepath))
+
 # JSON
 
     def test_from_json_with_valid_data(self):

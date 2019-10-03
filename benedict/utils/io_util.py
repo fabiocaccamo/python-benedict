@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import base64
 import errno
 import json
 import os
@@ -7,6 +8,12 @@ import requests
 import xmltodict
 import toml
 import yaml
+
+def decode_base64(s, **kwargs):
+    decode_func = kwargs.pop('through', decode_json)
+    b = base64.b64decode(s)
+    s = b.decode('utf-8')
+    return decode_func(s, **kwargs)
 
 
 def decode_json(s, **kwargs):
@@ -28,6 +35,13 @@ def decode_toml(s, **kwargs):
 def decode_yaml(s, **kwargs):
     kwargs.setdefault('Loader', yaml.Loader)
     data = yaml.load(s, **kwargs)
+    return data
+
+
+def encode_base64(d, **kwargs):
+    encode_func = kwargs.pop('through', encode_json)
+    data = base64.b64encode(
+        encode_func(d, **kwargs).encode('utf-8')).decode('utf-8')
     return data
 
 
