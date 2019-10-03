@@ -9,7 +9,7 @@
 [![License](https://img.shields.io/pypi/l/python-benedict.svg)](https://img.shields.io/pypi/l/python-benedict.svg)
 
 # python-benedict
-python-benedict is a dict subclass with keypath support, I/O shortcuts (json, toml, xml, yaml) and many utilities... for humans, obviously.
+python-benedict is a dict subclass with **keypath* support, **I/O** shortcuts (BASE64, JSON, TOML, XML, YAML) and many **utilities**... for humans, obviously.
 
 ## Index
 -   [Features](#features)
@@ -22,11 +22,25 @@ python-benedict is a dict subclass with keypath support, I/O shortcuts (json, to
         -   [Custom keypath separator](#custom-keypath-separator)
         -   [Disable keypath functionality](#disable-keypath-functionality)
 -   [API](#api)
+    -   [Utility](#utility)
+        -   [`clean`](#clean)
+        -   [`clone`](#clone)
+        -   [`dump`](#dump)
+        -   [`filter`](#filter)
+        -   [`flatten`](#flatten)
+        -   [`invert`](#invert)
+        -   [`items_sorted_by_keys`](#items_sorted_by_keys)
+        -   [`items_sorted_by_values`](#items_sorted_by_values)
+        -   [`merge`](#merge)
+        -   [`remove`](#remove)
+        -   [`subset`](#subset)
     -   [I/O](#io)
+        -   [`from_base64`](#from_base64)
         -   [`from_json`](#from_json)
         -   [`from_toml`](#from_toml)
         -   [`from_xml`](#from_xml)
         -   [`from_yaml`](#from_yaml)
+        -   [`to_base64`](#to_base64)
         -   [`to_json`](#to_json)
         -   [`to_toml`](#to_toml)
         -   [`to_xml`](#to_xml)
@@ -51,15 +65,7 @@ python-benedict is a dict subclass with keypath support, I/O shortcuts (json, to
         -   [`get_slug_list`](#get_slug_list)
         -   [`get_str`](#get_str)
         -   [`get_str_list`](#get_str_list)
-    -   [Utility](#utility)
-        -   [`clean`](#clean)
-        -   [`clone`](#clone)
-        -   [`dump`](#dump)
-        -   [`filter`](#filter)
-        -   [`flatten`](#flatten)
-        -   [`merge`](#merge)
-        -   [`remove`](#remove)
-        -   [`subset`](#subset)
+
 -   [Testing](#testing)
 -   [License](#license)
 
@@ -91,7 +97,7 @@ d = benedict()
 # or cast an existing dict
 d = benedict(existing_dict)
 
-# or create from data source (filepath, url or data-string) in a supported format (json, toml, xml, yaml)
+# or create from data source (filepath, url or data-string) in a supported format (base64, json, toml, xml, yaml)
 d = benedict('https://localhost:8000/data.json')
 
 # or in a Django view
@@ -147,6 +153,97 @@ d = benedict(existing_dict, keypath_separator=None)
 
 ## API
 
+#### Utility
+These methods are common utilities that will speed up your everyday work.
+
+-   ##### clean
+
+```python
+# Clean the current dict removing all empty values: None, '', {}, [], ().
+# If strings, dicts or lists flags are False, related empty values will not be deleted.
+d.clean(strings=True, dicts=True, lists=True)
+```
+
+-   ##### clone
+
+```python
+# Return a clone (deepcopy) of the dict.
+c = d.clone()
+```
+
+-   ##### dump
+
+```python
+# Return a readable representation of any dict/list.
+# This method can be used both as static method or instance method.
+s = benedict.dump(d.keypaths())
+print(s)
+# or
+d = benedict()
+print(d.dump())
+```
+
+-   ##### filter
+
+```python
+# Return a filtered dict using the given predicate function.
+# Predicate function receives key, value arguments and should return a bool value.
+predicate = lambda k, v: v is not None
+f = d.filter(predicate)
+```
+
+-   ##### flatten
+
+```python
+# Return a flatten dict using the given separator to concat nested dict keys.
+f = d.flatten(separator='_')
+```
+
+-   ##### invert
+
+```python
+# Return an inverted dict swapping values with keys.
+# Since multiple keys could have the same value, each value will be a list.
+# If flat is True each value will be a single value.
+i = d.invert(flat=False)
+```
+
+-   ##### items_sorted_by_keys
+
+```python
+# Return items ((key, value, ) list) sorted by keys, if reverse is True, the list will be reversed.
+items = d.items_sorted_by_keys(reverse=False)
+```
+
+-   ##### items_sorted_by_values
+
+```python
+# Return items ((key, value, ) list) sorted by values, if reverse is True, the list will be reversed.
+items = d.items_sorted_by_values(reverse=False)
+```
+
+-   ##### merge
+
+```python
+# Merge one or more dictionary objects into current instance (deepupdate).
+# Sub-dictionaries keys will be merged toghether.
+d.merge(a, b, c)
+```
+
+-   ##### remove
+
+```python
+# Remove multiple keys from the dict.
+d.remove(['firstname', 'lastname', 'email'])
+```
+
+-   ##### subset
+
+```python
+# Return a dict subset for the given keys.
+s = d.subset(['firstname', 'lastname', 'email'])
+```
+
 ### I/O
 
 It is possible to create a `benedict` instance directly from data source (filepath, url or data-string) by passing the data source as first argument in the constructor.
@@ -162,7 +259,16 @@ d = benedict('https://localhost:8000/data.xml')
 d = benedict('{"a": 1, "b": 2, "c": 3, "x": 7, "y": 8, "z": 9}')
 ```
 
-These methods simplify I/O operations with most common formats: `json`, `toml`, `xml`, `yaml`
+These methods simplify I/O operations with most common formats: `base64`, `json`, `toml`, `xml`, `yaml`
+
+-   ##### from_base64
+
+```python
+# Try to load/decode a base64 encoded data and return it as benedict instance.
+# Accept as first argument: url, filepath or data-string.
+# A ValueError is raised in case of failure.
+d = benedict.from_base64(s, **kwargs)
+```
 
 -   ##### from_json
 
@@ -202,6 +308,14 @@ d = benedict.from_xml(s, **kwargs)
 # It's possible to pass decoder specific options using kwargs: https://pyyaml.org/wiki/PyYAMLDocumentation
 # A ValueError is raised in case of failure.
 d = benedict.from_yaml(s, **kwargs)
+```
+
+-   ##### to_base64
+
+```python
+# Return the dict instance encoded in base64 format and optionally save it at the specified filepath.
+# A ValueError is raised in case of failure.
+s = d.to_base64(filepath='', **kwargs)
 ```
 
 -   ##### to_json
@@ -396,74 +510,6 @@ d.get_str(key, default='', options=[])
 # Get value by key or keypath trying to return it as list of str values.
 # If separator is specified and value is a string it will be splitted.
 d.get_str_list(key, default=[], separator=',')
-```
-
-#### Utility
-These methods are common utilities that will speed up your everyday work.
-
--   ##### clean
-
-```python
-# Clean the current dict removing all empty values: None, '', {}, [], ().
-# If strings, dicts or lists flags are False, related empty values will not be deleted.
-d.clean(strings=True, dicts=True, lists=True)
-```
-
--   ##### clone
-
-```python
-# Return a clone (deepcopy) of the dict.
-c = d.clone()
-```
-
--   ##### dump
-
-```python
-# Return a readable representation of any dict/list.
-# This method can be used both as static method or instance method.
-s = benedict.dump(d.keypaths())
-print(s)
-# or
-d = benedict()
-print(d.dump())
-```
-
--   ##### filter
-
-```python
-# Return a filtered dict using the given predicate function.
-# Predicate function receives key, value arguments and should return a bool value.
-predicate = lambda k, v: v is not None
-f = d.filter(predicate)
-```
-
--   ##### flatten
-
-```python
-# Return a flatten dict using the given separator to concat nested dict keys.
-f = d.flatten(separator='_')
-```
-
--   ##### merge
-
-```python
-# Merge one or more dictionary objects into current instance (deepupdate).
-# Sub-dictionaries keys will be merged toghether.
-d.merge(a, b, c)
-```
-
--   ##### remove
-
-```python
-# Remove multiple keys from the dict.
-d.remove(['firstname', 'lastname', 'email'])
-```
-
--   ##### subset
-
-```python
-# Return a dict subset for the given keys.
-s = d.subset(['firstname', 'lastname', 'email'])
 ```
 
 ## Testing
