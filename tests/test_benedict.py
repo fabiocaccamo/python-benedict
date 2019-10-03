@@ -9,19 +9,75 @@ import unittest
 
 class BenedictTestCase(unittest.TestCase):
 
-    def test_cast(self):
+    def test_clean(self):
         d = {
-            'a': 1,
+            'a': {},
+            'b': { 'x': 1 },
+            'c': [],
+            'd': [0, 1],
+            'e': 0.0,
+            'f': '',
+            'g': None,
+            'h': '0'
         }
-        b = benedict.cast(d)
-        self.assertEqual(d, b)
-        self.assertFalse(b is d)
-        self.assertTrue(isinstance(b, benedict))
-        v = [0, 1, 2, 3]
-        b = benedict.cast(v)
-        self.assertEqual(v, b)
-        self.assertTrue(b is v)
-        self.assertFalse(isinstance(b, benedict))
+        bd = benedict(d)
+        bd.clean()
+        r = {
+            'b': { 'x': 1 },
+            'd': [0, 1],
+            'e': 0.0,
+            'h': '0',
+        }
+        self.assertEqual(bd, r)
+
+        bd = benedict(d)
+        bd.clean(dicts=False)
+        r = {
+            'a': {},
+            'b': { 'x': 1 },
+            'd': [0, 1],
+            'e': 0.0,
+            'h': '0'
+        }
+        self.assertEqual(bd, r)
+
+        bd = benedict(d)
+        bd.clean(lists=False)
+        r = {
+            'b': { 'x': 1 },
+            'c': [],
+            'd': [0, 1],
+            'e': 0.0,
+            'h': '0'
+        }
+        self.assertEqual(bd, r)
+
+        bd = benedict(d)
+        bd.clean(strings=False)
+        r = {
+            'b': { 'x': 1 },
+            'd': [0, 1],
+            'e': 0.0,
+            'f': '',
+            'h': '0',
+        }
+        self.assertEqual(bd, r)
+
+    def test_clone(self):
+        d = {
+            'a': {
+                'b': {
+                    'c': 1
+                }
+            }
+        }
+        b = benedict(d)
+        c = b.clone()
+        self.assertEqual(b, c)
+        self.assertFalse(c is b)
+        c['a']['b']['c'] = 2
+        self.assertEqual(b['a']['b']['c'], 1)
+        self.assertEqual(c['a']['b']['c'], 2)
 
     def test_copy(self):
         d = {
@@ -56,6 +112,119 @@ class BenedictTestCase(unittest.TestCase):
         c['a.b.c'] = 2
         self.assertEqual(b.get('a.b.c'), 1)
         self.assertEqual(c.get('a.b.c'), 2)
+
+    def test_deepupdate_with_single_dict(self):
+        d = {
+            'a': 1,
+            'b': 1,
+        }
+        a = {
+            'b': 2,
+            'c': 3,
+        }
+        bd = benedict(d)
+        bd.deepupdate(a)
+        r = {
+            'a': 1,
+            'b': 2,
+            'c': 3,
+        }
+        self.assertEqual(bd, r)
+
+    def test_deepupdate_with_multiple_dicts(self):
+        d = {
+            'a': 1,
+            'b': 1,
+        }
+        a = {
+            'b': 2,
+            'c': 3,
+            'd': 3,
+        }
+        b = {
+            'd': 5,
+            'e': 5,
+        }
+        c = {
+            'd': 4,
+            'f': 6,
+        }
+        bd = benedict(d)
+        bd.deepupdate(a, b, c)
+        r = {
+            'a': 1,
+            'b': 2,
+            'c': 3,
+            'd': 4,
+            'e': 5,
+            'f': 6,
+        }
+        self.assertEqual(bd, r)
+
+    def test_deepupdate(self):
+        d = {
+            'a': 1,
+            'b': {
+                'c': {
+                    'x': 2,
+                    'y': 3,
+                },
+                'd': {
+                    'x': 4,
+                    'y': 5,
+                },
+                'e': {
+                    'x': 6,
+                    'y': 7,
+                },
+            },
+        }
+        a = {
+            'a': 0,
+            'b': {
+                'c': 1,
+                'd': {
+                    'y': 1,
+                    'z': 2,
+                },
+                'e': {
+                    'f': {
+                        'x': 2,
+                        'y': 3,
+                    },
+                    'g': {
+                        'x': 4,
+                        'y': 5,
+                    },
+                },
+            },
+        }
+        bd = benedict(d)
+        bd.deepupdate(a)
+        r = {
+            'a': 0,
+            'b': {
+                'c': 1,
+                'd': {
+                    'x': 4,
+                    'y': 1,
+                    'z': 2,
+                },
+                'e': {
+                    'f': {
+                        'x': 2,
+                        'y': 3,
+                    },
+                    'g': {
+                        'x': 4,
+                        'y': 5,
+                    },
+                    'x': 6,
+                    'y': 7,
+                },
+            },
+        }
+        self.assertEqual(bd, r)
 
     def test_dump(self):
         d = {
@@ -102,6 +271,28 @@ class BenedictTestCase(unittest.TestCase):
 
     def test_filter(self):
         d = {
+            'a': 1,
+            'b': 2,
+            'c': '4',
+            'e': '5',
+            'f': 6,
+            'g': 7,
+        }
+        b = benedict(d)
+        with self.assertRaises(ValueError):
+            f = b.filter(True)
+        f = b.filter(lambda key, val: isinstance(val, int))
+        r = {
+            'a': 1,
+            'b': 2,
+            'f': 6,
+            'g': 7,
+        }
+        self.assertEqual(f, r)
+        self.assertFalse(b is f)
+
+    def test_filter_with_parse(self):
+        d = {
             'a': {
                 'ok': 'yes',
             },
@@ -122,7 +313,7 @@ class BenedictTestCase(unittest.TestCase):
             },
         }
         b = benedict(d)
-        f = b.filter(lambda key, val: val.get_bool('ok'))
+        f = b.filter(lambda key, val: benedict(val).get_bool('ok'))
         r = {
             'a': {
                 'ok': 'yes',
@@ -162,6 +353,51 @@ class BenedictTestCase(unittest.TestCase):
         }
         self.assertEqual(f, r)
         self.assertTrue(isinstance(f, benedict))
+
+    def test_flatten_with_custom_separator(self):
+        d = {
+            'a': 1,
+            'b': 2,
+            'c': {
+                'd': {
+                    'e': 3,
+                    'f': 4,
+                    'g': {
+                        'h': 5,
+                    }
+                }
+            },
+        }
+        b = benedict(d)
+        f = b.flatten(separator='|')
+        r = {
+            'a': 1,
+            'b': 2,
+            'c|d|e': 3,
+            'c|d|f': 4,
+            'c|d|g|h': 5,
+        }
+        self.assertEqual(f, r)
+        self.assertFalse(b is f)
+
+    def test_flatten_with_key_conflict(self):
+        d = {
+            'a': 1,
+            'b': 2,
+            'c_d': 4,
+            'c': {
+                'd': 3,
+            },
+        }
+        b = benedict(d)
+        f = b.flatten()
+        r = {
+            'a': 1,
+            'b': 2,
+            'c_d': 4,
+        }
+        self.assertEqual(f, r)
+        self.assertFalse(b is f)
 
     def test_fromkeys(self):
         k = [
@@ -295,10 +531,10 @@ class BenedictTestCase(unittest.TestCase):
         b = benedict(d)
         self.assertEqual(b.get('a'), 1)
         self.assertEqual(b.get('b.c'), 2)
-        self.assertTrue(isinstance(b.get('b'), benedict))
-        self.assertTrue(isinstance(b.get('b.d'), benedict))
-        bb = b.get('b')
-        self.assertTrue(isinstance(bb.get('d'), benedict))
+        # self.assertTrue(isinstance(b.get('b'), benedict))
+        # self.assertTrue(isinstance(b.get('b.d'), benedict))
+        # bb = b.get('b')
+        # self.assertTrue(isinstance(bb.get('d'), benedict))
 
     def test_get_item(self):
         d = {
@@ -313,10 +549,10 @@ class BenedictTestCase(unittest.TestCase):
         b = benedict(d)
         self.assertEqual(b['a'], 1)
         self.assertEqual(b['b.c'], 2)
-        self.assertTrue(isinstance(b['b'], benedict))
-        self.assertTrue(isinstance(b['b.d'], benedict))
-        bb = b['b']
-        self.assertTrue(isinstance(bb['d'], benedict))
+        # self.assertTrue(isinstance(b['b'], benedict))
+        # self.assertTrue(isinstance(b['b.d'], benedict))
+        # bb = b['b']
+        # self.assertTrue(isinstance(bb['d'], benedict))
 
     def test_get_dict(self):
         d = {
@@ -324,7 +560,7 @@ class BenedictTestCase(unittest.TestCase):
             'b': {},
         }
         b = benedict(d)
-        self.assertTrue(isinstance(b.get_dict('a'), benedict))
+        # self.assertTrue(isinstance(b.get_dict('a'), benedict))
         self.assertEqual(b.get('a.x'), 1)
 
     def test_get_list(self):
@@ -349,12 +585,15 @@ class BenedictTestCase(unittest.TestCase):
         }
         b = benedict(d)
         l = b.get_list('a')
-        self.assertTrue(isinstance(l[0], benedict))
-        self.assertTrue(isinstance(l[1], benedict))
-        self.assertTrue(isinstance(l[2], benedict))
-        self.assertEqual(l[0].get('b.c'), 1)
-        self.assertEqual(l[1].get('b.c'), 2)
-        self.assertEqual(l[2].get('b.c'), 3)
+        # self.assertTrue(isinstance(l[0], benedict))
+        # self.assertTrue(isinstance(l[1], benedict))
+        # self.assertTrue(isinstance(l[2], benedict))
+        # self.assertEqual(l[0].get('b.c'), 1)
+        # self.assertEqual(l[1].get('b.c'), 2)
+        # self.assertEqual(l[2].get('b.c'), 3)
+        self.assertEqual(benedict(l[0]).get('b.c'), 1)
+        self.assertEqual(benedict(l[1]).get('b.c'), 2)
+        self.assertEqual(benedict(l[2]).get('b.c'), 3)
 
     def test_get_list_item(self):
         d = {
@@ -377,8 +616,8 @@ class BenedictTestCase(unittest.TestCase):
             ]
         }
         b = benedict(d)
-        i = b.get_list_item('a', index=1)
-        self.assertTrue(isinstance(i, benedict))
+        i = benedict(b.get_list_item('a', index=1))
+        # self.assertTrue(isinstance(i, benedict))
         self.assertEqual(i.get('b.c'), 2)
 
     def test_get_phonenumber(self):
@@ -398,15 +637,128 @@ class BenedictTestCase(unittest.TestCase):
 
         p = b.get_phonenumber('a.b')
         self.assertEqual(p, r)
-        self.assertTrue(isinstance(p, benedict))
+        # self.assertTrue(isinstance(p, benedict))
 
         p = b.get_phonenumber('a.c')
         self.assertEqual(p, r)
-        self.assertTrue(isinstance(p, benedict))
+        # self.assertTrue(isinstance(p, benedict))
 
         p = b.get_phonenumber('a.d')
         self.assertEqual(p, {})
-        self.assertTrue(isinstance(p, benedict))
+        # self.assertTrue(isinstance(p, benedict))
+
+    def test_merge_with_single_dict(self):
+        d = {
+            'a': 1,
+            'b': 1,
+        }
+        a = {
+            'b': 2,
+            'c': 3,
+        }
+        d = benedict(d)
+        d.merge(a)
+        r = {
+            'a': 1,
+            'b': 2,
+            'c': 3,
+        }
+        self.assertEqual(d, r)
+
+    def test_merge_with_multiple_dicts(self):
+        d = {
+            'a': 1,
+            'b': 1,
+        }
+        a = {
+            'b': 2,
+            'c': 3,
+            'd': 3,
+        }
+        b = {
+            'd': 5,
+            'e': 5,
+        }
+        c = {
+            'd': 4,
+            'f': 6,
+        }
+        d = benedict(d)
+        d.merge(a, b, c)
+        r = {
+            'a': 1,
+            'b': 2,
+            'c': 3,
+            'd': 4,
+            'e': 5,
+            'f': 6,
+        }
+        self.assertEqual(d, r)
+
+    def test_merge(self):
+        d = {
+            'a': 1,
+            'b': {
+                'c': {
+                    'x': 2,
+                    'y': 3,
+                },
+                'd': {
+                    'x': 4,
+                    'y': 5,
+                },
+                'e': {
+                    'x': 6,
+                    'y': 7,
+                },
+            },
+        }
+        a = {
+            'a': 0,
+            'b': {
+                'c': 1,
+                'd': {
+                    'y': 1,
+                    'z': 2,
+                },
+                'e': {
+                    'f': {
+                        'x': 2,
+                        'y': 3,
+                    },
+                    'g': {
+                        'x': 4,
+                        'y': 5,
+                    },
+                },
+            },
+        }
+        d = benedict(d)
+        d.merge(a)
+        r = {
+            'a': 0,
+            'b': {
+                'c': 1,
+                'd': {
+                    'x': 4,
+                    'y': 1,
+                    'z': 2,
+                },
+                'e': {
+                    'f': {
+                        'x': 2,
+                        'y': 3,
+                    },
+                    'g': {
+                        'x': 4,
+                        'y': 5,
+                    },
+                    'x': 6,
+                    'y': 7,
+                },
+            },
+        }
+        self.assertEqual(d, r)
 
     def test_pop(self):
         d = {
@@ -421,9 +773,26 @@ class BenedictTestCase(unittest.TestCase):
         b = benedict(d)
         self.assertEqual(b.pop('a'), 1)
         self.assertEqual(b.pop('b.c'), 2)
-        self.assertTrue(isinstance(b.pop('b.d'), benedict))
+        # self.assertTrue(isinstance(b.pop('b.d'), benedict))
 
     def test_remove(self):
+        d = {
+            'a': 1,
+            'b': 2,
+            'c': '4',
+            'e': '5',
+            'f': 6,
+            'g': 7,
+        }
+        b = benedict(d)
+        b.remove(['c', 'e', 'f', 'g', 'x', 'y', 'z'])
+        r = {
+            'a': 1,
+            'b': 2,
+        }
+        self.assertEqual(b, r)
+
+    def test_remove_with_keypath(self):
         d = {
             'a': {
                 'x': 1,
@@ -456,21 +825,40 @@ class BenedictTestCase(unittest.TestCase):
         }
         self.assertEqual(b, r)
 
-    def test_setdefault(self):
-        d = {
-            'a': 1,
-            'b': {
-                'c': 2,
-                'd': {
-                    'e': 3,
-                }
-            }
-        }
-        b = benedict(d)
-        self.assertTrue(isinstance(b.setdefault('b', 1), benedict))
-        self.assertTrue(isinstance(b.setdefault('b.d', 1), benedict))
+    # def test_setdefault(self):
+    #     d = {
+    #         'a': 1,
+    #         'b': {
+    #             'c': 2,
+    #             'd': {
+    #                 'e': 3,
+    #             }
+    #         }
+    #     }
+    #     b = benedict(d)
+    #     self.assertTrue(isinstance(b.setdefault('b', 1), benedict))
+    #     self.assertTrue(isinstance(b.setdefault('b.d', 1), benedict))
 
     def test_subset(self):
+        d = {
+            'a': 1,
+            'b': 2,
+            'c': '4',
+            'e': '5',
+            'f': 6,
+            'g': 7,
+        }
+        b = benedict(d)
+        f = b.subset(['c', 'f', 'x'])
+        r = {
+            'c': '4',
+            'f': 6,
+            'x': None,
+        }
+        self.assertEqual(f, r)
+        self.assertFalse(f is b)
+
+    def test_subset_with_keypath(self):
         d = {
             'x': {
                 'a': 1,

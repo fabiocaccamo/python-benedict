@@ -3,47 +3,50 @@
 from benedict.dicts.io import IODict
 from benedict.dicts.keypath import KeypathDict
 from benedict.dicts.parse import ParseDict
-from benedict.dicts.utility import UtilityDict
+from benedict.utils import dict_util
 
 
 def benediction(method):
     def wrapper(*args, **kwargs):
         value = method(*args, **kwargs)
-        return benedict.cast(value)
+        if isinstance(value, dict) and not isinstance(value, benedict):
+            return benedict(value)
+        return value
     return wrapper
 
 
-class benedict(IODict, KeypathDict, ParseDict, UtilityDict):
+class benedict(IODict, KeypathDict, ParseDict):
 
     def __init__(self, *args, **kwargs):
         super(benedict, self).__init__(*args, **kwargs)
 
-    @classmethod
-    def cast(cls, value):
-        if isinstance(value, dict) and not isinstance(value, cls):
-            return cls(value)
-        else:
-            return value
+    def clean(self, strings=True, dicts=True, lists=True):
+        dict_util.clean(self, strings=strings, dicts=dicts, lists=lists)
 
     @benediction
     def clone(self):
-        return super(benedict, self).clone()
+        return dict_util.clone(self)
 
     @benediction
     def copy(self):
         return super(benedict, self).copy()
 
-    @benediction
     def deepcopy(self):
-        return super(benedict, self).deepcopy()
+        return self.clone()
+
+    def deepupdate(self, other, *args):
+        self.merge(other, *args)
+
+    def dump(self, data=None):
+        return dict_util.dump(data or self)
 
     @benediction
     def filter(self, predicate):
-        return super(benedict, self).filter(predicate)
+        return dict_util.filter(self, predicate)
 
     @benediction
     def flatten(self, separator='_'):
-        return super(benedict, self).flatten(separator)
+        return dict_util.flatten(self, separator)
 
     @classmethod
     @benediction
@@ -70,41 +73,24 @@ class benedict(IODict, KeypathDict, ParseDict, UtilityDict):
     def from_yaml(s, **kwargs):
         return IODict.from_yaml(s, **kwargs)
 
-    @benediction
-    def __getitem__(self, key):
-        return super(benedict, self).__getitem__(key)
 
-    @benediction
-    def get(self, key, default=None):
-        return super(benedict, self).get(key, default)
 
-    @benediction
-    def get_dict(self, key, default=None):
-        return super(benedict, self).get_dict(key, default)
 
-    def get_list(self, key, default=None, separator=','):
-        values = super(benedict, self).get_list(key, default, separator)
-        values = [benedict.cast(value) for value in values]
-        return values
+    def merge(self, other, *args):
+        dicts = [other] + list(args)
+        for d in dicts:
+            dict_util.merge(self, d)
 
-    @benediction
-    def get_list_item(self, key, index=0, default=None, separator=','):
-        return super(benedict, self).get_list_item(
-            key, index, default, separator)
-
-    @benediction
-    def get_phonenumber(self, key, country_code=None, default=''):
-        return super(benedict, self).get_phonenumber(
-            key, country_code, default)
-
-    @benediction
-    def pop(self, key, default=None):
-        return super(benedict, self).pop(key, default)
-
-    @benediction
-    def setdefault(self, key, default=None):
-        return super(benedict, self).setdefault(key, default)
+    def remove(self, keys):
+        for key in keys:
+            try:
+                del self[key]
+            except KeyError:
+                continue
 
     @benediction
     def subset(self, keys):
-        return super(benedict, self).subset(keys)
+        d = self.__class__()
+        for key in keys:
+            d[key] = self.get(key, None)
+        return d

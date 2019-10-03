@@ -65,20 +65,12 @@ def parse_dict(val):
     str_val = text_type(val)
     if not len(str_val):
         return None
-    val = None
     try:
         val = json.loads(str_val)
         if not isinstance(val, dict):
             val = None
-    except ValueError:
-        pass
-        # try:
-        #     val = yaml.safe_load(str_val)
-        # except yaml.YAMLError:
-        #     try:
-        #         val = xmltodict.parse(str_val)
-        #     except Exception:
-        #         pass
+    except Exception:
+        val = None
     return val
 
 

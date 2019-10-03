@@ -31,26 +31,46 @@ def dump(data):
 
 
 def flatten(d, separator='_', base=''):
-    f = {}
+    new_dict = {}
     keys = sorted(d.keys())
     for key in keys:
         value = d.get(key)
         keypath = '{}{}{}'.format(base, separator, key) if base and separator else key
         if isinstance(value, dict):
-            f.update(flatten(value, separator, keypath))
+            new_dict.update(flatten(value, separator, keypath))
         else:
-            f[keypath] = value
-    return f
+            new_dict[keypath] = value
+    return new_dict
 
 
 def filter(d, predicate):
-    f = {}
+    if not callable(predicate):
+        raise ValueError('predicate argument must be a callable.')
+    new_dict = {}
     keys = d.keys()
     for key in keys:
         value = d.get(key, None)
         if predicate(key, value):
-            f[key] = value
-    return f
+            new_dict[key] = value
+    return new_dict
+
+
+def invert(d, flat=False):
+    if flat:
+        new_dict = { value:key for key, value in d.items() }
+    else:
+        new_dict = {}
+        for key, value in d.items():
+            new_dict.setdefault(value, []).append(key)
+    return new_dict
+
+
+def items_sorted_by_keys(d, reverse=False):
+    return sorted(d.items(), key=lambda item: item[0], reverse=reverse)
+
+
+def items_sorted_by_values(d, reverse=False):
+    return sorted(d.items(), key=lambda item: item[1], reverse=reverse)
 
 
 def merge(d, other):
