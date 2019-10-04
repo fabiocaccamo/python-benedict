@@ -9,7 +9,7 @@
 [![License](https://img.shields.io/pypi/l/python-benedict.svg)](https://img.shields.io/pypi/l/python-benedict.svg)
 
 # python-benedict
-python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (BASE64, JSON, TOML, XML, YAML) and many **utilities**... for humans, obviously.
+python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (Base64, JSON, TOML, XML, YAML) and many **utilities**... for humans, obviously.
 
 ## Index
 -   [Features](#features)
@@ -70,7 +70,7 @@ python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (
 
 ## Features
 -   Full **keypath** support *(using the dot syntax by default)*
--   Easy **I/O operations** with most common formats: `json`, `toml`, `xml`, `yaml`
+-   Easy **I/O operations** with most common formats: `Base64`, `JSON`, `TOML`, `XML`, `YAML`
 -   Many **utility** and **parse methods** to retrieve data as needed *(all methods listed below)*
 -   Well **tested**, check the badges ;)
 -   100% **backward-compatible** *(you can replace existing dicts without pain)*
