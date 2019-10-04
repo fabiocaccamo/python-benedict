@@ -104,8 +104,11 @@ class benedict(IODict, KeypathDict, ParseDict):
                 continue
 
     @benediction
-    def subset(self, keys):
+    def subset(self, keys, *args):
         d = self.__class__()
+        if isinstance(keys, string_types):
+            keys = [keys]
+        keys += args
         for key in keys:
             d[key] = self.get(key, None)
         return d

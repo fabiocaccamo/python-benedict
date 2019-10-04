@@ -1025,6 +1025,25 @@ class BenedictTestCase(unittest.TestCase):
         self.assertEqual(f, r)
         self.assertFalse(f is b)
 
+    def test_subset_with_keys_args(self):
+        d = {
+            'a': 1,
+            'b': 2,
+            'c': '4',
+            'e': '5',
+            'f': 6,
+            'g': 7,
+        }
+        b = benedict(d)
+        f = b.subset('c', 'f', 'x')
+        r = {
+            'c': '4',
+            'f': 6,
+            'x': None,
+        }
+        self.assertEqual(f, r)
+        self.assertFalse(f is b)
+
     def test_subset_with_keypath(self):
         d = {
             'x': {
