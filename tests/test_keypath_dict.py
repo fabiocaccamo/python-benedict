@@ -48,7 +48,7 @@ class KeypathDictTestCase(unittest.TestCase):
             'c.d.e': 2,
         }
         with self.assertRaises(ValueError):
-            b = KeypathDict(d)
+            KeypathDict(d)
 
     def test_update_with_dict_with_separator_in_keys(self):
         d1 = {
@@ -159,7 +159,6 @@ class KeypathDictTestCase(unittest.TestCase):
         d = {
             None: None,
             False: False,
-            0: 0,
         }
         b = KeypathDict(d)
         self.assertEqual(b.get(None, 1), None)

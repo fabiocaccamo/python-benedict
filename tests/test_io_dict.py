@@ -41,10 +41,10 @@ class IODictTestCase(unittest.TestCase):
         j = 'Lorem ipsum est in ea occaecat nisi officia.'
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_base64(j)
+            IODict.from_base64(j)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(j)
+            IODict(j)
 
     def test_from_base64_with_valid_file_valid_content(self):
         filepath = self.input_path('valid-content.base64')
@@ -58,34 +58,34 @@ class IODictTestCase(unittest.TestCase):
     def test_from_base64_with_valid_file_valid_content_invalid_format(self):
         filepath = self.input_path('valid-content.json')
         with self.assertRaises(ValueError):
-            d = IODict.from_base64(filepath)
+            IODict.from_base64(filepath)
         filepath = self.input_path('valid-content.toml')
         with self.assertRaises(ValueError):
-            d = IODict.from_base64(filepath)
+            IODict.from_base64(filepath)
         filepath = self.input_path('valid-content.xml')
         with self.assertRaises(ValueError):
-            d = IODict.from_base64(filepath)
+            IODict.from_base64(filepath)
         filepath = self.input_path('valid-content.yml')
         with self.assertRaises(ValueError):
-            d = IODict.from_base64(filepath)
+            IODict.from_base64(filepath)
 
     def test_from_base64_with_valid_file_invalid_content(self):
         filepath = self.input_path('invalid-content.base64')
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_base64(filepath)
+            IODict.from_base64(filepath)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(filepath)
+            IODict(filepath)
 
     def test_from_base64_with_invalid_file(self):
         filepath = self.input_path('invalid-file.base64')
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_base64(filepath)
+            IODict.from_base64(filepath)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(filepath)
+            IODict(filepath)
 
     def test_from_base64_with_valid_url_valid_content(self):
         url = 'https://raw.githubusercontent.com/fabiocaccamo/python-benedict/master/tests/input/valid-content.base64'
@@ -100,19 +100,19 @@ class IODictTestCase(unittest.TestCase):
         url = 'https://github.com/fabiocaccamo/python-benedict'
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_base64(url)
+            IODict.from_base64(url)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(url)
+            IODict(url)
 
     def test_from_base64_with_invalid_url(self):
         url = 'https://github.com/fabiocaccamo/python-benedict-invalid'
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_base64(url)
+            IODict.from_base64(url)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(url)
+            IODict(url)
 
     def test_to_base64(self):
         d = IODict({
@@ -130,7 +130,7 @@ class IODictTestCase(unittest.TestCase):
             'c': 3,
         })
         filepath = self.output_path('test_to_base64_file.base64')
-        s = d.to_base64(filepath=filepath, sort_keys=True)
+        d.to_base64(filepath=filepath, sort_keys=True)
         self.assertTrue(d, os.path.isfile(filepath))
         self.assertEqual(d, IODict.from_base64(filepath))
 
@@ -151,10 +151,10 @@ class IODictTestCase(unittest.TestCase):
         j = 'Lorem ipsum est in ea occaecat nisi officia.'
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_json(j)
+            IODict.from_json(j)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(j)
+            IODict(j)
 
     def test_from_json_with_valid_file_valid_content(self):
         filepath = self.input_path('valid-content.json')
@@ -168,34 +168,34 @@ class IODictTestCase(unittest.TestCase):
     def test_from_json_with_valid_file_valid_content_invalid_format(self):
         filepath = self.input_path('valid-content.base64')
         with self.assertRaises(ValueError):
-            d = IODict.from_json(filepath)
+            IODict.from_json(filepath)
         filepath = self.input_path('valid-content.toml')
         with self.assertRaises(ValueError):
-            d = IODict.from_json(filepath)
+            IODict.from_json(filepath)
         filepath = self.input_path('valid-content.xml')
         with self.assertRaises(ValueError):
-            d = IODict.from_json(filepath)
+            IODict.from_json(filepath)
         filepath = self.input_path('valid-content.yml')
         with self.assertRaises(ValueError):
-            d = IODict.from_json(filepath)
+            IODict.from_json(filepath)
 
     def test_from_json_with_valid_file_invalid_content(self):
         filepath = self.input_path('invalid-content.json')
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_json(filepath)
+            IODict.from_json(filepath)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(filepath)
+            IODict(filepath)
 
     def test_from_json_with_invalid_file(self):
         filepath = self.input_path('invalid-file.json')
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_json(filepath)
+            IODict.from_json(filepath)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(filepath)
+            IODict(filepath)
 
     def test_from_json_with_valid_url_valid_content(self):
         url = 'https://raw.githubusercontent.com/fabiocaccamo/python-benedict/master/tests/input/valid-content.json'
@@ -210,19 +210,19 @@ class IODictTestCase(unittest.TestCase):
         url = 'https://github.com/fabiocaccamo/python-benedict'
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_json(url)
+            IODict.from_json(url)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(url)
+            IODict(url)
 
     def test_from_json_with_invalid_url(self):
         url = 'https://github.com/fabiocaccamo/python-benedict-invalid'
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_json(url)
+            IODict.from_json(url)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(url)
+            IODict(url)
 
     def test_to_json(self):
         d = IODict({
@@ -246,7 +246,7 @@ class IODictTestCase(unittest.TestCase):
             'c': 3,
         })
         filepath = self.output_path('test_to_json_file.json')
-        s = d.to_json(filepath=filepath, sort_keys=True)
+        d.to_json(filepath=filepath, sort_keys=True)
         self.assertTrue(d, os.path.isfile(filepath))
         self.assertEqual(d, IODict.from_json(filepath))
 
@@ -274,10 +274,10 @@ class IODictTestCase(unittest.TestCase):
         j = 'Lorem ipsum est in ea occaecat nisi officia.'
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_toml(j)
+            IODict.from_toml(j)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(j)
+            IODict(j)
 
     def test_from_toml_with_valid_file_valid_content(self):
         filepath = self.input_path('valid-content.toml')
@@ -294,31 +294,31 @@ class IODictTestCase(unittest.TestCase):
         #     d = IODict.from_toml(filepath)
         filepath = self.input_path('valid-content.json')
         with self.assertRaises(ValueError):
-            d = IODict.from_toml(filepath)
+            IODict.from_toml(filepath)
         filepath = self.input_path('valid-content.xml')
         with self.assertRaises(ValueError):
-            d = IODict.from_toml(filepath)
+            IODict.from_toml(filepath)
         filepath = self.input_path('valid-content.yml')
         with self.assertRaises(ValueError):
-            d = IODict.from_toml(filepath)
+            IODict.from_toml(filepath)
 
     def test_from_toml_with_valid_file_invalid_content(self):
         filepath = self.input_path('invalid-content.toml')
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_toml(filepath)
+            IODict.from_toml(filepath)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(filepath)
+            IODict(filepath)
 
     def test_from_toml_with_invalid_file(self):
         filepath = self.input_path('invalid-file.toml')
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_toml(filepath)
+            IODict.from_toml(filepath)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(filepath)
+            IODict(filepath)
 
     def test_from_toml_with_valid_url_valid_content(self):
         url = 'https://raw.githubusercontent.com/fabiocaccamo/python-benedict/master/tests/input/valid-content.toml'
@@ -333,19 +333,19 @@ class IODictTestCase(unittest.TestCase):
         url = 'https://github.com/fabiocaccamo/python-benedict'
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_toml(url)
+            IODict.from_toml(url)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(url)
+            IODict(url)
 
     def test_from_toml_with_invalid_url(self):
         url = 'https://github.com/fabiocaccamo/python-benedict-invalid'
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_toml(url)
+            IODict.from_toml(url)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(url)
+            IODict(url)
 
     def test_to_toml(self):
         d = IODict({
@@ -369,7 +369,7 @@ class IODictTestCase(unittest.TestCase):
             'c': 3,
         })
         filepath = self.output_path('test_to_toml_file.toml')
-        s = d.to_toml(filepath=filepath)
+        d.to_toml(filepath=filepath)
         self.assertTrue(d, os.path.isfile(filepath))
         self.assertEqual(d, IODict.from_toml(filepath))
 
@@ -398,10 +398,10 @@ class IODictTestCase(unittest.TestCase):
         j = 'Lorem ipsum est in ea occaecat nisi officia.'
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_xml(j)
+            IODict.from_xml(j)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(j)
+            IODict(j)
 
     def test_from_xml_with_valid_file_valid_content(self):
         filepath = self.input_path('valid-content.xml')
@@ -415,34 +415,34 @@ class IODictTestCase(unittest.TestCase):
     def test_from_xml_with_valid_file_valid_content_invalid_format(self):
         filepath = self.input_path('valid-content.base64')
         with self.assertRaises(ValueError):
-            d = IODict.from_xml(filepath)
+            IODict.from_xml(filepath)
         filepath = self.input_path('valid-content.json')
         with self.assertRaises(ValueError):
-            d = IODict.from_xml(filepath)
+            IODict.from_xml(filepath)
         filepath = self.input_path('valid-content.toml')
         with self.assertRaises(ValueError):
-            d = IODict.from_xml(filepath)
+            IODict.from_xml(filepath)
         filepath = self.input_path('valid-content.yml')
         with self.assertRaises(ValueError):
-            d = IODict.from_xml(filepath)
+            IODict.from_xml(filepath)
 
     def test_from_xml_with_valid_file_invalid_content(self):
         filepath = self.input_path('invalid-content.xml')
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_xml(filepath)
+            IODict.from_xml(filepath)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(filepath)
+            IODict(filepath)
 
     def test_from_xml_with_invalid_file(self):
         filepath = self.input_path('invalid-file.xml')
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_xml(filepath)
+            IODict.from_xml(filepath)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(filepath)
+            IODict(filepath)
 
     def test_from_xml_with_valid_url_valid_content(self):
         url = 'https://raw.githubusercontent.com/fabiocaccamo/python-benedict/master/tests/input/valid-content.xml'
@@ -457,19 +457,19 @@ class IODictTestCase(unittest.TestCase):
         url = 'https://github.com/fabiocaccamo/python-benedict'
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_xml(url)
+            IODict.from_xml(url)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(url)
+            IODict(url)
 
     def test_from_xml_with_invalid_url(self):
         url = 'https://github.com/fabiocaccamo/python-benedict-invalid'
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_xml(url)
+            IODict.from_xml(url)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(url)
+            IODict(url)
 
     def test_to_xml(self):
         d = IODict({
@@ -497,7 +497,7 @@ class IODictTestCase(unittest.TestCase):
             },
         })
         filepath = self.output_path('test_to_xml_file.xml')
-        s = d.to_xml(filepath=filepath)
+        d.to_xml(filepath=filepath)
         self.assertTrue(d, os.path.isfile(filepath))
         self.assertEqual(d, IODict.from_xml(filepath))
 
@@ -523,10 +523,10 @@ class IODictTestCase(unittest.TestCase):
         j = 'Lorem ipsum est in ea occaecat nisi officia.'
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_yaml(j)
+            IODict.from_yaml(j)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(j)
+            IODict(j)
 
     def test_from_yaml_with_valid_file_valid_content(self):
         filepath = self.input_path('valid-content.yml')
@@ -540,34 +540,34 @@ class IODictTestCase(unittest.TestCase):
     def test_from_yaml_with_valid_file_valid_content_invalid_format(self):
         filepath = self.input_path('valid-content.base64')
         with self.assertRaises(ValueError):
-            d = IODict.from_yaml(filepath)
+            IODict.from_yaml(filepath)
         # filepath = self.input_path('valid-content.json')
         # with self.assertRaises(ValueError):
-        #    d = IODict.from_yaml(filepath)
+        #    IODict.from_yaml(filepath)
         filepath = self.input_path('valid-content.toml')
         with self.assertRaises(ValueError):
-            d = IODict.from_yaml(filepath)
+            IODict.from_yaml(filepath)
         filepath = self.input_path('valid-content.xml')
         with self.assertRaises(ValueError):
-            d = IODict.from_yaml(filepath)
+            IODict.from_yaml(filepath)
 
     def test_from_yaml_with_valid_file_invalid_content(self):
         filepath = self.input_path('invalid-content.yml')
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_yaml(filepath)
+            IODict.from_yaml(filepath)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(filepath)
+            IODict(filepath)
 
     def test_from_yaml_with_invalid_file(self):
         filepath = self.input_path('invalid-file.yml')
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_yaml(filepath)
+            IODict.from_yaml(filepath)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(filepath)
+            IODict(filepath)
 
     def test_from_yaml_with_valid_url_valid_content(self):
         url = 'https://raw.githubusercontent.com/fabiocaccamo/python-benedict/master/tests/input/valid-content.yml'
@@ -582,19 +582,19 @@ class IODictTestCase(unittest.TestCase):
         url = 'https://github.com/fabiocaccamo/python-benedict'
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_yaml(url)
+            IODict.from_yaml(url)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(url)
+            IODict(url)
 
     def test_from_yaml_with_invalid_url(self):
         url = 'https://github.com/fabiocaccamo/python-benedict-invalid'
         # static method
         with self.assertRaises(ValueError):
-            d = IODict.from_yaml(url)
+            IODict.from_yaml(url)
         # constructor
         with self.assertRaises(ValueError):
-            d = IODict(url)
+            IODict(url)
 
     def test_to_yaml(self):
         d = IODict({
@@ -618,6 +618,6 @@ class IODictTestCase(unittest.TestCase):
             'c': 3,
         })
         filepath = self.output_path('test_to_yaml_file.yml')
-        s = d.to_yaml(filepath=filepath)
+        d.to_yaml(filepath=filepath)
         self.assertTrue(d, os.path.isfile(filepath))
         self.assertEqual(d, IODict.from_yaml(filepath))
