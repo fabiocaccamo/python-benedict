@@ -65,7 +65,6 @@ python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (
         -   [`get_slug_list`](#get_slug_list)
         -   [`get_str`](#get_str)
         -   [`get_str_list`](#get_str_list)
-
 -   [Testing](#testing)
 -   [License](#license)
 
@@ -73,7 +72,6 @@ python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (
 -   Full **keypath** support *(using the dot syntax by default)*
 -   Easy **I/O operations** with most common formats: `json`, `toml`, `xml`, `yaml`
 -   Many **utility** and **parse methods** to retrieve data as needed *(all methods listed below)*
--   Give **benediction** :) to `dict` values before they are returned *(they receive benedict casting)*
 -   Well **tested**, check the badges ;)
 -   100% **backward-compatible** *(you can replace existing dicts without pain)*
 
@@ -153,10 +151,12 @@ d = benedict(existing_dict, keypath_separator=None)
 
 ## API
 
-#### Utility
+### Utility
 These methods are common utilities that will speed up your everyday work.
 
--   ##### clean
+Utilities that return a dictionary return always a new `benedict` instance.
+
+-   #### clean
 
 ```python
 # Clean the current dict removing all empty values: None, '', {}, [], ().
@@ -164,14 +164,14 @@ These methods are common utilities that will speed up your everyday work.
 d.clean(strings=True, dicts=True, lists=True)
 ```
 
--   ##### clone
+-   #### clone
 
 ```python
 # Return a clone (deepcopy) of the dict.
 c = d.clone()
 ```
 
--   ##### dump
+-   #### dump
 
 ```python
 # Return a readable representation of any dict/list.
@@ -183,7 +183,7 @@ d = benedict()
 print(d.dump())
 ```
 
--   ##### filter
+-   #### filter
 
 ```python
 # Return a filtered dict using the given predicate function.
@@ -192,14 +192,14 @@ predicate = lambda k, v: v is not None
 f = d.filter(predicate)
 ```
 
--   ##### flatten
+-   #### flatten
 
 ```python
 # Return a flatten dict using the given separator to concat nested dict keys.
 f = d.flatten(separator='_')
 ```
 
--   ##### invert
+-   #### invert
 
 ```python
 # Return an inverted dict swapping values with keys.
@@ -208,21 +208,23 @@ f = d.flatten(separator='_')
 i = d.invert(flat=False)
 ```
 
--   ##### items_sorted_by_keys
+-   #### items_sorted_by_keys
 
 ```python
-# Return items ((key, value, ) list) sorted by keys, if reverse is True, the list will be reversed.
+# Return items (key/value list) sorted by keys.
+If reverse is True, the list will be reversed.
 items = d.items_sorted_by_keys(reverse=False)
 ```
 
--   ##### items_sorted_by_values
+-   #### items_sorted_by_values
 
 ```python
-# Return items ((key, value, ) list) sorted by values, if reverse is True, the list will be reversed.
+# Return items (key/value list) sorted by values.
+# If reverse is True, the list will be reversed.
 items = d.items_sorted_by_values(reverse=False)
 ```
 
--   ##### merge
+-   #### merge
 
 ```python
 # Merge one or more dictionary objects into current instance (deepupdate).
@@ -230,14 +232,14 @@ items = d.items_sorted_by_values(reverse=False)
 d.merge(a, b, c)
 ```
 
--   ##### remove
+-   #### remove
 
 ```python
 # Remove multiple keys from the dict.
 d.remove(['firstname', 'lastname', 'email'])
 ```
 
--   ##### subset
+-   #### subset
 
 ```python
 # Return a dict subset for the given keys.
@@ -261,7 +263,7 @@ d = benedict('{"a": 1, "b": 2, "c": 3, "x": 7, "y": 8, "z": 9}')
 
 These methods simplify I/O operations with most common formats: `base64`, `json`, `toml`, `xml`, `yaml`
 
--   ##### from_base64
+-   #### from_base64
 
 ```python
 # Try to load/decode a base64 encoded data and return it as benedict instance.
@@ -270,7 +272,7 @@ These methods simplify I/O operations with most common formats: `base64`, `json`
 d = benedict.from_base64(s, **kwargs)
 ```
 
--   ##### from_json
+-   #### from_json
 
 ```python
 # Try to load/decode a json encoded data and return it as benedict instance.
@@ -280,7 +282,7 @@ d = benedict.from_base64(s, **kwargs)
 d = benedict.from_json(s, **kwargs)
 ```
 
--   ##### from_toml
+-   #### from_toml
 
 ```python
 # Try to load/decode a toml encoded data and return it as benedict instance.
@@ -290,7 +292,7 @@ d = benedict.from_json(s, **kwargs)
 d = benedict.from_toml(s, **kwargs)
 ```
 
--   ##### from_xml
+-   #### from_xml
 
 ```python
 # Try to load/decode a xml encoded data and return it as benedict instance.
@@ -300,7 +302,7 @@ d = benedict.from_toml(s, **kwargs)
 d = benedict.from_xml(s, **kwargs)
 ```
 
--   ##### from_yaml
+-   #### from_yaml
 
 ```python
 # Try to load/decode a yaml encoded data and return it as benedict instance.
@@ -310,7 +312,7 @@ d = benedict.from_xml(s, **kwargs)
 d = benedict.from_yaml(s, **kwargs)
 ```
 
--   ##### to_base64
+-   #### to_base64
 
 ```python
 # Return the dict instance encoded in base64 format and optionally save it at the specified filepath.
@@ -318,7 +320,7 @@ d = benedict.from_yaml(s, **kwargs)
 s = d.to_base64(filepath='', **kwargs)
 ```
 
--   ##### to_json
+-   #### to_json
 
 ```python
 # Return the dict instance encoded in json format and optionally save it at the specified filepath.
@@ -327,7 +329,7 @@ s = d.to_base64(filepath='', **kwargs)
 s = d.to_json(filepath='', **kwargs)
 ```
 
--   ##### to_toml
+-   #### to_toml
 
 ```python
 # Return the dict instance encoded in toml format and optionally save it at the specified filepath.
@@ -336,7 +338,7 @@ s = d.to_json(filepath='', **kwargs)
 s = d.to_toml(filepath='', **kwargs)
 ```
 
--   ##### to_xml
+-   #### to_xml
 
 ```python
 # Return the dict instance encoded in xml format and optionally save it at the specified filepath.
@@ -345,7 +347,7 @@ s = d.to_toml(filepath='', **kwargs)
 s = d.to_xml(filepath='', **kwargs)
 ```
 
--   ##### to_yaml
+-   #### to_yaml
 
 ```python
 # Return the dict instance encoded in yaml format and optionally save it at the specified filepath.
@@ -354,10 +356,10 @@ s = d.to_xml(filepath='', **kwargs)
 s = d.to_yaml(filepath='', **kwargs)
 ```
 
-#### Parse
+### Parse
 These methods are wrappers of the `get` method, they parse data trying to return it in the expected type.
 
--   ##### get_bool
+-   #### get_bool
 
 ```python
 # Get value by key or keypath trying to return it as bool.
@@ -365,7 +367,7 @@ These methods are wrappers of the `get` method, they parse data trying to return
 d.get_bool(key, default=False)
 ```
 
--   ##### get_bool_list
+-   #### get_bool_list
 
 ```python
 # Get value by key or keypath trying to return it as list of bool values.
@@ -373,7 +375,7 @@ d.get_bool(key, default=False)
 d.get_bool_list(key, default=[], separator=',')
 ```
 
--   ##### get_datetime
+-   #### get_datetime
 
 ```python
 # Get value by key or keypath trying to return it as datetime.
@@ -382,7 +384,7 @@ d.get_bool_list(key, default=[], separator=',')
 d.get_datetime(key, default=None, format=None, options=[])
 ```
 
--   ##### get_datetime_list
+-   #### get_datetime_list
 
 ```python
 # Get value by key or keypath trying to return it as list of datetime values.
@@ -390,7 +392,7 @@ d.get_datetime(key, default=None, format=None, options=[])
 d.get_datetime_list(key, default=[], format=None, separator=',')
 ```
 
--   ##### get_decimal
+-   #### get_decimal
 
 ```python
 # Get value by key or keypath trying to return it as Decimal.
@@ -398,7 +400,7 @@ d.get_datetime_list(key, default=[], format=None, separator=',')
 d.get_decimal(key, default=Decimal('0.0'), options=[])
 ```
 
--   ##### get_decimal_list
+-   #### get_decimal_list
 
 ```python
 # Get value by key or keypath trying to return it as list of Decimal values.
@@ -406,7 +408,7 @@ d.get_decimal(key, default=Decimal('0.0'), options=[])
 d.get_decimal_list(key, default=[], separator=',')
 ```
 
--   ##### get_dict
+-   #### get_dict
 
 ```python
 # Get value by key or keypath trying to return it as dict.
@@ -414,7 +416,7 @@ d.get_decimal_list(key, default=[], separator=',')
 d.get_dict(key, default={})
 ```
 
--   ##### get_email
+-   #### get_email
 
 ```python
 # Get email by key or keypath and return it.
@@ -423,7 +425,7 @@ d.get_dict(key, default={})
 d.get_email(key, default='', options=None, check_blacklist=True)
 ```
 
--   ##### get_float
+-   #### get_float
 
 ```python
 # Get value by key or keypath trying to return it as float.
@@ -431,7 +433,7 @@ d.get_email(key, default='', options=None, check_blacklist=True)
 d.get_float(key, default=0.0, options=[])
 ```
 
--   ##### get_float_list
+-   #### get_float_list
 
 ```python
 # Get value by key or keypath trying to return it as list of float values.
@@ -439,7 +441,7 @@ d.get_float(key, default=0.0, options=[])
 d.get_float_list(key, default=[], separator=',')
 ```
 
--   ##### get_int
+-   #### get_int
 
 ```python
 # Get value by key or keypath trying to return it as int.
@@ -447,7 +449,7 @@ d.get_float_list(key, default=[], separator=',')
 d.get_int(key, default=0, options=[])
 ```
 
--   ##### get_int_list
+-   #### get_int_list
 
 ```python
 # Get value by key or keypath trying to return it as list of int values.
@@ -455,7 +457,7 @@ d.get_int(key, default=0, options=[])
 d.get_int_list(key, default=[], separator=',')
 ```
 
--   ##### get_list
+-   #### get_list
 
 ```python
 # Get value by key or keypath trying to return it as list.
@@ -463,7 +465,7 @@ d.get_int_list(key, default=[], separator=',')
 d.get_list(key, default=[], separator=',')
 ```
 
--   ##### get_list_item
+-   #### get_list_item
 
 ```python
 # Get list by key or keypath and return value at the specified index.
@@ -471,7 +473,7 @@ d.get_list(key, default=[], separator=',')
 d.get_list_item(key, index=0, default=None, separator=',')
 ```
 
--   ##### get_phonenumber
+-   #### get_phonenumber
 
 ```python
 # Get phone number by key or keypath and return a dict with different formats (e164, international, national).
@@ -479,7 +481,7 @@ d.get_list_item(key, index=0, default=None, separator=',')
 d.get_phonenumber(key, country_code=None, default=None)
 ```
 
--   ##### get_slug
+-   #### get_slug
 
 ```python
 # Get value by key or keypath trying to return it as slug.
@@ -487,7 +489,7 @@ d.get_phonenumber(key, country_code=None, default=None)
 d.get_slug(key, default='', options=[])
 ```
 
--   ##### get_slug_list
+-   #### get_slug_list
 
 ```python
 # Get value by key or keypath trying to return it as list of slug values.
@@ -495,7 +497,7 @@ d.get_slug(key, default='', options=[])
 d.get_slug_list(key, default=[], separator=',')
 ```
 
--   ##### get_str
+-   #### get_str
 
 ```python
 # Get value by key or keypath trying to return it as string.
@@ -504,7 +506,7 @@ d.get_slug_list(key, default=[], separator=',')
 d.get_str(key, default='', options=[])
 ```
 
--   ##### get_str_list
+-   #### get_str_list
 
 ```python
 # Get value by key or keypath trying to return it as list of str values.
