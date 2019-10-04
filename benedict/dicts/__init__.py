@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from six import string_types
+
 from benedict.dicts.io import IODict
 from benedict.dicts.keypath import KeypathDict
 from benedict.dicts.parse import ParseDict
