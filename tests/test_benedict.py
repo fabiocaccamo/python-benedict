@@ -896,6 +896,39 @@ class BenedictTestCase(unittest.TestCase):
         }
         self.assertEqual(d, r)
 
+    def test_move(self):
+        d = {
+            'a': {
+                'x': 1,
+                'y': 1,
+            },
+            'b': {
+                'x': 2,
+                'y': 2,
+            },
+            'c': {
+                'x': 3,
+                'y': 3,
+            },
+        }
+        b = benedict(d)
+        b.move('a', 'c.z')
+        r = {
+            'b': {
+                'x': 2,
+                'y': 2,
+            },
+            'c': {
+                'x': 3,
+                'y': 3,
+                'z': {
+                    'x': 1,
+                    'y': 1,
+                },
+            },
+        }
+        self.assertEqual(b, r)
+
     def test_pop(self):
         d = {
             'a': 1,

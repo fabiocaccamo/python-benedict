@@ -95,6 +95,9 @@ class benedict(IODict, KeypathDict, ParseDict):
         for d in dicts:
             dict_util.merge(self, d)
 
+    def move(self, key_src, key_dest):
+        self[key_dest] = self.pop(key_src)
+
     def remove(self, keys, *args):
         if isinstance(keys, string_types):
             keys = [keys]
