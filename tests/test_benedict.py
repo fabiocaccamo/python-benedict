@@ -911,7 +911,21 @@ class BenedictTestCase(unittest.TestCase):
         self.assertEqual(b.pop('b.c'), 2)
         # self.assertTrue(isinstance(b.pop('b.d'), benedict))
 
-    def test_remove(self):
+    def test_remove_with_key(self):
+        d = {
+            'a': 1,
+            'b': 2,
+            'c': '4',
+        }
+        b = benedict(d)
+        b.remove('c')
+        r = {
+            'a': 1,
+            'b': 2,
+        }
+        self.assertEqual(b, r)
+
+    def test_remove_with_keys_list(self):
         d = {
             'a': 1,
             'b': 2,
@@ -922,6 +936,23 @@ class BenedictTestCase(unittest.TestCase):
         }
         b = benedict(d)
         b.remove(['c', 'e', 'f', 'g', 'x', 'y', 'z'])
+        r = {
+            'a': 1,
+            'b': 2,
+        }
+        self.assertEqual(b, r)
+
+    def test_remove_with_keys_args(self):
+        d = {
+            'a': 1,
+            'b': 2,
+            'c': '4',
+            'e': '5',
+            'f': 6,
+            'g': 7,
+        }
+        b = benedict(d)
+        b.remove('c', 'e', 'f', 'g', 'x', 'y', 'z')
         r = {
             'a': 1,
             'b': 2,

@@ -93,7 +93,10 @@ class benedict(IODict, KeypathDict, ParseDict):
         for d in dicts:
             dict_util.merge(self, d)
 
-    def remove(self, keys):
+    def remove(self, keys, *args):
+        if isinstance(keys, string_types):
+            keys = [keys]
+        keys += args
         for key in keys:
             try:
                 del self[key]
