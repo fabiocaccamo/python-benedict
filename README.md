@@ -32,8 +32,10 @@ python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (
         -   [`items_sorted_by_keys`](#items_sorted_by_keys)
         -   [`items_sorted_by_values`](#items_sorted_by_values)
         -   [`merge`](#merge)
+        -   [`move`](#move)
         -   [`remove`](#remove)
         -   [`subset`](#subset)
+        -   [`swap`](#swap)
     -   [I/O](#io)
         -   [`from_base64`](#from_base64)
         -   [`from_json`](#from_json)
@@ -154,7 +156,9 @@ d = benedict(existing_dict, keypath_separator=None)
 ### Utility
 These methods are common utilities that will speed up your everyday work.
 
-Utilities that return a dictionary return always a new `benedict` instance.
+Utilities that accepts key argument(s) also accepts keypath(s).
+
+Utilities that return a dictionary always return a new `benedict` instance.
 
 -   #### clean
 
@@ -202,9 +206,9 @@ f = d.flatten(separator='_')
 -   #### invert
 
 ```python
-# Return an inverted dict swapping values with keys.
-# Since multiple keys could have the same value, each value will be a list.
-# If flat is True each value will be a single value.
+# Return an inverted dict where values become keys and keys become values.
+# Since multiple keys could have the same value, each value will be a list of keys.
+# If flat is True each value will be a single value (use this only if values are unique).
 i = d.invert(flat=False)
 ```
 
@@ -212,7 +216,7 @@ i = d.invert(flat=False)
 
 ```python
 # Return items (key/value list) sorted by keys.
-If reverse is True, the list will be reversed.
+# If reverse is True, the list will be reversed.
 items = d.items_sorted_by_keys(reverse=False)
 ```
 
@@ -232,10 +236,20 @@ items = d.items_sorted_by_values(reverse=False)
 d.merge(a, b, c)
 ```
 
+-   #### move
+
+```python
+# Move an item from key_src to key_dst.
+# It can be used to rename a key.
+# If key_dst exists, it will be overwritten.
+d.move('a', 'b')
+```
+
 -   #### remove
 
 ```python
 # Remove multiple keys from the dict.
+# It is possible to pass a single key or more keys (as list or *args).
 d.remove(['firstname', 'lastname', 'email'])
 ```
 
@@ -243,7 +257,15 @@ d.remove(['firstname', 'lastname', 'email'])
 
 ```python
 # Return a dict subset for the given keys.
+# It is possible to pass a single key or more keys (as list or *args).
 s = d.subset(['firstname', 'lastname', 'email'])
+```
+
+-   #### swap
+
+```python
+# Swap items values at the given keys.
+d.swap('firstname', 'lastname')
 ```
 
 ### I/O
