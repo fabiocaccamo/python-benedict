@@ -114,3 +114,6 @@ class benedict(IODict, KeypathDict, ParseDict):
         for key in keys:
             d[key] = self.get(key, None)
         return d
+
+    def swap(self, key1, key2):
+        self[key1], self[key2] = self[key2], self[key1]

@@ -1093,3 +1093,63 @@ class BenedictTestCase(unittest.TestCase):
         self.assertTrue(isinstance(f, benedict))
         self.assertEqual(f.get('x.a'), 1)
         self.assertEqual(f.get('y.b'), 2)
+
+    def test_swap(self):
+        d = {
+            'a': 1,
+            'b': 2,
+            'c': 3,
+        }
+        b = benedict(d)
+        b.swap('a', 'b')
+        r = {
+            'a': 2,
+            'b': 1,
+            'c': 3,
+        }
+        self.assertEqual(b, r)
+
+    def test_swap_with_invalid_key(self):
+        d = {
+            'a': 1,
+            'b': 2,
+            'c': 3,
+        }
+        b = benedict(d)
+        with self.assertRaises(KeyError):
+            b.swap('a', 'd')
+
+    def test_swap_with_keypath(self):
+        d = {
+            'a': {
+                'x': 1,
+                'y': 1,
+            },
+            'b': {
+                'x': 2,
+                'y': 2,
+            },
+            'c': {
+                'x': 3,
+                'y': 3,
+            },
+        }
+        b = benedict(d)
+        b.swap('a.y', 'b.y')
+        b.swap('b.x', 'c.x')
+        b.swap('a', 'c')
+        r = {
+            'a': {
+                'x': 2,
+                'y': 3,
+            },
+            'b': {
+                'x': 3,
+                'y': 1,
+            },
+            'c': {
+                'x': 1,
+                'y': 2,
+            },
+        }
+        self.assertEqual(b, r)
