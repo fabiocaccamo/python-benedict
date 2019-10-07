@@ -98,3 +98,6 @@ class benedict(IODict, KeypathDict, ParseDict):
 
     def swap(self, key1, key2):
         dict_util.swap(self, key1, key2)
+
+    def unique(self):
+        dict_util.unique(self)

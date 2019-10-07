@@ -1194,3 +1194,52 @@ class BenedictTestCase(unittest.TestCase):
             },
         }
         self.assertEqual(b, r)
+
+    def test_unique(self):
+        d = {
+            'a': {
+                'x': 1,
+                'y': 1,
+            },
+            'b': {
+                'x': 2,
+                'y': 2,
+            },
+            'c': {
+                'x': 1,
+                'y': 1,
+            },
+            'd': {
+                'x': 1,
+            },
+            'e': {
+                'x': 1,
+                'y': 1,
+                'z': 1,
+            },
+            'f': {
+                'x': 2,
+                'y': 2,
+            },
+        }
+        b = benedict(d)
+        b.unique()
+        r = {
+            'a': {
+                'x': 1,
+                'y': 1,
+            },
+            'b': {
+                'x': 2,
+                'y': 2,
+            },
+            'd': {
+                'x': 1,
+            },
+            'e': {
+                'x': 1,
+                'y': 1,
+                'z': 1,
+            },
+        }
+        self.assertEqual(b, r)

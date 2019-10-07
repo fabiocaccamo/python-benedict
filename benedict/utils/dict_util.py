@@ -110,3 +110,14 @@ def subset(d, keys, *args):
 
 def swap(d, key1, key2):
     d[key1], d[key2] = d[key2], d[key1]
+
+
+def unique(d):
+    values = []
+    keys = sorted(d.keys())
+    for key in keys:
+        value = d.get(key, None)
+        if value in values:
+            d.pop(key, None)
+            continue
+        values.append(value)
