@@ -73,6 +73,8 @@ class BenedictTestCase(unittest.TestCase):
         }
         b = benedict(d)
         c = b.clone()
+        self.assertEqual(type(b), type(c))
+        self.assertTrue(isinstance(c, benedict))
         self.assertEqual(b, c)
         self.assertFalse(c is b)
         c['a']['b']['c'] = 2
@@ -90,6 +92,7 @@ class BenedictTestCase(unittest.TestCase):
         b = benedict(d)
         c = b.copy()
         self.assertEqual(type(b), type(c))
+        self.assertTrue(isinstance(c, benedict))
         self.assertEqual(b, c)
         self.assertFalse(c is b)
         c['a.b.c'] = 2
@@ -288,6 +291,8 @@ class BenedictTestCase(unittest.TestCase):
             'f': 6,
             'g': 7,
         }
+        self.assertEqual(type(b), type(f))
+        self.assertTrue(isinstance(f, benedict))
         self.assertEqual(f, r)
         self.assertFalse(b is f)
 
@@ -352,6 +357,7 @@ class BenedictTestCase(unittest.TestCase):
             'c_d_g_h': 5,
         }
         self.assertEqual(f, r)
+        self.assertEqual(type(b), type(f))
         self.assertTrue(isinstance(f, benedict))
 
     def test_flatten_with_custom_separator(self):
@@ -1057,6 +1063,8 @@ class BenedictTestCase(unittest.TestCase):
         }
         self.assertEqual(f, r)
         self.assertFalse(f is b)
+        self.assertEqual(type(b), type(f))
+        self.assertTrue(isinstance(f, benedict))
 
     def test_subset_with_keys_args(self):
         d = {

@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from six import string_types
-
 from benedict.dicts.io import IODict
 from benedict.dicts.keypath import KeypathDict
 from benedict.dicts.parse import ParseDict
@@ -25,7 +23,6 @@ class benedict(IODict, KeypathDict, ParseDict):
     def clean(self, strings=True, dicts=True, lists=True):
         dict_util.clean(self, strings=strings, dicts=dicts, lists=lists)
 
-    @benediction
     def clone(self):
         return dict_util.clone(self)
 
@@ -42,11 +39,9 @@ class benedict(IODict, KeypathDict, ParseDict):
     def dump(self, data=None):
         return dict_util.dump(data or self)
 
-    @benediction
     def filter(self, predicate):
         return dict_util.filter(self, predicate)
 
-    @benediction
     def flatten(self, separator='_'):
         return dict_util.flatten(self, separator)
 
@@ -80,7 +75,6 @@ class benedict(IODict, KeypathDict, ParseDict):
     def from_yaml(s, **kwargs):
         return IODict.from_yaml(s, **kwargs)
 
-    @benediction
     def invert(self, flat=False):
         return dict_util.invert(self, flat)
 
@@ -91,32 +85,16 @@ class benedict(IODict, KeypathDict, ParseDict):
         return dict_util.items_sorted_by_values(self, reverse=reverse)
 
     def merge(self, other, *args):
-        dicts = [other] + list(args)
-        for d in dicts:
-            dict_util.merge(self, d)
+        dict_util.merge(self, other, *args)
 
     def move(self, key_src, key_dest):
-        self[key_dest] = self.pop(key_src)
+        dict_util.move(self, key_src, key_dest)
 
     def remove(self, keys, *args):
-        if isinstance(keys, string_types):
-            keys = [keys]
-        keys += args
-        for key in keys:
-            try:
-                del self[key]
-            except KeyError:
-                continue
+        dict_util.remove(self, keys, *args)
 
-    @benediction
     def subset(self, keys, *args):
-        d = self.__class__()
-        if isinstance(keys, string_types):
-            keys = [keys]
-        keys += args
-        for key in keys:
-            d[key] = self.get(key, None)
-        return d
+        return dict_util.subset(self, keys, *args)
 
     def swap(self, key1, key2):
-        self[key1], self[key2] = self[key2], self[key1]
+        dict_util.swap(self, key1, key2)

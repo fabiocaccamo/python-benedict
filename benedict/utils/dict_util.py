@@ -31,7 +31,7 @@ def dump(data):
 
 
 def flatten(d, separator='_', base=''):
-    new_dict = {}
+    new_dict = d.__class__()
     keys = sorted(d.keys())
     for key in keys:
         value = d.get(key)
@@ -46,7 +46,7 @@ def flatten(d, separator='_', base=''):
 def filter(d, predicate):
     if not callable(predicate):
         raise ValueError('predicate argument must be a callable.')
-    new_dict = {}
+    new_dict = d.__class__()
     keys = d.keys()
     for key in keys:
         value = d.get(key, None)
@@ -56,10 +56,11 @@ def filter(d, predicate):
 
 
 def invert(d, flat=False):
+    new_dict = d.__class__()
     if flat:
-        new_dict = { value:key for key, value in d.items() }
+        for key, value in d.items():
+            new_dict.setdefault(value, key)
     else:
-        new_dict = {}
         for key, value in d.items():
             new_dict.setdefault(value, []).append(key)
     return new_dict
@@ -73,11 +74,39 @@ def items_sorted_by_values(d, reverse=False):
     return sorted(d.items(), key=lambda item: item[1], reverse=reverse)
 
 
-def merge(d, other):
-    for key, value in other.copy().items():
-        src = d.get(key, None)
-        if isinstance(src, dict) and isinstance(value, dict):
-            merge(src, value)
-        else:
-            d[key] = value
+def merge(d, other, *args):
+    others = [other] + list(args)
+    for other in others:
+        for key, value in other.items():
+            src = d.get(key, None)
+            if isinstance(src, dict) and isinstance(value, dict):
+                merge(src, value)
+            else:
+                d[key] = value
     return d
+
+
+def move(d, key_src, key_dest):
+    d[key_dest] = d.pop(key_src)
+
+
+def remove(d, keys, *args):
+    if isinstance(keys, string_types):
+        keys = [keys]
+    keys += args
+    for key in keys:
+        d.pop(key, None)
+
+
+def subset(d, keys, *args):
+    new_dict = d.__class__()
+    if isinstance(keys, string_types):
+        keys = [keys]
+    keys += args
+    for key in keys:
+        new_dict[key] = d.get(key, None)
+    return new_dict
+
+
+def swap(d, key1, key2):
+    d[key1], d[key2] = d[key2], d[key1]
