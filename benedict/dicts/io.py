@@ -76,7 +76,8 @@ class IODict(dict):
             pass
 
     @staticmethod
-    def from_base64(s, **kwargs):
+    def from_base64(s, format='json', **kwargs):
+        kwargs['format'] = format
         return IODict._decode(s,
             decoder=io_util.decode_base64, **kwargs)
 
@@ -100,7 +101,8 @@ class IODict(dict):
         return IODict._decode(s,
             decoder=io_util.decode_yaml, **kwargs)
 
-    def to_base64(self, filepath=None, **kwargs):
+    def to_base64(self, filepath=None, format='json', **kwargs):
+        kwargs['format'] = format
         return IODict._encode(self,
             encoder=io_util.encode_base64,
             filepath=filepath, **kwargs)

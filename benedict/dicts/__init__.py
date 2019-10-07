@@ -57,8 +57,8 @@ class benedict(IODict, KeypathDict, ParseDict):
 
     @staticmethod
     @benediction
-    def from_base64(s, **kwargs):
-        return IODict.from_base64(s, **kwargs)
+    def from_base64(s, format='json', **kwargs):
+        return IODict.from_base64(s, format, **kwargs)
 
     @staticmethod
     @benediction

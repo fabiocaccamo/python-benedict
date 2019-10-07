@@ -10,7 +10,14 @@ import toml
 import yaml
 
 def decode_base64(s, **kwargs):
-    decode_func = kwargs.pop('through', decode_json)
+    decode_format = kwargs.pop('format', 'json').lower()
+    decoders = {
+        'json': decode_json,
+        'toml': decode_toml,
+        'yaml': decode_yaml,
+        'xml': decode_xml,
+    }
+    decode_func = decoders.get(decode_format, decode_json)
     b = base64.b64decode(s)
     s = b.decode('utf-8')
     return decode_func(s, **kwargs)
@@ -39,7 +46,14 @@ def decode_yaml(s, **kwargs):
 
 
 def encode_base64(d, **kwargs):
-    encode_func = kwargs.pop('through', encode_json)
+    encode_format = kwargs.pop('format', 'json').lower()
+    encoders = {
+        'json': encode_json,
+        'toml': encode_toml,
+        'yaml': encode_yaml,
+        'xml': encode_xml,
+    }
+    encode_func = encoders.get(encode_format, encode_json)
     data = base64.b64encode(
         encode_func(d, **kwargs).encode('utf-8')).decode('utf-8')
     return data
