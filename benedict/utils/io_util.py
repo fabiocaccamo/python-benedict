@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from six import string_types
+
 import base64
 import errno
 import json
@@ -9,18 +11,36 @@ import xmltodict
 import toml
 import yaml
 
+try:
+    # python 3
+    from urllib.parse import unquote_plus as urldecode
+except ImportError:
+    # python 2
+    from urllib import unquote_plus as urldecode
+
+
 def decode_base64(s, **kwargs):
-    decode_format = kwargs.pop('format', 'json').lower()
-    decoders = {
-        'json': decode_json,
-        'toml': decode_toml,
-        'yaml': decode_yaml,
-        'xml': decode_xml,
-    }
-    decode_func = decoders.get(decode_format, decode_json)
-    b = base64.b64decode(s)
-    s = b.decode('utf-8')
-    return decode_func(s, **kwargs)
+    # fix urlencoded chars
+    s = urldecode(s)
+    # fix padding
+    m = len(s) % 4
+    if m != 0:
+        s += '=' * (4 - m)
+    encoding = kwargs.pop('encoding', 'utf-8')
+    data = base64.b64decode(s).decode(encoding)
+    # decode data if format is specified
+    decode_format = kwargs.pop('format', 'json')
+    if decode_format:
+        decoders = {
+            'json': decode_json,
+            'toml': decode_toml,
+            'yaml': decode_yaml,
+            'xml': decode_xml,
+        }
+        decode_func = decoders.get(decode_format.lower(), None)
+        if decode_func:
+            data = decode_func(data, **kwargs)
+    return data
 
 
 def decode_json(s, **kwargs):
@@ -46,16 +66,21 @@ def decode_yaml(s, **kwargs):
 
 
 def encode_base64(d, **kwargs):
-    encode_format = kwargs.pop('format', 'json').lower()
-    encoders = {
-        'json': encode_json,
-        'toml': encode_toml,
-        'yaml': encode_yaml,
-        'xml': encode_xml,
-    }
-    encode_func = encoders.get(encode_format, encode_json)
-    data = base64.b64encode(
-        encode_func(d, **kwargs).encode('utf-8')).decode('utf-8')
+    encoding = kwargs.pop('encoding', 'utf-8')
+    encode_format = kwargs.pop('format', 'json')
+    if encode_format:
+        encoders = {
+            'json': encode_json,
+            'toml': encode_toml,
+            'yaml': encode_yaml,
+            'xml': encode_xml,
+        }
+        encode_func = encoders.get(encode_format.lower(), None)
+        if encode_func:
+            data = encode_func(d, **kwargs)
+    if isinstance(data, string_types):
+        data = data.encode(encoding)
+    data = base64.b64encode(data).decode(encoding)
     return data
 
 

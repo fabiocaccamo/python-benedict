@@ -37,6 +37,19 @@ class IODictTestCase(unittest.TestCase):
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, })
 
+    def test_from_base64_with_valid_data_without_padding(self):
+        j = 'eyJhIjogMSwgImIiOiAyLCAiYyI6IDMsICJkIjogNH0'
+        # eyJhIjogMSwgImIiOiAyLCAiYyI6IDMsICJkIjogNH0=
+        # j = '{"a": 1, "b": 2, "c": 3, "d": 4}'
+        # static method
+        d = IODict.from_base64(j)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, 'd': 4})
+        # constructor
+        d = IODict(j)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, 'd': 4})
+
     def test_from_base64_with_invalid_data(self):
         j = 'Lorem ipsum est in ea occaecat nisi officia.'
         # static method
