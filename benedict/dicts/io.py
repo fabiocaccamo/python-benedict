@@ -11,7 +11,7 @@ class IODict(dict):
         # if first argument is data-string,
         # try to decode it using all decoders.
         if len(args) and isinstance(args[0], string_types):
-            d = IODict._from_any_data_string(args[0])
+            d = IODict._from_any_data_string(args[0], **kwargs)
             if d and isinstance(d, dict):
                 args = list(args)
                 args[0] = d
@@ -96,8 +96,8 @@ class IODict(dict):
         return IODict._decode(s,
             decoder=io_util.decode_xml, **kwargs)
 
-    @classmethod
-    def from_yaml(cls, s, **kwargs):
+    @staticmethod
+    def from_yaml(s, **kwargs):
         return IODict._decode(s,
             decoder=io_util.decode_yaml, **kwargs)
 
