@@ -9,7 +9,7 @@
 [![License](https://img.shields.io/pypi/l/python-benedict.svg)](https://img.shields.io/pypi/l/python-benedict.svg)
 
 # python-benedict
-python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (Base64, JSON, TOML, XML, YAML) and many **utilities**... for humans, obviously.
+python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (Base64, JSON, TOML, XML, YAML, query-string) and many **utilities**... for humans, obviously.
 
 ## Index
 -   [Features](#features)
@@ -36,14 +36,17 @@ python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (
         -   [`remove`](#remove)
         -   [`subset`](#subset)
         -   [`swap`](#swap)
+        -   [`unique`](#unique)
     -   [I/O](#io)
         -   [`from_base64`](#from_base64)
         -   [`from_json`](#from_json)
+        -   [`from_query_string`](#from_query_string)
         -   [`from_toml`](#from_toml)
         -   [`from_xml`](#from_xml)
         -   [`from_yaml`](#from_yaml)
         -   [`to_base64`](#to_base64)
         -   [`to_json`](#to_json)
+        -   [`to_query_string`](#to_query_string)
         -   [`to_toml`](#to_toml)
         -   [`to_xml`](#to_xml)
         -   [`to_yaml`](#to_yaml)
@@ -72,7 +75,7 @@ python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (
 
 ## Features
 -   Full **keypath** support *(using the dot syntax by default)*
--   Easy **I/O operations** with most common formats: `Base64`, `JSON`, `TOML`, `XML`, `YAML`
+-   Easy **I/O operations** with most common formats: `Base64`, `JSON`, `TOML`, `XML`, `YAML`, `query-string`
 -   Many **utility** and **parse methods** to retrieve data as needed *(all methods listed below)*
 -   Well **tested**, check the badges ;)
 -   100% **backward-compatible** *(you can replace existing dicts without pain)*
@@ -97,7 +100,7 @@ d = benedict()
 # or cast an existing dict
 d = benedict(existing_dict)
 
-# or create from data source (filepath, url or data-string) in a supported format (base64, json, toml, xml, yaml)
+# or create from data source (filepath, url or data-string) in a supported format (base64, json, toml, xml, yaml, query-string)
 d = benedict('https://localhost:8000/data.json')
 
 # or in a Django view
@@ -241,7 +244,7 @@ d.merge(a, b, c)
 ```python
 # Move an item from key_src to key_dst.
 # It can be used to rename a key.
-# If key_dst exists, it will be overwritten.
+# If key_dst exists, its value will be overwritten.
 d.move('a', 'b')
 ```
 
@@ -268,6 +271,13 @@ s = d.subset(['firstname', 'lastname', 'email'])
 d.swap('firstname', 'lastname')
 ```
 
+-   #### unique
+
+```python
+# Remove duplicated values from the dict.
+d.unique()
+```
+
 ### I/O
 
 It is possible to create a `benedict` instance directly from data source (filepath, url or data-string) by passing the data source as first argument in the constructor.
@@ -283,15 +293,17 @@ d = benedict('https://localhost:8000/data.xml')
 d = benedict('{"a": 1, "b": 2, "c": 3, "x": 7, "y": 8, "z": 9}')
 ```
 
-These methods simplify I/O operations with most common formats: `base64`, `json`, `toml`, `xml`, `yaml`
+These methods simplify I/O operations with most common formats: `base64`, `json`, `toml`, `xml`, `yaml`, `query-string`
 
 -   #### from_base64
 
 ```python
 # Try to load/decode a base64 encoded data and return it as benedict instance.
 # Accept as first argument: url, filepath or data-string.
+# It's possible to choose the format used under the hood ('json', 'toml', 'xml', 'yaml') default 'json'.
+# It's possible to pass decoder specific options using kwargs.
 # A ValueError is raised in case of failure.
-d = benedict.from_base64(s, **kwargs)
+d = benedict.from_base64(s, format='json', **kwargs)
 ```
 
 -   #### from_json
@@ -312,6 +324,15 @@ d = benedict.from_json(s, **kwargs)
 # It's possible to pass decoder specific options using kwargs: https://pypi.org/project/toml/
 # A ValueError is raised in case of failure.
 d = benedict.from_toml(s, **kwargs)
+```
+
+-   #### from_query_string
+
+```python
+# Try to load/decode a query-string and return it as benedict instance.
+# Accept as first argument: url, filepath or data-string.
+# A ValueError is raised in case of failure.
+d = benedict.from_query_string(s, **kwargs)
 ```
 
 -   #### from_xml
@@ -338,8 +359,10 @@ d = benedict.from_yaml(s, **kwargs)
 
 ```python
 # Return the dict instance encoded in base64 format and optionally save it at the specified filepath.
+# It's possible to choose the format used under the hood ('json', 'toml', 'xml', 'yaml') default 'json'.
+# It's possible to pass decoder specific options using kwargs.
 # A ValueError is raised in case of failure.
-s = d.to_base64(filepath='', **kwargs)
+s = d.to_base64(filepath='', format='json', **kwargs)
 ```
 
 -   #### to_json
@@ -349,6 +372,14 @@ s = d.to_base64(filepath='', **kwargs)
 # It's possible to pass encoder specific options using kwargs: https://docs.python.org/3/library/json.html
 # A ValueError is raised in case of failure.
 s = d.to_json(filepath='', **kwargs)
+```
+
+-   #### to_query_string
+
+```python
+# Return the dict instance as query-string and optionally save it at the specified filepath.
+# A ValueError is raised in case of failure.
+s = d.to_query_string(filepath='', **kwargs)
 ```
 
 -   #### to_toml

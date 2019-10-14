@@ -34,8 +34,11 @@ setup(
         github_url, package_name, __version__),
     keywords=[
         'python', 'dictionary', 'dict', 'subclass', 'extended',
-        'benedict', 'io', 'keypath', 'parse', 'utility', 'data',
-        'base64', 'json', 'querystring', 'toml', 'yaml', 'xml',
+        'benedict', 'io', 'read', 'write', 'parse', 'keypath',
+        'utility', 'data', 'base64', 'json', 'query-string',
+        'toml', 'xml', 'yaml', 'clean', 'clone', 'deepclone',
+        'deepupdate', 'dump', 'filter', 'flatten', 'invert',
+        'merge', 'move', 'remove', 'subset', 'swap', 'unique',
     ],
     install_requires=[
         'ftfy==4.4.3;python_version<"3.4"',
