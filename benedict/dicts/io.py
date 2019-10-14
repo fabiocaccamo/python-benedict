@@ -49,31 +49,21 @@ class IODict(dict):
 
     @staticmethod
     def _from_any_data_string(s, **kwargs):
-        try:
-            d = IODict.from_base64(s, **kwargs)
-            return d
-        except ValueError:
-            pass
-        try:
-            d = IODict.from_json(s, **kwargs)
-            return d
-        except ValueError:
-            pass
-        try:
-            d = IODict.from_toml(s, **kwargs)
-            return d
-        except ValueError:
-            pass
-        try:
-            d = IODict.from_xml(s, **kwargs)
-            return d
-        except ValueError:
-            pass
-        try:
-            d = IODict.from_yaml(s, **kwargs)
-            return d
-        except ValueError:
-            pass
+        funcs = [
+            IODict.from_base64,
+            IODict.from_json,
+            IODict.from_query_string,
+            IODict.from_toml,
+            IODict.from_xml,
+            IODict.from_yaml,
+        ]
+        for f in funcs:
+            try:
+                options = kwargs.copy()
+                d = f(s, **options)
+                return d
+            except ValueError:
+                pass
 
     @staticmethod
     def from_base64(s, format='json', **kwargs):
@@ -85,6 +75,11 @@ class IODict(dict):
     def from_json(s, **kwargs):
         return IODict._decode(s,
             decoder=io_util.decode_json, **kwargs)
+
+    @staticmethod
+    def from_query_string(s, **kwargs):
+        return IODict._decode(s,
+            decoder=io_util.decode_query_string, **kwargs)
 
     @staticmethod
     def from_toml(s, **kwargs):
@@ -110,6 +105,11 @@ class IODict(dict):
     def to_json(self, filepath=None, **kwargs):
         return IODict._encode(self,
             encoder=io_util.encode_json,
+            filepath=filepath, **kwargs)
+
+    def to_query_string(self, filepath=None, **kwargs):
+        return IODict._encode(self,
+            encoder=io_util.encode_query_string,
             filepath=filepath, **kwargs)
 
     def to_toml(self, filepath=None, **kwargs):

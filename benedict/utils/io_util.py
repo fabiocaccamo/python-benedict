@@ -6,6 +6,7 @@ import base64
 import errno
 import json
 import os
+import re
 import requests
 import xmltodict
 import toml
@@ -14,9 +15,13 @@ import yaml
 try:
     # python 3
     from urllib.parse import unquote_plus as urldecode
+    from urllib.parse import urlencode
+    from urllib.parse import parse_qs
 except ImportError:
     # python 2
     from urllib import unquote_plus as urldecode
+    from urllib import urlencode
+    from urlparse import parse_qs
 
 
 def decode_base64(s, **kwargs):
@@ -46,6 +51,19 @@ def decode_base64(s, **kwargs):
 def decode_json(s, **kwargs):
     data = json.loads(s, **kwargs)
     return data
+
+
+def decode_query_string(s, **kwargs):
+    flat = kwargs.pop('flat', True)
+    qs_re = r'^(([\w\-\%\+]+\=[\w\-\%\+]*)+([\&]{1})?)+'
+    qs_pattern = re.compile(qs_re)
+    if qs_pattern.match(s):
+        data = parse_qs(s)
+        if flat:
+            data = { key:value[0] for key, value in data.items() }
+        return data
+    else:
+        raise ValueError('Invalid query string: {}'.format(s))
 
 
 def decode_xml(s, **kwargs):
@@ -86,6 +104,11 @@ def encode_base64(d, **kwargs):
 
 def encode_json(d, **kwargs):
     data = json.dumps(d, **kwargs)
+    return data
+
+
+def encode_query_string(d, **kwargs):
+    data = urlencode(d, **kwargs)
     return data
 
 

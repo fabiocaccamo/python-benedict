@@ -483,6 +483,18 @@ class BenedictTestCase(unittest.TestCase):
         self.assertTrue(isinstance(d, benedict))
         self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, })
 
+    def test_from_query_string_with_valid_data(self):
+        s = 'ok=1&test=2&page=3&lib=python%20benedict&author=Fabio+Caccamo&author=Fabio%20Caccamo'
+        r = { 'ok': '1', 'test': '2', 'page': '3', 'lib':'python benedict', 'author':'Fabio Caccamo' }
+        # static method
+        d = benedict.from_query_string(s)
+        self.assertTrue(isinstance(d, benedict))
+        self.assertEqual(d, r)
+        # constructor
+        d = benedict(s)
+        self.assertTrue(isinstance(d, benedict))
+        self.assertEqual(d, r)
+
     def test_from_toml(self):
         j = """
             a = 1
