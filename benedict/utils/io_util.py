@@ -166,9 +166,10 @@ def read_url(url, *args, **kwargs):
 
 def write_file(filepath, content):
     # https://stackoverflow.com/questions/12517451/automatically-creating-directories-with-file-output
-    if not os.path.exists(os.path.dirname(filepath)):
+    filedir = os.path.dirname(filepath)
+    if not os.path.exists(filedir):
         try:
-            os.makedirs(os.path.dirname(filepath))
+            os.makedirs(filedir)
         except OSError as e:
             # Guard against race condition
             if e.errno != errno.EEXIST:
