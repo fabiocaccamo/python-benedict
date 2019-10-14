@@ -14,37 +14,50 @@ import yaml
 
 try:
     # python 3
-    from urllib.parse import unquote_plus as urldecode
+    from urllib.parse import unquote
+    from urllib.parse import unquote_plus
     from urllib.parse import urlencode
     from urllib.parse import parse_qs
 except ImportError:
     # python 2
-    from urllib import unquote_plus as urldecode
+    from urllib import unquote
+    from urllib import unquote_plus
     from urllib import urlencode
     from urlparse import parse_qs
 
 
 def decode_base64(s, **kwargs):
     # fix urlencoded chars
-    s = urldecode(s)
+    s = unquote(s)
     # fix padding
     m = len(s) % 4
     if m != 0:
         s += '=' * (4 - m)
+    b = base64.b64decode(s)
     encoding = kwargs.pop('encoding', 'utf-8')
-    data = base64.b64decode(s).decode(encoding)
-    # decode data if format is specified
-    decode_format = kwargs.pop('format', 'json')
-    if decode_format:
+    format = kwargs.pop('format', None)
+    if encoding:
+        data = decode_bytes(b, encoding=encoding, format=format)
+    else:
+        data = b
+    return data
+
+
+def decode_bytes(b, encoding='utf-8', format=None, **kwargs):
+    s = b.decode(encoding)
+    # fix trailing null chars
+    s = s.strip().strip('\x00').strip()
+    if format:
         decoders = {
             'json': decode_json,
             'toml': decode_toml,
             'yaml': decode_yaml,
             'xml': decode_xml,
         }
-        decode_func = decoders.get(decode_format.lower(), None)
-        if decode_func:
-            data = decode_func(data, **kwargs)
+        decoder = decoders[format]
+        data = decoder(s, **kwargs)
+    else:
+        data = s
     return data
 
 
