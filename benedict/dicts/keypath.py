@@ -1,61 +1,98 @@
 # -*- coding: utf-8 -*-
 
-from benedict.utils import keypath_util
+from benedict.utils import dict_util
+from six import string_types
 
 
 class KeypathDict(dict):
 
     def __init__(self, *args, **kwargs):
-        self._keypath_separator = kwargs.pop('keypath_separator', None) \
-            if 'keypath_separator' in kwargs else '.'
+        self._keypath_separator = kwargs.pop('keypath_separator', '.')
         super(KeypathDict, self).__init__(*args, **kwargs)
-        self._check_keys(self)
+        self._check_keypath_separator_in_keys(self)
 
-    def _check_keys(self, d):
-        keys = keypath_util.all_keys(d)
-        keypath_util.check_keys(keys, self._keypath_separator)
+    @property
+    def keypath_separator(self):
+        return self._keypath_separator
 
-    def _follow_keys(self, keys):
-        return keypath_util.follow_keys(self, keys)
+    @keypath_separator.setter
+    def keypath_separator(self, value):
+        self._keypath_separator = value
+        self._check_keypath_separator_in_keys(self)
 
-    def _join_keys(self, keys):
-        return keypath_util.join_keys(keys, self._keypath_separator)
+    def _check_keypath_separator_in_keys(self, d):
+        sep = self._keypath_separator
+        if not isinstance(d, dict) or not sep:
+            return
 
-    def _split_keys(self, key):
-        return keypath_util.split_keys(key, self._keypath_separator)
+        def check_key(parent, key, value):
+            if key and isinstance(key, string_types) and sep in key:
+                raise ValueError(
+                    'keys should not contain keypath separator '
+                    '\'{}\', found: \'{}\'.'.format(sep, key))
+        dict_util.traverse(d, check_key)
+
+    def _goto_keys(self, keys):
+        result = (None, None, None, )
+        parent = self
+        i = 0
+        j = len(keys)
+        while i < j:
+            key = keys[i]
+            try:
+                value = parent[key]
+                result = (parent, key, value, )
+                parent = value
+                i += 1
+            except (KeyError, TypeError, ) as e:
+                result = (None, None, None, )
+                break
+        return result
+
+    def _list_keys(self, key):
+        if isinstance(key, string_types):
+            sep = self._keypath_separator
+            if sep and sep in key:
+                return list(key.split(sep))
+            else:
+                return [key]
+        elif isinstance(key, (list, tuple, )):
+            keys = []
+            for key_item in key:
+                keys += self._list_keys(key_item)
+            return keys
+        else:
+            return [key]
 
     def __contains__(self, key):
-        keys = self._split_keys(key)
+        keys = self._list_keys(key)
         if len(keys) > 1:
-            item_parent, item_key = self._follow_keys(keys)
-            if isinstance(item_parent, dict):
-                if item_parent.__contains__(item_key):
-                    return True
-                else:
-                    return False
+            parent, key, value = self._goto_keys(keys)
+            if isinstance(parent, dict) and parent.__contains__(key):
+                return True
             else:
                 return False
         else:
             return super(KeypathDict, self).__contains__(key)
 
     def __delitem__(self, key):
-        keys = self._split_keys(key)
+        keys = self._list_keys(key)
         if len(keys) > 1:
-            item_parent, item_key = self._follow_keys(keys)
-            if isinstance(item_parent, dict):
-                item_parent.__delitem__(item_key)
+            parent, key, value = self._goto_keys(keys)
+            if isinstance(parent, dict):
+                parent.__delitem__(key)
             else:
                 raise KeyError
         else:
             super(KeypathDict, self).__delitem__(key)
 
     def __getitem__(self, key):
-        keys = self._split_keys(key)
+        keys = self._list_keys(key)
         value = None
         if len(keys) > 1:
-            item_parent, item_key = self._follow_keys(keys)
-            if isinstance(item_parent, dict):
-                return item_parent.__getitem__(item_key)
+            parent, key, value = self._goto_keys(keys)
+            if isinstance(parent, dict):
+                return parent.__getitem__(key)
             else:
                 raise KeyError
         else:
@@ -63,9 +100,8 @@ class KeypathDict(dict):
         return value
 
     def __setitem__(self, key, value):
-        if isinstance(value, dict):
-            self._check_keys(value)
-        keys = self._split_keys(key)
+        self._check_keypath_separator_in_keys(value)
+        keys = self._list_keys(key)
         if len(keys) > 1:
             i = 0
             j = len(keys)
@@ -94,30 +130,15 @@ class KeypathDict(dict):
         return d
 
     def get(self, key, default=None):
-        keys = self._split_keys(key)
+        keys = self._list_keys(key)
         if len(keys) > 1:
-            item_parent, item_key = self._follow_keys(keys)
-            if isinstance(item_parent, dict):
-                return item_parent.get(item_key, default)
+            parent, key, value = self._goto_keys(keys)
+            if isinstance(parent, dict):
+                return parent.get(key, default)
             else:
                 return default
         else:
             return super(KeypathDict, self).get(key, default)
-
-    def keypaths(self):
-        if not self._keypath_separator:
-            return []
-        def walk_keypaths(root, path):
-            keypaths = []
-            for key, value in root.items():
-                keys = path + [key]
-                keypaths += [self._join_keys(keys)]
-                if isinstance(value, dict):
-                    keypaths += walk_keypaths(value, keys)
-            return keypaths
-        keypaths = walk_keypaths(self, [])
-        keypaths.sort()
-        return keypaths
 
     def pop(self, key, *args, **kwargs):
         if kwargs and 'default' in kwargs:
@@ -129,14 +150,14 @@ class KeypathDict(dict):
         else:
             default_arg = False
             default = None
-        keys = self._split_keys(key)
+        keys = self._list_keys(key)
         if len(keys) > 1:
-            item_parent, item_key = self._follow_keys(keys)
-            if isinstance(item_parent, dict):
+            parent, key, value = self._goto_keys(keys)
+            if isinstance(parent, dict):
                 if default_arg:
-                    return item_parent.pop(item_key, default)
+                    return parent.pop(key, default)
                 else:
-                    return item_parent.pop(item_key)
+                    return parent.pop(key)
             else:
                 if default_arg:
                     return default
@@ -159,6 +180,5 @@ class KeypathDict(dict):
             return self.__getitem__(key)
 
     def update(self, other):
-        if isinstance(other, dict):
-            self._check_keys(other)
+        self._check_keypath_separator_in_keys(other)
         super(KeypathDict, self).update(other)
