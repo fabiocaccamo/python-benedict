@@ -154,6 +154,7 @@ del d['profile', 'lastname']
 
 #### Custom keypath separator
 You can customize the keypath separator passing the `keypath_separator` argument in the constructor.
+
 If you pass an existing dict to the constructor and its keys contain the keypath separator an `Exception` will be raised.
 
 ```python
@@ -162,6 +163,7 @@ d = benedict(existing_dict, keypath_separator='/')
 
 #### Change keypath separator
 You can change the `keypath_separator` at any time using the `getter/setter` property.
+
 If any existing key contains the new `keypath_separator` an `Exception` will be raised.
 
 ```python
