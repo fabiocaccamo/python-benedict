@@ -163,6 +163,38 @@ class IODictTestCase(unittest.TestCase):
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, })
 
+    def test_from_json_with_valid_data_list(self):
+        j = '[0,1,2,3,4,5]'
+        # static method
+        d = IODict.from_json(j)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, { 'values': [0, 1, 2, 3, 4, 5] })
+        # constructor
+        d = IODict(j)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, { 'values': [0, 1, 2, 3, 4, 5] })
+
+    # def test_from_json_with_valid_data_and_trailing_whitespace(self):
+    #     j = '{"a": 1, "b": 2, "c": 3}\n\r\t\n'
+    #     # static method
+    #     d = IODict.from_json(j)
+    #     self.assertTrue(isinstance(d, dict))
+    #     self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, })
+
+    # def test_from_json_with_valid_data_and_trailing_null_chars(self):
+    #     j = '{"a": 1, "b": 2, "c": 3}\x00\x00'
+    #     # static method
+    #     d = IODict.from_json(j)
+    #     self.assertTrue(isinstance(d, dict))
+    #     self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, })
+
+    # def test_from_json_with_valid_data_and_trailing_null_chars_and_whitespace(self):
+    #     j = '{"a": 1, "b": 2, "c": 3}\n\x00\x00\n\t\n'
+    #     # static method
+    #     d = IODict.from_json(j)
+    #     self.assertTrue(isinstance(d, dict))
+    #     self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, })
+
     def test_from_json_with_invalid_data(self):
         j = 'Lorem ipsum est in ea occaecat nisi officia.'
         # static method

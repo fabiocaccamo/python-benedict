@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from six import string_types
+from six import binary_type, string_types
 
 import base64
 import errno
@@ -33,31 +33,21 @@ def decode_base64(s, **kwargs):
     m = len(s) % 4
     if m != 0:
         s += '=' * (4 - m)
-    b = base64.b64decode(s)
-    encoding = kwargs.pop('encoding', 'utf-8')
+    data = base64.b64decode(s)
     format = kwargs.pop('format', None)
+    encoding = kwargs.pop('encoding', 'utf-8' if format else None)
     if encoding:
-        data = decode_bytes(b, encoding=encoding, format=format)
-    else:
-        data = b
-    return data
-
-
-def decode_bytes(b, encoding='utf-8', format=None, **kwargs):
-    s = b.decode(encoding)
-    # fix trailing null chars
-    s = s.strip().strip('\x00').strip()
-    if format:
-        decoders = {
-            'json': decode_json,
-            'toml': decode_toml,
-            'yaml': decode_yaml,
-            'xml': decode_xml,
-        }
-        decoder = decoders[format]
-        data = decoder(s, **kwargs)
-    else:
-        data = s
+        data = data.decode(encoding)
+        if format:
+            decoders = {
+                'json': decode_json,
+                'toml': decode_toml,
+                'yaml': decode_yaml,
+                'xml': decode_xml,
+            }
+            decode_func = decoders.get(format.lower(), '')
+            if decode_func:
+                data = decode_func(data, **kwargs)
     return data
 
 
@@ -97,21 +87,24 @@ def decode_yaml(s, **kwargs):
 
 
 def encode_base64(d, **kwargs):
-    encoding = kwargs.pop('encoding', 'utf-8')
-    encode_format = kwargs.pop('format', 'json')
-    if encode_format:
+    data = d
+    format = kwargs.pop('format', None)
+    encoding = kwargs.pop('encoding', 'utf-8' if format else None)
+    if not isinstance(data, string_types) and format:
         encoders = {
             'json': encode_json,
             'toml': encode_toml,
             'yaml': encode_yaml,
             'xml': encode_xml,
         }
-        encode_func = encoders.get(encode_format.lower(), None)
+        encode_func = encoders.get(format.lower(), '')
         if encode_func:
-            data = encode_func(d, **kwargs)
-    if isinstance(data, string_types):
+            data = encode_func(data, **kwargs)
+    if isinstance(data, string_types) and encoding:
         data = data.encode(encoding)
-    data = base64.b64encode(data).decode(encoding)
+    data = base64.b64encode(data)
+    if isinstance(data, binary_type) and encoding:
+        data = data.decode(encoding)
     return data
 
 
