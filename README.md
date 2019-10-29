@@ -150,6 +150,7 @@ print(['profile', 'lastname'] in d) # -> True
 
 # delete value by keys list
 del d['profile', 'lastname']
+```
 
 #### Custom keypath separator
 You can customize the keypath separator passing the `keypath_separator` argument in the constructor.
