@@ -9,7 +9,7 @@
 [![License](https://img.shields.io/pypi/l/python-benedict.svg)](https://img.shields.io/pypi/l/python-benedict.svg)
 
 # python-benedict
-python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (Base64, JSON, TOML, XML, YAML, query-string) and many **utilities**... for humans, obviously.
+python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (`Base64`, `JSON`, `TOML`, `XML`, `YAML`, `query-string`) and many **utilities**... for humans, obviously.
 
 ## Index
 -   [Features](#features)
@@ -18,8 +18,8 @@ python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (
 -   [Usage](#usage)
     -   [Basics](#basics)
     -   [Keypath](#keypath)
-        -   [List keypaths](#list-keypaths)
         -   [Custom keypath separator](#custom-keypath-separator)
+        -   [Change keypath separator](#change-keypath-separator)
         -   [Disable keypath functionality](#disable-keypath-functionality)
 -   [API](#api)
     -   [Utility](#utility)
@@ -31,11 +31,14 @@ python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (
         -   [`invert`](#invert)
         -   [`items_sorted_by_keys`](#items_sorted_by_keys)
         -   [`items_sorted_by_values`](#items_sorted_by_values)
+        -   [`keypaths`](#keypaths)
         -   [`merge`](#merge)
         -   [`move`](#move)
         -   [`remove`](#remove)
+        -   [`standardize`](#standardize)
         -   [`subset`](#subset)
         -   [`swap`](#swap)
+        -   [`traverse`](#traverse)
         -   [`unique`](#unique)
     -   [I/O](#io)
         -   [`from_base64`](#from_base64)
@@ -74,7 +77,7 @@ python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (
 -   [License](#license)
 
 ## Features
--   Full **keypath** support *(using the dot syntax by default)*
+-   Full **keypath** support using **keypath-separator** *(dot syntax by default)* or **list of keys**.
 -   Easy **I/O operations** with most common formats: `Base64`, `JSON`, `TOML`, `XML`, `YAML`, `query-string`
 -   Many **utility** and **parse methods** to retrieve data as needed *(all methods listed below)*
 -   Well **tested**, check the badges ;)
@@ -113,7 +116,7 @@ page = params.get_int('p', 0)
 
 If you cast an existing dict and its keys contain the keypath separator a `ValueError` will be raised.
 
-In this case you should use a [custom keypath separator](#custom-keypath-separator) or [disable keypath support](#disable-keypath-support).
+In this case you should use a [custom keypath separator](#custom-keypath-separator) or [disable keypath functionality](#disable-keypath-functionality).
 
 ```python
 d = benedict()
@@ -131,20 +134,37 @@ print('profile.lastname' in d) # -> True
 del d['profile.lastname']
 ```
 
-#### List keypaths
-You can list all the `keypaths` available in the `dict`:
+It is possible to do the same using a **list of keys**:
 
 ```python
-# return a list of all keypaths in the dict.
-k = d.keypaths()
-print(k)
-```
+d = benedict()
+
+# set values by keys list
+d['profile', 'firstname'] = 'Fabio'
+d['profile', 'lastname'] = 'Caccamo'
+print(d) # -> { 'profile':{ 'firstname':'Fabio', 'lastname':'Caccamo' } }
+print(d['profile']) # -> { 'firstname':'Fabio', 'lastname':'Caccamo' }
+
+# check if keypath exists in dict
+print(['profile', 'lastname'] in d) # -> True
+
+# delete value by keys list
+del d['profile', 'lastname']
 
 #### Custom keypath separator
 You can customize the keypath separator passing the `keypath_separator` argument in the constructor.
+If you pass an existing dict to the constructor and its keys contain the keypath separator an `Exception` will be raised.
 
 ```python
 d = benedict(existing_dict, keypath_separator='/')
+```
+
+#### Change keypath separator
+You can change the `keypath_separator` at any time using the `getter/setter` property.
+If any existing key contains the new `keypath_separator` an `Exception` will be raised.
+
+```python
+d.keypath_separator = '/'
 ```
 
 #### Disable keypath functionality
@@ -152,6 +172,12 @@ You can disable the keypath functionality passing `keypath_separator=None` in th
 
 ```python
 d = benedict(existing_dict, keypath_separator=None)
+```
+
+You can disable the keypath functionality using the `getter/setter` property.
+
+```python
+d.keypath_separator = None
 ```
 
 ## API
@@ -231,6 +257,14 @@ items = d.items_sorted_by_keys(reverse=False)
 items = d.items_sorted_by_values(reverse=False)
 ```
 
+-   #### keypaths
+
+```python
+# Return a list of all keypaths in the dict.
+k = d.keypaths()
+print(k)
+```
+
 -   #### merge
 
 ```python
@@ -256,6 +290,13 @@ d.move('a', 'b')
 d.remove(['firstname', 'lastname', 'email'])
 ```
 
+-   #### standardize
+
+```python
+# Standardize all dict keys, e.g. "Location Latitude" -> "location_latitude".
+d.standardize()
+```
+
 -   #### subset
 
 ```python
@@ -269,6 +310,15 @@ s = d.subset(['firstname', 'lastname', 'email'])
 ```python
 # Swap items values at the given keys.
 d.swap('firstname', 'lastname')
+```
+
+-   #### traverse
+
+```python
+# Traverse a dict passing each item (dict, key, value) to the given callback function.
+def f(d, key, value):
+    print('dict: {} - key: {} - value: {}'.format(d, key, value))
+d.traverse(f)
 ```
 
 -   #### unique
