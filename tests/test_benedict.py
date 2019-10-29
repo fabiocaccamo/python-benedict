@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from benedict import benedict
+from benedict import benedict, benediction
 from datetime import datetime
 from decimal import Decimal
 
@@ -8,6 +8,33 @@ import unittest
 
 
 class BenedictTestCase(unittest.TestCase):
+
+    def test_benediction_decorator(self):
+        @benediction
+        def f1():
+            return None
+        self.assertEqual(f1(), None)
+
+        @benediction
+        def f2():
+            return 1
+        self.assertEqual(f2(), 1)
+
+        @benediction
+        def f3():
+            return 'ok'
+        self.assertEqual(f3(), 'ok')
+
+        @benediction
+        def f4():
+            return []
+        self.assertEqual(f4(), [])
+
+        @benediction
+        def f5():
+            return {}
+        self.assertEqual(f5(), {})
+        self.assertTrue(isinstance(f5(), benedict))
 
     def test_clean(self):
         d = {
@@ -801,6 +828,33 @@ class BenedictTestCase(unittest.TestCase):
             ('d', 1,),
         ])
 
+    def test_keypaths(self):
+        d = {
+            'x': {
+                'y': True,
+                'z': False,
+            },
+            'a': {
+                'b': {
+                    'c': 0,
+                    'd': None,
+                    'e': {},
+                },
+            },
+        }
+        b = benedict(d)
+        r = [
+            'a',
+            'a.b',
+            'a.b.c',
+            'a.b.d',
+            'a.b.e',
+            'x',
+            'x.y',
+            'x.z',
+        ]
+        self.assertEqual(b.keypaths(), r)
+
     def test_merge_with_single_dict(self):
         d = {
             'a': 1,
@@ -1057,6 +1111,40 @@ class BenedictTestCase(unittest.TestCase):
     #     self.assertTrue(isinstance(b.setdefault('b', 1), benedict))
     #     self.assertTrue(isinstance(b.setdefault('b.d', 1), benedict))
 
+    def test_standardize(self):
+        d = {
+            'CamelCase': 1,
+            'CamelCamelCase': 1,
+            'Camel2Camel2Case': 1,
+            'getHTTPResponseCode': 1,
+            'get2HTTPResponseCode': 1,
+            'HTTPResponseCode': 1,
+            'HTTPResponseCodeXYZ': 1,
+            ' LocationCoordinates ': {
+                'Lat. ': 0.0,
+                'Lng. ': 0.0,
+            },
+        }
+        b = benedict(d, keypath_separator=None)
+        b.standardize()
+        b.keypath_separator = '.'
+        r = {
+            'camel_case': 1,
+            'camel_camel_case': 1,
+            'camel2_camel2_case': 1,
+            'get_http_response_code': 1,
+            'get2_http_response_code': 1,
+            'http_response_code': 1,
+            'http_response_code_xyz': 1,
+            'location_coordinates': {
+                'lat': 0.0,
+                'lng': 0.0,
+            },
+        }
+        self.assertEqual(b, r)
+        self.assertEqual(b['location_coordinates.lat'], 0.0)
+        self.assertEqual(b['location_coordinates.lng'], 0.0)
+
     def test_subset(self):
         d = {
             'a': 1,
@@ -1207,6 +1295,60 @@ class BenedictTestCase(unittest.TestCase):
         }
         self.assertEqual(b, r)
 
+    def test_traverse(self):
+        d = {
+            'a': {
+                'x': 2,
+                'y': 3,
+                'z': {
+                    'ok': 5,
+                }
+            },
+            'b': {
+                'x': 7,
+                'y': 11,
+                'z': {
+                    'ok': 13,
+                }
+            },
+            'c': {
+                'x': 17,
+                'y': 19,
+                'z': {
+                    'ok': 23,
+                }
+            },
+        }
+        b = benedict(d)
+        def f(parent, key, value):
+            if not isinstance(value, dict):
+                parent[key] = (value + 1)
+        b.traverse(f)
+        r = {
+            'a': {
+                'x': 3,
+                'y': 4,
+                'z': {
+                    'ok': 6,
+                }
+            },
+            'b': {
+                'x': 8,
+                'y': 12,
+                'z': {
+                    'ok': 14,
+                }
+            },
+            'c': {
+                'x': 18,
+                'y': 20,
+                'z': {
+                    'ok': 24,
+                }
+            },
+        }
+        self.assertEqual(b, r)
+
     def test_unique(self):
         d = {
             'a': {
@@ -1236,22 +1378,23 @@ class BenedictTestCase(unittest.TestCase):
         }
         b = benedict(d)
         b.unique()
-        r = {
-            'a': {
+        rv = [
+            {
                 'x': 1,
                 'y': 1,
             },
-            'b': {
+            {
                 'x': 2,
                 'y': 2,
             },
-            'd': {
+            {
                 'x': 1,
             },
-            'e': {
+            {
                 'x': 1,
                 'y': 1,
                 'z': 1,
             },
-        }
-        self.assertEqual(b, r)
+        ]
+        self.assertEqual(len(b.keys()), len(rv))
+        self.assertTrue(all([value in rv for value in b.values()]))

@@ -89,6 +89,10 @@ class benedict(IODict, KeypathDict, ParseDict):
     def items_sorted_by_values(self, reverse=False):
         return dict_util.items_sorted_by_values(self, reverse=reverse)
 
+    def keypaths(self):
+        sep = self._keypath_separator or '.'
+        return dict_util.keypaths(self, separator=sep)
+
     def merge(self, other, *args):
         dict_util.merge(self, other, *args)
 
@@ -98,11 +102,17 @@ class benedict(IODict, KeypathDict, ParseDict):
     def remove(self, keys, *args):
         dict_util.remove(self, keys, *args)
 
+    def standardize(self):
+        dict_util.standardize(self)
+
     def subset(self, keys, *args):
         return dict_util.subset(self, keys, *args)
 
     def swap(self, key1, key2):
         dict_util.swap(self, key1, key2)
+
+    def traverse(self, callback):
+        dict_util.traverse(self, callback)
 
     def unique(self):
         dict_util.unique(self)
