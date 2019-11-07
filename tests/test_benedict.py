@@ -494,10 +494,42 @@ class BenedictTestCase(unittest.TestCase):
         d = benedict.from_base64(j)
         self.assertTrue(isinstance(d, benedict))
         self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, })
-        # constructor
-        d = benedict(j)
+        # static method with subformat
+        d = benedict.from_base64(j, subformat='json')
         self.assertTrue(isinstance(d, benedict))
         self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, })
+        # constructor
+        d = benedict(j, format='base64')
+        self.assertTrue(isinstance(d, benedict))
+        self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, })
+        # constructor with subformat
+        d = benedict(j, format='base64', subformat='json')
+        self.assertTrue(isinstance(d, benedict))
+        self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, })
+
+    def test_from_csv_with_valid_data(self):
+        s = """id,name,age,height,weight
+1,Alice,20,62,120.6
+2,Freddie,21,74,190.6
+3,Bob,17,68,120.0
+4,François,32,75,110.05
+"""
+        r = {
+            'values': [
+                { 'id':'1', 'name':'Alice', 'age':'20', 'height':'62', 'weight':'120.6', },
+                { 'id':'2', 'name':'Freddie', 'age':'21', 'height':'74', 'weight':'190.6', },
+                { 'id':'3', 'name':'Bob', 'age':'17', 'height':'68', 'weight':'120.0', },
+                { 'id':'4', 'name':'François', 'age':'32', 'height':'75', 'weight':'110.05', },
+            ],
+        }
+        # static method
+        d = benedict.from_csv(s)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, r)
+        # constructor
+        d = benedict(s, format='csv')
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, r)
 
     def test_from_json(self):
         j = '{"a": 1, "b": 2, "c": 3}'
@@ -506,7 +538,7 @@ class BenedictTestCase(unittest.TestCase):
         self.assertTrue(isinstance(d, benedict))
         self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, })
         # constructor
-        d = benedict(j)
+        d = benedict(j, format='json')
         self.assertTrue(isinstance(d, benedict))
         self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, })
 
@@ -518,7 +550,7 @@ class BenedictTestCase(unittest.TestCase):
         self.assertTrue(isinstance(d, benedict))
         self.assertEqual(d, r)
         # constructor
-        d = benedict(s)
+        d = benedict(s, format='query-string')
         self.assertTrue(isinstance(d, benedict))
         self.assertEqual(d, r)
 
@@ -535,42 +567,43 @@ class BenedictTestCase(unittest.TestCase):
         self.assertTrue(isinstance(d, benedict))
         self.assertEqual(d, { 'a':1, 'b':{ 'c':3, 'd':4 },})
         # constructor
-        d = benedict(j)
+        d = benedict(j, format='toml')
         self.assertTrue(isinstance(d, benedict))
         self.assertEqual(d, { 'a':1, 'b':{ 'c':3, 'd':4 },})
 
     def test_from_xml(self):
-        j = """<?xml version="1.0" ?>
-            <root>
-                <a>1</a>
-                <b>
-                    <c>3</c>
-                    <d>4</d>
-                </b>
-            </root>
-        """
+        j = """
+<?xml version="1.0" ?>
+<root>
+    <a>1</a>
+    <b>
+        <c>3</c>
+        <d>4</d>
+    </b>
+</root>
+"""
         # static method
         d = benedict.from_xml(j)
         self.assertTrue(isinstance(d, benedict))
         self.assertEqual(d.get('root'), { 'a':'1', 'b':{ 'c':'3', 'd':'4' },})
         # constructor
-        d = benedict(j)
+        d = benedict(j, format='xml')
         self.assertTrue(isinstance(d, benedict))
         self.assertEqual(d.get('root'), { 'a':'1', 'b':{ 'c':'3', 'd':'4' },})
 
     def test_from_yaml(self):
         j = """
-            a: 1
-            b:
-              c: 3
-              d: 4
-        """
+a: 1
+b:
+  c: 3
+  d: 4
+"""
         # static method
         d = benedict.from_yaml(j)
         self.assertTrue(isinstance(d, benedict))
         self.assertEqual(d, { 'a':1, 'b':{ 'c':3, 'd':4 },})
         # constructor
-        d = benedict(j)
+        d = benedict(j, format='yaml')
         self.assertTrue(isinstance(d, benedict))
         self.assertEqual(d, { 'a':1, 'b':{ 'c':3, 'd':4 },})
 

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from six import binary_type, string_types, StringIO
+from slugify import slugify
 
 import base64
 import csv
@@ -27,6 +28,16 @@ except ImportError:
     from urlparse import parse_qs
 
 
+def decode(s, format, **kwargs):
+    decode_func = _get_format_decoder(format)
+    if decode_func:
+        decode_opts = kwargs.copy()
+        data = decode_func(s.strip(), **decode_opts)
+        return data
+    else:
+        raise ValueError('Invalid format: {}.'.format(format))
+
+
 def decode_base64(s, **kwargs):
     # fix urlencoded chars
     s = unquote(s)
@@ -35,18 +46,12 @@ def decode_base64(s, **kwargs):
     if m != 0:
         s += '=' * (4 - m)
     data = base64.b64decode(s)
-    format = kwargs.pop('format', None)
-    encoding = kwargs.pop('encoding', 'utf-8' if format else None)
+    subformat = kwargs.pop('subformat', None)
+    encoding = kwargs.pop('encoding', 'utf-8' if subformat else None)
     if encoding:
         data = data.decode(encoding)
-        if format:
-            decoders = {
-                'json': decode_json,
-                'toml': decode_toml,
-                'yaml': decode_yaml,
-                'xml': decode_xml,
-            }
-            decode_func = decoders.get(format.lower(), '')
+        if subformat:
+            decode_func = _get_format_decoder(subformat)
             if decode_func:
                 data = decode_func(data, **kwargs)
     return data
@@ -109,18 +114,21 @@ def decode_yaml(s, **kwargs):
     return data
 
 
+def encode(d, format, **kwargs):
+    encode_func = _get_format_encoder(format)
+    if encode_func:
+        s = encode_func(d, **kwargs)
+        return s
+    else:
+        raise ValueError('Invalid format: {}.'.format(format))
+
+
 def encode_base64(d, **kwargs):
     data = d
-    format = kwargs.pop('format', None)
-    encoding = kwargs.pop('encoding', 'utf-8' if format else None)
-    if not isinstance(data, string_types) and format:
-        encoders = {
-            'json': encode_json,
-            'toml': encode_toml,
-            'yaml': encode_yaml,
-            'xml': encode_xml,
-        }
-        encode_func = encoders.get(format.lower(), '')
+    subformat = kwargs.pop('subformat', None)
+    encoding = kwargs.pop('encoding', 'utf-8' if subformat else None)
+    if not isinstance(data, string_types) and subformat:
+        encode_func = _get_format_encoder(subformat)
         if encode_func:
             data = encode_func(data, **kwargs)
     if isinstance(data, string_types) and encoding:
@@ -225,3 +233,60 @@ def write_file(filepath, content):
     handler.write(content)
     handler.close()
     return True
+
+
+_formats = {
+    'b64': {
+        'decoder': decode_base64,
+        'encoder': encode_base64,
+    },
+    'base64': {
+        'decoder': decode_base64,
+        'encoder': encode_base64,
+    },
+    'csv': {
+        'decoder': decode_csv,
+        'encoder': encode_csv,
+    },
+    'json': {
+        'decoder': decode_json,
+        'encoder': encode_json,
+    },
+    'qs': {
+        'decoder': decode_query_string,
+        'encoder': encode_query_string,
+    },
+    'query_string': {
+        'decoder': decode_query_string,
+        'encoder': encode_query_string,
+    },
+    'toml': {
+        'decoder': decode_toml,
+        'encoder': encode_toml,
+    },
+    'yaml': {
+        'decoder': decode_yaml,
+        'encoder': encode_yaml,
+    },
+    'yml': {
+        'decoder': decode_yaml,
+        'encoder': encode_yaml,
+    },
+    'xml': {
+        'decoder': decode_xml,
+        'encoder': encode_xml,
+    },
+}
+
+
+def _get_format(format):
+    return _formats.get(
+        slugify(format, separator='_'), {})
+
+
+def _get_format_decoder(format):
+    return _get_format(format).get('decoder', None)
+
+
+def _get_format_encoder(format):
+    return _get_format(format).get('encoder', None)
