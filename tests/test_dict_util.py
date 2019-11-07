@@ -7,7 +7,7 @@ import datetime as dt
 import unittest
 
 
-class DictUtilTestCase(unittest.TestCase):
+class dict_util_test_case(unittest.TestCase):
 
     def test_clean(self):
         i = {

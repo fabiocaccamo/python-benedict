@@ -5,7 +5,7 @@ from benedict.dicts.keypath import KeypathDict
 import unittest
 
 
-class KeypathDictTestCase(unittest.TestCase):
+class keypath_dict_test_case(unittest.TestCase):
 
     def test_init_with_custom_separator(self):
         d = {

@@ -7,7 +7,7 @@ from decimal import Decimal
 import unittest
 
 
-class BenedictTestCase(unittest.TestCase):
+class benedict_test_case(unittest.TestCase):
 
     def test_benediction_decorator(self):
         @benediction

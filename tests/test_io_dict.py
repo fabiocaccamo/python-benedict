@@ -7,7 +7,7 @@ import shutil
 import unittest
 
 
-class IODictTestCase(unittest.TestCase):
+class io_dict_test_case(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):

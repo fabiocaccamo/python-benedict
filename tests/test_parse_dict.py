@@ -10,7 +10,7 @@ import time
 import unittest
 
 
-class ParseDictTestCase(unittest.TestCase):
+class parse_dict_test_case(unittest.TestCase):
 
     def test_get_bool_default(self):
         d = {
