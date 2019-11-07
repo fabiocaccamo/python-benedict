@@ -9,7 +9,7 @@
 [![License](https://img.shields.io/pypi/l/python-benedict.svg)](https://img.shields.io/pypi/l/python-benedict.svg)
 
 # python-benedict
-python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (`Base64`, `JSON`, `TOML`, `XML`, `YAML`, `query-string`) and many **utilities**... for humans, obviously.
+python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (`Base64`, `CSV`, `JSON`, `TOML`, `XML`, `YAML`, `query-string`) and many **utilities**... for humans, obviously.
 
 ## Index
 -   [Features](#features)
@@ -42,12 +42,14 @@ python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (
         -   [`unique`](#unique)
     -   [I/O](#io)
         -   [`from_base64`](#from_base64)
+        -   [`from_csv`](#from_csv)
         -   [`from_json`](#from_json)
         -   [`from_query_string`](#from_query_string)
         -   [`from_toml`](#from_toml)
         -   [`from_xml`](#from_xml)
         -   [`from_yaml`](#from_yaml)
         -   [`to_base64`](#to_base64)
+        -   [`to_csv`](#to_csv)
         -   [`to_json`](#to_json)
         -   [`to_query_string`](#to_query_string)
         -   [`to_toml`](#to_toml)
@@ -78,7 +80,7 @@ python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (
 
 ## Features
 -   Full **keypath** support using **keypath-separator** *(dot syntax by default)* or **list of keys**.
--   Easy **I/O operations** with most common formats: `Base64`, `JSON`, `TOML`, `XML`, `YAML`, `query-string`
+-   Easy **I/O operations** with most common formats: `Base64`, `CSV`, `JSON`, `TOML`, `XML`, `YAML`, `query-string`
 -   Many **utility** and **parse methods** to retrieve data as needed *(all methods listed below)*
 -   Well **tested**, check the badges ;)
 -   100% **backward-compatible** *(you can replace existing dicts without pain)*
@@ -333,30 +335,45 @@ d.unique()
 
 ### I/O
 
-It is possible to create a `benedict` instance directly from data source (filepath, url or data-string) by passing the data source as first argument in the constructor.
+It is possible to create a `benedict` instance directly from data source (filepath, url or data-string) by passing the data source and the data format (default 'json') in the constructor.
 
 ```python
 # filepath
-d = benedict('/root/data.yml')
+d = benedict('/root/data.yml', format='yaml')
 
 # url
-d = benedict('https://localhost:8000/data.xml')
+d = benedict('https://localhost:8000/data.xml', format='xml')
 
 # data-string
 d = benedict('{"a": 1, "b": 2, "c": 3, "x": 7, "y": 8, "z": 9}')
 ```
 
-These methods simplify I/O operations with most common formats: `base64`, `json`, `toml`, `xml`, `yaml`, `query-string`
+These methods simplify I/O operations with most common formats: `base64`, `csv`, `json`, `toml`, `xml`, `yaml`, `query-string`
+
+In all `from_*` methods, the first argument can be: **url**, **filepath** or **data-string**.
+
+In all `to_*` methods, if `filepath='...'` kwarg is specified, the output will be also **saved** at the specified filepath.
 
 -   #### from_base64
 
 ```python
 # Try to load/decode a base64 encoded data and return it as benedict instance.
 # Accept as first argument: url, filepath or data-string.
-# It's possible to choose the format used under the hood ('json', 'toml', 'xml', 'yaml') default 'json'.
-# It's possible to pass decoder specific options using kwargs.
+# It's possible to choose the subformat used under the hood (`csv`, `json`, `query-string`, `toml`, `xml`, `yaml`), default: 'json'.
+# It's possible to choose the encoding, default 'utf-8'.
 # A ValueError is raised in case of failure.
-d = benedict.from_base64(s, format='json', **kwargs)
+d = benedict.from_base64(s, subformat='json', encoding='utf-8', **kwargs)
+```
+
+-   #### from_csv
+
+```python
+# Try to load/decode a csv encoded data and return it as benedict instance.
+# Accept as first argument: url, filepath or data-string.ù
+# It's possible to specify the columns list, default: None (in this case the first row values will be used as keys).
+# It's possible to pass decoder specific options using kwargs: https://docs.python.org/3/library/csv.html
+# A ValueError is raised in case of failure.
+d = benedict.from_csv(s, columns=None, columns_row=True, **kwargs)
 ```
 
 -   #### from_json
@@ -411,11 +428,22 @@ d = benedict.from_yaml(s, **kwargs)
 -   #### to_base64
 
 ```python
-# Return the dict instance encoded in base64 format and optionally save it at the specified filepath.
-# It's possible to choose the format used under the hood ('json', 'toml', 'xml', 'yaml') default 'json'.
+# Return the dict instance encoded in base64 format and optionally save it at the specified 'filepath'.
+# It's possible to choose the subformat used under the hood ('csv', json', `query-string`, 'toml', 'xml', 'yaml'), default: 'json'.
+# It's possible to choose the encoding, default 'utf-8'.
 # It's possible to pass decoder specific options using kwargs.
 # A ValueError is raised in case of failure.
-s = d.to_base64(filepath='', format='json', **kwargs)
+s = d.to_base64(subformat='json', encoding='utf-8', **kwargs)
+```
+
+-   #### to_csv
+
+```python
+# Return a list of dicts encoded in csv format and optionally save it at the specified filepath.
+# It's possible to specify the key of the item (list of dicts) to encode, default: 'values'.
+# It's possible to specify the columns list, default: None (in this case the keys of the first item will be used).
+# A ValueError is raised in case of failure.
+d = benedict.to_csv(key='values', columns=None, columns_row=True, **kwargs)
 ```
 
 -   #### to_json
@@ -424,7 +452,7 @@ s = d.to_base64(filepath='', format='json', **kwargs)
 # Return the dict instance encoded in json format and optionally save it at the specified filepath.
 # It's possible to pass encoder specific options using kwargs: https://docs.python.org/3/library/json.html
 # A ValueError is raised in case of failure.
-s = d.to_json(filepath='', **kwargs)
+s = d.to_json(**kwargs)
 ```
 
 -   #### to_query_string
@@ -432,7 +460,7 @@ s = d.to_json(filepath='', **kwargs)
 ```python
 # Return the dict instance as query-string and optionally save it at the specified filepath.
 # A ValueError is raised in case of failure.
-s = d.to_query_string(filepath='', **kwargs)
+s = d.to_query_string(**kwargs)
 ```
 
 -   #### to_toml
@@ -441,7 +469,7 @@ s = d.to_query_string(filepath='', **kwargs)
 # Return the dict instance encoded in toml format and optionally save it at the specified filepath.
 # It's possible to pass encoder specific options using kwargs: https://pypi.org/project/toml/
 # A ValueError is raised in case of failure.
-s = d.to_toml(filepath='', **kwargs)
+s = d.to_toml(**kwargs)
 ```
 
 -   #### to_xml
@@ -450,16 +478,17 @@ s = d.to_toml(filepath='', **kwargs)
 # Return the dict instance encoded in xml format and optionally save it at the specified filepath.
 # It's possible to pass encoder specific options using kwargs: https://github.com/martinblech/xmltodict
 # A ValueError is raised in case of failure.
-s = d.to_xml(filepath='', **kwargs)
+s = d.to_xml(**kwargs)
 ```
 
 -   #### to_yaml
 
 ```python
-# Return the dict instance encoded in yaml format and optionally save it at the specified filepath.
+# Return the dict instance encoded in yaml format.
+# If filepath option is passed the output will be saved ath
 # It's possible to pass encoder specific options using kwargs: https://pyyaml.org/wiki/PyYAMLDocumentation
 # A ValueError is raised in case of failure.
-s = d.to_yaml(filepath='', **kwargs)
+s = d.to_yaml(**kwargs)
 ```
 
 ### Parse
