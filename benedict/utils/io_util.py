@@ -153,8 +153,13 @@ def read_file(filepath):
 
 def read_url(url, *args, **kwargs):
     response = requests.get(url, *args, **kwargs)
-    content = response.text
-    return content
+    if response.status_code == requests.codes.ok:
+        content = response.text
+        return content
+    else:
+        raise ValueError(
+            'Invalid url response status code: {}.'.format(
+                response.status_code))
 
 
 def write_file(filepath, content):
