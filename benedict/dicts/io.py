@@ -52,37 +52,37 @@ class IODict(dict):
             io_util.write_file(filepath, s)
         return s
 
-    @staticmethod
-    def from_base64(s, subformat='json', encoding='utf-8', **kwargs):
+    @classmethod
+    def from_base64(cls, s, subformat='json', encoding='utf-8', **kwargs):
         kwargs['subformat'] = subformat
         kwargs['encoding'] = encoding
-        return IODict._decode(s, 'base64', **kwargs)
+        return cls(IODict._decode(s, 'base64', **kwargs))
 
-    @staticmethod
-    def from_csv(s, columns=None, columns_row=True, **kwargs):
+    @classmethod
+    def from_csv(cls, s, columns=None, columns_row=True, **kwargs):
         kwargs['columns'] = columns
         kwargs['columns_row'] = columns_row
-        return IODict._decode(s, 'csv', **kwargs)
+        return cls(IODict._decode(s, 'csv', **kwargs))
 
-    @staticmethod
-    def from_json(s, **kwargs):
-        return IODict._decode(s, 'json', **kwargs)
+    @classmethod
+    def from_json(cls, s, **kwargs):
+        return cls(IODict._decode(s, 'json', **kwargs))
 
-    @staticmethod
-    def from_query_string(s, **kwargs):
-        return IODict._decode(s, 'query_string', **kwargs)
+    @classmethod
+    def from_query_string(cls, s, **kwargs):
+        return cls(IODict._decode(s, 'query_string', **kwargs))
 
-    @staticmethod
-    def from_toml(s, **kwargs):
-        return IODict._decode(s, 'toml', **kwargs)
+    @classmethod
+    def from_toml(cls, s, **kwargs):
+        return cls(IODict._decode(s, 'toml', **kwargs))
 
-    @staticmethod
-    def from_xml(s, **kwargs):
-        return IODict._decode(s, 'xml', **kwargs)
+    @classmethod
+    def from_xml(cls, s, **kwargs):
+        return cls(IODict._decode(s, 'xml', **kwargs))
 
-    @staticmethod
-    def from_yaml(s, **kwargs):
-        return IODict._decode(s, 'yaml', **kwargs)
+    @classmethod
+    def from_yaml(cls, s, **kwargs):
+        return cls(IODict._decode(s, 'yaml', **kwargs))
 
     def to_base64(self, subformat='json', encoding='utf-8', **kwargs):
         kwargs['subformat'] = subformat

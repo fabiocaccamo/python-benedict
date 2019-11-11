@@ -124,8 +124,9 @@ class KeypathDict(dict):
 
     @classmethod
     def fromkeys(cls, sequence, value=None):
-        d = KeypathDict()
-        for key in sequence:
+        f = dict.fromkeys(sequence, value)
+        d = cls()
+        for key, value in f.items():
             d[key] = value
         return d
 

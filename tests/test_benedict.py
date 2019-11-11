@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from benedict import benedict, benediction
+from benedict import benedict
 from datetime import datetime
 from decimal import Decimal
 
@@ -8,33 +8,6 @@ import unittest
 
 
 class benedict_test_case(unittest.TestCase):
-
-    def test_benediction_decorator(self):
-        @benediction
-        def f1():
-            return None
-        self.assertEqual(f1(), None)
-
-        @benediction
-        def f2():
-            return 1
-        self.assertEqual(f2(), 1)
-
-        @benediction
-        def f3():
-            return 'ok'
-        self.assertEqual(f3(), 'ok')
-
-        @benediction
-        def f4():
-            return []
-        self.assertEqual(f4(), [])
-
-        @benediction
-        def f5():
-            return {}
-        self.assertEqual(f5(), {})
-        self.assertTrue(isinstance(f5(), benedict))
 
     def test_clean(self):
         d = {

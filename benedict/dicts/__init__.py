@@ -6,15 +6,6 @@ from benedict.dicts.parse import ParseDict
 from benedict.utils import dict_util
 
 
-def benediction(method):
-    def wrapper(*args, **kwargs):
-        value = method(*args, **kwargs)
-        if isinstance(value, dict) and not isinstance(value, benedict):
-            return benedict(value)
-        return value
-    return wrapper
-
-
 class benedict(IODict, KeypathDict, ParseDict):
 
     def __init__(self, *args, **kwargs):
@@ -26,9 +17,8 @@ class benedict(IODict, KeypathDict, ParseDict):
     def clone(self):
         return dict_util.clone(self)
 
-    @benediction
     def copy(self):
-        return super(benedict, self).copy()
+        return benedict(super(benedict, self).copy())
 
     def deepcopy(self):
         return self.clone()
@@ -44,46 +34,6 @@ class benedict(IODict, KeypathDict, ParseDict):
 
     def flatten(self, separator='_'):
         return dict_util.flatten(self, separator)
-
-    @classmethod
-    @benediction
-    def fromkeys(cls, sequence, value=None):
-        return KeypathDict.fromkeys(sequence, value)
-
-    @staticmethod
-    @benediction
-    def from_base64(s, subformat='json', encoding='utf-8', **kwargs):
-        return IODict.from_base64(s, subformat=subformat, encoding=encoding, **kwargs)
-
-    @staticmethod
-    @benediction
-    def from_csv(s, columns=None, columns_row=True, **kwargs):
-        return IODict.from_csv(s, columns=columns, columns_row=columns_row, **kwargs)
-
-    @staticmethod
-    @benediction
-    def from_json(s, **kwargs):
-        return IODict.from_json(s, **kwargs)
-
-    @staticmethod
-    @benediction
-    def from_query_string(s, **kwargs):
-        return IODict.from_query_string(s, **kwargs)
-
-    @staticmethod
-    @benediction
-    def from_toml(s, **kwargs):
-        return IODict.from_toml(s, **kwargs)
-
-    @staticmethod
-    @benediction
-    def from_xml(s, **kwargs):
-        return IODict.from_xml(s, **kwargs)
-
-    @staticmethod
-    @benediction
-    def from_yaml(s, **kwargs):
-        return IODict.from_yaml(s, **kwargs)
 
     def invert(self, flat=False):
         return dict_util.invert(self, flat)
