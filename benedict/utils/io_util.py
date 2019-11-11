@@ -192,13 +192,22 @@ def encode_yaml(d, **kwargs):
 
 def read_content(s):
     # s -> filepath or url or data
-    if s.startswith('http://') or s.startswith('https://'):
-        content = read_url(s)
-    elif os.path.isfile(s):
-        content = read_file(s)
+    num_lines = len(s.splitlines())
+    if num_lines > 1:
+        # data
+        return s
+    if any([s.startswith(protocol) for protocol in ['http://', 'https://']]):
+        # url
+        return read_url(s)
+    elif any([s.endswith(extension) for extension in _get_formats_extensions()]):
+        # filepath
+        if os.path.isfile(s):
+            return read_file(s)
+        else:
+            return None
     else:
-        content = s
-    return content
+        # data
+        return s
 
 
 def read_file(filepath):
@@ -278,6 +287,9 @@ _formats = {
     },
 }
 
+_formats_extensions = [
+    '.{}'.format(extension) for extension in _formats.keys()]
+
 
 def _get_format(format):
     return _formats.get(
@@ -290,3 +302,8 @@ def _get_format_decoder(format):
 
 def _get_format_encoder(format):
     return _get_format(format).get('encoder', None)
+
+
+def _get_formats_extensions():
+    return _formats_extensions
+
