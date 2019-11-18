@@ -68,7 +68,7 @@ class KeypathDict(dict):
     def __contains__(self, key):
         keys = self._list_keys(key)
         if len(keys) > 1:
-            parent, key, value = self._goto_keys(keys)
+            parent, key, _ = self._goto_keys(keys)
             if isinstance(parent, dict) and parent.__contains__(key):
                 return True
             else:
@@ -79,7 +79,7 @@ class KeypathDict(dict):
     def __delitem__(self, key):
         keys = self._list_keys(key)
         if len(keys) > 1:
-            parent, key, value = self._goto_keys(keys)
+            parent, key, _ = self._goto_keys(keys)
             if isinstance(parent, dict):
                 parent.__delitem__(key)
             else:
@@ -91,7 +91,7 @@ class KeypathDict(dict):
         keys = self._list_keys(key)
         value = None
         if len(keys) > 1:
-            parent, key, value = self._goto_keys(keys)
+            parent, key, _ = self._goto_keys(keys)
             if isinstance(parent, dict):
                 return parent.__getitem__(key)
             else:
@@ -133,7 +133,7 @@ class KeypathDict(dict):
     def get(self, key, default=None):
         keys = self._list_keys(key)
         if len(keys) > 1:
-            parent, key, value = self._goto_keys(keys)
+            parent, key, _ = self._goto_keys(keys)
             if isinstance(parent, dict):
                 return parent.get(key, default)
             else:
@@ -153,7 +153,7 @@ class KeypathDict(dict):
             default = None
         keys = self._list_keys(key)
         if len(keys) > 1:
-            parent, key, value = self._goto_keys(keys)
+            parent, key, _ = self._goto_keys(keys)
             if isinstance(parent, dict):
                 if default_arg:
                     return parent.pop(key, default)
