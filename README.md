@@ -650,7 +650,9 @@ d.get_str_list(key, default=[], separator=',')
 ```
 
 ## Testing
--   Run `tox` / `python setup.py test`
+-   Run `pip install -r requirements.txt`
+-   Run `pip install tox`
+-   Run `tox`
 
 ## License
 Released under [MIT License](LICENSE.txt).
