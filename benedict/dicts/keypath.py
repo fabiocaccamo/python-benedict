@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from benedict.utils import dict_util
+
 from six import string_types
 
 
@@ -44,7 +45,7 @@ class KeypathDict(dict):
                 result = (parent, key, value, )
                 parent = value
                 i += 1
-            except (KeyError, TypeError, ) as e:
+            except (KeyError, TypeError, ):
                 result = (None, None, None, )
                 break
         return result
