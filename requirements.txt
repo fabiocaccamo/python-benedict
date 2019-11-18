@@ -1,0 +1,10 @@
+ftfy
+mailchecker
+phonenumbers
+python-dateutil
+python-slugify
+pyyaml
+requests
+six
+toml
+xmltodict
