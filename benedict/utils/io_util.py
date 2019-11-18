@@ -109,8 +109,7 @@ def decode_toml(s, **kwargs):
 
 
 def decode_yaml(s, **kwargs):
-    kwargs.setdefault('Loader', yaml.Loader)
-    data = yaml.load(s, **kwargs)
+    data = yaml.safe_load(s, **kwargs)
     return data
 
 
@@ -186,7 +185,7 @@ def encode_xml(d, **kwargs):
 
 
 def encode_yaml(d, **kwargs):
-    data = yaml.dump(d, **kwargs)
+    data = yaml.dump(dict(d), **kwargs)
     return data
 
 
