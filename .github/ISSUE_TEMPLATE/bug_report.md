@@ -10,6 +10,9 @@ assignees: fabiocaccamo
 **Python version**
 ?
 
+**Package version**
+?
+
 **Current behavior (bug description)**
 ?
 
