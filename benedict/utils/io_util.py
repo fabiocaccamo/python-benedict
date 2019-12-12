@@ -17,13 +17,11 @@ import yaml
 try:
     # python 3
     from urllib.parse import unquote
-    # from urllib.parse import unquote_plus
     from urllib.parse import urlencode
     from urllib.parse import parse_qs
 except ImportError:
     # python 2
     from urllib import unquote
-    # from urllib import unquote_plus
     from urllib import urlencode
     from urlparse import parse_qs
 
