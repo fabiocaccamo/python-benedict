@@ -8,6 +8,9 @@ from six import string_types
 class KeypathDict(dict):
 
     def __init__(self, *args, **kwargs):
+        """
+        Constructs a new instance.
+        """
         self._keypath_separator = kwargs.pop('keypath_separator', '.')
         super(KeypathDict, self).__init__(*args, **kwargs)
         self._check_keypath_separator_in_keys(self)

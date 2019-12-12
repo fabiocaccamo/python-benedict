@@ -8,6 +8,9 @@ from decimal import Decimal
 class ParseDict(dict):
 
     def __init__(self, *args, **kwargs):
+        """
+        Constructs a new instance.
+        """
         super(ParseDict, self).__init__(*args, **kwargs)
 
     def _get_value(self, key, default, options,
