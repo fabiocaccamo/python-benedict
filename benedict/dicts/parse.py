@@ -13,12 +13,13 @@ class ParseDict(dict):
         """
         super(ParseDict, self).__init__(*args, **kwargs)
 
-    def _get_value(self, key, default, options,
+    def _get_value(self, key, default, choices,
                    parser_func, parser_kwargs=None):
         """
-        Get value by key or keypath core method.
-        If options and value is in options return value otherwise default.
+        Get value by key, or keypath core method.
+        If choices and value is in choices return value otherwise default.
         """
+
         # Get raw value from self.
         value = self.get(key, None)
         # If value is None return default value.
@@ -31,9 +32,9 @@ class ParseDict(dict):
         if value is None:
             return default
 
-        # If options and value in options return value otherwise default.
-        if isinstance(options, (list, tuple, )) and len(options):
-            if value in options:
+        # If choices and value in choices return value otherwise default.
+        if isinstance(choices, (list, tuple, )) and len(choices):
+            if value in choices:
                 return value
             else:
                 return default
@@ -68,14 +69,14 @@ class ParseDict(dict):
         return self._get_values_list(
             key, default, separator, parse_util.parse_bool)
 
-    def get_datetime(self, key, default=None, format=None, options=None):
+    def get_datetime(self, key, default=None, format=None, choices=None):
         """
         Get value by key or keypath trying to return it as datetime.
         If format is not specified it will be autodetected.
-        If options and value is in options return value otherwise default.
+        If choices and value is in choices return value otherwise default.
         """
         return self._get_value(
-            key, default, options, parse_util.parse_datetime,
+            key, default, choices, parse_util.parse_datetime,
             {'format': format})
 
     def get_datetime_list(self, key, default=None, format=None, separator=','):
@@ -87,13 +88,13 @@ class ParseDict(dict):
             key, default, separator, parse_util.parse_datetime,
             {'format': format})
 
-    def get_decimal(self, key, default=Decimal('0.0'), options=None):
+    def get_decimal(self, key, default=Decimal('0.0'), choices=None):
         """
         Get value by key or keypath trying to return it as Decimal.
-        If options and value is in options return value otherwise default.
+        If choices and value is in choices return value otherwise default.
         """
         return self._get_value(
-            key, default, options, parse_util.parse_decimal)
+            key, default, choices, parse_util.parse_decimal)
 
     def get_decimal_list(self, key, default=None, separator=','):
         """
@@ -111,23 +112,23 @@ class ParseDict(dict):
         return self._get_value(
             key, default or {}, None, parse_util.parse_dict)
 
-    def get_email(self, key, default='', options=None, check_blacklist=True):
+    def get_email(self, key, default='', choices=None, check_blacklist=True):
         """
         Get email by key or keypath and return it.
         If value is blacklisted it will be automatically ignored.
         If check_blacklist is False, it will be not ignored even if blacklisted.
         """
         return self._get_value(
-            key, default, options, parse_util.parse_email,
+            key, default, choices, parse_util.parse_email,
             {'check_blacklist': check_blacklist})
 
-    def get_float(self, key, default=0.0, options=None):
+    def get_float(self, key, default=0.0, choices=None):
         """
         Get value by key or keypath trying to return it as float.
-        If options and value is in options return value otherwise default.
+        If choices and value is in choices return value otherwise default.
         """
         return self._get_value(
-            key, default, options, parse_util.parse_float)
+            key, default, choices, parse_util.parse_float)
 
     def get_float_list(self, key, default=None, separator=','):
         """
@@ -137,13 +138,13 @@ class ParseDict(dict):
         return self._get_values_list(
             key, default, separator, parse_util.parse_float)
 
-    def get_int(self, key, default=0, options=None):
+    def get_int(self, key, default=0, choices=None):
         """
         Get value by key or keypath trying to return it as int.
-        If options and value is in options return value otherwise default.
+        If choices and value is in choices return value otherwise default.
         """
         return self._get_value(
-            key, default, options, parse_util.parse_int)
+            key, default, choices, parse_util.parse_int)
 
     def get_int_list(self, key, default=None, separator=','):
         """
@@ -179,20 +180,20 @@ class ParseDict(dict):
 
     def get_phonenumber(self, key, country_code=None, default=None):
         """
-        Get phone number by key or keypath and return a dict with different formats (e164, international, national).
+        Get phonenumber by key or keypath and return a dict with different formats (e164, international, national).
         If country code is specified (alpha 2 code), it will be used to parse phone number correctly.
         """
         return self._get_value(
             key, default or {}, None, parse_util.parse_phonenumber,
             {'country_code': country_code})
 
-    def get_slug(self, key, default='', options=None):
+    def get_slug(self, key, default='', choices=None):
         """
         Get value by key or keypath trying to return it as slug.
-        If options and value is in options return value otherwise default.
+        If choices and value is in choices return value otherwise default.
         """
         return self._get_value(
-            key, default, options, parse_util.parse_slug)
+            key, default, choices, parse_util.parse_slug)
 
     def get_slug_list(self, key, default=None, separator=','):
         """
@@ -202,14 +203,14 @@ class ParseDict(dict):
         return self._get_values_list(
             key, default, separator, parse_util.parse_slug)
 
-    def get_str(self, key, default='', options=None):
+    def get_str(self, key, default='', choices=None):
         """
         Get value by key or keypath trying to return it as string.
         Encoding issues will be automatically fixed.
-        If options and value is in options return value otherwise default.
+        If choices and value is in choices return value otherwise default.
         """
         return self._get_value(
-            key, default, options, parse_util.parse_str)
+            key, default, choices, parse_util.parse_str)
 
     def get_str_list(self, key, default=None, separator=','):
         """

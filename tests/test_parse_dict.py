@@ -154,15 +154,15 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_decimal('b', Decimal('2.5')), Decimal('2.5'))
         self.assertEqual(b.get_decimal('c'), Decimal('4.25'))
 
-    def test_get_decimal_with_options(self):
+    def test_get_decimal_with_choices(self):
         d = {
             'a': Decimal('0.25'),
             'b': Decimal('0.35'),
         }
         b = ParseDict(d)
         o = [Decimal('0.0'), Decimal('0.25'), Decimal('0.5'), Decimal('0.75'), Decimal('1.0')]
-        self.assertEqual(b.get_decimal('a', Decimal('0.5'), options=o), Decimal('0.25'))
-        self.assertEqual(b.get_decimal('b', Decimal('0.5'), options=o), Decimal('0.5'))
+        self.assertEqual(b.get_decimal('a', Decimal('0.5'), choices=o), Decimal('0.25'))
+        self.assertEqual(b.get_decimal('b', Decimal('0.5'), choices=o), Decimal('0.5'))
 
     def test_get_decimal_list(self):
         d = {
@@ -216,15 +216,15 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_float('b', float(2.5)), float(2.5))
         self.assertEqual(b.get_float('c'), float(4.25))
 
-    def test_get_float_with_options(self):
+    def test_get_float_with_choices(self):
         d = {
             'a': float(0.25),
             'b': float(0.35),
         }
         b = ParseDict(d)
         o = [float(0.0), float(0.25), float(0.5), float(0.75), float(1.0)]
-        self.assertEqual(b.get_float('a', float(0.5), options=o), float(0.25))
-        self.assertEqual(b.get_float('b', float(0.5), options=o), float(0.5))
+        self.assertEqual(b.get_float('a', float(0.5), choices=o), float(0.25))
+        self.assertEqual(b.get_float('b', float(0.5), choices=o), float(0.5))
 
     def test_get_float_list(self):
         d = {
@@ -280,15 +280,15 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_int('f', 2), 3)
         self.assertEqual(b.get_int('g', 2), 2)
 
-    def test_get_int_with_options(self):
+    def test_get_int_with_choices(self):
         d = {
             'a': 25,
             'b': 35,
         }
         b = ParseDict(d)
         o = [0, 25, 50, 75, 100]
-        self.assertEqual(b.get_int('a', 50, options=o), 25)
-        self.assertEqual(b.get_int('b', 50, options=o), 50)
+        self.assertEqual(b.get_int('a', 50, choices=o), 25)
+        self.assertEqual(b.get_int('b', 50, choices=o), 50)
 
     def test_get_int_list(self):
         d = {
@@ -431,15 +431,15 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_slug('b', 'none'), '1')
         self.assertEqual(b.get_slug('c', 'none'), 'none')
 
-    def test_get_slug_with_options(self):
+    def test_get_slug_with_choices(self):
         d = {
             'a': 'Sunday',
             'b': 'Noneday',
         }
         b = ParseDict(d)
-        self.assertEqual(b.get_slug('a', options=['sunday', 'saturday']), 'sunday')
-        self.assertEqual(b.get_slug('b', options=['sunday', 'saturday'], default='saturday'), 'saturday')
-        self.assertEqual(b.get_slug('c', options=['sunday', 'saturday'], default='saturday'), 'saturday')
+        self.assertEqual(b.get_slug('a', choices=['sunday', 'saturday']), 'sunday')
+        self.assertEqual(b.get_slug('b', choices=['sunday', 'saturday'], default='saturday'), 'saturday')
+        self.assertEqual(b.get_slug('c', choices=['sunday', 'saturday'], default='saturday'), 'saturday')
 
     def test_get_slug_list(self):
         d = {
@@ -481,12 +481,12 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_str_list('a'), ['Hello World', 'See you later', '99.9'])
         self.assertEqual(b.get_str_list('b'), ['Hello World', 'See you later', '99.9'])
 
-    def test_get_str_with_options(self):
+    def test_get_str_with_choices(self):
         d = {
             'a': 'Sunday',
             'b': 'Noneday',
         }
         b = ParseDict(d)
-        self.assertEqual(b.get_str('a', options=['Sunday', 'Saturday']), 'Sunday')
-        self.assertEqual(b.get_str('b', options=['Sunday', 'Saturday'], default='Saturday'), 'Saturday')
-        self.assertEqual(b.get_str('c', options=['Sunday', 'Saturday'], default='Saturday'), 'Saturday')
+        self.assertEqual(b.get_str('a', choices=['Sunday', 'Saturday']), 'Sunday')
+        self.assertEqual(b.get_str('b', choices=['Sunday', 'Saturday'], default='Saturday'), 'Saturday')
+        self.assertEqual(b.get_str('c', choices=['Sunday', 'Saturday'], default='Saturday'), 'Saturday')
