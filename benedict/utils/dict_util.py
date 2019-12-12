@@ -122,13 +122,13 @@ def remove(d, keys, *args):
 
 
 def standardize(d):
-    def f(parent, key, value):
-        if isinstance(key, string_types):
+    def f(item, item_key, item_value):
+        if isinstance(item_key, string_types):
             # https://stackoverflow.com/a/12867228/2096218
             norm_key = re.sub(
-                r'((?<=[a-z0-9])[A-Z]|(?!^)[A-Z](?=[a-z]))', r'_\1', key)
+                r'((?<=[a-z0-9])[A-Z]|(?!^)[A-Z](?=[a-z]))', r'_\1', item_key)
             norm_key = slugify(norm_key, separator='_')
-            move(parent, key, norm_key)
+            move(item, item_key, norm_key)
     traverse(d, f)
 
 
