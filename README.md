@@ -386,6 +386,15 @@ d = benedict.from_csv(s, columns=None, columns_row=True, **kwargs)
 d = benedict.from_json(s, **kwargs)
 ```
 
+-   #### from_query_string
+
+```python
+# Try to load/decode a query-string and return it as benedict instance.
+# Accept as first argument: url, filepath or data-string.
+# A ValueError is raised in case of failure.
+d = benedict.from_query_string(s, **kwargs)
+```
+
 -   #### from_toml
 
 ```python
@@ -394,15 +403,6 @@ d = benedict.from_json(s, **kwargs)
 # It's possible to pass decoder specific options using kwargs: https://pypi.org/project/toml/
 # A ValueError is raised in case of failure.
 d = benedict.from_toml(s, **kwargs)
-```
-
--   #### from_query_string
-
-```python
-# Try to load/decode a query-string and return it as benedict instance.
-# Accept as first argument: url, filepath or data-string.
-# A ValueError is raised in case of failure.
-d = benedict.from_query_string(s, **kwargs)
 ```
 
 -   #### from_xml
@@ -515,8 +515,8 @@ d.get_bool_list(key, default=[], separator=',')
 ```python
 # Get value by key or keypath trying to return it as datetime.
 # If format is not specified it will be autodetected.
-# If options and value is in options return value otherwise default.
-d.get_datetime(key, default=None, format=None, options=[])
+# If choices and value is in choices return value otherwise default.
+d.get_datetime(key, default=None, format=None, choices=[])
 ```
 
 -   #### get_datetime_list
@@ -531,8 +531,8 @@ d.get_datetime_list(key, default=[], format=None, separator=',')
 
 ```python
 # Get value by key or keypath trying to return it as Decimal.
-# If options and value is in options return value otherwise default.
-d.get_decimal(key, default=Decimal('0.0'), options=[])
+# If choices and value is in choices return value otherwise default.
+d.get_decimal(key, default=Decimal('0.0'), choices=[])
 ```
 
 -   #### get_decimal_list
@@ -557,15 +557,15 @@ d.get_dict(key, default={})
 # Get email by key or keypath and return it.
 # If value is blacklisted it will be automatically ignored.
 # If check_blacklist is False, it will be not ignored even if blacklisted.
-d.get_email(key, default='', options=None, check_blacklist=True)
+d.get_email(key, default='', choices=None, check_blacklist=True)
 ```
 
 -   #### get_float
 
 ```python
 # Get value by key or keypath trying to return it as float.
-# If options and value is in options return value otherwise default.
-d.get_float(key, default=0.0, options=[])
+# If choices and value is in choices return value otherwise default.
+d.get_float(key, default=0.0, choices=[])
 ```
 
 -   #### get_float_list
@@ -580,8 +580,8 @@ d.get_float_list(key, default=[], separator=',')
 
 ```python
 # Get value by key or keypath trying to return it as int.
-# If options and value is in options return value otherwise default.
-d.get_int(key, default=0, options=[])
+# If choices and value is in choices return value otherwise default.
+d.get_int(key, default=0, choices=[])
 ```
 
 -   #### get_int_list
@@ -620,8 +620,8 @@ d.get_phonenumber(key, country_code=None, default=None)
 
 ```python
 # Get value by key or keypath trying to return it as slug.
-# If options and value is in options return value otherwise default.
-d.get_slug(key, default='', options=[])
+# If choices and value is in choices return value otherwise default.
+d.get_slug(key, default='', choices=[])
 ```
 
 -   #### get_slug_list
@@ -637,8 +637,8 @@ d.get_slug_list(key, default=[], separator=',')
 ```python
 # Get value by key or keypath trying to return it as string.
 # Encoding issues will be automatically fixed.
-# If options and value is in options return value otherwise default.
-d.get_str(key, default='', options=[])
+# If choices and value is in choices return value otherwise default.
+d.get_str(key, default='', choices=[])
 ```
 
 -   #### get_str_list
@@ -650,9 +650,30 @@ d.get_str_list(key, default=[], separator=',')
 ```
 
 ## Testing
--   Run `pip install -r requirements.txt`
--   Run `pip install tox`
--   Run `tox`
+```bash
+# create python 3.8 virtual environment
+virtualenv testing_benedict -p "python3.8" --no-site-packages
+
+# activate virtualenv
+cd testing_benedict && . bin/activate
+
+# clone repo
+git clone https://github.com/fabiocaccamo/python-benedict.git src && cd src
+
+# install requirements
+pip install --upgrade pip
+pip install -r requirements.txt
+pip install tox
+
+# run tests using tox
+tox
+
+# or run tests using unittest
+python -m unittest
+
+# or run tests using setuptools
+python setup.py test
+```
 
 ## License
 Released under [MIT License](LICENSE.txt).
