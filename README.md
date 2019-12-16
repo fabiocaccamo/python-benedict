@@ -1,3 +1,18 @@
+[![Py versions](https://img.shields.io/pypi/pyversions/python-benedict.svg?color=blue&logo=python&logoColor=white)](https://img.shields.io/pypi/pyversions/python-benedict.svg?color=blue&logo=python&logoColor=white)
+[![PyPI version](https://img.shields.io/pypi/v/python-benedict.svg?color=blue)](https://img.shields.io/pypi/v/python-benedict.svg?color=blue)
+[![PyPI downloads](https://img.shields.io/pypi/dm/python-benedict.svg?color=blue)](https://img.shields.io/pypi/dm/python-benedict.svg?color=blue)
+[![Stars](https://img.shields.io/github/stars/fabiocaccamo/python-benedict?logo=github)](https://img.shields.io/github/stars/fabiocaccamo/python-benedict?logo=github)
+[![Issues](https://img.shields.io/github/issues/fabiocaccamo/python-benedict?logo=github)](https://img.shields.io/github/issues/fabiocaccamo/python-benedict?logo=github)
+[![License](https://img.shields.io/pypi/l/python-benedict.svg?color=blue)](https://img.shields.io/pypi/l/python-benedict.svg)
+
+[![CircleCI](https://circleci.com/gh/fabiocaccamo/python-benedict.svg?style=svg)](https://circleci.com/gh/fabiocaccamo/python-benedict)
+[![Build Status](https://travis-ci.org/fabiocaccamo/python-benedict.svg?branch=master)](https://travis-ci.org/fabiocaccamo/python-benedict)
+[![codecov](https://codecov.io/gh/fabiocaccamo/python-benedict/branch/master/graph/badge.svg)](https://codecov.io/gh/fabiocaccamo/python-benedict)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0dbd5cc2089f4dce80a0e49e6822be3c)](https://www.codacy.com/app/fabiocaccamo/python-benedict)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/fabiocaccamo/python-benedict/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/fabiocaccamo/python-benedict/?branch=master)
+[![Requirements Status](https://requires.io/github/fabiocaccamo/python-benedict/requirements.svg?branch=master)](https://requires.io/github/fabiocaccamo/python-benedict/requirements/?branch=master)
+
+
 [![PyPI version](https://badge.fury.io/py/python-benedict.svg)](https://badge.fury.io/py/python-benedict)
 [![PyPI downloads](https://img.shields.io/pypi/dm/python-benedict.svg)](https://img.shields.io/pypi/dm/python-benedict.svg)
 [![Py versions](https://img.shields.io/pypi/pyversions/python-benedict.svg)](https://img.shields.io/pypi/pyversions/python-benedict.svg)
