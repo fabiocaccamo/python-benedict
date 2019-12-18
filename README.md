@@ -1,4 +1,4 @@
-[![Py versions](https://img.shields.io/pypi/pyversions/python-benedict.svg?color=blue&logo=python&logoColor=white)](https://img.shields.io/pypi/pyversions/python-benedict.svg?color=blue&logo=python&logoColor=white)
+[![Py versions](https://img.shields.io/pypi/pyversions/python-benedict.svg?color=blue&logo=python&logoColor=white)](https://www.python.org/)
 [![PyPI version](https://img.shields.io/pypi/v/python-benedict.svg?color=blue)](https://pypi.org/project/python-benedict/)
 [![PyPI downloads](https://img.shields.io/pypi/dm/python-benedict.svg?color=blue)](https://pypi.org/project/python-benedict/)
 [![Stars](https://img.shields.io/github/stars/fabiocaccamo/python-benedict?logo=github)](https://github.com/fabiocaccamo/python-benedict/)
