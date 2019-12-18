@@ -1,9 +1,8 @@
 [![Py versions](https://img.shields.io/pypi/pyversions/python-benedict.svg?color=blue&logo=python&logoColor=white)](https://img.shields.io/pypi/pyversions/python-benedict.svg?color=blue&logo=python&logoColor=white)
-[![PyPI version](https://img.shields.io/pypi/v/python-benedict.svg?color=blue)](https://img.shields.io/pypi/v/python-benedict.svg?color=blue)
-[![PyPI downloads](https://img.shields.io/pypi/dm/python-benedict.svg?color=blue)](https://img.shields.io/pypi/dm/python-benedict.svg?color=blue)
-[![Stars](https://img.shields.io/github/stars/fabiocaccamo/python-benedict?logo=github)](https://img.shields.io/github/stars/fabiocaccamo/python-benedict?logo=github)
-[![Issues](https://img.shields.io/github/issues/fabiocaccamo/python-benedict?logo=github)](https://img.shields.io/github/issues/fabiocaccamo/python-benedict?logo=github)
-[![License](https://img.shields.io/pypi/l/python-benedict.svg?color=blue)](https://img.shields.io/pypi/l/python-benedict.svg)
+[![PyPI version](https://img.shields.io/pypi/v/python-benedict.svg?color=blue)](https://pypi.org/project/python-benedict/)
+[![PyPI downloads](https://img.shields.io/pypi/dm/python-benedict.svg?color=blue)](https://pypi.org/project/python-benedict/)
+[![Stars](https://img.shields.io/github/stars/fabiocaccamo/python-benedict?logo=github)](https://github.com/fabiocaccamo/python-benedict/)
+[![License](https://img.shields.io/pypi/l/python-benedict.svg?color=blue)](https://github.com/fabiocaccamo/python-benedict/blob/master/LICENSE.txt)
 
 [![CircleCI](https://circleci.com/gh/fabiocaccamo/python-benedict.svg?style=svg)](https://circleci.com/gh/fabiocaccamo/python-benedict)
 [![Build Status](https://travis-ci.org/fabiocaccamo/python-benedict.svg?branch=master)](https://travis-ci.org/fabiocaccamo/python-benedict)
