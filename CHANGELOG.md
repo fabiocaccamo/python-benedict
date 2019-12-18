@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.14.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.14.0) - 2019-12-18
+-   Added docstrings to methods. #2
+-   Added test case for stackoverflow answered questions.
+-   Added possibility to run tests using only `unittest`.
+-   Improved code quality and CI.
+-   Improved keypath support in `fromkeys` method.
+-   Improved url, file, data autodetect in `io_util.read_content`.
+-   Refactored `standardize` utility method.
+-   Removed duplicated code and `benedicton` decorator.
+-   Renamed `options` arg to `choices` in `ParseDict` methods.
+-   Replaced unsafe `yaml.load` with `yaml.safe_load`.
+
 ## [0.13.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.13.0) - 2019-11-07
 -   Added `csv` I/O support.
 -   Refactored I/O dict class and utils.
