@@ -88,9 +88,6 @@ python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (
 -   Well **tested**, check the badges ;)
 -   100% **backward-compatible** *(you can replace existing dicts without pain)*
 
-## Requirements
--   Python 2.7, 3.4, 3.5, 3.6, 3.7
-
 ## Installation
 -   Run `pip install python-benedict`
 
