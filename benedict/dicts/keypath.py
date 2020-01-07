@@ -77,6 +77,7 @@ class KeypathDict(dict):
             else:
                 return False
         else:
+            key = keys[0]
             return super(KeypathDict, self).__contains__(key)
 
     def __delitem__(self, key):
@@ -88,6 +89,7 @@ class KeypathDict(dict):
             else:
                 raise KeyError
         else:
+            key = keys[0]
             super(KeypathDict, self).__delitem__(key)
 
     def __getitem__(self, key):
@@ -100,6 +102,7 @@ class KeypathDict(dict):
             else:
                 raise KeyError
         else:
+            key = keys[0]
             value = super(KeypathDict, self).__getitem__(key)
         return value
 
@@ -124,6 +127,7 @@ class KeypathDict(dict):
                     item[key] = value
                 i += 1
         else:
+            key = keys[0]
             super(KeypathDict, self).__setitem__(key, value)
 
     @classmethod
@@ -142,6 +146,7 @@ class KeypathDict(dict):
             else:
                 return default
         else:
+            key = keys[0]
             return super(KeypathDict, self).get(key, default)
 
     def pop(self, key, *args, **kwargs):
@@ -168,6 +173,7 @@ class KeypathDict(dict):
                 else:
                     raise KeyError
         else:
+            key = keys[0]
             if default_arg:
                 return super(KeypathDict, self).pop(key, default)
             else:
