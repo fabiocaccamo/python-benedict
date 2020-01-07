@@ -99,6 +99,18 @@ class benedict_test_case(unittest.TestCase):
         self.assertEqual(b.get('a.b.c'), 2)
         self.assertEqual(c.get('a.b.c'), 2)
 
+    def test_copy_with_custom_keypath_separator(self):
+        d = {
+            'a': {
+                'b': {
+                    'c': 1
+                }
+            }
+        }
+        b = benedict(d, keypath_separator='/')
+        c = b.copy()
+        self.assertEqual(c.keypath_separator, '/')
+
     def test_deepcopy(self):
         d = {
             'a': {
@@ -115,6 +127,18 @@ class benedict_test_case(unittest.TestCase):
         c['a.b.c'] = 2
         self.assertEqual(b.get('a.b.c'), 1)
         self.assertEqual(c.get('a.b.c'), 2)
+
+    def test_deepcopy_with_custom_keypath_separator(self):
+        d = {
+            'a': {
+                'b': {
+                    'c': 1
+                }
+            }
+        }
+        b = benedict(d, keypath_separator='/')
+        c = b.deepcopy()
+        self.assertEqual(c.keypath_separator, '/')
 
     def test_deepupdate_with_single_dict(self):
         d = {
@@ -296,6 +320,27 @@ class benedict_test_case(unittest.TestCase):
         self.assertEqual(f, r)
         self.assertFalse(b is f)
 
+    def test_filter_with_custom_keypath_separator(self):
+        d = {
+            'a.b': 1,
+            'b.c': 2,
+            'c.d': 3,
+            'e.f': '4',
+            'f.g': '5',
+        }
+        b = benedict(d, keypath_separator='/')
+        f = b.filter(lambda key, val: isinstance(val, int))
+        r = {
+            'a.b': 1,
+            'b.c': 2,
+            'c.d': 3,
+        }
+        self.assertEqual(type(b), type(f))
+        self.assertTrue(isinstance(f, benedict))
+        self.assertEqual(f, r)
+        self.assertFalse(b is f)
+        self.assertEqual(b.keypath_separator, f.keypath_separator)
+
     def test_filter_with_parse(self):
         d = {
             'a': {
@@ -359,6 +404,34 @@ class benedict_test_case(unittest.TestCase):
         self.assertEqual(f, r)
         self.assertEqual(type(b), type(f))
         self.assertTrue(isinstance(f, benedict))
+
+    def test_flatten_with_custom_keypath_separator(self):
+        d = {
+            'a': 1,
+            'b': 2,
+            'c': {
+                'd': {
+                    'e': 3,
+                    'f': 4,
+                    'g': {
+                        'h': 5,
+                    }
+                }
+            },
+        }
+        b = benedict(d, keypath_separator='/')
+        f = b.flatten()
+        r = {
+            'a': 1,
+            'b': 2,
+            'c_d_e': 3,
+            'c_d_f': 4,
+            'c_d_g_h': 5,
+        }
+        self.assertEqual(f, r)
+        self.assertEqual(type(b), type(f))
+        self.assertTrue(isinstance(f, benedict))
+        self.assertEqual(b.keypath_separator, f.keypath_separator)
 
     def test_flatten_with_custom_separator(self):
         d = {
@@ -727,6 +800,26 @@ b:
             5: ['e'],
         }
         self.assertEqual(i, r)
+
+    def test_invert_with_custom_keypath_separator(self):
+        d = {
+            'a': '1.0',
+            'b': '2.0',
+            'c': '3.0',
+            'd': '4.0',
+            'e': '5.0',
+        }
+        bd = benedict(d, keypath_separator='/')
+        i = bd.invert()
+        r = {
+            '1.0': ['a'],
+            '2.0': ['b'],
+            '3.0': ['c'],
+            '4.0': ['d'],
+            '5.0': ['e'],
+        }
+        self.assertEqual(i, r)
+        self.assertEqual(bd.keypath_separator, i.keypath_separator)
 
     def test_invert_multiple_values(self):
         d = {
@@ -1171,6 +1264,28 @@ b:
         self.assertFalse(f is b)
         self.assertEqual(type(b), type(f))
         self.assertTrue(isinstance(f, benedict))
+
+    def test_subset_with_custom_keypath_separator(self):
+        d = {
+            'a.x': 1,
+            'b.x': 2,
+            'c.x': '4',
+            'e.x': '5',
+            'f.x': 6,
+            'g.x': 7,
+        }
+        b = benedict(d, keypath_separator='/')
+        f = b.subset(['c.x', 'f.x', 'x.x'])
+        r = {
+            'c.x': '4',
+            'f.x': 6,
+            'x.x': None,
+        }
+        self.assertEqual(f, r)
+        self.assertFalse(f is b)
+        self.assertEqual(type(b), type(f))
+        self.assertTrue(isinstance(f, benedict))
+        self.assertEqual(b.keypath_separator, f.keypath_separator)
 
     def test_subset_with_keys_args(self):
         d = {

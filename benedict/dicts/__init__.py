@@ -25,13 +25,15 @@ class benedict(IODict, KeypathDict, ParseDict):
         """
         Creates and return a clone of the current dict instance (deep copy).
         """
-        return dict_util.clone(self)
+        return benedict(dict_util.clone(self),
+            keypath_separator=self._keypath_separator)
 
     def copy(self):
         """
         Creates and return a copy of the current instance (shallow copy).
         """
-        return benedict(super(benedict, self).copy())
+        return benedict(super(benedict, self).copy(),
+            keypath_separator=self._keypath_separator)
 
     def deepcopy(self):
         """
@@ -61,7 +63,7 @@ class benedict(IODict, KeypathDict, ParseDict):
 
     def flatten(self, separator='_'):
         """
-        Return a new flatten dict using the given separator to concat nested dict keys.
+        Return a new flattened dict using the given separator to concat nested dict keys.
         """
         return dict_util.flatten(self, separator)
 

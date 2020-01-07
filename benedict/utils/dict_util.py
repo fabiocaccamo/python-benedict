@@ -35,7 +35,8 @@ def dump(data):
 def filter(d, predicate):
     if not callable(predicate):
         raise ValueError('predicate argument must be a callable.')
-    new_dict = d.__class__()
+    new_dict = d.copy()
+    new_dict.clear()
     keys = list(d.keys())
     for key in keys:
         value = d.get(key, None)
@@ -45,7 +46,8 @@ def filter(d, predicate):
 
 
 def flatten(d, separator='_', base=''):
-    new_dict = d.__class__()
+    new_dict = d.copy()
+    new_dict.clear()
     keys = list(d.keys())
     for key in keys:
         keypath = '{}{}{}'.format(
@@ -61,7 +63,8 @@ def flatten(d, separator='_', base=''):
 
 
 def invert(d, flat=False):
-    new_dict = d.__class__()
+    new_dict = d.copy()
+    new_dict.clear()
     if flat:
         for key, value in d.items():
             new_dict.setdefault(value, key)
@@ -133,7 +136,8 @@ def standardize(d):
 
 
 def subset(d, keys, *args):
-    new_dict = d.__class__()
+    new_dict = d.copy()
+    new_dict.clear()
     if isinstance(keys, string_types):
         keys = [keys]
     keys += args
