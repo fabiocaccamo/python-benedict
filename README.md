@@ -1,14 +1,14 @@
-[![Py versions](https://img.shields.io/pypi/pyversions/python-benedict.svg?color=blue&logo=python&logoColor=white)](https://www.python.org/)
-[![PyPI version](https://img.shields.io/pypi/v/python-benedict.svg?color=blue)](https://pypi.org/project/python-benedict/)
-[![PyPI downloads](https://img.shields.io/pypi/dm/python-benedict.svg?color=blue)](https://pypi.org/project/python-benedict/)
+[![Python Versions](https://img.shields.io/pypi/pyversions/python-benedict.svg?color=blue&logo=python&logoColor=white)](https://www.python.org/)
+[![PyPI Version](https://img.shields.io/pypi/v/python-benedict.svg?color=blue&logo=pypi&logoColor=white)](https://pypi.org/project/python-benedict/)
+[![PyPI Downloads](https://img.shields.io/pypi/dm/python-benedict.svg?color=blue&logo=pypi&logoColor=white)](https://pypi.org/project/python-benedict/)
 [![Stars](https://img.shields.io/github/stars/fabiocaccamo/python-benedict?logo=github)](https://github.com/fabiocaccamo/python-benedict/)
 [![License](https://img.shields.io/pypi/l/python-benedict.svg?color=blue)](https://github.com/fabiocaccamo/python-benedict/blob/master/LICENSE.txt)
 
-[![CircleCI](https://circleci.com/gh/fabiocaccamo/python-benedict.svg?style=svg)](https://circleci.com/gh/fabiocaccamo/python-benedict)
-[![Build Status](https://travis-ci.org/fabiocaccamo/python-benedict.svg?branch=master)](https://travis-ci.org/fabiocaccamo/python-benedict)
-[![codecov](https://codecov.io/gh/fabiocaccamo/python-benedict/branch/master/graph/badge.svg)](https://codecov.io/gh/fabiocaccamo/python-benedict)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0dbd5cc2089f4dce80a0e49e6822be3c)](https://www.codacy.com/app/fabiocaccamo/python-benedict)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/fabiocaccamo/python-benedict/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/fabiocaccamo/python-benedict/?branch=master)
+[![Travis Build Status](https://img.shields.io/travis/fabiocaccamo/python-benedict?logo=travis&label=build)](https://travis-ci.org/fabiocaccamo/python-benedict)
+[![CircleCI Build Status](https://img.shields.io/circleci/build/gh/fabiocaccamo/python-benedict?logo=circleci&label=build)](https://circleci.com/gh/fabiocaccamo/python-benedict)
+[![Codecov Coverage](https://img.shields.io/codecov/c/gh/fabiocaccamo/python-benedict?logo=codecov)](https://codecov.io/gh/fabiocaccamo/python-benedict)
+[![Codacy Code Quality Grade](https://img.shields.io/codacy/grade/0dbd5cc2089f4dce80a0e49e6822be3c?logo=codacy)](https://www.codacy.com/app/fabiocaccamo/python-benedict)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/quality/g/fabiocaccamo/python-benedict?logo=scrutinizer)](https://scrutinizer-ci.com/g/fabiocaccamo/python-benedict/?branch=master)
 [![Requirements Status](https://requires.io/github/fabiocaccamo/python-benedict/requirements.svg?branch=master)](https://requires.io/github/fabiocaccamo/python-benedict/requirements/?branch=master)
 
 # python-benedict
