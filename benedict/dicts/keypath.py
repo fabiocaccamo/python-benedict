@@ -7,6 +7,8 @@ from six import string_types
 
 class KeypathDict(dict):
 
+    _keypath_separator = None
+
     def __init__(self, *args, **kwargs):
         """
         Constructs a new instance.
