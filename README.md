@@ -38,10 +38,13 @@ python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (
         -   [`merge`](#merge)
         -   [`move`](#move)
         -   [`remove`](#remove)
+        -   [`rename`](#rename)
+        -   [`search`](#search)
         -   [`standardize`](#standardize)
         -   [`subset`](#subset)
         -   [`swap`](#swap)
         -   [`traverse`](#traverse)
+        -   [`unflatten`](#unflatten)
         -   [`unique`](#unique)
     -   [I/O](#io)
         -   [`from_base64`](#from_base64)
@@ -233,7 +236,7 @@ f = d.filter(predicate)
 -   #### flatten
 
 ```python
-# Return a flatten dict using the given separator to concat nested dict keys.
+# Return a new flattened dict using the given separator to join nested dict keys to flatten keypaths.
 f = d.flatten(separator='_')
 ```
 
@@ -284,7 +287,7 @@ d.merge(a, b, c)
 # Move an item from key_src to key_dst.
 # It can be used to rename a key.
 # If key_dst exists, its value will be overwritten.
-d.move('a', 'b')
+d.move('a', 'b', overwrite=True)
 ```
 
 -   #### remove
@@ -293,6 +296,21 @@ d.move('a', 'b')
 # Remove multiple keys from the dict.
 # It is possible to pass a single key or more keys (as list or *args).
 d.remove(['firstname', 'lastname', 'email'])
+```
+
+-   #### rename
+
+```python
+# Rename a dict item key from 'key' to 'key_new'.
+# If key_new exists, a KeyError will be raised.
+d.rename('first_name', 'firstname')
+```
+
+-   #### search
+
+```python
+# Search and return a list of items (dict, key, value, ) matching the given query.
+d.search('hello', in_keys=True, in_values=True, exact=False, case_sensitive=False)
 ```
 
 -   #### standardize
@@ -324,6 +342,13 @@ d.swap('firstname', 'lastname')
 def f(d, key, value):
     print('dict: {} - key: {} - value: {}'.format(d, key, value))
 d.traverse(f)
+```
+
+-   #### unflatten
+
+```python
+# Return a new unflattened dict using the given separator to split dict keys to nested keypaths.
+d.unflatten(separator='_')
 ```
 
 -   #### unique
