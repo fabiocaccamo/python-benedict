@@ -45,20 +45,21 @@ def filter(d, predicate):
     return new_dict
 
 
-def flatten(d, separator='_', base=''):
+def flatten(d, separator='_', **kwargs):
     new_dict = d.copy()
     new_dict.clear()
     keys = list(d.keys())
+    base_key = kwargs.pop('base_key', '')
     for key in keys:
-        keypath = '{}{}{}'.format(
-            base, separator, key) if base and separator else key
+        new_key = '{}{}{}'.format(
+            base_key, separator, key) if base_key and separator else key
         value = d.get(key, None)
         if isinstance(value, dict):
-            new_value = flatten(value, separator=separator, base=keypath)
+            new_value = flatten(value, separator=separator, base_key=new_key)
             new_value.update(new_dict)
             new_dict.update(new_value)
         else:
-            new_dict[keypath] = value
+            new_dict[new_key] = value
     return new_dict
 
 
@@ -176,13 +177,13 @@ def search(d, query, in_keys=True, in_values=True, exact=False, case_sensitive=T
 
 
 def standardize(d):
-    def f(item, item_key, item_value):
+    def f(item_dict, item_key, item_value):
         if isinstance(item_key, string_types):
             # https://stackoverflow.com/a/12867228/2096218
             norm_key = re.sub(
                 r'((?<=[a-z0-9])[A-Z]|(?!^)[A-Z](?=[a-z]))', r'_\1', item_key)
             norm_key = slugify(norm_key, separator='_')
-            move(item, item_key, norm_key)
+            move(item_dict, item_key, norm_key)
     traverse(d, f)
 
 
