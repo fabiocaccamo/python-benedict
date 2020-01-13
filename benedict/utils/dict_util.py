@@ -124,6 +124,31 @@ def remove(d, keys, *args):
         d.pop(key, None)
 
 
+def resolve(d, keys, **kwargs):
+    create_intermediates = kwargs.pop('create_intermediates', False)
+    result = (None, None, None, )
+    parent = d
+    i = 0
+    j = len(keys)
+    while i < j:
+        key = keys[i]
+        try:
+            value = parent[key]
+            result = (parent, key, value, )
+            parent = value
+            i += 1
+        except (KeyError, ):
+            if create_intermediates:
+                parent[key] = {}
+                continue
+            result = (None, None, None, )
+            break
+        except (TypeError, ValueError, ):
+            result = (None, None, None, )
+            break
+    return result
+
+
 def standardize(d):
     def f(item, item_key, item_value):
         if isinstance(item_key, string_types):

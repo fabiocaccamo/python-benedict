@@ -39,21 +39,7 @@ class KeypathDict(dict):
         dict_util.traverse(d, check_key)
 
     def _goto_keys(self, keys):
-        result = (None, None, None, )
-        parent = self
-        i = 0
-        j = len(keys)
-        while i < j:
-            key = keys[i]
-            try:
-                value = parent[key]
-                result = (parent, key, value, )
-                parent = value
-                i += 1
-            except (KeyError, TypeError, ):
-                result = (None, None, None, )
-                break
-        return result
+        return dict_util.resolve(self, keys)
 
     def _list_keys(self, key):
         if isinstance(key, string_types):
