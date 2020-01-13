@@ -322,8 +322,14 @@ class keypath_dict_test_case(unittest.TestCase):
         }
         b = KeypathDict(d)
         self.assertEqual(b['a', 'b.c'], 1)
+        self.assertEqual(b[['a', 'b.c']], 1)
+        self.assertEqual(b[('a', 'b.c', )], 1)
         self.assertEqual(b['a', 'b', 'c'], 1)
+        self.assertEqual(b[['a', 'b', 'c']], 1)
+        self.assertEqual(b[('a', 'b', 'c', )], 1)
         self.assertEqual(b['a', 'b', 'd'], 2)
+        self.assertEqual(b[['a', 'b', 'd']], 2)
+        self.assertEqual(b[('a', 'b', 'd', )], 2)
         with self.assertRaises(KeyError):
             val = b['a', 'b', 'e']
             print(val)
@@ -342,7 +348,11 @@ class keypath_dict_test_case(unittest.TestCase):
             val = b['a', 'b.c']
             print(val)
         self.assertEqual(b['a', 'b', 'c'], 1)
+        self.assertEqual(b[['a', 'b', 'c']], 1)
+        self.assertEqual(b[('a', 'b', 'c', )], 1)
         self.assertEqual(b['a', 'b', 'd'], 2)
+        self.assertEqual(b[['a', 'b', 'd']], 2)
+        self.assertEqual(b[('a', 'b', 'd', )], 2)
         with self.assertRaises(KeyError):
             val = b['a', 'b', 'e']
             print(val)
