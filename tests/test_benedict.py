@@ -1196,6 +1196,35 @@ b:
         }
         self.assertEqual(b, r)
 
+    def test_rename(self):
+        d = {
+            'a': {
+                'x': 1,
+                'y': 1,
+            },
+            'b': {
+                'x': 2,
+                'y': 2,
+            },
+        }
+        b = benedict(d)
+        b.rename('a.x', 'a.xx')
+        b.rename('a.y', 'a.yy')
+        b.rename('a', 'aa')
+        r = {
+            'aa': {
+                'xx': 1,
+                'yy': 1,
+            },
+            'b': {
+                'x': 2,
+                'y': 2,
+            },
+        }
+        self.assertEqual(b, r)
+        with self.assertRaises(KeyError):
+            b.rename('aa', 'b')
+
     # def test_setdefault(self):
     #     d = {
     #         'a': 1,

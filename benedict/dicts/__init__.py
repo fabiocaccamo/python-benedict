@@ -118,6 +118,13 @@ class benedict(IODict, KeypathDict, ParseDict):
         """
         dict_util.remove(self, keys, *args)
 
+    def rename(self, key, key_new):
+        """
+        Rename a dict item key from 'key' to 'key_new'.
+        If key_new exists, a KeyError will be raised.
+        """
+        dict_util.rename(self, key, key_new)
+
     def standardize(self):
         """
         Standardize all dict keys (e.g. 'Location Latitude' -> 'location_latitude').
