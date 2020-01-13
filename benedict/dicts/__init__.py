@@ -63,7 +63,8 @@ class benedict(IODict, KeypathDict, ParseDict):
 
     def flatten(self, separator='_'):
         """
-        Return a new flattened dict using the given separator to concat nested dict keys.
+        Return a new flattened dict using the given separator
+        to join nested dict keys to flatten keypaths.
         """
         return dict_util.flatten(self, separator)
 
@@ -106,7 +107,6 @@ class benedict(IODict, KeypathDict, ParseDict):
     def move(self, key_src, key_dest):
         """
         Move a dict instance value item from 'key_src' to 'key_dst'.
-        It can be used to rename a key.
         If key_dst exists, its value will be overwritten.
         """
         dict_util.move(self, key_src, key_dest)
