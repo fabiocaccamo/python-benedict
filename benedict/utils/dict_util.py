@@ -214,6 +214,22 @@ def traverse(d, callback):
             traverse(value, callback)
 
 
+def unflatten(d, separator='_'):
+    new_dict = d.copy()
+    new_dict.clear()
+    new_dict_cursor = new_dict
+    keys = list(d.keys())
+    for key in keys:
+        value = d.get(key, None)
+        new_value = unflatten(value, separator=separator) if isinstance(
+            value, dict) else value
+        new_keys = key.split(separator) if separator in key else [key]
+        new_parent, new_key, _ = resolve(
+            new_dict, new_keys, create_intermediates=True)
+        new_parent[new_key] = new_value
+    return new_dict
+
+
 def unique(d):
     values = []
     keys = list(d.keys())

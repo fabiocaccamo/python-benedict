@@ -1542,6 +1542,30 @@ b:
         }
         self.assertEqual(b, r)
 
+    def test_unflatten(self):
+        d = {
+            'device_os': 'Windows',
+            'device_lang': 'en-US',
+            'device_code': 43,
+            'browser_name': 'Chrome',
+            'browser_layout': 'Webkit',
+        }
+        b = benedict(d)
+        u = b.unflatten()
+        r = {
+            'device': {
+                'os': 'Windows',
+                'lang': 'en-US',
+                'code': 43,
+            },
+            'browser': {
+                'name': 'Chrome',
+                'layout': 'Webkit',
+            },
+        }
+        self.assertEqual(u, r)
+        self.assertEqual(u.flatten(), b)
+
     def test_unique(self):
         d = {
             'a': {

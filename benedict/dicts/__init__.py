@@ -157,6 +157,13 @@ class benedict(IODict, KeypathDict, ParseDict):
         """
         dict_util.traverse(self, callback)
 
+    def unflatten(self, separator='_'):
+        """
+        Return a new unflattened dict using the given separator
+        to split dict keys to nested keypaths.
+        """
+        return dict_util.unflatten(self, separator)
+
     def unique(self):
         """
         Remove duplicated values from the current dict instance.
