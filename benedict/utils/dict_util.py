@@ -155,6 +155,26 @@ def resolve(d, keys, **kwargs):
     return result
 
 
+def search(d, query, in_keys=True, in_values=True, exact=False, case_sensitive=True):
+    items = []
+    def s(value):
+        # TODO: add regex support
+        q_is_str = isinstance(query, string_types)
+        q = query.lower() if q_is_str and not case_sensitive else query
+        v_is_str = isinstance(value, string_types)
+        v = value.lower() if v_is_str and not case_sensitive else value
+        if exact:
+            return q == v
+        elif q_is_str and v_is_str:
+            return q in v
+        return False
+    def f(item_dict, item_key, item_value):
+        if (in_keys and s(item_key)) or (in_values and s(item_value)):
+            items.append((item_dict, item_key, item_value, ))
+    traverse(d, f)
+    return items
+
+
 def standardize(d):
     def f(item, item_key, item_value):
         if isinstance(item_key, string_types):

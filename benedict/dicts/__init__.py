@@ -125,6 +125,12 @@ class benedict(IODict, KeypathDict, ParseDict):
         """
         dict_util.rename(self, key, key_new)
 
+    def search(self, query, in_keys=True, in_values=True, exact=False, case_sensitive=False):
+        """
+        Search and return a list of items (dict, key, value, ) matching the given query.
+        """
+        return dict_util.search(self, query, in_keys, in_values, exact, case_sensitive)
+
     def standardize(self):
         """
         Standardize all dict keys (e.g. 'Location Latitude' -> 'location_latitude').
