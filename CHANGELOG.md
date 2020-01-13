@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.15.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.15.0) - 2020-01-13
+-   Added `rename` method.
+-   Added `search` method.
+-   Added `unflatten` method.
+
 ## [0.14.1](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.14.1) - 2020-01-07
 -   Fixed `keypath_separator` value in instances returned by `copy`, `clone`, `filter`, `flatten`, `invert`, `subset` methods. #4
 -   Fixed `get` doesn't work when the key is a list with one element. #5
