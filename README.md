@@ -137,7 +137,7 @@ d.keypath_separator = None
 
 ### API
 
--   [Utility methods](#utility-methods)
+-   **Utility methods**
 
     -   [`clean`](#clean)
     -   [`clone`](#clone)
@@ -160,7 +160,7 @@ d.keypath_separator = None
     -   [`unflatten`](#unflatten)
     -   [`unique`](#unique)
 
--   [I/O methods](#io-methods)
+-   **I/O methods**
 
     -   [`from_base64`](#from_base64)
     -   [`from_csv`](#from_csv)
@@ -177,7 +177,7 @@ d.keypath_separator = None
     -   [`to_xml`](#to_xml)
     -   [`to_yaml`](#to_yaml)
 
--   [Parse methods](#parse-methods)
+-   **Parse methods**
 
     -   [`get_bool`](#get_bool)
     -   [`get_bool_list`](#get_bool_list)
