@@ -25,10 +25,10 @@ python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (
         -   [Custom keypath separator](#custom-keypath-separator)
         -   [Change keypath separator](#change-keypath-separator)
         -   [Disable keypath functionality](#disable-keypath-functionality)
--   [API](#api)
-    -   [Utility](#utility)
-    -   [I/O](#io)
-    -   [Parse](#parse)
+    -   [API](#api)
+        -   [Utility methods](#utility-methods)
+        -   [I/O methods](#io-methods)
+        -   [Parse methods](#parse-methods)
 -   [Testing](#testing)
 -   [License](#license)
 
@@ -136,9 +136,10 @@ You can disable the keypath functionality using the `getter/setter` property.
 d.keypath_separator = None
 ```
 
-## API
+### API
 
--   [Utility](#utility)
+-   [Utility methods](#utility-methods)
+
     -   [`clean`](#clean)
     -   [`clone`](#clone)
     -   [`dump`](#dump)
@@ -159,7 +160,9 @@ d.keypath_separator = None
     -   [`traverse`](#traverse)
     -   [`unflatten`](#unflatten)
     -   [`unique`](#unique)
--   [I/O](#io)
+
+-   [I/O methods](#io-methods)
+
     -   [`from_base64`](#from_base64)
     -   [`from_csv`](#from_csv)
     -   [`from_json`](#from_json)
@@ -174,7 +177,9 @@ d.keypath_separator = None
     -   [`to_toml`](#to_toml)
     -   [`to_xml`](#to_xml)
     -   [`to_yaml`](#to_yaml)
--   [Parse](#parse)
+
+-   [Parse methods](#parse-methods)
+
     -   [`get_bool`](#get_bool)
     -   [`get_bool_list`](#get_bool_list)
     -   [`get_datetime`](#get_datetime)
@@ -195,10 +200,11 @@ d.keypath_separator = None
     -   [`get_str`](#get_str)
     -   [`get_str_list`](#get_str_list)
 
-### Utility
+### Utility methods
+
 These methods are common utilities that will speed up your everyday work.
 
-Utilities that accepts key argument(s) also accepts keypath(s).
+Utilities that accept key argument(s) also support keypath(s).
 
 Utilities that return a dictionary always return a new `benedict` instance.
 
@@ -315,7 +321,7 @@ d.rename('first_name', 'firstname')
 
 ```python
 # Search and return a list of items (dict, key, value, ) matching the given query.
-d.search('hello', in_keys=True, in_values=True, exact=False, case_sensitive=False)
+r = d.search('hello', in_keys=True, in_values=True, exact=False, case_sensitive=False)
 ```
 
 -   #### standardize
@@ -353,7 +359,7 @@ d.traverse(f)
 
 ```python
 # Return a new unflattened dict using the given separator to split dict keys to nested keypaths.
-d.unflatten(separator='_')
+u = d.unflatten(separator='_')
 ```
 
 -   #### unique
@@ -363,7 +369,7 @@ d.unflatten(separator='_')
 d.unique()
 ```
 
-### I/O
+### I/O methods
 
 It is possible to create a `benedict` instance directly from data source (filepath, url or data-string) by passing the data source and the data format (default 'json') in the constructor.
 
@@ -521,7 +527,8 @@ s = d.to_xml(**kwargs)
 s = d.to_yaml(**kwargs)
 ```
 
-### Parse
+### Parse methods
+
 These methods are wrappers of the `get` method, they parse data trying to return it in the expected type.
 
 -   #### get_bool
