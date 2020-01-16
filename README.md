@@ -16,8 +16,14 @@
 # python-benedict
 python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (`Base64`, `CSV`, `JSON`, `TOML`, `XML`, `YAML`, `query-string`) and many **utilities**... for humans, obviously.
 
+## Features
+-   100% **backward-compatible**, you can safely wrap existing dictionaries.
+-   Full **keypath** support using **keypath-separator** *(dot syntax by default)* or **list of keys**.
+-   Easy **I/O operations** with most common formats: `Base64`, `CSV`, `JSON`, `TOML`, `XML`, `YAML`, `query-string`.
+-   Many **utility** and **parse methods** to retrieve data as needed *(check the [API](#api) section)*.
+-   Well **tested**, check the badges ;)
+
 ## Index
--   [Features](#features)
 -   [Installation](#installation)
 -   [Usage](#usage)
     -   [Basics](#basics)
@@ -31,13 +37,6 @@ python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (
         -   [Parse methods](#parse-methods)
 -   [Testing](#testing)
 -   [License](#license)
-
-## Features
--   Full **keypath** support using **keypath-separator** *(dot syntax by default)* or **list of keys**.
--   Easy **I/O operations** with most common formats: `Base64`, `CSV`, `JSON`, `TOML`, `XML`, `YAML`, `query-string`
--   Many **utility** and **parse methods** to retrieve data as needed *(all methods listed below)*
--   Well **tested**, check the badges ;)
--   100% **backward-compatible** *(you can replace existing dicts without pain)*
 
 ## Installation
 -   Run `pip install python-benedict`
