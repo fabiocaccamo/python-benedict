@@ -59,64 +59,76 @@ class KeypathDict(dict):
     def __contains__(self, key):
         keys = self._list_keys(key)
         if len(keys) > 1:
-            parent, key, _ = self._goto_keys(keys)
-            if isinstance(parent, dict) and parent.__contains__(key):
-                return True
-            else:
-                return False
+            return self.__contains__by_keys(keys)
         else:
             key = keys[0]
             return super(KeypathDict, self).__contains__(key)
 
+    def __contains__by_keys(self, keys):
+        parent, key, _ = self._goto_keys(keys)
+        if isinstance(parent, dict) and parent.__contains__(key):
+            return True
+        else:
+            return False
+
     def __delitem__(self, key):
         keys = self._list_keys(key)
         if len(keys) > 1:
-            parent, key, _ = self._goto_keys(keys)
-            if isinstance(parent, dict):
-                parent.__delitem__(key)
-            else:
-                raise KeyError
+            self.__delitem__by_keys(keys)
         else:
             key = keys[0]
             super(KeypathDict, self).__delitem__(key)
+
+    def __delitem__by_keys(self, keys):
+        parent, key, _ = self._goto_keys(keys)
+        if isinstance(parent, dict):
+            parent.__delitem__(key)
+        else:
+            raise KeyError
 
     def __getitem__(self, key):
         keys = self._list_keys(key)
         value = None
         if len(keys) > 1:
-            parent, key, _ = self._goto_keys(keys)
-            if isinstance(parent, dict):
-                return parent.__getitem__(key)
-            else:
-                raise KeyError
+            return self.__getitem__by_keys(keys)
         else:
             key = keys[0]
             value = super(KeypathDict, self).__getitem__(key)
         return value
 
+    def __getitem__by_keys(self, keys):
+        parent, key, _ = self._goto_keys(keys)
+        if isinstance(parent, dict):
+            return parent.__getitem__(key)
+        else:
+            raise KeyError
+
     def __setitem__(self, key, value):
         self._check_keypath_separator_in_keys(value)
         keys = self._list_keys(key)
         if len(keys) > 1:
-            i = 0
-            j = len(keys)
-            item = self
-            while i < j:
-                key = keys[i]
-                if i < (j - 1):
-                    if item is self:
-                        subitem = super(KeypathDict, self).get(key, None)
-                    else:
-                        subitem = item.get(key, None)
-                    if not isinstance(subitem, dict):
-                        subitem = item[key] = {}
-                    item = subitem
-                else:
-                    item[key] = value
-                i += 1
+            self.__setitem__by_keys(keys, value)
         else:
             key = keys[0]
             super(KeypathDict, self).__setitem__(key, value)
+
+    def __setitem__by_keys(self, keys, value):
+        i = 0
+        j = len(keys)
+        item = self
+        while i < j:
+            key = keys[i]
+            if i < (j - 1):
+                if item is self:
+                    subitem = super(KeypathDict, self).get(key, None)
+                else:
+                    subitem = item.get(key, None)
+                if not isinstance(subitem, dict):
+                    subitem = item[key] = {}
+                item = subitem
+            else:
+                item[key] = value
+            i += 1
 
     @classmethod
     def fromkeys(cls, sequence, value=None):
@@ -128,14 +140,17 @@ class KeypathDict(dict):
     def get(self, key, default=None):
         keys = self._list_keys(key)
         if len(keys) > 1:
-            parent, key, _ = self._goto_keys(keys)
-            if isinstance(parent, dict):
-                return parent.get(key, default)
-            else:
-                return default
+            return self.__get_by_keys(keys, default)
         else:
             key = keys[0]
             return super(KeypathDict, self).get(key, default)
+
+    def __get_by_keys(self, keys, default=None):
+        parent, key, _ = self._goto_keys(keys)
+        if isinstance(parent, dict):
+            return parent.get(key, default)
+        else:
+            return default
 
     def pop(self, key, *args, **kwargs):
         if kwargs and 'default' in kwargs:
@@ -149,23 +164,26 @@ class KeypathDict(dict):
             default = None
         keys = self._list_keys(key)
         if len(keys) > 1:
-            parent, key, _ = self._goto_keys(keys)
-            if isinstance(parent, dict):
-                if default_arg:
-                    return parent.pop(key, default)
-                else:
-                    return parent.pop(key)
-            else:
-                if default_arg:
-                    return default
-                else:
-                    raise KeyError
+            return self._pop_by_keys(keys, default_arg, default)
         else:
             key = keys[0]
             if default_arg:
                 return super(KeypathDict, self).pop(key, default)
             else:
                 return super(KeypathDict, self).pop(key)
+
+    def _pop_by_keys(self, keys, default_arg, default=None):
+        parent, key, _ = self._goto_keys(keys)
+        if isinstance(parent, dict):
+            if default_arg:
+                return parent.pop(key, default)
+            else:
+                return parent.pop(key)
+        else:
+            if default_arg:
+                return default
+            else:
+                raise KeyError
 
     def set(self, key, value):
         self.__setitem__(key, value)
