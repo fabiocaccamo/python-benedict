@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
+
 from benedict.serializers.abstract import AbstractSerializer
 
 from six import binary_type, string_types
