@@ -13,10 +13,11 @@ def clean(d, strings=True, dicts=True, lists=True):
     for key in keys:
         value = d.get(key, None)
         if not value:
-            if value is None or \
-                    strings and isinstance(value, string_types) or \
-                    dicts and isinstance(value, dict) or \
-                    lists and isinstance(value, (list, set, tuple, )):
+            del_none = value is None
+            del_string = strings and isinstance(value, string_types)
+            del_dict = dicts and isinstance(value, dict)
+            del_list = lists and isinstance(value, (list, set, tuple, ))
+            if any([del_none, del_string, del_dict, del_list]):
                 del d[key]
 
 
@@ -86,6 +87,7 @@ def items_sorted_by_values(d, reverse=False):
 def keypaths(d, separator='.'):
     if not separator or not isinstance(separator, string_types):
         raise ValueError('separator argument must be a (non-empty) string.')
+
     def f(parent, parent_keys):
         kp = []
         for key, value in parent.items():
@@ -156,21 +158,30 @@ def resolve(d, keys, **kwargs):
     return result
 
 
-def search(d, query, in_keys=True, in_values=True, exact=False, case_sensitive=True):
+def search(d, query,
+           in_keys=True, in_values=True, exact=False, case_sensitive=True):
     items = []
-    def s(value):
-        # TODO: add regex support
-        q_is_str = isinstance(query, string_types)
-        q = query.lower() if q_is_str and not case_sensitive else query
+
+    def get_term(value):
         v_is_str = isinstance(value, string_types)
-        v = value.lower() if v_is_str and not case_sensitive else value
+        v = value.lower() if (v_is_str and not case_sensitive) else value
+        return (v, v_is_str, )
+
+    q, q_is_str = get_term(query)
+
+    def get_match(cond, value):
+        if not cond:
+            return False
+        v, v_is_str = get_term(value)
+        # TODO: add regex support
         if exact:
             return q == v
         elif q_is_str and v_is_str:
             return q in v
         return False
+
     def f(item_dict, item_key, item_value):
-        if (in_keys and s(item_key)) or (in_values and s(item_value)):
+        if get_match(in_keys, item_key) or get_match(in_values, item_value):
             items.append((item_dict, item_key, item_value, ))
     traverse(d, f)
     return items
