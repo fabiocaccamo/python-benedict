@@ -1565,6 +1565,8 @@ b:
         }
         self.assertEqual(u, r)
         self.assertEqual(u.flatten(), b)
+        self.assertEqual(type(b), type(u))
+        self.assertTrue(isinstance(u, benedict))
 
     def test_unique(self):
         d = {
