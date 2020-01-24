@@ -705,9 +705,11 @@ class keypath_dict_test_case(unittest.TestCase):
             'a': 1,
         }
         b = KeypathDict(d)
+        val = b.pop('a', 2)
+        self.assertEqual(val, 1)
         val = b.pop('b', 2)
         self.assertEqual(val, 2)
-        val = b.pop('c', default=3)
+        val = b.pop('c', 3)
         self.assertEqual(val, 3)
 
     def test_pop_with_1_valid_key(self):
