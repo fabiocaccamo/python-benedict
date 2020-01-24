@@ -133,29 +133,29 @@ def rename(d, key, key_new):
     move(d, key, key_new, overwrite=False)
 
 
-def resolve(d, keys, **kwargs):
-    create_intermediates = kwargs.pop('create_intermediates', False)
-    result = (None, None, None, )
+def resolve(d, keys, create=False):
+    items = []
     parent = d
-    i = 0
-    j = len(keys)
-    while i < j:
-        key = keys[i]
+    key = None
+    value = None
+    for key in keys:
         try:
-            value = parent[key]
-            result = (parent, key, value, )
-            parent = value
-            i += 1
-        except (KeyError, ):
-            if create_intermediates:
-                parent[key] = {}
-                continue
-            result = (None, None, None, )
+            value = d[key]
+        except KeyError:
+            if create:
+                value = d[key] = {}
+            else:
+                items.append((None, None, None, ))
+                break
+        except TypeError:
+            items.append((None, None, None, ))
             break
-        except (TypeError, ValueError, ):
-            result = (None, None, None, )
-            break
-    return result
+        parent = d
+        d = value
+        items.append((parent, key, value, ))
+    if not items:
+        items = [(None, None, None, )]
+    return items
 
 
 def search(d, query,
@@ -236,8 +236,9 @@ def unflatten(d, separator='_'):
         new_value = unflatten(value, separator=separator) if isinstance(
             value, dict) else value
         new_keys = key.split(separator) if separator in key else [key]
-        new_parent, new_key, _ = resolve(
-            new_dict, new_keys, create_intermediates=True)
+        new_items = resolve(
+            new_dict, new_keys, create=True)
+        new_parent, new_key, _ = new_items[-1]
         new_parent[new_key] = new_value
     return new_dict
 
