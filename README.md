@@ -9,8 +9,7 @@
 [![Codecov Coverage](https://img.shields.io/codecov/c/gh/fabiocaccamo/python-benedict?logo=codecov)](https://codecov.io/gh/fabiocaccamo/python-benedict)
 [![Codacy Code Quality Grade](https://img.shields.io/codacy/grade/0dbd5cc2089f4dce80a0e49e6822be3c?logo=codacy)](https://www.codacy.com/app/fabiocaccamo/python-benedict)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/quality/g/fabiocaccamo/python-benedict?logo=scrutinizer)](https://scrutinizer-ci.com/g/fabiocaccamo/python-benedict/?branch=master)
-[![Code Climate Maintainability](https://img.shields.io/codeclimate/maintainability-percentage/fabiocaccamo/python-benedict?logo=code-climate)](https://codeclimate.com/github/fabiocaccamo/python-benedict/)
-[![Code Climate Technical Debt](https://img.shields.io/codeclimate/tech-debt/fabiocaccamo/python-benedict?logo=code-climate)](https://codeclimate.com/github/fabiocaccamo/python-benedict/)
+[![Code Climate Maintainability](https://img.shields.io/codeclimate/maintainability/fabiocaccamo/python-benedict?logo=code-climate)](https://codeclimate.com/github/fabiocaccamo/python-benedict/)
 [![Requirements Status](https://requires.io/github/fabiocaccamo/python-benedict/requirements.svg?branch=master)](https://requires.io/github/fabiocaccamo/python-benedict/requirements/?branch=master)
 
 # python-benedict
