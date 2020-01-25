@@ -36,10 +36,9 @@ class ParseDict(dict):
         if isinstance(choices, (list, tuple, )) and len(choices):
             if value in choices:
                 return value
-            else:
-                return default
-        else:
-            return value
+            return default
+
+        return value
 
     def _get_values_list(self, key, default, separator,
                          parser_func, parser_kwargs=None):

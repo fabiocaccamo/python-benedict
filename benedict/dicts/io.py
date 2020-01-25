@@ -11,21 +11,24 @@ class IODict(dict):
         """
         Constructs a new instance.
         """
-        # if first argument is data-string try to decode it.
+        # if first argument is data-string, url or filepath try to decode it.
         # use 'format' kwarg to specify the decoder to use, default 'json'.
         if len(args) and isinstance(args[0], string_types):
-            s = args[0]
-            format = kwargs.pop('format', 'json').lower()
-            if format in ['b64', 'base64']:
-                kwargs.setdefault('subformat', 'json')
-            # decode data-string and initialize with dict data.
-            d = IODict._decode(s, format, **kwargs)
-            if d and isinstance(d, dict):
-                super(IODict, self).__init__(d)
-            else:
-                raise ValueError('Invalid string data input.')
-        else:
-            super(IODict, self).__init__(*args, **kwargs)
+            d = IODict._decode_init(args[0], *args, **kwargs)
+            super(IODict, self).__init__(d)
+            return
+        super(IODict, self).__init__(*args, **kwargs)
+
+    @staticmethod
+    def _decode_init(s, *args, **kwargs):
+        format = kwargs.pop('format', 'json').lower()
+        if format in ['b64', 'base64']:
+            kwargs.setdefault('subformat', 'json')
+        # decode data-string and initialize with dict data.
+        d = IODict._decode(s, format, **kwargs)
+        if isinstance(d, dict):
+            return d
+        raise ValueError('Invalid string data input.')
 
     @staticmethod
     def _decode(s, format, **kwargs):

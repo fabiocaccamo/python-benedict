@@ -67,11 +67,10 @@ def flatten(d, separator='_', **kwargs):
 def invert(d, flat=False):
     new_dict = d.copy()
     new_dict.clear()
-    if flat:
-        for key, value in d.items():
+    for key, value in d.items():
+        if flat:
             new_dict.setdefault(value, key)
-    else:
-        for key, value in d.items():
+        else:
             new_dict.setdefault(value, []).append(key)
     return new_dict
 
@@ -235,7 +234,7 @@ def unflatten(d, separator='_'):
         value = d.get(key, None)
         new_value = unflatten(value, separator=separator) if isinstance(
             value, dict) else value
-        new_keys = key.split(separator) if separator in key else [key]
+        new_keys = key.split(separator)
         new_items = resolve(
             new_dict, new_keys, create=True)
         new_parent, new_key, _ = new_items[-1]

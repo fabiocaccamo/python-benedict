@@ -67,8 +67,7 @@ def read_url(url, *args, **kwargs):
                 response.status_code))
 
 
-def write_file(filepath, content):
-    # https://stackoverflow.com/questions/12517451/automatically-creating-directories-with-file-output
+def write_file_dir(filepath):
     filedir = os.path.dirname(filepath)
     if not os.path.exists(filedir):
         try:
@@ -77,6 +76,11 @@ def write_file(filepath, content):
             # Guard against race condition
             if e.errno != errno.EEXIST:
                 raise e
+
+
+def write_file(filepath, content):
+    # https://stackoverflow.com/questions/12517451/automatically-creating-directories-with-file-output
+    write_file_dir(filepath)
     handler = open(filepath, 'w+')
     handler.write(content)
     handler.close()

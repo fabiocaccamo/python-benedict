@@ -372,6 +372,17 @@ class io_dict_test_case(unittest.TestCase):
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, })
 
+    def test_from_json_with_valid_data_empty(self):
+        j = '{}'
+        # static method
+        d = IODict.from_json(j)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, {})
+        # constructor
+        d = IODict(j, format='json')
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, {})
+
     def test_from_json_with_valid_data_list(self):
         j = '[0,1,2,3,4,5]'
         # static method

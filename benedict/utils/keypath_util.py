@@ -25,9 +25,8 @@ def list_keys(keypath, separator):
     List keys splitting a keypath using the given separator.
     """
     if isinstance(keypath, string_types):
-        if separator and separator in keypath:
-            return list(keypath.split(separator))
-        return [keypath]
+        if separator:
+            return keypath.split(separator)
     elif isinstance(keypath, (list, tuple, )):
         keys = []
         for key in keypath:
