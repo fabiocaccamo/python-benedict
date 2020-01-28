@@ -18,45 +18,43 @@ def parse_bool(val):
     if isinstance(val, bool):
         return val
     str_val = text_type(val).lower()
-    val = None
     if str_val in ['1', 'true', 'yes', 'ok', 'on']:
-        val = True
+        return True
     elif str_val in ['0', 'false', 'no', 'ko', 'off']:
-        val = False
-    return val
+        return False
+    return None
 
 
 def parse_datetime(val, format=None):
     if isinstance(val, datetime):
         return val
     str_val = text_type(val)
-    val = None
     if format:
         try:
             val = datetime.strptime(str_val, format)
+            return val
         except Exception:
-            val = None
-    else:
+            return None
+    try:
+        val = date_parser.parse(str_val)
+        return val
+    except Exception:
         try:
-            val = date_parser.parse(str_val)
+            val = datetime.fromtimestamp(float(str_val))
+            return val
         except Exception:
-            try:
-                val = datetime.fromtimestamp(float(str_val))
-            except Exception:
-                val = None
-    return val
+            return None
 
 
 def parse_decimal(val):
     if isinstance(val, Decimal):
         return val
     str_val = text_type(val)
-    val = None
     try:
         val = Decimal(str_val)
+        return val
     except (ValueError, DecimalException):
-        pass
-    return val
+        return None
 
 
 def parse_dict(val):
@@ -67,23 +65,22 @@ def parse_dict(val):
         return None
     try:
         val = json.loads(str_val)
-        if not isinstance(val, dict):
-            val = None
+        if isinstance(val, dict):
+            return val
+        return None
     except Exception:
-        val = None
-    return val
+        return None
 
 
 def parse_float(val):
     if isinstance(val, float):
         return val
     str_val = text_type(val)
-    val = None
     try:
         val = float(str_val)
+        return val
     except ValueError:
-        pass
-    return val
+        return None
 
 
 def parse_email(val, check_blacklist=True):
@@ -104,12 +101,11 @@ def parse_int(val):
     if isinstance(val, int):
         return val
     str_val = text_type(val)
-    val = None
     try:
         val = int(str_val)
+        return val
     except ValueError:
-        pass
-    return val
+        return None
 
 
 def parse_list(val, separator=None):
@@ -118,15 +114,16 @@ def parse_list(val, separator=None):
     str_val = text_type(val)
     if not len(str_val):
         return None
-    val = None
     try:
         val = json.loads(str_val)
-        if not isinstance(val, list):
-            val = None
+        if isinstance(val, list):
+            return val
+        return None
     except Exception:
         if separator:
             val = list(str_val.split(separator))
-    return val
+            return val
+        return None
 
 
 def parse_phonenumber(val, country_code=None):
@@ -137,12 +134,11 @@ def parse_phonenumber(val, country_code=None):
     phone_raw = phone_raw.strip()
     if phone_raw.startswith('00'):
         phone_raw = '+{}'.format(phone_raw[2:])
+    phone_country_code = None
     if country_code and len(country_code) >= 2:
-        country_code = country_code[0:2].upper()
-    else:
-        country_code = None
+        phone_country_code = country_code[0:2].upper()
     try:
-        phone_obj = phonenumbers.parse(phone_raw, country_code)
+        phone_obj = phonenumbers.parse(phone_raw, phone_country_code)
         if phonenumbers.is_valid_number(phone_obj):
             return {
                 'e164': phonenumbers.format_number(
@@ -152,8 +148,7 @@ def parse_phonenumber(val, country_code=None):
                 'national': phonenumbers.format_number(
                     phone_obj, PhoneNumberFormat.NATIONAL),
             }
-        else:
-            return None
+        return None
     except phonenumberutil.NumberParseException:
         return None
 
@@ -163,7 +158,7 @@ def parse_slug(val):
 
 
 def parse_str(val):
-    if (isinstance(val, string_types)):
+    if isinstance(val, string_types):
         try:
             val = ftfy.fix_text(val)
         except UnicodeError:
