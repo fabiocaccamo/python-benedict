@@ -10,16 +10,15 @@ import json
 import re
 
 
-def clean(d, strings=True, dicts=True, lists=True):
+def clean(d, strings=True, collections=True):
     keys = list(d.keys())
     for key in keys:
         value = d.get(key, None)
         if not value:
             del_none = value is None
-            del_string = strings and isinstance(value, string_types)
-            del_dict = dicts and isinstance(value, dict)
-            del_list = lists and isinstance(value, (list, set, tuple, ))
-            if any([del_none, del_string, del_dict, del_list]):
+            del_string = strings and type_util.is_string(value)
+            del_collection = collections and type_util.is_collection(value)
+            if any([del_none, del_string, del_collection]):
                 del d[key]
 
 

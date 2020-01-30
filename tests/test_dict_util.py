@@ -32,19 +32,9 @@ class dict_util_test_case(unittest.TestCase):
         self.assertEqual(o, r)
 
         o = i.copy()
-        u.clean(o, dicts=False)
+        u.clean(o, collections=False)
         r = {
             'a': {},
-            'b': { 'x': 1 },
-            'd': [0, 1],
-            'e': 0.0,
-            'h': '0'
-        }
-        self.assertEqual(o, r)
-
-        o = i.copy()
-        u.clean(o, lists=False)
-        r = {
             'b': { 'x': 1 },
             'c': [],
             'd': [0, 1],

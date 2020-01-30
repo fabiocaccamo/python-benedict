@@ -31,19 +31,9 @@ class benedict_test_case(unittest.TestCase):
         self.assertEqual(bd, r)
 
         bd = benedict(d)
-        bd.clean(dicts=False)
+        bd.clean(collections=False)
         r = {
             'a': {},
-            'b': { 'x': 1 },
-            'd': [0, 1],
-            'e': 0.0,
-            'h': '0'
-        }
-        self.assertEqual(bd, r)
-
-        bd = benedict(d)
-        bd.clean(lists=False)
-        r = {
             'b': { 'x': 1 },
             'c': [],
             'd': [0, 1],

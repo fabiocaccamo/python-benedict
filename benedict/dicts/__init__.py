@@ -15,12 +15,13 @@ class benedict(IODict, KeypathDict, ParseDict):
         """
         super(benedict, self).__init__(*args, **kwargs)
 
-    def clean(self, strings=True, dicts=True, lists=True):
+    def clean(self, strings=True, collections=True):
         """
         Clean the current dict instance removing all empty values: None, '', {}, [], ().
-        If strings, dicts or lists flags are False, related empty values will not be deleted.
+        If strings or collections (dict, list, set, tuple) flags are False,
+        related empty values will not be deleted.
         """
-        dict_util.clean(self, strings=strings, dicts=dicts, lists=lists)
+        dict_util.clean(self, strings=strings, collections=collections)
 
     def clone(self):
         """
