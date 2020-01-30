@@ -157,22 +157,22 @@ def search(d, query,
             return q in v
         return False
 
-    def f(item_dict, item_key, item_value):
+    def search_item(item_dict, item_key, item_value):
         if get_match(in_keys, item_key) or get_match(in_values, item_value):
             items.append((item_dict, item_key, item_value, ))
-    traverse(d, f)
+    traverse(d, search_item)
     return items
 
 
 def standardize(d):
-    def f(item_dict, item_key, item_value):
+    def standardize_item(item_dict, item_key, item_value):
         if type_util.is_string(item_key):
             # https://stackoverflow.com/a/12867228/2096218
             norm_key = re.sub(
                 r'((?<=[a-z0-9])[A-Z]|(?!^)[A-Z](?=[a-z]))', r'_\1', item_key)
             norm_key = slugify(norm_key, separator='_')
-            move(item_dict, item_key, norm_key)
-    traverse(d, f)
+            rename(item_dict, item_key, norm_key)
+    traverse(d, standardize_item)
 
 
 def subset(d, keys, *args):

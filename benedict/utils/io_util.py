@@ -14,8 +14,7 @@ def decode(s, format, **kwargs):
         decode_opts = kwargs.copy()
         data = serializer.decode(s.strip(), **decode_opts)
         return data
-    else:
-        raise ValueError('Invalid format: {}.'.format(format))
+    raise ValueError('Invalid format: {}.'.format(format))
 
 
 def encode(d, format, **kwargs):
@@ -23,8 +22,7 @@ def encode(d, format, **kwargs):
     if serializer:
         s = serializer.encode(d, **kwargs)
         return s
-    else:
-        raise ValueError('Invalid format: {}.'.format(format))
+    raise ValueError('Invalid format: {}.'.format(format))
 
 
 def read_content(s):
@@ -42,11 +40,8 @@ def read_content(s):
         # filepath
         if os.path.isfile(s):
             return read_file(s)
-        else:
-            return None
-    else:
-        # data
-        return s
+        return None
+    return s
 
 
 def read_file(filepath):
@@ -61,21 +56,21 @@ def read_url(url, *args, **kwargs):
     if response.status_code == requests.codes.ok:
         content = response.text
         return content
-    else:
-        raise ValueError(
-            'Invalid url response status code: {}.'.format(
-                response.status_code))
+    raise ValueError(
+        'Invalid url response status code: {}.'.format(
+            response.status_code))
 
 
 def write_file_dir(filepath):
     filedir = os.path.dirname(filepath)
-    if not os.path.exists(filedir):
-        try:
-            os.makedirs(filedir)
-        except OSError as e:
-            # Guard against race condition
-            if e.errno != errno.EEXIST:
-                raise e
+    if os.path.exists(filedir):
+        return
+    try:
+        os.makedirs(filedir)
+    except OSError as e:
+        # Guard against race condition
+        if e.errno != errno.EEXIST:
+            raise e
 
 
 def write_file(filepath, content):
