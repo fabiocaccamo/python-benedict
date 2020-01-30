@@ -3,8 +3,7 @@
 from __future__ import absolute_import
 
 from benedict.serializers.abstract import AbstractSerializer
-
-from six import binary_type, string_types
+from benedict.utils import type_util
 
 try:
     # python 3
@@ -44,14 +43,14 @@ class Base64Serializer(AbstractSerializer):
         data = d
         subformat = kwargs.pop('subformat', None)
         encoding = kwargs.pop('encoding', 'utf-8' if subformat else None)
-        if not isinstance(data, string_types) and subformat:
+        if not type_util.is_string(data) and subformat:
             from benedict.serializers import get_serializer_by_format
             serializer = get_serializer_by_format(subformat)
             if serializer:
                 data = serializer.encode(data, **kwargs)
-        if isinstance(data, string_types) and encoding:
+        if type_util.is_string(data) and encoding:
             data = data.encode(encoding)
         data = base64.b64encode(data)
-        if isinstance(data, binary_type) and encoding:
+        if type_util.is_binary(data) and encoding:
             data = data.decode(encoding)
         return data

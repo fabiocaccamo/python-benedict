@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from benedict.utils import io_util
-
-from six import string_types, text_type
+from benedict.utils import io_util, type_util
 
 
 class IODict(dict):
@@ -13,7 +11,7 @@ class IODict(dict):
         """
         # if first argument is data-string, url or filepath try to decode it.
         # use 'format' kwarg to specify the decoder to use, default 'json'.
-        if len(args) and isinstance(args[0], string_types):
+        if len(args) and type_util.is_string(args[0]):
             d = IODict._decode_init(args[0], *args, **kwargs)
             super(IODict, self).__init__(d)
             return
@@ -26,7 +24,7 @@ class IODict(dict):
             kwargs.setdefault('subformat', 'json')
         # decode data-string and initialize with dict data.
         d = IODict._decode(s, format, **kwargs)
-        if isinstance(d, dict):
+        if type_util.is_dict(d):
             return d
         raise ValueError('Invalid string data input.')
 
@@ -37,9 +35,9 @@ class IODict(dict):
             content = io_util.read_content(s)
             # decode content using the given format
             data = io_util.decode(content, format, **kwargs)
-            if isinstance(data, dict):
+            if type_util.is_dict(data):
                 d = data
-            elif isinstance(data, list):
+            elif type_util.is_list(data):
                 # force list to dict
                 d = { 'values': data }
             else:
@@ -47,7 +45,7 @@ class IODict(dict):
                     'Invalid data type: {}, expected dict or list.'.format(type(data)))
         except Exception as e:
             raise ValueError(
-                'Invalid data or url or filepath input argument: {}\n{}'.format(s, text_type(e)))
+                'Invalid data or url or filepath input argument: {}\n{}'.format(s, e))
         return d
 
     @staticmethod

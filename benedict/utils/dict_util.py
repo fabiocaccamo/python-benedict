@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from benedict.utils import keylist_util
+from benedict.utils import keylist_util, type_util
 
 from six import string_types, text_type
 from slugify import slugify
@@ -29,8 +29,7 @@ def clone(d):
 
 def dump(data):
     def encoder(obj):
-        json_types = (bool, dict, float, int, list, tuple, ) + string_types
-        if not isinstance(obj, json_types):
+        if not type_util.is_json_serializable(obj):
             return str(obj)
     return json.dumps(data, indent=4, sort_keys=True, default=encoder)
 
@@ -57,7 +56,7 @@ def flatten(d, separator='_', **kwargs):
         new_key = '{}{}{}'.format(
             base_key, separator, key) if base_key and separator else key
         value = d.get(key, None)
-        if isinstance(value, dict):
+        if type_util.is_dict(value):
             new_value = flatten(value, separator=separator, base_key=new_key)
             new_value.update(new_dict)
             new_dict.update(new_value)
@@ -90,7 +89,7 @@ def items_sorted_by_values(d, reverse=False):
 
 
 def keypaths(d, separator='.'):
-    if not separator or not isinstance(separator, string_types):
+    if not separator or not type_util.is_string(separator):
         raise ValueError('separator argument must be a (non-empty) string.')
 
     def f(parent, parent_keys):
@@ -98,7 +97,7 @@ def keypaths(d, separator='.'):
         for key, value in parent.items():
             keys = parent_keys + [key]
             kp += [separator.join(text_type(k) for k in keys)]
-            if isinstance(value, dict):
+            if type_util.is_dict(value):
                 kp += f(value, keys)
         return kp
     kp = f(d, [])
@@ -111,7 +110,7 @@ def merge(d, other, *args):
     for other in others:
         for key, value in other.items():
             src = d.get(key, None)
-            if isinstance(src, dict) and isinstance(value, dict):
+            if type_util.is_dict(src) and type_util.is_dict(value):
                 merge(src, value)
             else:
                 d[key] = value
@@ -127,7 +126,7 @@ def move(d, key_src, key_dest, overwrite=True):
 
 
 def remove(d, keys, *args):
-    if isinstance(keys, string_types):
+    if type_util.is_string(keys):
         keys = [keys]
     keys += args
     for key in keys:
@@ -143,7 +142,7 @@ def search(d, query,
     items = []
 
     def get_term(value):
-        v_is_str = isinstance(value, string_types)
+        v_is_str = type_util.is_string(value)
         v = value.lower() if (v_is_str and not case_sensitive) else value
         return (v, v_is_str, )
 
@@ -169,7 +168,7 @@ def search(d, query,
 
 def standardize(d):
     def f(item_dict, item_key, item_value):
-        if isinstance(item_key, string_types):
+        if type_util.is_string(item_key):
             # https://stackoverflow.com/a/12867228/2096218
             norm_key = re.sub(
                 r'((?<=[a-z0-9])[A-Z]|(?!^)[A-Z](?=[a-z]))', r'_\1', item_key)
@@ -181,7 +180,7 @@ def standardize(d):
 def subset(d, keys, *args):
     new_dict = d.copy()
     new_dict.clear()
-    if isinstance(keys, string_types):
+    if type_util.is_string(keys):
         keys = [keys]
     keys += args
     for key in keys:
@@ -202,7 +201,7 @@ def traverse(d, callback):
     for key in keys:
         value = d.get(key, None)
         callback(d, key, value)
-        if isinstance(value, dict):
+        if type_util.is_dict(value):
             traverse(value, callback)
 
 
@@ -213,8 +212,8 @@ def unflatten(d, separator='_'):
     keys = list(d.keys())
     for key in keys:
         value = d.get(key, None)
-        new_value = unflatten(value, separator=separator) if isinstance(
-            value, dict) else value
+        new_value = unflatten(
+            value, separator=separator) if type_util.is_dict(value) else value
         new_keys = key.split(separator)
         keylist_util.set_item(new_dict, new_keys, new_value)
     return new_dict

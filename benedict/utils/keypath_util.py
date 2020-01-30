@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from benedict.utils import dict_util
-
-from six import string_types
+from benedict.utils import dict_util, type_util
 
 import re
 
@@ -14,11 +12,11 @@ def check_keys(d, separator):
     """
     Check if dict keys contain keypath separator.
     """
-    if not isinstance(d, dict) or not separator:
+    if not type_util.is_dict(d) or not separator:
         return
 
     def check_key(parent, key, value):
-        if key and isinstance(key, string_types) and separator in key:
+        if key and type_util.is_string(key) and separator in key:
             raise ValueError(
                 'keys should not contain keypath separator '
                 '\'{}\', found: \'{}\'.'.format(separator, key))
@@ -29,7 +27,7 @@ def parse_keys(keypath, separator):
     """
     Parse keys from keylist or keypath using the given separator.
     """
-    if isinstance(keypath, (list, tuple, )):
+    if type_util.is_list_or_tuple(keypath):
         keys = []
         for key in keypath:
             keys += parse_keys(key, separator)
@@ -73,7 +71,7 @@ def _split_keys_and_indexes(keypath, separator):
     Splits keys and indexes using the given separator:
     eg. 'item[0].subitem[1]' -> ['item', 0, 'subitem', 1].
     """
-    if isinstance(keypath, string_types):
+    if type_util.is_string(keypath):
         keys1 = _split_keys(keypath, separator)
         keys2 = []
         for key in keys1:

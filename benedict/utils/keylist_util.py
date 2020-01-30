@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 
-from six import string_types, integer_types
+from benedict.utils import type_util
 
 
 def _get_index(key):
-    if isinstance(key, integer_types):
+    if type_util.is_integer(key):
         return key
     return None
 
 
 def _get_item_value(item, key):
-    if isinstance(item, list):
+    if type_util.is_list(item):
         index = _get_index(key)
         if index is not None:
             return item[index]
-    elif isinstance(item, dict):
+    elif type_util.is_dict(item):
         return item[key]
     raise KeyError
 
@@ -26,7 +26,7 @@ def get_item(d, keys):
     for key in keys:
         try:
             value = _get_item_value(item, key)
-            if isinstance(item, list):
+            if type_util.is_list(item):
                 index = _get_index(key)
                 items.append((item, index, value, ))
             else:
@@ -63,7 +63,7 @@ def set_item(d, keys, value):
         if i < (j - 1):
             try:
                 subitem = _get_item_value(item, key)
-                if not isinstance(subitem, (dict, list, )):
+                if not type_util.is_dict_or_list(subitem):
                     raise TypeError
             except (IndexError, KeyError, TypeError, ):
                 subkey = keys[i + 1]

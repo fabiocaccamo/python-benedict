@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
+from benedict.utils import type_util
+
 from datetime import datetime
 from dateutil import parser as date_parser
 from decimal import Decimal, DecimalException
 from MailChecker import MailChecker
 from phonenumbers import phonenumberutil, PhoneNumberFormat
-from six import string_types, text_type
+from six import text_type
 from slugify import slugify
 
 import ftfy
@@ -15,7 +17,7 @@ import re
 
 
 def parse_bool(val):
-    if isinstance(val, bool):
+    if type_util.is_bool(val):
         return val
     str_val = text_type(val).lower()
     if str_val in ['1', 'true', 'yes', 'ok', 'on']:
@@ -26,7 +28,7 @@ def parse_bool(val):
 
 
 def parse_datetime(val, format=None):
-    if isinstance(val, datetime):
+    if type_util.is_datetime(val):
         return val
     str_val = text_type(val)
     if format:
@@ -47,7 +49,7 @@ def parse_datetime(val, format=None):
 
 
 def parse_decimal(val):
-    if isinstance(val, Decimal):
+    if type_util.is_decimal(val):
         return val
     str_val = text_type(val)
     try:
@@ -58,14 +60,14 @@ def parse_decimal(val):
 
 
 def parse_dict(val):
-    if isinstance(val, dict):
+    if type_util.is_dict(val):
         return val
     str_val = text_type(val)
     if not len(str_val):
         return None
     try:
         val = json.loads(str_val)
-        if isinstance(val, dict):
+        if type_util.is_dict(val):
             return val
         return None
     except Exception:
@@ -73,7 +75,7 @@ def parse_dict(val):
 
 
 def parse_float(val):
-    if isinstance(val, float):
+    if type_util.is_float(val):
         return val
     str_val = text_type(val)
     try:
@@ -98,7 +100,7 @@ def parse_email(val, check_blacklist=True):
 
 
 def parse_int(val):
-    if isinstance(val, int):
+    if type_util.is_integer(val):
         return val
     str_val = text_type(val)
     try:
@@ -109,14 +111,14 @@ def parse_int(val):
 
 
 def parse_list(val, separator=None):
-    if isinstance(val, (list, tuple, )):
+    if type_util.is_list_or_tuple(val):
         return list(val)
     str_val = text_type(val)
     if not len(str_val):
         return None
     try:
         val = json.loads(str_val)
-        if isinstance(val, list):
+        if type_util.is_list(val):
             return val
         return None
     except Exception:
@@ -158,7 +160,7 @@ def parse_slug(val):
 
 
 def parse_str(val):
-    if isinstance(val, string_types):
+    if type_util.is_string(val):
         try:
             val = ftfy.fix_text(val)
         except UnicodeError:
