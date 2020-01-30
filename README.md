@@ -13,11 +13,12 @@
 [![Requirements Status](https://requires.io/github/fabiocaccamo/python-benedict/requirements.svg?branch=master)](https://requires.io/github/fabiocaccamo/python-benedict/requirements/?branch=master)
 
 # python-benedict
-python-benedict is a dict subclass with **keypath** support, **I/O** shortcuts (`Base64`, `CSV`, `JSON`, `TOML`, `XML`, `YAML`, `query-string`) and many **utilities**... for humans, obviously.
+python-benedict is a dict subclass with **keylist/keypath** support, **I/O** shortcuts (`Base64`, `CSV`, `JSON`, `TOML`, `XML`, `YAML`, `query-string`) and many **utilities**... for humans, obviously.
 
 ## Features
 -   100% **backward-compatible**, you can safely wrap existing dictionaries.
--   Full **keypath** support using **keypath-separator** *(dot syntax by default)* or **list of keys**.
+-   Full **keylist** support using **list of keys** as key.
+-   Full **keypath** support using **keypath-separator** *(dot syntax by default)*.
 -   Easy **I/O operations** with most common formats: `Base64`, `CSV`, `JSON`, `TOML`, `XML`, `YAML`, `query-string`.
 -   Many **utility** and **parse methods** to retrieve data as needed *(check the [API](#api) section)*.
 -   Well **tested**, check the badges ;)
@@ -209,9 +210,10 @@ Utilities that return a dictionary always return a new `benedict` instance.
 -   #### clean
 
 ```python
-# Clean the current dict removing all empty values: None, '', {}, [], ().
-# If strings, dicts or lists flags are False, related empty values will not be deleted.
-d.clean(strings=True, dicts=True, lists=True)
+# Clean the current dict instance removing all empty values: None, '', {}, [], ().
+# If strings or collections (dict, list, set, tuple) flags are False,
+# related empty values will not be deleted.
+d.clean(strings=True, collections=True)
 ```
 
 -   #### clone
