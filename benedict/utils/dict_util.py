@@ -2,7 +2,6 @@
 
 from benedict.utils import keylist_util, type_util
 
-from six import string_types, text_type
 from slugify import slugify
 
 import copy
@@ -95,7 +94,7 @@ def keypaths(d, separator='.'):
         kp = []
         for key, value in parent.items():
             keys = parent_keys + [key]
-            kp += [separator.join(text_type(k) for k in keys)]
+            kp += [separator.join('{}'.format(k) for k in keys)]
             if type_util.is_dict(value):
                 kp += f(value, keys)
         return kp
