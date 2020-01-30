@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from benedict.utils import keylist_util
+
 from six import string_types, text_type
 from slugify import slugify
 
@@ -75,12 +77,16 @@ def invert(d, flat=False):
     return new_dict
 
 
+def items_sorted_by(d, key, reverse=False):
+    return sorted(d.items(), key=key, reverse=reverse)
+
+
 def items_sorted_by_keys(d, reverse=False):
-    return sorted(d.items(), key=lambda item: item[0], reverse=reverse)
+    return items_sorted_by(d, key=lambda item: item[0], reverse=reverse)
 
 
 def items_sorted_by_values(d, reverse=False):
-    return sorted(d.items(), key=lambda item: item[1], reverse=reverse)
+    return items_sorted_by(d, key=lambda item: item[1], reverse=reverse)
 
 
 def keypaths(d, separator='.'):
@@ -130,31 +136,6 @@ def remove(d, keys, *args):
 
 def rename(d, key, key_new):
     move(d, key, key_new, overwrite=False)
-
-
-def resolve(d, keys, create=False):
-    items = []
-    parent = d
-    key = None
-    value = None
-    for key in keys:
-        try:
-            value = d[key]
-        except KeyError:
-            if create:
-                value = d[key] = {}
-            else:
-                items.append((None, None, None, ))
-                break
-        except TypeError:
-            items.append((None, None, None, ))
-            break
-        parent = d
-        d = value
-        items.append((parent, key, value, ))
-    if not items:
-        items = [(None, None, None, )]
-    return items
 
 
 def search(d, query,
@@ -235,10 +216,7 @@ def unflatten(d, separator='_'):
         new_value = unflatten(value, separator=separator) if isinstance(
             value, dict) else value
         new_keys = key.split(separator)
-        new_items = resolve(
-            new_dict, new_keys, create=True)
-        new_parent, new_key, _ = new_items[-1]
-        new_parent[new_key] = new_value
+        keylist_util.set_item(new_dict, new_keys, new_value)
     return new_dict
 
 
