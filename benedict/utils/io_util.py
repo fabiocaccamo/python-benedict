@@ -10,19 +10,19 @@ import requests
 
 def decode(s, format, **kwargs):
     serializer = get_serializer_by_format(format)
-    if serializer:
-        decode_opts = kwargs.copy()
-        data = serializer.decode(s.strip(), **decode_opts)
-        return data
-    raise ValueError('Invalid format: {}.'.format(format))
+    if not serializer:
+        raise ValueError('Invalid format: {}.'.format(format))
+    decode_opts = kwargs.copy()
+    data = serializer.decode(s.strip(), **decode_opts)
+    return data
 
 
 def encode(d, format, **kwargs):
     serializer = get_serializer_by_format(format)
-    if serializer:
-        s = serializer.encode(d, **kwargs)
-        return s
-    raise ValueError('Invalid format: {}.'.format(format))
+    if not serializer:
+        raise ValueError('Invalid format: {}.'.format(format))
+    s = serializer.encode(d, **kwargs)
+    return s
 
 
 def read_content(s):

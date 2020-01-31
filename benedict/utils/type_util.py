@@ -59,8 +59,9 @@ def is_list_or_tuple(val):
     return isinstance(val, (list, tuple, ))
 
 
-def is_none(val):
-    return val is None
+# def is_none(val):
+#     return val is None
+
 
 # def is_set(val):
 #     return isinstance(val, set)

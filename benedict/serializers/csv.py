@@ -18,6 +18,7 @@ class CSVSerializer(AbstractSerializer):
     def decode(self, s, **kwargs):
         # kwargs.setdefault('delimiter', ',')
         if kwargs.pop('quote', False):
+            # TODO: add tests coverage
             kwargs.setdefault('quoting', csv.QUOTE_ALL)
         columns = kwargs.pop('columns', None)
         columns_row = kwargs.pop('columns_row', True)
@@ -55,8 +56,10 @@ class CSVSerializer(AbstractSerializer):
             if type_util.is_dict(item):
                 row = [item.get(key, '') for key in columns]
             elif type_util.is_collection(item):
+                # TODO: add tests coverage
                 row = item
             else:
+                # TODO: add tests coverage
                 row = [item]
             w.writerow(row)
         data = f.getvalue()

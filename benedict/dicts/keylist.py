@@ -16,13 +16,9 @@ class KeylistDict(dict):
     def _contains_by_keys(self, keys):
         parent, key, _ = keylist_util.get_item(self, keys)
         if type_util.is_dict(parent):
-            return key in parent
+            return True
         elif type_util.is_list(parent):
-            try:
-                parent[key]
-                return True
-            except IndexError:
-                return False
+            return True
         return False
 
     def __delitem__(self, key):

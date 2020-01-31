@@ -19,7 +19,17 @@ def _get_item_value(item, key):
     raise KeyError
 
 
+def _new_item_value(key):
+    index = _get_index(key)
+    return {} if index is None else []
+
+
 def get_item(d, keys):
+    items = get_items(d, keys)
+    return items[-1] if items else (None, None, None, )
+
+
+def get_items(d, keys):
     items = []
     item = d
     value = None
@@ -35,9 +45,7 @@ def get_item(d, keys):
         except (IndexError, KeyError, ):
             items.append((None, None, None, ))
             break
-    if not items:
-        items = [(None, None, None, )]
-    return items[-1]
+    return items
 
 
 def set_item_value(item, key, value):
@@ -67,11 +75,7 @@ def set_item(d, keys, value):
                     raise TypeError
             except (IndexError, KeyError, TypeError, ):
                 subkey = keys[i + 1]
-                subkey_index = _get_index(subkey)
-                if subkey_index is not None:
-                    subitem = item[key] = []
-                else:
-                    subitem = item[key] = {}
+                subitem = item[key] = _new_item_value(subkey)
             item = subitem
             i += 1
             continue

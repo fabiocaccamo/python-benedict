@@ -23,6 +23,10 @@ class io_dict_test_case(unittest.TestCase):
         dir_path = os.path.dirname(os.path.realpath(__file__))
         return os.path.join(dir_path, 'output/{}'.format(filepath))
 
+    def test_init_with_invalid_data(self):
+        with self.assertRaises(ValueError):
+            d = IODict('invalid json data')
+
 # BASE64
 
     def test_from_base64_with_valid_data(self):

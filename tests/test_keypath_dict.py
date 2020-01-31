@@ -256,6 +256,13 @@ class keypath_dict_test_case(unittest.TestCase):
         b = KeypathDict(d)
         self.assertEqual(b.get('c.b.a', 2), 2)
 
+    def test_get_with_empty_keys_list(self):
+        d = {
+            'a': 1,
+        }
+        b = KeypathDict(d)
+        self.assertEqual(b.get([]), None)
+
     def test_get_with_keys_list(self):
         d = {
             'a': {
@@ -392,6 +399,7 @@ class keypath_dict_test_case(unittest.TestCase):
                     'c': 0,
                     'd': None,
                     'e': {},
+                    'x': [1, 2, 3],
                 },
             },
         }
@@ -403,12 +411,25 @@ class keypath_dict_test_case(unittest.TestCase):
         self.assertFalse('b.f' in b)
         self.assertFalse('f' in b)
 
+        self.assertTrue('a.b.x[-1]' in b)
+        self.assertTrue('a.b.x[0]' in b)
+        self.assertTrue('a.b.x[1]' in b)
+        self.assertTrue('a.b.x[2]' in b)
+        self.assertFalse('a.b.x[3]' in b)
+
+        self.assertFalse(0 in b['a.b.x'])
+        self.assertTrue(1 in b['a.b.x'])
+        self.assertTrue(2 in b['a.b.x'])
+        self.assertTrue(3 in b['a.b.x'])
+        self.assertFalse(4 in b['a.b.x'])
+
     def test_has_with_keys_list(self):
         d = {
             'a': {
                 'b': {
                     'c': 1,
                     'd': 2,
+                    'x': [1, 2, 3],
                 },
             },
         }
@@ -417,6 +438,11 @@ class keypath_dict_test_case(unittest.TestCase):
         self.assertTrue(['a', 'b', 'c'] in b)
         self.assertTrue(['a', 'b', 'd'] in b)
         self.assertFalse(['a', 'b', 'e'] in b)
+        self.assertTrue(['a', 'b', 'x', -1] in b)
+        self.assertTrue(['a', 'b', 'x', 0] in b)
+        self.assertTrue(['a', 'b', 'x', 1] in b)
+        self.assertTrue(['a', 'b', 'x', 2] in b)
+        self.assertFalse(['a', 'b', 'x', 3] in b)
 
     def test_has_with_keys_list_and_no_keypath_separator(self):
         d = {

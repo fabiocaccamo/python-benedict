@@ -23,30 +23,29 @@ class IODict(dict):
         if format in ['b64', 'base64']:
             kwargs.setdefault('subformat', 'json')
         # decode data-string and initialize with dict data.
-        d = IODict._decode(s, format, **kwargs)
-        if type_util.is_dict(d):
+        try:
+            d = IODict._decode(s, format, **kwargs)
             return d
-        raise ValueError('Invalid string data input.')
+        except ValueError:
+            raise ValueError('Invalid string data input.')
 
     @staticmethod
     def _decode(s, format, **kwargs):
-        d = None
         try:
             content = io_util.read_content(s)
             # decode content using the given format
             data = io_util.decode(content, format, **kwargs)
             if type_util.is_dict(data):
-                d = data
+                return data
             elif type_util.is_list(data):
                 # force list to dict
-                d = { 'values': data }
+                return { 'values': data }
             else:
                 raise ValueError(
                     'Invalid data type: {}, expected dict or list.'.format(type(data)))
         except Exception as e:
             raise ValueError(
                 'Invalid data or url or filepath input argument: {}\n{}'.format(s, e))
-        return d
 
     @staticmethod
     def _encode(d, format, **kwargs):

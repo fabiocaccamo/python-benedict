@@ -120,12 +120,11 @@ def parse_list(val, separator=None):
         val = json.loads(str_val)
         if type_util.is_list(val):
             return val
-        return None
     except Exception:
         if separator:
             val = list(str_val.split(separator))
             return val
-        return None
+    return None
 
 
 def parse_phonenumber(val, country_code=None):
