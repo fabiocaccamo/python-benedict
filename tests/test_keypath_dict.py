@@ -273,6 +273,7 @@ class keypath_dict_test_case(unittest.TestCase):
             },
         }
         b = KeypathDict(d)
+        self.assertEqual(b.get([]), None)
         self.assertEqual(b.get(['a']), {'b': {'c': 1,'d': 2,},})
         self.assertEqual(b.get(['a', 'b.c']), 1)
         self.assertEqual(b.get(['a', 'b', 'c']), 1)
