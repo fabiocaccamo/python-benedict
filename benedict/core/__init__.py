@@ -1,0 +1,22 @@
+# -*- coding: utf-8 -*-
+
+from benedict.core.clean import clean
+from benedict.core.clone import clone
+from benedict.core.dump import dump
+from benedict.core.filter import filter
+from benedict.core.flatten import flatten
+from benedict.core.invert import invert
+from benedict.core.items_sorted import (
+    items_sorted_by_keys, items_sorted_by_values, )
+from benedict.core.keypaths import keypaths
+from benedict.core.merge import merge
+from benedict.core.move import move
+from benedict.core.remove import remove
+from benedict.core.rename import rename
+from benedict.core.search import search
+from benedict.core.standardize import standardize
+from benedict.core.subset import subset
+from benedict.core.swap import swap
+from benedict.core.traverse import traverse
+from benedict.core.unflatten import unflatten
+from benedict.core.unique import unique

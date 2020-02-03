@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from benedict.serializers.abstract import AbstractSerializer
 from benedict.serializers.base64 import Base64Serializer
 from benedict.serializers.csv import CSVSerializer
 from benedict.serializers.json import JSONSerializer

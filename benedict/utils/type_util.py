@@ -63,6 +63,10 @@ def is_list_or_tuple(val):
 #     return val is None
 
 
+# def is_not_none(val):
+#     return val is not None
+
+
 # def is_set(val):
 #     return isinstance(val, set)
 

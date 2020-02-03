@@ -7,7 +7,7 @@ class AbstractSerializer(object):
         super(AbstractSerializer, self).__init__()
 
     def decode(self, s, **kwargs):
-        pass
+        raise NotImplementedError()
 
     def encode(self, d, **kwargs):
-        pass
+        raise NotImplementedError()
