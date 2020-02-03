@@ -13,7 +13,6 @@ except ImportError:
     from urllib import urlencode
     from urlparse import parse_qs
 
-import json
 import re
 
 
