@@ -206,7 +206,6 @@ def traverse(d, callback):
 def unflatten(d, separator='_'):
     new_dict = d.copy()
     new_dict.clear()
-    new_dict_cursor = new_dict
     keys = list(d.keys())
     for key in keys:
         value = d.get(key, None)
