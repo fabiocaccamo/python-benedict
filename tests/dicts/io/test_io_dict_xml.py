@@ -81,7 +81,7 @@ class io_dict_xml_test_case(io_dict_test_case):
             IODict(filepath, format='xml')
 
     def test_from_xml_with_valid_url_valid_content(self):
-        url = 'https://raw.githubusercontent.com/fabiocaccamo/python-benedict/master/tests/input/valid-content.xml'
+        url = self.input_url('valid-content.xml')
         # static method
         d = IODict.from_xml(url)
         self.assertTrue(isinstance(d, dict))

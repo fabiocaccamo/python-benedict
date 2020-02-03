@@ -77,7 +77,7 @@ b:
             IODict(filepath, format='yaml')
 
     def test_from_yaml_with_valid_url_valid_content(self):
-        url = 'https://raw.githubusercontent.com/fabiocaccamo/python-benedict/master/tests/input/valid-content.yml'
+        url = self.input_url('valid-content.yml')
         # static method
         d = IODict.from_yaml(url)
         self.assertTrue(isinstance(d, dict))

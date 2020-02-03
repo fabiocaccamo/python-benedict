@@ -20,6 +20,10 @@ class io_dict_test_case(unittest.TestCase):
         return os.path.join(dir_path, 'input/{}'.format(filepath))
 
     @staticmethod
+    def input_url(filepath):
+        return 'https://raw.githubusercontent.com/fabiocaccamo/python-benedict/master/tests/dicts/io/input/{}'.format(filepath)
+
+    @staticmethod
     def output_path(filepath):
         dir_path = os.path.dirname(os.path.realpath(__file__))
         return os.path.join(dir_path, 'output/{}'.format(filepath))

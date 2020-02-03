@@ -86,7 +86,7 @@ class io_dict_csv_test_case(io_dict_test_case):
 
     # TODO: python 2.7 max compatibility
     # def test_from_csv_with_valid_url_valid_content(self):
-    #     url = 'https://raw.githubusercontent.com/fabiocaccamo/python-benedict/master/tests/input/valid-content.csv'
+    #     url = self.input_url('valid-content.csv')
     #     # static method
     #     d = IODict.from_csv(url)
     #     self.assertTrue(isinstance(d, dict))

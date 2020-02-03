@@ -78,7 +78,7 @@ d = 4
             IODict(filepath, format='toml')
 
     def test_from_toml_with_valid_url_valid_content(self):
-        url = 'https://raw.githubusercontent.com/fabiocaccamo/python-benedict/master/tests/input/valid-content.toml'
+        url = self.input_url('valid-content.toml')
         # static method
         d = IODict.from_toml(url)
         self.assertTrue(isinstance(d, dict))

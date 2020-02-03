@@ -16,6 +16,17 @@ import phonenumbers
 import re
 
 
+def _parse_with(val, type_checker, parser, **kwargs):
+    if val is None:
+        return None
+    if callable(type_checker) and type_checker(val):
+        return val
+    s = text_type(val)
+    if not len(s):
+        return None
+    return parser(s, **kwargs)
+
+
 def _parse_bool(val):
     val = val.lower()
     if val in ['1', 'true', 'yes', 'ok', 'on']:
@@ -26,10 +37,7 @@ def _parse_bool(val):
 
 
 def parse_bool(val):
-    if type_util.is_bool(val):
-        return val
-    s = text_type(val)
-    return _parse_bool(s)
+    return _parse_with(val, type_util.is_bool, _parse_bool)
 
 
 def _parse_datetime_with_format(val, format):
@@ -71,10 +79,7 @@ def _parse_decimal(val):
 
 
 def parse_decimal(val):
-    if type_util.is_decimal(val):
-        return val
-    s = text_type(val)
-    return _parse_decimal(s)
+    return _parse_with(val, type_util.is_decimal, _parse_decimal)
 
 
 def _parse_dict(val):
@@ -88,12 +93,7 @@ def _parse_dict(val):
 
 
 def parse_dict(val):
-    if type_util.is_dict(val):
-        return val
-    s = text_type(val)
-    if not len(s):
-        return None
-    return _parse_dict(s)
+    return _parse_with(val, type_util.is_dict, _parse_dict)
 
 
 def _parse_float(val):
@@ -104,10 +104,7 @@ def _parse_float(val):
 
 
 def parse_float(val):
-    if type_util.is_float(val):
-        return val
-    s = text_type(val)
-    return _parse_float(s)
+    return _parse_with(val, type_util.is_float, _parse_float)
 
 
 def _parse_email(val, check_blacklist=True):
@@ -122,10 +119,7 @@ def _parse_email(val, check_blacklist=True):
 
 
 def parse_email(val, check_blacklist=True):
-    val = parse_str(val)
-    if not val:
-        return None
-    return _parse_email(val, check_blacklist=check_blacklist)
+    return _parse_with(val, None, _parse_email, check_blacklist=check_blacklist)
 
 
 def _parse_int(val):
@@ -136,10 +130,7 @@ def _parse_int(val):
 
 
 def parse_int(val):
-    if type_util.is_integer(val):
-        return val
-    s = text_type(val)
-    return _parse_int(s)
+    return _parse_with(val, type_util.is_integer, _parse_int)
 
 
 def _parse_list(val, separator=None):
@@ -155,12 +146,8 @@ def _parse_list(val, separator=None):
 
 
 def parse_list(val, separator=None):
-    if type_util.is_list_or_tuple(val):
-        return list(val)
-    s = text_type(val)
-    if not len(s):
-        return None
-    return _parse_list(s, separator=separator)
+    val = _parse_with(val, type_util.is_list_or_tuple, _parse_list, separator=separator)
+    return list(val) if type_util.is_list_or_tuple(val) else val
 
 
 def _parse_phonenumber(val, country_code=None):
@@ -191,7 +178,7 @@ def parse_phonenumber(val, country_code=None):
     phone_country_code = None
     if country_code and len(country_code) >= 2:
         country_code = country_code[0:2].upper()
-    return _parse_phonenumber(phone_raw, country_code=country_code)
+    return _parse_with(phone_raw, None, _parse_phonenumber, country_code=country_code)
 
 
 def _parse_slug(val):

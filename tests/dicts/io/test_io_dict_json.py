@@ -115,7 +115,7 @@ class io_dict_json_test_case(io_dict_test_case):
             IODict(filepath, format='json')
 
     def test_from_json_with_valid_url_valid_content(self):
-        url = 'https://raw.githubusercontent.com/fabiocaccamo/python-benedict/master/tests/input/valid-content.json'
+        url = self.input_url('valid-content.json')
         # static method
         d = IODict.from_json(url)
         self.assertTrue(isinstance(d, dict))

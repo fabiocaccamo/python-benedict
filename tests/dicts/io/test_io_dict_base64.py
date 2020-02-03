@@ -90,7 +90,7 @@ class io_dict_base64_test_case(io_dict_test_case):
             IODict(filepath, format='base64')
 
     def test_from_base64_with_valid_url_valid_content(self):
-        url = 'https://raw.githubusercontent.com/fabiocaccamo/python-benedict/master/tests/input/valid-content.base64'
+        url = self.input_url('valid-content.base64')
         # static method
         d = IODict.from_base64(url)
         self.assertTrue(isinstance(d, dict))

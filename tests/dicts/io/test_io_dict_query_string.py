@@ -73,7 +73,7 @@ class io_dict_query_string_test_case(io_dict_test_case):
             IODict(filepath, format='query_string')
 
     def test_from_query_string_with_valid_url_valid_content(self):
-        url = 'https://raw.githubusercontent.com/fabiocaccamo/python-benedict/master/tests/input/valid-content.qs'
+        url = self.input_url('valid-content.qs')
         # static method
         d = IODict.from_query_string(url)
         self.assertTrue(isinstance(d, dict))
