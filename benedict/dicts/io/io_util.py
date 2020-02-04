@@ -25,30 +25,42 @@ def encode(d, format, **kwargs):
     return s
 
 
+def is_data(s):
+    return (len(s.splitlines()) > 1)
+
+
+def is_filepath(s):
+    return any([s.endswith(extension)
+                for extension in get_serializers_extensions()])
+
+
+def is_url(s):
+    return any([s.startswith(protocol)
+                for protocol in ['http://', 'https://']])
+
+
 def read_content(s):
     # s -> filepath or url or data
-    num_lines = len(s.splitlines())
-    if num_lines > 1:
+    if is_data(s):
         # data
         return s
-    if any([s.startswith(protocol)
-            for protocol in ['http://', 'https://']]):
+    elif is_url(s):
         # url
         return read_url(s)
-    elif any([s.endswith(extension)
-              for extension in get_serializers_extensions()]):
+    elif is_filepath(s):
         # filepath
-        if os.path.isfile(s):
-            return read_file(s)
-        return None
+        return read_file(s)
+    # one-line data?!
     return s
 
 
 def read_file(filepath):
-    handler = open(filepath, 'r')
-    content = handler.read()
-    handler.close()
-    return content
+    if os.path.isfile(filepath):
+        handler = open(filepath, 'r')
+        content = handler.read()
+        handler.close()
+        return content
+    return None
 
 
 def read_url(url, *args, **kwargs):

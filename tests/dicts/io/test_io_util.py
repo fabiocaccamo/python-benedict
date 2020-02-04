@@ -23,22 +23,34 @@ class io_util_test_case(unittest.TestCase):
         with self.assertRaises(ValueError):
             io_util.encode({}, format='xxx')
 
-    def read_content(self):
+    def test_is_data(self):
         # TODO
         pass
 
-    def read_file(self):
+    def test_is_filepath(self):
         # TODO
         pass
 
-    def read_url(self):
+    def test_is_url(self):
         # TODO
         pass
 
-    def write_file_dir(self):
+    def test_read_content(self):
         # TODO
         pass
 
-    def write_file(self):
+    def test_read_file(self):
+        # TODO
+        pass
+
+    def test_read_url(self):
+        # TODO
+        pass
+
+    def test_write_file_dir(self):
+        # TODO
+        pass
+
+    def test_write_file(self):
         # TODO
         pass
