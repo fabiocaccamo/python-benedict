@@ -32,7 +32,8 @@ class keylists_test_case(unittest.TestCase):
             ['b', 'd', 'x'],
             ['b', 'd', 'y'],
         ]
-        self.assertEqual(o, r)
+        for k in r:
+            self.assertTrue(k in o)
 
     def test_keylists_with_non_string_keys(self):
         i = {
