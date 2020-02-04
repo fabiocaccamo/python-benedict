@@ -119,7 +119,8 @@ def _parse_email(val, check_blacklist=True):
 
 
 def parse_email(val, check_blacklist=True):
-    return _parse_with(val, None, _parse_email, check_blacklist=check_blacklist)
+    return _parse_with(
+        val, None, _parse_email, check_blacklist=check_blacklist)
 
 
 def _parse_int(val):
@@ -146,7 +147,8 @@ def _parse_list(val, separator=None):
 
 
 def parse_list(val, separator=None):
-    val = _parse_with(val, type_util.is_list_or_tuple, _parse_list, separator=separator)
+    val = _parse_with(val, type_util.is_list_or_tuple,
+                      _parse_list, separator=separator)
     return list(val) if type_util.is_list_or_tuple(val) else val
 
 
@@ -178,7 +180,8 @@ def parse_phonenumber(val, country_code=None):
     phone_country_code = None
     if country_code and len(country_code) >= 2:
         country_code = country_code[0:2].upper()
-    return _parse_with(phone_raw, None, _parse_phonenumber, country_code=country_code)
+    return _parse_with(
+        phone_raw, None, _parse_phonenumber, country_code=country_code)
 
 
 def _parse_slug(val):

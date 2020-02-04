@@ -34,9 +34,8 @@ class ParseDict(dict):
             return default
 
         # If choices and value in choices return value otherwise default.
-        if type_util.is_list_or_tuple(choices) and len(choices):
-            if value in choices:
-                return value
+        if type_util.is_list_or_tuple(choices) and len(choices) and \
+                value not in choices:
             return default
 
         return value

@@ -4,13 +4,13 @@ from benedict.utils import type_util
 
 
 def _get_keylist(item, parent_keys):
-    l = []
+    keylist = []
     for key, value in item.items():
         keys = parent_keys + [key]
-        l += [keys]
+        keylist += [keys]
         if type_util.is_dict(value):
-            l += _get_keylist(value, keys)
-    return l
+            keylist += _get_keylist(value, keys)
+    return keylist
 
 
 def keylists(d):

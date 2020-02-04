@@ -46,14 +46,16 @@ class benedict(IODict, KeypathDict, ParseDict):
         """
         Creates and return a clone of the current dict instance (deep copy).
         """
-        return benedict(_clone(self),
+        return benedict(
+            _clone(self),
             keypath_separator=self._keypath_separator)
 
     def copy(self):
         """
         Creates and return a copy of the current instance (shallow copy).
         """
-        return benedict(super(benedict, self).copy(),
+        return benedict(
+            super(benedict, self).copy(),
             keypath_separator=self._keypath_separator)
 
     def deepcopy(self):
@@ -146,7 +148,9 @@ class benedict(IODict, KeypathDict, ParseDict):
         """
         _rename(self, key, key_new)
 
-    def search(self, query, in_keys=True, in_values=True, exact=False, case_sensitive=False):
+    def search(self, query,
+               in_keys=True, in_values=True,
+               exact=False, case_sensitive=False):
         """
         Search and return a list of items (dict, key, value, ) matching the given query.
         """

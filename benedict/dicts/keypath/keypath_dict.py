@@ -66,4 +66,3 @@ class KeypathDict(KeylistDict):
     def update(self, other):
         keypath_util.check_keys(other, self._keypath_separator)
         super(KeypathDict, self).update(other)
-
