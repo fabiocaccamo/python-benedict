@@ -40,13 +40,15 @@ class IODict(dict):
                 return data
             elif type_util.is_list(data):
                 # force list to dict
-                return { 'values': data }
+                return {'values': data}
             else:
                 raise ValueError(
-                    'Invalid data type: {}, expected dict or list.'.format(type(data)))
+                    'Invalid data type: {}, expected dict or list.'.format(
+                        type(data)))
         except Exception as e:
             raise ValueError(
-                'Invalid data or url or filepath input argument: {}\n{}'.format(s, e))
+                'Invalid data or url or filepath argument: {}\n{}'.format(
+                    s, e))
 
     @staticmethod
     def _encode(d, format, **kwargs):
@@ -72,7 +74,8 @@ class IODict(dict):
     def from_csv(cls, s, columns=None, columns_row=True, **kwargs):
         """
         Load and decode CSV data from url, filepath or data-string.
-        Decoder specific options can be passed using kwargs: https://docs.python.org/3/library/csv.html
+        Decoder specific options can be passed using kwargs:
+        https://docs.python.org/3/library/csv.html
         Return a new dict instance. A ValueError is raised in case of failure.
         """
         kwargs['columns'] = columns
@@ -83,7 +86,8 @@ class IODict(dict):
     def from_json(cls, s, **kwargs):
         """
         Load and decode JSON data from url, filepath or data-string.
-        Decoder specific options can be passed using kwargs: https://docs.python.org/3/library/json.html
+        Decoder specific options can be passed using kwargs:
+        https://docs.python.org/3/library/json.html
         Return a new dict instance. A ValueError is raised in case of failure.
         """
         return cls(IODict._decode(s, 'json', **kwargs))
@@ -100,7 +104,8 @@ class IODict(dict):
     def from_toml(cls, s, **kwargs):
         """
         Load and decode TOML data from url, filepath or data-string.
-        Decoder specific options can be passed using kwargs: https://pypi.org/project/toml/
+        Decoder specific options can be passed using kwargs:
+        https://pypi.org/project/toml/
         Return a new dict instance. A ValueError is raised in case of failure.
         """
         return cls(IODict._decode(s, 'toml', **kwargs))
@@ -109,7 +114,8 @@ class IODict(dict):
     def from_xml(cls, s, **kwargs):
         """
         Load and decode XML data from url, filepath or data-string.
-        Decoder specific options can be passed using kwargs: https://github.com/martinblech/xmltodict
+        Decoder specific options can be passed using kwargs:
+        https://github.com/martinblech/xmltodict
         Return a new dict instance. A ValueError is raised in case of failure.
         """
         return cls(IODict._decode(s, 'xml', **kwargs))
@@ -118,16 +124,18 @@ class IODict(dict):
     def from_yaml(cls, s, **kwargs):
         """
         Load and decode YAML data from url, filepath or data-string.
-        Decoder specific options can be passed using kwargs: https://pyyaml.org/wiki/PyYAMLDocumentation
+        Decoder specific options can be passed using kwargs:
+        https://pyyaml.org/wiki/PyYAMLDocumentation
         Return a new dict instance. A ValueError is raised in case of failure.
         """
         return cls(IODict._decode(s, 'yaml', **kwargs))
 
     def to_base64(self, subformat='json', encoding='utf-8', **kwargs):
         """
-        Encode the current dict instance in Base64 format using the given subformat and encoding.
+        Encode the current dict instance in Base64 format
+        using the given subformat and encoding.
         Encoder specific options can be passed using kwargs.
-        Return the encoded string and optionally save it at the specified 'filepath'.
+        Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
         kwargs['subformat'] = subformat
@@ -137,8 +145,9 @@ class IODict(dict):
     def to_csv(self, key='values', columns=None, columns_row=True, **kwargs):
         """
         Encode the current dict instance in CSV format.
-        Encoder specific options can be passed using kwargs: https://docs.python.org/3/library/csv.html
-        Return the encoded string and optionally save it at the specified 'filepath'.
+        Encoder specific options can be passed using kwargs:
+        https://docs.python.org/3/library/csv.html
+        Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
         kwargs['columns'] = columns
@@ -148,8 +157,9 @@ class IODict(dict):
     def to_json(self, **kwargs):
         """
         Encode the current dict instance in JSON format.
-        Encoder specific options can be passed using kwargs: https://docs.python.org/3/library/json.html
-        Return the encoded string and optionally save it at the specified 'filepath'.
+        Encoder specific options can be passed using kwargs:
+        https://docs.python.org/3/library/json.html
+        Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
         return IODict._encode(self, 'json', **kwargs)
@@ -157,7 +167,7 @@ class IODict(dict):
     def to_query_string(self, **kwargs):
         """
         Encode the current dict instance in query-string format.
-        Return the encoded string and optionally save it at the specified 'filepath'.
+        Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
         return IODict._encode(self, 'query_string', **kwargs)
@@ -165,8 +175,9 @@ class IODict(dict):
     def to_toml(self, **kwargs):
         """
         Encode the current dict instance in TOML format.
-        Encoder specific options can be passed using kwargs: https://pypi.org/project/toml/
-        Return the encoded string and optionally save it at the specified 'filepath'.
+        Encoder specific options can be passed using kwargs:
+        https://pypi.org/project/toml/
+        Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
         return IODict._encode(self, 'toml', **kwargs)
@@ -174,8 +185,9 @@ class IODict(dict):
     def to_xml(self, **kwargs):
         """
         Encode the current dict instance in XML format.
-        Encoder specific options can be passed using kwargs: https://github.com/martinblech/xmltodict
-        Return the encoded string and optionally save it at the specified 'filepath'.
+        Encoder specific options can be passed using kwargs:
+        https://github.com/martinblech/xmltodict
+        Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
         return IODict._encode(self, 'xml', **kwargs)
@@ -183,8 +195,9 @@ class IODict(dict):
     def to_yaml(self, **kwargs):
         """
         Encode the current dict instance in YAML format.
-        Encoder specific options can be passed using kwargs: https://pyyaml.org/wiki/PyYAMLDocumentation
-        Return the encoded string and optionally save it at the specified 'filepath'.
+        Encoder specific options can be passed using kwargs:
+        https://pyyaml.org/wiki/PyYAMLDocumentation
+        Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
         return IODict._encode(self, 'yaml', **kwargs)

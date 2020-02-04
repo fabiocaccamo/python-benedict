@@ -180,8 +180,10 @@ class ParseDict(dict):
 
     def get_phonenumber(self, key, country_code=None, default=None):
         """
-        Get phonenumber by key or keypath and return a dict with different formats (e164, international, national).
-        If country code is specified (alpha 2 code), it will be used to parse phone number correctly.
+        Get phonenumber by key or keypath and return a dict
+        with different formats (e164, international, national).
+        If country code is specified (alpha 2 code),
+        it will be used to parse phone number correctly.
         """
         return self._get_value(
             key, default or {}, None, parse_util.parse_phonenumber,
