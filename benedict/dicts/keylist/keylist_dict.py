@@ -15,7 +15,7 @@ class KeylistDict(dict):
         return super(KeylistDict, self).__contains__(key)
 
     def _contains_by_keys(self, keys):
-        parent, key, _ = keylist_util.get_item(self, keys)
+        parent, _, _ = keylist_util.get_item(self, keys)
         if type_util.is_dict(parent):
             return True
         elif type_util.is_list(parent):
