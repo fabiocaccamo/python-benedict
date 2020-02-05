@@ -21,13 +21,13 @@ def _get_item_key_and_value(item, key):
 
 def _get_or_new_item_value(item, key, subkey):
     try:
-        item_key, item_value = _get_item_key_and_value(item, key)
-        if not type_util.is_dict_or_list(item_value):
+        _, value = _get_item_key_and_value(item, key)
+        if not type_util.is_dict_or_list(value):
             raise TypeError
     except (IndexError, KeyError, TypeError, ):
-        item_value = _new_item_value(subkey)
-        item[key] = item_value
-    return item_value
+        value = _new_item_value(subkey)
+        item[key] = value
+    return value
 
 
 def _new_item_value(key):
@@ -57,7 +57,6 @@ def get_item(d, keys):
 def get_items(d, keys):
     items = []
     item = d
-    value = None
     for key in keys:
         try:
             item_key, item_value = _get_item_key_and_value(item, key)

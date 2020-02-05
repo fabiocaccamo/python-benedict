@@ -19,8 +19,8 @@ def _traverse_dict(d, callback):
 
 
 def _traverse_list(l, callback):
-    for index in range(len(l)):
-        value = l[index]
+    items = list(enumerate(l))
+    for index, value in items:
         callback(l, index, value)
         _traverse_collection(value, callback)
 
