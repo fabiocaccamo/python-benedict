@@ -12,6 +12,7 @@ from benedict.core import items_sorted_by_values as _items_sorted_by_values
 from benedict.core import keypaths as _keypaths
 from benedict.core import merge as _merge
 from benedict.core import move as _move
+from benedict.core import nest as _nest
 from benedict.core import remove as _remove
 from benedict.core import rename as _rename
 from benedict.core import search as _search
@@ -140,6 +141,13 @@ class benedict(IODict, KeypathDict, ParseDict):
         If key_dst exists, its value will be overwritten.
         """
         _move(self, key_src, key_dest)
+
+    def nest(self, key, id_key='id', parent_id_key='parent_id', children_key='children'):
+        """
+        Nest a list of dicts at the given key and return a new nested list
+        using the specified keys to establish the correct items hierarchy.
+        """
+        return _nest(self[key], id_key, parent_id_key, children_key)
 
     def remove(self, keys, *args):
         """

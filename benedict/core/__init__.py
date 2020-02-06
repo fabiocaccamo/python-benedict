@@ -13,6 +13,7 @@ from benedict.core.keylists import keylists
 from benedict.core.keypaths import keypaths
 from benedict.core.merge import merge
 from benedict.core.move import move
+from benedict.core.nest import nest
 from benedict.core.remove import remove
 from benedict.core.rename import rename
 from benedict.core.search import search
