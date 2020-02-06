@@ -20,6 +20,7 @@ class IODict(dict):
 
     @staticmethod
     def _decode_init(s, *args, **kwargs):
+        # TODO: auto-detect format value from file extension, fallback to json.
         format = kwargs.pop('format', 'json').lower()
         if format in ['b64', 'base64']:
             kwargs.setdefault('subformat', 'json')

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from benedict.core import keylists
+from benedict.core.keylists import keylists
 from benedict.utils import type_util
 
 

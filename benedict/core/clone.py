@@ -3,5 +3,5 @@
 import copy
 
 
-def clone(d):
-    return copy.deepcopy(d)
+def clone(obj):
+    return copy.deepcopy(obj)
