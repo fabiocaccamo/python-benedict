@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from benedict import benedict as bdict
-
 import unittest
 
 
@@ -11,6 +9,8 @@ class stackoverflow_question_59176476_test_case(unittest.TestCase):
         """
         https://stackoverflow.com/questions/59176476/in-python-how-to-parse-a-multi-layered-json
         """
+        from benedict import benedict as bdict
+
         # data_source = 'http://legis.senado.leg.br/dadosabertos/materia/20050'
         # data = bdict.from_json('http://legis.senado.leg.br/dadosabertos/materia/20050')
         data_source = {

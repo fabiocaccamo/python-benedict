@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from benedict import benedict as bdict
-
 import unittest
 
 
@@ -11,6 +9,8 @@ class stackoverflow_question_58692636_test_case(unittest.TestCase):
         """
         https://stackoverflow.com/questions/58692636/python-script-fails-to-extract-data-from-xml/58695393#58695393
         """
+        from benedict import benedict as bdict
+
         data_xml = """
         <feed xml:base="http://data.treasury.gov/Feed.svc/">
           <title type="text">DailyTreasuryYieldCurveRateData</title>

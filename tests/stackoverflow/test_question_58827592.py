@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from benedict import benedict as bdict
-
 import unittest
 
 
@@ -11,6 +9,8 @@ class stackoverflow_question_58827592_test_case(unittest.TestCase):
         """
         https://stackoverflow.com/questions/58827592/is-there-a-way-to-convert-csv-columns-into-hierarchical-relationships
         """
+        from benedict import benedict as bdict
+
         data_source = """
 RecordID,kingdom,phylum,class,order,family,genus,species
 1,Animalia,Chordata,Mammalia,Primates,Hominidae,Homo,Homo sapiens
