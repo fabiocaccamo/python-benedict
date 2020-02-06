@@ -17,20 +17,23 @@ python-benedict is a dict subclass with **keylist/keypath** support, **I/O** sho
 
 ## Features
 -   100% **backward-compatible**, you can safely wrap existing dictionaries.
--   Full **keylist** support using **list of keys** as key.
--   Full **keypath** support using **keypath-separator** *(dot syntax by default)*.
+-   **Keylist** support using **list of keys** as key.
+-   **Keypath** support using **keypath-separator** *(dot syntax by default)*.
+-   Keypath **list-index** support  *(also negative)* using the standard `[n]` suffix.
 -   Easy **I/O operations** with most common formats: `Base64`, `CSV`, `JSON`, `TOML`, `XML`, `YAML`, `query-string`.
 -   Many **utility** and **parse methods** to retrieve data as needed *(check the [API](#api) section)*.
--   Well **tested**, check the badges ;)
+-   Well **tested**. ;)
 
 ## Index
 -   [Installation](#installation)
 -   [Usage](#usage)
     -   [Basics](#basics)
+    -   [Keylist](#keylist)
     -   [Keypath](#keypath)
         -   [Custom keypath separator](#custom-keypath-separator)
         -   [Change keypath separator](#change-keypath-separator)
         -   [Disable keypath functionality](#disable-keypath-functionality)
+        -   [List index support](#list-index-support)
     -   [API](#api)
         -   [Utility methods](#utility-methods)
         -   [I/O methods](#io-methods)
@@ -55,12 +58,33 @@ d = benedict()
 # or cast an existing dict
 d = benedict(existing_dict)
 
-# or create from data source (filepath, url or data-string) in a supported format (base64, json, toml, xml, yaml, query-string)
-d = benedict('https://localhost:8000/data.json')
+# or create from data source (filepath, url or data-string) in a supported format:
+# Base64, CSV, JSON, TOML, XML, YAML, query-string
+d = benedict('https://localhost:8000/data.json', format='json')
 
 # or in a Django view
 params = benedict(request.GET.items())
-page = params.get_int('p', 0)
+page = params.get_int('page', 1)
+```
+
+### Keylist
+Wherever a **key** is used, it is possible to use also a **list (or a tuple) of keys**.
+
+```python
+d = benedict()
+
+# set values by keys list
+d['profile', 'firstname'] = 'Fabio'
+d['profile', 'lastname'] = 'Caccamo'
+print(d) # -> { 'profile':{ 'firstname':'Fabio', 'lastname':'Caccamo' } }
+print(d['profile']) # -> { 'firstname':'Fabio', 'lastname':'Caccamo' }
+
+# check if keypath exists in dict
+print(['profile', 'lastname'] in d) # -> True
+
+# delete value by keys list
+del d['profile', 'lastname']
+print(d['profile']) # -> { 'firstname':'Fabio' }
 ```
 
 ### Keypath
@@ -84,24 +108,6 @@ print('profile.lastname' in d) # -> True
 
 # delete value by keypath
 del d['profile.lastname']
-```
-
-It is possible to do the same using a **list of keys**:
-
-```python
-d = benedict()
-
-# set values by keys list
-d['profile', 'firstname'] = 'Fabio'
-d['profile', 'lastname'] = 'Caccamo'
-print(d) # -> { 'profile':{ 'firstname':'Fabio', 'lastname':'Caccamo' } }
-print(d['profile']) # -> { 'firstname':'Fabio', 'lastname':'Caccamo' }
-
-# check if keypath exists in dict
-print(['profile', 'lastname'] in d) # -> True
-
-# delete value by keys list
-del d['profile', 'lastname']
 ```
 
 #### Custom keypath separator
@@ -135,6 +141,16 @@ You can disable the keypath functionality using the `getter/setter` property.
 d.keypath_separator = None
 ```
 
+#### List index support
+List index are supported, keypaths can include indexes *(also negative)* using `[n]`, to perform any operation very fast:
+
+```python
+# Eg. get last location cordinates of the first result:
+loc = d['results[0].locations[-1].coordinates']
+lat = loc.get_decimal('latitude')
+lng = loc.get_decimal('longitude')
+```
+
 ### API
 
 -   **Utility methods**
@@ -144,12 +160,14 @@ d.keypath_separator = None
     -   [`dump`](#dump)
     -   [`filter`](#filter)
     -   [`flatten`](#flatten)
+    -   [`groupby`](#groupby)
     -   [`invert`](#invert)
     -   [`items_sorted_by_keys`](#items_sorted_by_keys)
     -   [`items_sorted_by_values`](#items_sorted_by_values)
     -   [`keypaths`](#keypaths)
     -   [`merge`](#merge)
     -   [`move`](#move)
+    -   [`nest`](#nest)
     -   [`remove`](#remove)
     -   [`rename`](#rename)
     -   [`search`](#search)
@@ -251,6 +269,13 @@ f = d.filter(predicate)
 f = d.flatten(separator='_')
 ```
 
+-   #### groupby
+
+```python
+# Group a list of dicts at key by the value of the given by_key and return a new dict.
+g = d.groupby('cities', by_key='country_code')
+```
+
 -   #### invert
 
 ```python
@@ -299,6 +324,14 @@ d.merge(a, b, c)
 # It can be used to rename a key.
 # If key_dst exists, its value will be overwritten.
 d.move('a', 'b', overwrite=True)
+```
+
+-   #### nest
+
+```python
+# Nest a list of dicts at the given key and return a new nested list
+# using the specified keys to establish the correct items hierarchy.
+d.nest('values', id_key='id', parent_id_key='parent_id', children_key='children')
 ```
 
 -   #### remove
