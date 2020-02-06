@@ -1130,6 +1130,70 @@ b:
         }
         self.assertEqual(b, r)
 
+    def test_nest(self):
+        d = {
+            'values':[
+                {'id':1, 'parent_id':None, 'name':'John'},
+                {'id':2, 'parent_id':1, 'name':'Frank'},
+                {'id':3, 'parent_id':2, 'name':'Tony'},
+                {'id':4, 'parent_id':3, 'name':'Jimmy'},
+                {'id':5, 'parent_id':1, 'name':'Sam'},
+                {'id':6, 'parent_id':3, 'name':'Charles'},
+                {'id':7, 'parent_id':2, 'name':'Bob'},
+                {'id':8, 'parent_id':3, 'name':'Paul'},
+                {'id':9, 'parent_id':None, 'name':'Michael'},
+            ],
+        }
+        bd = benedict(d)
+        n = bd.nest('values')
+        r = [
+            {'id':1, 'parent_id':None, 'name':'John', 'children':[
+                {'id':2, 'parent_id':1, 'name':'Frank', 'children':[
+                    {'id':3, 'parent_id':2, 'name':'Tony', 'children':[
+                        {'id':4, 'parent_id':3, 'name':'Jimmy', 'children':[], },
+                        {'id':6, 'parent_id':3, 'name':'Charles', 'children':[], },
+                        {'id':8, 'parent_id':3, 'name':'Paul', 'children':[], },
+                    ], },
+                    {'id':7, 'parent_id':2, 'name':'Bob', 'children':[], },
+                ], },
+                {'id':5, 'parent_id':1, 'name':'Sam', 'children':[], },
+            ]},
+            {'id':9, 'parent_id':None, 'name':'Michael', 'children':[], },
+        ]
+        self.assertEqual(n, r)
+
+    def test_nest_with_custom_keys(self):
+        d = {
+            'values':[
+                {'ID':1, 'PARENT':None, 'name':'John'},
+                {'ID':2, 'PARENT':1, 'name':'Frank'},
+                {'ID':3, 'PARENT':2, 'name':'Tony'},
+                {'ID':4, 'PARENT':3, 'name':'Jimmy'},
+                {'ID':5, 'PARENT':1, 'name':'Sam'},
+                {'ID':6, 'PARENT':3, 'name':'Charles'},
+                {'ID':7, 'PARENT':2, 'name':'Bob'},
+                {'ID':8, 'PARENT':3, 'name':'Paul'},
+                {'ID':9, 'PARENT':None, 'name':'Michael'},
+            ],
+        }
+        bd = benedict(d)
+        n = bd.nest('values', 'ID', 'PARENT', 'CHILDREN')
+        r = [
+            {'ID':1, 'PARENT':None, 'name':'John', 'CHILDREN':[
+                {'ID':2, 'PARENT':1, 'name':'Frank', 'CHILDREN':[
+                    {'ID':3, 'PARENT':2, 'name':'Tony', 'CHILDREN':[
+                        {'ID':4, 'PARENT':3, 'name':'Jimmy', 'CHILDREN':[], },
+                        {'ID':6, 'PARENT':3, 'name':'Charles', 'CHILDREN':[], },
+                        {'ID':8, 'PARENT':3, 'name':'Paul', 'CHILDREN':[], },
+                    ], },
+                    {'ID':7, 'PARENT':2, 'name':'Bob', 'CHILDREN':[], },
+                ], },
+                {'ID':5, 'PARENT':1, 'name':'Sam', 'CHILDREN':[], },
+            ]},
+            {'ID':9, 'PARENT':None, 'name':'Michael', 'CHILDREN':[], },
+        ]
+        self.assertEqual(n, r)
+
     def test_pop(self):
         d = {
             'a': 1,
