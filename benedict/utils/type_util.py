@@ -37,8 +37,8 @@ def is_float(val):
     return isinstance(val, float)
 
 
-# def is_function(val):
-#     return callable(val)
+def is_function(val):
+    return callable(val)
 
 
 def is_integer(val):
@@ -46,8 +46,8 @@ def is_integer(val):
 
 
 def is_json_serializable(val):
-    json_types = (bool, dict, float, ) + integer_types + \
-        (list, tuple, set, ) + string_types
+    json_types = (type(None), bool, dict, float, list, tuple, set, ) + \
+                 integer_types + string_types
     return isinstance(val, json_types)
 
 
@@ -59,21 +59,21 @@ def is_list_or_tuple(val):
     return isinstance(val, (list, tuple, ))
 
 
-# def is_none(val):
-#     return val is None
+def is_none(val):
+    return val is None
 
 
-# def is_not_none(val):
-#     return val is not None
+def is_not_none(val):
+    return val is not None
 
 
-# def is_set(val):
-#     return isinstance(val, set)
+def is_set(val):
+    return isinstance(val, set)
 
 
 def is_string(val):
     return isinstance(val, string_types)
 
 
-# def is_tuple(val):
-#     return isinstance(val, tuple)
+def is_tuple(val):
+    return isinstance(val, tuple)
