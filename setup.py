@@ -33,12 +33,14 @@ setup(
     download_url='{}/{}/archive/{}.tar.gz'.format(
         github_url, package_name, __version__),
     keywords=[
-        'python', 'dictionary', 'dict', 'subclass', 'extended',
-        'benedict', 'io', 'read', 'write', 'parse', 'keypath',
-        'utility', 'data', 'base64', 'json', 'query-string',
-        'toml', 'xml', 'yaml', 'clean', 'clone', 'deepclone',
-        'deepupdate', 'dump', 'filter', 'flatten', 'invert',
-        'merge', 'move', 'remove', 'subset', 'swap', 'unique',
+        'python', 'dictionary', 'dictionaries', 'dict', 'benedict',
+        'subclass', 'extended', 'keylist', 'keypath', 'utility', 'io',
+        'data', 'file', 'url', 'read', 'write', 'parse',
+        'base64', 'csv', 'json', 'query-string', 'toml', 'xml', 'yaml',
+        'clean', 'clone', 'deepclone', 'deepupdate', 'dump',
+        'filter', 'flatten', 'groupby', 'invert', 'merge',
+        'move', 'nest', 'remove', 'rename', 'search', 'standardize',
+        'subset', 'swap', 'traverse', 'unflatten', 'unique',
     ],
     install_requires=[
         'ftfy==4.4.3;python_version<"3.4"',
