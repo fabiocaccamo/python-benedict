@@ -5,6 +5,7 @@ from benedict.core import clone as _clone
 from benedict.core import dump as _dump
 from benedict.core import filter as _filter
 from benedict.core import flatten as _flatten
+from benedict.core import groupby as _groupby
 from benedict.core import invert as _invert
 from benedict.core import items_sorted_by_keys as _items_sorted_by_keys
 from benedict.core import items_sorted_by_values as _items_sorted_by_values
@@ -90,6 +91,12 @@ class benedict(IODict, KeypathDict, ParseDict):
         to join nested dict keys to flatten keypaths.
         """
         return _flatten(self, separator)
+
+    def groupby(self, key, by_key):
+        """
+        Group a list of dicts at key by the value of the given by_key and return a new dict.
+        """
+        return benedict(_groupby(self[key], by_key))
 
     def invert(self, flat=False):
         """

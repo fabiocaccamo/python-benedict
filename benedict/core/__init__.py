@@ -5,6 +5,7 @@ from benedict.core.clone import clone
 from benedict.core.dump import dump
 from benedict.core.filter import filter
 from benedict.core.flatten import flatten
+from benedict.core.groupby import groupby
 from benedict.core.invert import invert
 from benedict.core.items_sorted import (
     items_sorted_by_keys, items_sorted_by_values, )

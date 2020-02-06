@@ -772,6 +772,46 @@ b:
         self.assertEqual(p, {})
         # self.assertTrue(isinstance(p, benedict))
 
+    def test_groupby(self):
+        d = {
+            'cities':[
+                {'country_code':'IT', 'name':'Torino',},
+                {'country_code':'DE', 'name':'Berlin',},
+                {'country_code':'IT', 'name':'Milano',},
+                {'country_code':'FR', 'name':'Paris',},
+                {'country_code':'IT', 'name':'Venezia',},
+                {'country_code':'IT', 'name':'Roma',},
+                {'country_code':'FR', 'name':'Lyon',},
+                {'country_code':'IT', 'name':'Napoli',},
+                {'country_code':'DE', 'name':'Munich',},
+                {'country_code':'IT', 'name':'Palermo',},
+            ],
+        }
+        bd = benedict(d)
+        bd_cities = bd['cities']
+        g = bd.groupby('cities', 'country_code')
+
+        self.assertEqual(len(g), 3)
+        self.assertTrue('IT' in g)
+        self.assertTrue('FR' in g)
+        self.assertTrue('DE' in g)
+
+        self.assertEqual(len(g['IT']), 6)
+        self.assertTrue(bd_cities[0] in g['IT'])
+        self.assertTrue(bd_cities[2] in g['IT'])
+        self.assertTrue(bd_cities[4] in g['IT'])
+        self.assertTrue(bd_cities[5] in g['IT'])
+        self.assertTrue(bd_cities[7] in g['IT'])
+        self.assertTrue(bd_cities[9] in g['IT'])
+
+        self.assertEqual(len(g['FR']), 2)
+        self.assertTrue(bd_cities[3] in g['FR'])
+        self.assertTrue(bd_cities[6] in g['FR'])
+
+        self.assertEqual(len(g['DE']), 2)
+        self.assertTrue(bd_cities[1] in g['DE'])
+        self.assertTrue(bd_cities[8] in g['DE'])
+
     def test_invert(self):
         d = {
             'a': 1,
