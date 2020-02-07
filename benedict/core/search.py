@@ -14,11 +14,9 @@ def _get_match(query, value, exact, case_sensitive):
     q, q_is_str = _get_term(query, case_sensitive)
     v, v_is_str = _get_term(value, case_sensitive)
     # TODO: add regex support
-    if exact:
-        return q == v
-    elif q_is_str and v_is_str:
+    if q_is_str and v_is_str and not exact:
         return q in v
-    return False
+    return q == v
 
 
 def search(d, query,
