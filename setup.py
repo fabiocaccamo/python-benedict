@@ -9,6 +9,7 @@ exec(open('benedict/metadata.py').read())
 
 github_url = 'https://github.com/fabiocaccamo'
 package_name = 'python-benedict'
+package_url = '{}/{}'.format(github_url, package_name)
 package_path = os.path.abspath(os.path.dirname(__file__))
 long_description_file_path = os.path.join(package_path, 'README.md')
 long_description_content_type = 'text/markdown'
@@ -29,9 +30,8 @@ setup(
     long_description_content_type=long_description_content_type,
     author=__author__,
     author_email=__email__,
-    url='{}/{}'.format(github_url, package_name),
-    download_url='{}/{}/archive/{}.tar.gz'.format(
-        github_url, package_name, __version__),
+    url=package_url,
+    download_url='{}/archive/{}.tar.gz'.format(package_url, __version__),
     keywords=[
         'python', 'dictionary', 'dictionaries', 'dict', 'benedict',
         'subclass', 'extended', 'keylist', 'keypath', 'utility', 'io',
