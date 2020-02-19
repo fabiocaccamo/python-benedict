@@ -9,8 +9,6 @@ from benedict.serializers.toml import TOMLSerializer
 from benedict.serializers.xml import XMLSerializer
 from benedict.serializers.yaml import YAMLSerializer
 
-from slugify import slugify
-
 
 _SERIALIZERS = {
     'b64': Base64Serializer,
@@ -32,7 +30,7 @@ _SERIALIZERS_EXTENSIONS = [
 
 
 def get_serializer_by_format(format):
-    return _SERIALIZERS.get(slugify(format, separator='_'))
+    return _SERIALIZERS.get(format.lower().replace(' ', '_'))
 
 
 def get_serializers_extensions():
