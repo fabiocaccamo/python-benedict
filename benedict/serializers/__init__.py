@@ -4,6 +4,7 @@ from benedict.serializers.abstract import AbstractSerializer
 from benedict.serializers.base64 import Base64Serializer
 from benedict.serializers.csv import CSVSerializer
 from benedict.serializers.json import JSONSerializer
+from benedict.serializers.pickle import PickleSerializer
 from benedict.serializers.query_string import QueryStringSerializer
 from benedict.serializers.toml import TOMLSerializer
 from benedict.serializers.xml import XMLSerializer
@@ -15,6 +16,7 @@ _SERIALIZERS = {
     'base64': Base64Serializer,
     'csv': CSVSerializer,
     'json': JSONSerializer,
+    'pickle': PickleSerializer,
     'qs': QueryStringSerializer,
     'querystring': QueryStringSerializer,
     'query-string': QueryStringSerializer,
