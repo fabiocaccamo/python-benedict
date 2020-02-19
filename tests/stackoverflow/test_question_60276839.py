@@ -31,7 +31,7 @@ class stackoverflow_question_60276839_test_case(unittest.TestCase):
         ]
         data_output = bdict()
         data_output.merge(*data_input)
-        print(data_output.dump())
+        # print(data_output.dump())
 
         expected_data_output = {
             '10315065': {
