@@ -9,13 +9,12 @@ import json
 
 class JSONSerializer(AbstractSerializer):
 
-    def __init__(self):
-        super(JSONSerializer, self).__init__()
-
-    def decode(self, s, **kwargs):
+    @staticmethod
+    def decode(s, **kwargs):
         data = json.loads(s, **kwargs)
         return data
 
-    def encode(self, d, **kwargs):
+    @staticmethod
+    def encode(d, **kwargs):
         data = json.dumps(d, **kwargs)
         return data

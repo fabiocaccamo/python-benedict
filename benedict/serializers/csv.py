@@ -12,10 +12,8 @@ import csv
 
 class CSVSerializer(AbstractSerializer):
 
-    def __init__(self):
-        super(CSVSerializer, self).__init__()
-
-    def decode(self, s, **kwargs):
+    @staticmethod
+    def decode(s, **kwargs):
         # kwargs.setdefault('delimiter', ',')
         if kwargs.pop('quote', False):
             # TODO: add tests coverage
@@ -37,7 +35,8 @@ class CSVSerializer(AbstractSerializer):
             ln += 1
         return data
 
-    def encode(self, d, **kwargs):
+    @staticmethod
+    def encode(d, **kwargs):
         l = d
         # kwargs.setdefault('delimiter', ',')
         if kwargs.pop('quote', False):

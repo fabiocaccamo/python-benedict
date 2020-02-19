@@ -17,10 +17,8 @@ import base64
 
 class Base64Serializer(AbstractSerializer):
 
-    def __init__(self):
-        super(Base64Serializer, self).__init__()
-
-    def decode(self, s, **kwargs):
+    @staticmethod
+    def decode(s, **kwargs):
         # fix urlencoded chars
         s = unquote(s)
         # fix padding
@@ -39,7 +37,8 @@ class Base64Serializer(AbstractSerializer):
                     data = serializer.decode(data, **kwargs)
         return data
 
-    def encode(self, d, **kwargs):
+    @staticmethod
+    def encode(d, **kwargs):
         data = d
         subformat = kwargs.pop('subformat', None)
         encoding = kwargs.pop('encoding', 'utf-8' if subformat else None)

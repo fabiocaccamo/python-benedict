@@ -9,13 +9,12 @@ import toml
 
 class TOMLSerializer(AbstractSerializer):
 
-    def __init__(self):
-        super(TOMLSerializer, self).__init__()
-
-    def decode(self, s, **kwargs):
+    @staticmethod
+    def decode(s, **kwargs):
         data = toml.loads(s, **kwargs)
         return data
 
-    def encode(self, d, **kwargs):
+    @staticmethod
+    def encode(d, **kwargs):
         data = toml.dumps(d, **kwargs)
         return data

@@ -9,13 +9,12 @@ import yaml
 
 class YAMLSerializer(AbstractSerializer):
 
-    def __init__(self):
-        super(YAMLSerializer, self).__init__()
-
-    def decode(self, s, **kwargs):
+    @staticmethod
+    def decode(s, **kwargs):
         data = yaml.safe_load(s, **kwargs)
         return data
 
-    def encode(self, d, **kwargs):
+    @staticmethod
+    def encode(d, **kwargs):
         data = yaml.dump(dict(d), **kwargs)
         return data

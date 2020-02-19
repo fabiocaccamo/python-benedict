@@ -6,8 +6,10 @@ class AbstractSerializer(object):
     def __init__(self):
         super(AbstractSerializer, self).__init__()
 
-    def decode(self, s, **kwargs):
+    @staticmethod
+    def decode(s, **kwargs):
         raise NotImplementedError()
 
-    def encode(self, d, **kwargs):
+    @staticmethod
+    def encode(d, **kwargs):
         raise NotImplementedError()

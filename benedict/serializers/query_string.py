@@ -18,10 +18,8 @@ import re
 
 class QueryStringSerializer(AbstractSerializer):
 
-    def __init__(self):
-        super(QueryStringSerializer, self).__init__()
-
-    def decode(self, s, **kwargs):
+    @staticmethod
+    def decode(s, **kwargs):
         flat = kwargs.pop('flat', True)
         qs_re = r'^(([\w\-\%\+]+\=[\w\-\%\+]*)+([\&]{1})?)+'
         qs_pattern = re.compile(qs_re)
@@ -32,6 +30,7 @@ class QueryStringSerializer(AbstractSerializer):
             return data
         raise ValueError('Invalid query string: {}'.format(s))
 
-    def encode(self, d, **kwargs):
+    @staticmethod
+    def encode(d, **kwargs):
         data = urlencode(d, **kwargs)
         return data
