@@ -270,7 +270,7 @@ class benedict_test_case(unittest.TestCase):
         }
         b = benedict(d)
         expected_output = """{
-    "datetime": "2019-06-11 00:00:00"
+    "datetime": "2019-06-11T00:00:00"
 }"""
         output = b.dump()
         self.assertEqual(output, expected_output)

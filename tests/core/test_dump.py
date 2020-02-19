@@ -32,17 +32,24 @@ class dump_test_case(unittest.TestCase):
             'datetime': dt.datetime(2019, 6, 11),
         }
         r = """{
-    "datetime": "2019-06-11 00:00:00"
+    "datetime": "2019-06-11T00:00:00"
 }"""
         o = _dump(d)
         self.assertEqual(o, r)
 
-    def test_dump_with_decimal(self):
+    def test_dump_with_set(self):
         d = {
-            'decimal': Decimal('1.75'),
+            'set': set([0, 1, 2, 3, 4, 5]),
         }
         r = """{
-    "decimal": "1.75"
+    "set": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+    ]
 }"""
         o = _dump(d)
         self.assertEqual(o, r)
