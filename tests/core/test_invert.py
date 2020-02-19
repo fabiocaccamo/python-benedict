@@ -56,3 +56,36 @@ class invert_test_case(unittest.TestCase):
         self.assertTrue('a' and 'd' in o[1])
         self.assertTrue('b' and 'e' in o[2])
         self.assertTrue('c' and 'f' in o[3])
+
+    def test_invert_with_list_values(self):
+        i = {
+            'a': ['x', 'y', 'z'],
+            'b': ['c', 'd', 'e'],
+        }
+        o = _invert(i)
+        r = {
+            'x': ['a'],
+            'y': ['a'],
+            'z': ['a'],
+            'c': ['b'],
+            'd': ['b'],
+            'e': ['b'],
+        }
+        self.assertEqual(o, r)
+        self.assertEqual(_invert(o), i)
+
+    def test_invert_with_tuple_values(self):
+        i = {
+            'a': ('x', 'y', 'z', ),
+            'b': ('c', 'd', 'e', ),
+        }
+        o = _invert(i)
+        r = {
+            'x': ['a', ],
+            'y': ['a', ],
+            'z': ['a', ],
+            'c': ['b', ],
+            'd': ['b', ],
+            'e': ['b', ],
+        }
+        self.assertEqual(o, r)
