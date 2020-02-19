@@ -1,14 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from benedict.serializers import JSONSerializer
-from benedict.utils import type_util
-
-from six import text_type
-
-
-def _encoder(obj):
-    if not type_util.is_json_serializable(obj):
-        return text_type(obj)
 
 
 def dump(obj, **kwargs):
@@ -16,7 +8,6 @@ def dump(obj, **kwargs):
     options = {
         'indent': 4,
         'sort_keys': True,
-        'default': _encoder,
     }
     options.update(**kwargs)
     try:
