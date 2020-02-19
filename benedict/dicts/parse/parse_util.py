@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from benedict.serializers import JSONSerializer
 from benedict.utils import type_util
 
 from datetime import datetime
@@ -11,7 +12,6 @@ from six import text_type
 from slugify import slugify
 
 import ftfy
-import json
 import phonenumbers
 import re
 
@@ -84,7 +84,7 @@ def parse_decimal(val):
 
 def _parse_dict(val):
     try:
-        d = json.loads(val)
+        d = JSONSerializer.decode(val)
         if type_util.is_dict(d):
             return d
         return None
@@ -136,7 +136,7 @@ def parse_int(val):
 
 def _parse_list(val, separator=None):
     try:
-        l = json.loads(val)
+        l = JSONSerializer.decode(val)
         if type_util.is_list(l):
             return l
     except Exception:

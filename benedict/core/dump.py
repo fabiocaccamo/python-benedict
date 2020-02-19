@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
+from benedict.serializers import JSONSerializer
 from benedict.utils import type_util
-from six import text_type
 
-import json
+from six import text_type
 
 
 def _encoder(obj):
@@ -12,6 +12,7 @@ def _encoder(obj):
 
 
 def dump(obj, **kwargs):
+    serializer = JSONSerializer
     options = {
         'indent': 4,
         'sort_keys': True,
@@ -19,8 +20,11 @@ def dump(obj, **kwargs):
     }
     options.update(**kwargs)
     try:
-        output = json.dumps(obj, **options)
-    except TypeError:
-        options['sort_keys'] = False
-        output = json.dumps(obj, **options)
-    return output
+        output = serializer.encode(obj, **options)
+        return output
+    except TypeError as error:
+        sort_keys = options.pop('sort_keys', False)
+        if sort_keys:
+            output = serializer.encode(obj, **options)
+            return output
+        raise error
