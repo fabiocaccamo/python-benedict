@@ -169,7 +169,7 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(datetime.now()))
         self.assertTrue(f((0, 1, 2, )))
         self.assertTrue(f([0, 1, 2]))
-        self.assertTrue(f(set([0, 1, 2])))
+        self.assertFalse(f(set([0, 1, 2])))
         self.assertTrue(f({'a':0, 'b':1, 'c':2}))
         self.assertTrue(f('hello world'))
         self.assertFalse(f(lambda a: a))

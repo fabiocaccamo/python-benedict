@@ -46,7 +46,7 @@ def is_integer(val):
 
 
 def is_json_serializable(val):
-    json_types = (type(None), bool, dict, float, list, tuple, set, ) + \
+    json_types = (type(None), bool, dict, float, list, tuple, ) + \
                  integer_types + string_types
     return isinstance(val, json_types)
 
