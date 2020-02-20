@@ -53,3 +53,15 @@ class dump_test_case(unittest.TestCase):
 }"""
         o = _dump(d)
         self.assertEqual(o, r)
+
+    def test_dump_with_unsortable_keys(self):
+        d = {
+            None: None,
+            0: 0,
+            1: 1,
+        }
+        # must not raise TypeError
+        _dump(d)
+        d['dt'] = dt
+        with self.assertRaises(TypeError):
+            o = _dump(d, sort_keys=False, default=None)
