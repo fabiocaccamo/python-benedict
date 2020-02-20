@@ -12,22 +12,20 @@ import json
 
 class JSONSerializer(AbstractSerializer):
 
-    @staticmethod
-    def decode(s, **kwargs):
+    def __init__(self):
+        super(JSONSerializer, self).__init__()
+
+    def decode(self, s, **kwargs):
         data = json.loads(s, **kwargs)
         return data
 
-    @staticmethod
-    def encode(d, **kwargs):
-        kwargs.setdefault('default', JSONSerializer._encode_default)
+    def encode(self, d, **kwargs):
+        kwargs.setdefault('default', self._encode_default)
         data = json.dumps(d, **kwargs)
         return data
 
-    @staticmethod
-    def _encode_default(obj):
-        if type_util.is_json_serializable(obj):
-            return None
-        elif type_util.is_set(obj):
+    def _encode_default(self, obj):
+        if type_util.is_set(obj):
             return list(obj)
         elif type_util.is_datetime(obj):
             return obj.isoformat()

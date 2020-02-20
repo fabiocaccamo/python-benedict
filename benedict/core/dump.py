@@ -4,7 +4,7 @@ from benedict.serializers import JSONSerializer
 
 
 def dump(obj, **kwargs):
-    serializer = JSONSerializer
+    serializer = JSONSerializer()
     options = {
         'indent': 4,
         'sort_keys': True,

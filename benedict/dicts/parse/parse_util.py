@@ -83,8 +83,9 @@ def parse_decimal(val):
 
 
 def _parse_dict(val):
+    serializer = JSONSerializer()
     try:
-        d = JSONSerializer.decode(val)
+        d = serializer.decode(val)
         if type_util.is_dict(d):
             return d
         return None
@@ -135,8 +136,9 @@ def parse_int(val):
 
 
 def _parse_list(val, separator=None):
+    serializer = JSONSerializer()
     try:
-        l = JSONSerializer.decode(val)
+        l = serializer.decode(val)
         if type_util.is_list(l):
             return l
     except Exception:

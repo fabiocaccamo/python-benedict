@@ -10,21 +10,29 @@ from benedict.serializers.toml import TOMLSerializer
 from benedict.serializers.xml import XMLSerializer
 from benedict.serializers.yaml import YAMLSerializer
 
+_BASE64_SERIALIZER = Base64Serializer()
+_CSV_SERIALIZER = CSVSerializer()
+_JSON_SERIALIZER = JSONSerializer()
+_PICKLE_SERIALIZER = PickleSerializer()
+_QUERY_STRING_SERIALIZER = QueryStringSerializer()
+_TOML_SERIALIZER = TOMLSerializer()
+_YAML_SERIALIZER = YAMLSerializer()
+_XML_SERIALIZER = XMLSerializer()
 
 _SERIALIZERS = {
-    'b64': Base64Serializer,
-    'base64': Base64Serializer,
-    'csv': CSVSerializer,
-    'json': JSONSerializer,
-    'pickle': PickleSerializer,
-    'qs': QueryStringSerializer,
-    'querystring': QueryStringSerializer,
-    'query-string': QueryStringSerializer,
-    'query_string': QueryStringSerializer,
-    'toml': TOMLSerializer,
-    'yaml': YAMLSerializer,
-    'yml': YAMLSerializer,
-    'xml': XMLSerializer,
+    'b64': _BASE64_SERIALIZER,
+    'base64': _BASE64_SERIALIZER,
+    'csv': _CSV_SERIALIZER,
+    'json': _JSON_SERIALIZER,
+    'pickle': _PICKLE_SERIALIZER,
+    'qs': _QUERY_STRING_SERIALIZER,
+    'querystring': _QUERY_STRING_SERIALIZER,
+    'query-string': _QUERY_STRING_SERIALIZER,
+    'query_string': _QUERY_STRING_SERIALIZER,
+    'toml': _TOML_SERIALIZER,
+    'yaml': _YAML_SERIALIZER,
+    'yml': _YAML_SERIALIZER,
+    'xml': _XML_SERIALIZER,
 }
 
 _SERIALIZERS_EXTENSIONS = [
@@ -32,7 +40,7 @@ _SERIALIZERS_EXTENSIONS = [
 
 
 def get_serializer_by_format(format):
-    return _SERIALIZERS.get(format.lower().replace(' ', '_'))
+    return _SERIALIZERS.get((format or '').lower().replace(' ', '_'))
 
 
 def get_serializers_extensions():

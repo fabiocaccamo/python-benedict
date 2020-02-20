@@ -9,13 +9,14 @@ import xmltodict
 
 class XMLSerializer(AbstractSerializer):
 
-    @staticmethod
-    def decode(s, **kwargs):
+    def __init__(self):
+        super(XMLSerializer, self).__init__()
+
+    def decode(self, s, **kwargs):
         kwargs.setdefault('dict_constructor', dict)
         data = xmltodict.parse(s, **kwargs)
         return data
 
-    @staticmethod
-    def encode(d, **kwargs):
+    def encode(self, d, **kwargs):
         data = xmltodict.unparse(d, **kwargs)
         return data
