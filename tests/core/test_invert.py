@@ -72,7 +72,19 @@ class invert_test_case(unittest.TestCase):
             'e': ['b'],
         }
         self.assertEqual(o, r)
-        self.assertEqual(_invert(o), i)
+        ii = _invert(o)
+        # self.assertEqual(i_back, i)
+        self.assertTrue('a' in ii)
+        self.assertTrue('b' in ii)
+        self.assertEqual(len(ii.keys()), 2)
+        self.assertTrue('x' in ii['a'])
+        self.assertTrue('y' in ii['a'])
+        self.assertTrue('z' in ii['a'])
+        self.assertEqual(len(ii['a']), 3)
+        self.assertTrue('c' in ii['b'])
+        self.assertTrue('d' in ii['b'])
+        self.assertTrue('e' in ii['b'])
+        self.assertEqual(len(ii['b']), 3)
 
     def test_invert_with_tuple_values(self):
         i = {

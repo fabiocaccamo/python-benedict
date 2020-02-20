@@ -2,6 +2,7 @@
 
 from benedict.core import dump as _dump
 from decimal import Decimal
+from six import PY3
 
 import datetime as dt
 import unittest
@@ -52,7 +53,8 @@ class dump_test_case(unittest.TestCase):
     ]
 }"""
         o = _dump(d)
-        self.assertEqual(o, r)
+        if PY3:
+            self.assertEqual(o, r)
 
     def test_dump_with_unsortable_keys(self):
         d = {
