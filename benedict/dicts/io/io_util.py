@@ -56,9 +56,9 @@ def read_content(s):
 
 def read_file(filepath):
     if os.path.isfile(filepath):
-        handler = open(filepath, 'r')
-        content = handler.read()
-        handler.close()
+        content = ''
+        with open(filepath, 'r') as file:
+            content = file.read()
         return content
     return None
 
@@ -88,7 +88,6 @@ def write_file_dir(filepath):
 def write_file(filepath, content):
     # https://stackoverflow.com/questions/12517451/automatically-creating-directories-with-file-output
     write_file_dir(filepath)
-    handler = open(filepath, 'w+')
-    handler.write(content)
-    handler.close()
+    with open(filepath, 'w+') as file:
+        file.write(content)
     return True
