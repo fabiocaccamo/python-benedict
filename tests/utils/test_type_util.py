@@ -11,8 +11,21 @@ import unittest
 class type_util_test_case(unittest.TestCase):
 
     def test_is_binary(self):
-        # TODO
-        pass
+        f = type_util.is_binary
+        self.assertFalse(f(None))
+        self.assertFalse(f(True))
+        self.assertFalse(f(False))
+        self.assertFalse(f(int(0)))
+        self.assertFalse(f(float(0.5)))
+        self.assertFalse(f(Decimal(0.5)))
+        self.assertFalse(f(datetime.now()))
+        self.assertFalse(f((0, 1, 2, )))
+        self.assertFalse(f([0, 1, 2]))
+        self.assertFalse(f(set([0, 1, 2])))
+        self.assertFalse(f({'a':0, 'b':1, 'c':2}))
+        self.assertFalse(f('hello world'))
+        self.assertTrue(f('hello world'.encode('utf-8')))
+        self.assertFalse(f(lambda a: a))
 
     def test_is_bool(self):
         f = type_util.is_bool
@@ -28,6 +41,7 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(set([0, 1, 2])))
         self.assertFalse(f({'a':0, 'b':1, 'c':2}))
         self.assertFalse(f('hello world'))
+        self.assertFalse(f('hello world'.encode('utf-8')))
         self.assertFalse(f(lambda a: a))
 
     def test_is_collection(self):
@@ -44,6 +58,7 @@ class type_util_test_case(unittest.TestCase):
         self.assertTrue(f(set([0, 1, 2])))
         self.assertTrue(f({'a':0, 'b':1, 'c':2}))
         self.assertFalse(f('hello world'))
+        self.assertFalse(f('hello world'.encode('utf-8')))
         self.assertFalse(f(lambda a: a))
 
     def test_is_datetime(self):
@@ -60,6 +75,7 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(set([0, 1, 2])))
         self.assertFalse(f({'a':0, 'b':1, 'c':2}))
         self.assertFalse(f('hello world'))
+        self.assertFalse(f('hello world'.encode('utf-8')))
         self.assertFalse(f(lambda a: a))
 
     def test_is_decimal(self):
@@ -76,6 +92,7 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(set([0, 1, 2])))
         self.assertFalse(f({'a':0, 'b':1, 'c':2}))
         self.assertFalse(f('hello world'))
+        self.assertFalse(f('hello world'.encode('utf-8')))
         self.assertFalse(f(lambda a: a))
 
     def test_is_dict(self):
@@ -92,6 +109,7 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(set([0, 1, 2])))
         self.assertTrue(f({'a':0, 'b':1, 'c':2}))
         self.assertFalse(f('hello world'))
+        self.assertFalse(f('hello world'.encode('utf-8')))
         self.assertFalse(f(lambda a: a))
 
     def test_is_dict_or_list(self):
@@ -108,6 +126,7 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(set([0, 1, 2])))
         self.assertTrue(f({'a':0, 'b':1, 'c':2}))
         self.assertFalse(f('hello world'))
+        self.assertFalse(f('hello world'.encode('utf-8')))
         self.assertFalse(f(lambda a: a))
 
     def test_is_float(self):
@@ -124,6 +143,7 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(set([0, 1, 2])))
         self.assertFalse(f({'a':0, 'b':1, 'c':2}))
         self.assertFalse(f('hello world'))
+        self.assertFalse(f('hello world'.encode('utf-8')))
         self.assertFalse(f(lambda a: a))
 
     def test_is_function(self):
@@ -140,6 +160,7 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(set([0, 1, 2])))
         self.assertFalse(f({'a':0, 'b':1, 'c':2}))
         self.assertFalse(f('hello world'))
+        self.assertFalse(f('hello world'.encode('utf-8')))
         self.assertTrue(f(lambda a: a))
 
     def test_is_integer(self):
@@ -156,6 +177,7 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(set([0, 1, 2])))
         self.assertFalse(f({'a':0, 'b':1, 'c':2}))
         self.assertFalse(f('hello world'))
+        self.assertFalse(f('hello world'.encode('utf-8')))
         self.assertFalse(f(lambda a: a))
 
     def test_is_json_serializable(self):
@@ -172,6 +194,7 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(set([0, 1, 2])))
         self.assertTrue(f({'a':0, 'b':1, 'c':2}))
         self.assertTrue(f('hello world'))
+        self.assertFalse(f('hello world'.encode('utf-8')))
         self.assertFalse(f(lambda a: a))
 
     def test_is_list(self):
@@ -188,6 +211,7 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(set([0, 1, 2])))
         self.assertFalse(f({'a':0, 'b':1, 'c':2}))
         self.assertFalse(f('hello world'))
+        self.assertFalse(f('hello world'.encode('utf-8')))
         self.assertFalse(f(lambda a: a))
 
     def test_is_list_or_tuple(self):
@@ -204,6 +228,7 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(set([0, 1, 2])))
         self.assertFalse(f({'a':0, 'b':1, 'c':2}))
         self.assertFalse(f('hello world'))
+        self.assertFalse(f('hello world'.encode('utf-8')))
         self.assertFalse(f(lambda a: a))
 
     def test_is_none(self):
@@ -220,6 +245,7 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(set([0, 1, 2])))
         self.assertFalse(f({'a':0, 'b':1, 'c':2}))
         self.assertFalse(f('hello world'))
+        self.assertFalse(f('hello world'.encode('utf-8')))
         self.assertFalse(f(lambda a: a))
 
     def test_is_not_none(self):
@@ -236,6 +262,7 @@ class type_util_test_case(unittest.TestCase):
         self.assertTrue(f(set([0, 1, 2])))
         self.assertTrue(f({'a':0, 'b':1, 'c':2}))
         self.assertTrue(f('hello world'))
+        self.assertTrue(f('hello world'.encode('utf-8')))
         self.assertTrue(f(lambda a: a))
 
     def test_is_set(self):
@@ -252,6 +279,7 @@ class type_util_test_case(unittest.TestCase):
         self.assertTrue(f(set([0, 1, 2])))
         self.assertFalse(f({'a':0, 'b':1, 'c':2}))
         self.assertFalse(f('hello world'))
+        self.assertFalse(f('hello world'.encode('utf-8')))
         self.assertFalse(f(lambda a: a))
 
     def test_is_string(self):
@@ -268,6 +296,7 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(set([0, 1, 2])))
         self.assertFalse(f({'a':0, 'b':1, 'c':2}))
         self.assertTrue(f('hello world'))
+        self.assertFalse(f('hello world'.encode('utf-8')))
         self.assertFalse(f(lambda a: a))
 
     def test_is_tuple(self):
@@ -284,4 +313,5 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(set([0, 1, 2])))
         self.assertFalse(f({'a':0, 'b':1, 'c':2}))
         self.assertFalse(f('hello world'))
+        self.assertFalse(f('hello world'.encode('utf-8')))
         self.assertFalse(f(lambda a: a))
