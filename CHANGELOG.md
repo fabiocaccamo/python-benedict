@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.18.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.18.0) - 2020-02-21
+-   Added `from_pickle` and `to_pickle` methods.
+-   Added `PickleSerializer`.
+-   Added `datetime`, `Decimal` and `set` support to `JSONSerializer`.
+-   Updated `dump` method to use `JSONSerializer`.
+-   Refactored `Base64Serializer`.
+-   Fixed `type_util.is_json_serializable` with `set` objects.
+-   Fixed `search` method for int no results - #7
+-   Improved `invert` method to handles correctly lists and tuples.
+-   Improved `io_util.read_file` and `io_util.write_file methods`.
+-   Improved code quality and CI.
+
 ## [0.17.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.17.0) - 2020-02-06
 -   Added `groupby` utility method.
 -   Added `nest` utility method.
