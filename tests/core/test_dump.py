@@ -10,6 +10,10 @@ import unittest
 
 class dump_test_case(unittest.TestCase):
 
+    @staticmethod
+    def _rstrip_lines(s):
+        return '\n'.join([line.rstrip() for line in s.splitlines()])
+
     def test_dump(self):
         d = {
             'a': {
@@ -26,7 +30,7 @@ class dump_test_case(unittest.TestCase):
     }
 }"""
         o = _dump(d)
-        self.assertEqual(o, r)
+        self.assertEqual(self._rstrip_lines(o), r)
 
     def test_dump_with_datetime(self):
         d = {
@@ -36,7 +40,7 @@ class dump_test_case(unittest.TestCase):
     "datetime": "2019-06-11T00:00:00"
 }"""
         o = _dump(d)
-        self.assertEqual(o, r)
+        self.assertEqual(self._rstrip_lines(o), r)
 
     def test_dump_with_set(self):
         d = {
@@ -53,8 +57,7 @@ class dump_test_case(unittest.TestCase):
     ]
 }"""
         o = _dump(d)
-        if PY3:
-            self.assertEqual(o, r)
+        self.assertEqual(self._rstrip_lines(o), r)
 
     def test_dump_with_unsortable_keys(self):
         d = {
