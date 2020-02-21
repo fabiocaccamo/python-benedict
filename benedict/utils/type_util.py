@@ -2,11 +2,7 @@
 
 from datetime import datetime
 from decimal import Decimal
-from six import binary_type, integer_types, string_types
-
-
-def is_binary(val):
-    return isinstance(val, binary_type)
+from six import integer_types, string_types
 
 
 def is_bool(val):
