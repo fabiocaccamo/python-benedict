@@ -13,14 +13,14 @@
 [![](https://requires.io/github/fabiocaccamo/python-benedict/requirements.svg?branch=master)](https://requires.io/github/fabiocaccamo/python-benedict/requirements/?branch=master)
 
 # python-benedict
-python-benedict is a dict subclass with **keylist/keypath** support, **I/O** shortcuts (`Base64`, `CSV`, `JSON`, `TOML`, `XML`, `YAML`, `query-string`) and many **utilities**... for humans, obviously.
+python-benedict is a dict subclass with **keylist/keypath** support, **I/O** shortcuts (`Base64`, `CSV`, `JSON`, `TOML`, `XML`, `YAML`, `pickle`, `query-string`) and many **utilities**... for humans, obviously.
 
 ## Features
 -   100% **backward-compatible**, you can safely wrap existing dictionaries.
 -   **Keylist** support using **list of keys** as key.
 -   **Keypath** support using **keypath-separator** *(dot syntax by default)*.
 -   Keypath **list-index** support  *(also negative)* using the standard `[n]` suffix.
--   Easy **I/O operations** with most common formats: `Base64`, `CSV`, `JSON`, `TOML`, `XML`, `YAML`, `query-string`.
+-   Easy **I/O operations** with most common formats: `Base64`, `CSV`, `JSON`, `TOML`, `XML`, `YAML`, `pickle`, `query-string`.
 -   Many **utility** and **parse methods** to retrieve data as needed *(check the [API](#api) section)*.
 -   Well **tested**. ;)
 
@@ -183,6 +183,7 @@ lng = loc.get_decimal('longitude')
     -   [`from_base64`](#from_base64)
     -   [`from_csv`](#from_csv)
     -   [`from_json`](#from_json)
+    -   [`from_pickle`](#from_pickle)
     -   [`from_query_string`](#from_query_string)
     -   [`from_toml`](#from_toml)
     -   [`from_xml`](#from_xml)
@@ -190,6 +191,7 @@ lng = loc.get_decimal('longitude')
     -   [`to_base64`](#to_base64)
     -   [`to_csv`](#to_csv)
     -   [`to_json`](#to_json)
+    -   [`to_pickle`](#to_pickle)
     -   [`to_query_string`](#to_query_string)
     -   [`to_toml`](#to_toml)
     -   [`to_xml`](#to_xml)
@@ -417,7 +419,7 @@ d = benedict('https://localhost:8000/data.xml', format='xml')
 d = benedict('{"a": 1, "b": 2, "c": 3, "x": 7, "y": 8, "z": 9}')
 ```
 
-These methods simplify I/O operations with most common formats: `base64`, `csv`, `json`, `toml`, `xml`, `yaml`, `query-string`
+These methods simplify I/O operations with most common formats: `base64`, `csv`, `json`, `toml`, `xml`, `yaml`, `pickle`, `query-string`
 
 In all `from_*` methods, the first argument can be: **url**, **filepath** or **data-string**.
 
@@ -428,7 +430,8 @@ In all `to_*` methods, if `filepath='...'` kwarg is specified, the output will b
 ```python
 # Try to load/decode a base64 encoded data and return it as benedict instance.
 # Accept as first argument: url, filepath or data-string.
-# It's possible to choose the subformat used under the hood (`csv`, `json`, `query-string`, `toml`, `xml`, `yaml`), default: 'json'.
+# It's possible to choose the subformat used under the hood:
+# (`csv`, `json`, `query-string`, `toml`, `xml`, `yaml`), default: 'json'.
 # It's possible to choose the encoding, default 'utf-8'.
 # A ValueError is raised in case of failure.
 d = benedict.from_base64(s, subformat='json', encoding='utf-8', **kwargs)
@@ -440,7 +443,8 @@ d = benedict.from_base64(s, subformat='json', encoding='utf-8', **kwargs)
 # Try to load/decode a csv encoded data and return it as benedict instance.
 # Accept as first argument: url, filepath or data-string.ù
 # It's possible to specify the columns list, default: None (in this case the first row values will be used as keys).
-# It's possible to pass decoder specific options using kwargs: https://docs.python.org/3/library/csv.html
+# It's possible to pass decoder specific options using kwargs:
+# https://docs.python.org/3/library/csv.html
 # A ValueError is raised in case of failure.
 d = benedict.from_csv(s, columns=None, columns_row=True, **kwargs)
 ```
@@ -450,9 +454,21 @@ d = benedict.from_csv(s, columns=None, columns_row=True, **kwargs)
 ```python
 # Try to load/decode a json encoded data and return it as benedict instance.
 # Accept as first argument: url, filepath or data-string.
-# It's possible to pass decoder specific options using kwargs: https://docs.python.org/3/library/json.html
+# It's possible to pass decoder specific options using kwargs:
+# https://docs.python.org/3/library/json.html
 # A ValueError is raised in case of failure.
 d = benedict.from_json(s, **kwargs)
+```
+
+-   #### from_pickle
+
+```python
+# Try to load/decode a pickle encoded in Base64 format and return it as benedict instance.
+# Accept as first argument: url, filepath or data-string.
+# It's possible to pass decoder specific options using kwargs:
+# https://docs.python.org/3/library/pickle.html
+# A ValueError is raised in case of failure.
+d = benedict.from_pickle(s, **kwargs)
 ```
 
 -   #### from_query_string
@@ -469,7 +485,8 @@ d = benedict.from_query_string(s, **kwargs)
 ```python
 # Try to load/decode a toml encoded data and return it as benedict instance.
 # Accept as first argument: url, filepath or data-string.
-# It's possible to pass decoder specific options using kwargs: https://pypi.org/project/toml/
+# It's possible to pass decoder specific options using kwargs:
+# https://pypi.org/project/toml/
 # A ValueError is raised in case of failure.
 d = benedict.from_toml(s, **kwargs)
 ```
@@ -479,7 +496,8 @@ d = benedict.from_toml(s, **kwargs)
 ```python
 # Try to load/decode a xml encoded data and return it as benedict instance.
 # Accept as first argument: url, filepath or data-string.
-# It's possible to pass decoder specific options using kwargs: https://github.com/martinblech/xmltodict
+# It's possible to pass decoder specific options using kwargs:
+# https://github.com/martinblech/xmltodict
 # A ValueError is raised in case of failure.
 d = benedict.from_xml(s, **kwargs)
 ```
@@ -489,7 +507,8 @@ d = benedict.from_xml(s, **kwargs)
 ```python
 # Try to load/decode a yaml encoded data and return it as benedict instance.
 # Accept as first argument: url, filepath or data-string.
-# It's possible to pass decoder specific options using kwargs: https://pyyaml.org/wiki/PyYAMLDocumentation
+# It's possible to pass decoder specific options using kwargs:
+# https://pyyaml.org/wiki/PyYAMLDocumentation
 # A ValueError is raised in case of failure.
 d = benedict.from_yaml(s, **kwargs)
 ```
@@ -498,7 +517,8 @@ d = benedict.from_yaml(s, **kwargs)
 
 ```python
 # Return the dict instance encoded in base64 format and optionally save it at the specified 'filepath'.
-# It's possible to choose the subformat used under the hood ('csv', json', `query-string`, 'toml', 'xml', 'yaml'), default: 'json'.
+# It's possible to choose the subformat used under the hood:
+# ('csv', json', `query-string`, 'toml', 'xml', 'yaml'), default: 'json'.
 # It's possible to choose the encoding, default 'utf-8'.
 # It's possible to pass decoder specific options using kwargs.
 # A ValueError is raised in case of failure.
@@ -519,9 +539,21 @@ d = benedict.to_csv(key='values', columns=None, columns_row=True, **kwargs)
 
 ```python
 # Return the dict instance encoded in json format and optionally save it at the specified filepath.
-# It's possible to pass encoder specific options using kwargs: https://docs.python.org/3/library/json.html
+# It's possible to pass encoder specific options using kwargs:
+# https://docs.python.org/3/library/json.html
 # A ValueError is raised in case of failure.
 s = d.to_json(**kwargs)
+```
+
+-   #### to_pickle
+
+```python
+# Return the dict instance as pickle encoded in Base64 format and optionally save it at the specified filepath.
+# The pickle highest protocol is used by default: protocol=pickle.HIGHEST_PROTOCOL
+# It's possible to pass encoder specific options using kwargs:
+# https://docs.python.org/3/library/pickle.html
+# A ValueError is raised in case of failure.
+s = d.to_pickle(**kwargs)
 ```
 
 -   #### to_query_string
@@ -536,7 +568,8 @@ s = d.to_query_string(**kwargs)
 
 ```python
 # Return the dict instance encoded in toml format and optionally save it at the specified filepath.
-# It's possible to pass encoder specific options using kwargs: https://pypi.org/project/toml/
+# It's possible to pass encoder specific options using kwargs:
+# https://pypi.org/project/toml/
 # A ValueError is raised in case of failure.
 s = d.to_toml(**kwargs)
 ```
@@ -545,7 +578,8 @@ s = d.to_toml(**kwargs)
 
 ```python
 # Return the dict instance encoded in xml format and optionally save it at the specified filepath.
-# It's possible to pass encoder specific options using kwargs: https://github.com/martinblech/xmltodict
+# It's possible to pass encoder specific options using kwargs:
+# https://github.com/martinblech/xmltodict
 # A ValueError is raised in case of failure.
 s = d.to_xml(**kwargs)
 ```
@@ -555,7 +589,8 @@ s = d.to_xml(**kwargs)
 ```python
 # Return the dict instance encoded in yaml format.
 # If filepath option is passed the output will be saved ath
-# It's possible to pass encoder specific options using kwargs: https://pyyaml.org/wiki/PyYAMLDocumentation
+# It's possible to pass encoder specific options using kwargs:
+# https://pyyaml.org/wiki/PyYAMLDocumentation
 # A ValueError is raised in case of failure.
 s = d.to_yaml(**kwargs)
 ```
