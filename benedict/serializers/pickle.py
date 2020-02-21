@@ -20,6 +20,6 @@ class PickleSerializer(AbstractSerializer):
 
     def encode(self, d, **kwargs):
         encoding = kwargs.pop('encoding', 'utf-8')
-        kwargs.setdefault('protocol', pickle.HIGHEST_PROTOCOL)
+        kwargs.setdefault('protocol', 2)
         return base64.b64encode(
             pickle.dumps(d, **kwargs)).decode(encoding)

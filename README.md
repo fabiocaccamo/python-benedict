@@ -549,7 +549,7 @@ s = d.to_json(**kwargs)
 
 ```python
 # Return the dict instance as pickle encoded in Base64 format and optionally save it at the specified filepath.
-# The pickle highest protocol is used by default: protocol=pickle.HIGHEST_PROTOCOL
+# The pickle protocol used by default is 2.
 # It's possible to pass encoder specific options using kwargs:
 # https://docs.python.org/3/library/pickle.html
 # A ValueError is raised in case of failure.

@@ -17,21 +17,9 @@ class io_dict_pickle_test_case(io_dict_test_case):
 
     @staticmethod
     def _get_pickle_encoded():
-        return 'gASVNAAAAAAAAAB9lIwEZGF0ZZSMCGRhdGV0aW1llIwIZGF0ZXRpbWWUk5RDCgfBBAMAAAAAAACUhZRSlHMu'
+        return 'gAJ9cQBYBAAAAGRhdGVxAWNkYXRldGltZQpkYXRldGltZQpxAmNfY29kZWNzCmVuY29kZQpxA1gLAAAAB8OBBAMAAAAAAABxBFgGAAAAbGF0aW4xcQWGcQZScQeFcQhScQlzLg=='
 
     def test_from_pickle_with_valid_data(self):
-        j = self._get_pickle_encoded()
-        r = self._get_pickle_decoded()
-        # static method
-        d = IODict.from_pickle(j)
-        self.assertTrue(isinstance(d, dict))
-        self.assertEqual(d, r)
-        # constructor
-        d = IODict(j, format='pickle')
-        self.assertTrue(isinstance(d, dict))
-        self.assertEqual(d, r)
-
-    def test_from_pickle_with_valid_data_without_padding(self):
         j = self._get_pickle_encoded()
         r = self._get_pickle_decoded()
         # static method

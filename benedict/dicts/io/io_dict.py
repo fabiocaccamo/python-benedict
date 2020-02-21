@@ -168,7 +168,7 @@ class IODict(dict):
     def to_pickle(self, **kwargs):
         """
         Encode the current dict instance as pickle (encoded in Base64).
-        The pickle highest protocol is used by default: protocol=pickle.HIGHEST_PROTOCOL
+        The pickle protocol used by default is 2.
         Encoder specific options can be passed using kwargs:
         https://docs.python.org/3/library/pickle.html
         Return the encoded string and optionally save it at 'filepath'.

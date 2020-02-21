@@ -10,7 +10,7 @@ import unittest
 class pickle_serializer_test_case(unittest.TestCase):
 
     # def test_decode_pickle(self):
-    #     s = 'gAN9cQBYBAAAAGRhdGVxAWNkYXRldGltZQpkYXRldGltZQpxAkMKB8EEAwAAAAAAAHEDhXEEUnEFcy4='
+    #     s = 'gAJ9cQBYBAAAAGRhdGVxAWNkYXRldGltZQpkYXRldGltZQpxAmNfY29kZWNzCmVuY29kZQpxA1gLAAAAB8OBBAMAAAAAAABxBFgGAAAAbGF0aW4xcQWGcQZScQeFcQhScQlzLg=='
     #     d = PickleSerializer().decode(s)
     #     r = {
     #         'date': dt.datetime(year=1985, month=4, day=3),
@@ -22,7 +22,7 @@ class pickle_serializer_test_case(unittest.TestCase):
     #         'date': dt.datetime(year=1985, month=4, day=3),
     #     }
     #     s = PickleSerializer().encode(d)
-    #     r = 'gAN9cQBYBAAAAGRhdGVxAWNkYXRldGltZQpkYXRldGltZQpxAkMKB8EEAwAAAAAAAHEDhXEEUnEFcy4='
+    #     r = 'gAJ9cQBYBAAAAGRhdGVxAWNkYXRldGltZQpkYXRldGltZQpxAmNfY29kZWNzCmVuY29kZQpxA1gLAAAAB8OBBAMAAAAAAABxBFgGAAAAbGF0aW4xcQWGcQZScQeFcQhScQlzLg=='
     #     self.assertEqual(s, r)
 
     def test_encode_decode_pickle(self):
