@@ -35,7 +35,7 @@ class Base64CoreSerializer(AbstractSerializer):
         if encoding:
             value = value.encode(encoding)
         value = base64.b64decode(value)
-        if encoding and type_util.is_string(value):
+        if encoding:
             return value.decode(encoding)
         return value
 
