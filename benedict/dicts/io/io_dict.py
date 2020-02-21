@@ -84,6 +84,16 @@ class IODict(dict):
         return cls(IODict._decode(s, 'csv', **kwargs))
 
     @classmethod
+    def from_pickle(cls, s, **kwargs):
+        """
+        Load and decode a pickle encoded in Base64 format data from url, filepath or data-string.
+        Decoder specific options can be passed using kwargs:
+        https://docs.python.org/3/library/pickle.html
+        Return a new dict instance. A ValueError is raised in case of failure.
+        """
+        return cls(IODict._decode(s, 'pickle', **kwargs))
+
+    @classmethod
     def from_json(cls, s, **kwargs):
         """
         Load and decode JSON data from url, filepath or data-string.
@@ -154,6 +164,17 @@ class IODict(dict):
         kwargs['columns'] = columns
         kwargs['columns_row'] = columns_row
         return IODict._encode(self[key], 'csv', **kwargs)
+
+    def to_pickle(self, **kwargs):
+        """
+        Encode the current dict instance as pickle (encoded in Base64).
+        The pickle highest protocol is used by default: protocol=pickle.HIGHEST_PROTOCOL
+        Encoder specific options can be passed using kwargs:
+        https://docs.python.org/3/library/pickle.html
+        Return the encoded string and optionally save it at 'filepath'.
+        A ValueError is raised in case of failure.
+        """
+        return IODict._encode(self, 'pickle', **kwargs)
 
     def to_json(self, **kwargs):
         """
