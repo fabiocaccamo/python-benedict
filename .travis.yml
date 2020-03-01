@@ -1,28 +1,13 @@
 os: linux
 language: python
 cache: pip
-jobs:
-  include:
-    - python: "2.7"
-      env:
-        - TOX_ENV=py27
-    - python: "3.5"
-      env:
-        - TOX_ENV=py35
-    - python: "3.6"
-      env:
-        - TOX_ENV=py36
-    - dist: xenial
-      language: python
-      python: "3.7"
-      env:
-        - TOX_ENV=py37
-    - dist: xenial
-      language: python
-      python: "3.8"
-      env:
-        - TOX_ENV=py38
+python:
+  - "2.7"
+  - "3.5"
+  - "3.6"
+  - "3.7"
+  - "3.8"
 install:
-  - pip install tox
+  - pip install tox-travis
 script:
-  - tox -e $TOX_ENV
+  - tox
