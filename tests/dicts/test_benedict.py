@@ -607,6 +607,42 @@ class benedict_test_case(unittest.TestCase):
         self.assertTrue(isinstance(d, benedict))
         self.assertEqual(d, { 'a':1, 'b':{ 'c':3, 'd':4 },})
 
+    def test_from_yaml_with_keypath_separator_in_keys(self):
+        # fix: https://github.com/fabiocaccamo/python-benedict/issues/12
+        j = """
+192.168.0.1:
+  test: value
+  test2: value2
+value:
+  value_with_period: 12.34.45
+"""
+        with self.assertRaises(ValueError):
+            # static method
+            d = benedict.from_yaml(j)
+            self.assertTrue(isinstance(d, dict))
+            self.assertEqual(d, { 'a':1, 'b':{ 'c':3, 'd':4 },})
+            # constructor
+            d = benedict(j, format='yaml')
+            self.assertTrue(isinstance(d, dict))
+            self.assertEqual(d, { 'a':1, 'b':{ 'c':3, 'd':4 },})
+        r = {
+            '192.168.0.1': {
+                'test':'value',
+                'test2':'value2',
+            },
+            'value': {
+                'value_with_period':'12.34.45',
+            },
+        }
+        # static method
+        d = benedict.from_yaml(j, keypath_separator=None)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, r)
+        # constructor
+        d = benedict(j, format='yaml', keypath_separator=None)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, r)
+
     def test_from_xml(self):
         j = """
 <?xml version="1.0" ?>

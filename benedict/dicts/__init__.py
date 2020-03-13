@@ -28,7 +28,7 @@ from benedict.dicts.keypath import KeypathDict
 from benedict.dicts.parse import ParseDict
 
 
-class benedict(IODict, KeypathDict, ParseDict):
+class benedict(KeypathDict, IODict, ParseDict):
 
     def __init__(self, *args, **kwargs):
         """
