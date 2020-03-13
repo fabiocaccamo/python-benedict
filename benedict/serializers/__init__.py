@@ -39,6 +39,14 @@ _SERIALIZERS_EXTENSIONS = [
     '.{}'.format(extension) for extension in _SERIALIZERS.keys()]
 
 
+def get_format_by_path(path):
+    path = path.lower()
+    for extension in _SERIALIZERS_EXTENSIONS:
+        if path.endswith(extension):
+            return extension[1:]
+    return None
+
+
 def get_serializer_by_format(format):
     return _SERIALIZERS.get((format or '').lower().replace(' ', '_'))
 

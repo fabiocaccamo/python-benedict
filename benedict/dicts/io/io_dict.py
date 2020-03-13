@@ -13,15 +13,15 @@ class IODict(dict):
         # if first argument is data-string, url or filepath try to decode it.
         # use 'format' kwarg to specify the decoder to use, default 'json'.
         if len(args) and type_util.is_string(args[0]):
-            d = IODict._decode_init(args[0], *args, **kwargs)
+            d = IODict._decode_init(args[0], **kwargs)
             super(IODict, self).__init__(d)
             return
         super(IODict, self).__init__(*args, **kwargs)
 
     @staticmethod
-    def _decode_init(s, *args, **kwargs):
-        # TODO: auto-detect format value from file extension, fallback to json.
-        format = kwargs.pop('format', 'json').lower()
+    def _decode_init(s, **kwargs):
+        default_format = io_util.autodetect_format(s, default='json')
+        format = kwargs.pop('format', default_format).lower()
         if format in ['b64', 'base64']:
             kwargs.setdefault('subformat', 'json')
         # decode data-string and initialize with dict data.
@@ -69,7 +69,7 @@ class IODict(dict):
         """
         kwargs['subformat'] = subformat
         kwargs['encoding'] = encoding
-        return cls(IODict._decode(s, 'base64', **kwargs))
+        return cls(s, format='base64', **kwargs)
 
     @classmethod
     def from_csv(cls, s, columns=None, columns_row=True, **kwargs):
@@ -81,7 +81,7 @@ class IODict(dict):
         """
         kwargs['columns'] = columns
         kwargs['columns_row'] = columns_row
-        return cls(IODict._decode(s, 'csv', **kwargs))
+        return cls(s, format='csv', **kwargs)
 
     @classmethod
     def from_pickle(cls, s, **kwargs):
@@ -91,7 +91,7 @@ class IODict(dict):
         https://docs.python.org/3/library/pickle.html
         Return a new dict instance. A ValueError is raised in case of failure.
         """
-        return cls(IODict._decode(s, 'pickle', **kwargs))
+        return cls(s, format='pickle', **kwargs)
 
     @classmethod
     def from_json(cls, s, **kwargs):
@@ -101,7 +101,7 @@ class IODict(dict):
         https://docs.python.org/3/library/json.html
         Return a new dict instance. A ValueError is raised in case of failure.
         """
-        return cls(IODict._decode(s, 'json', **kwargs))
+        return cls(s, format='json', **kwargs)
 
     @classmethod
     def from_query_string(cls, s, **kwargs):
@@ -109,7 +109,7 @@ class IODict(dict):
         Load and decode query-string from url, filepath or data-string.
         Return a new dict instance. A ValueError is raised in case of failure.
         """
-        return cls(IODict._decode(s, 'query_string', **kwargs))
+        return cls(s, format='query_string', **kwargs)
 
     @classmethod
     def from_toml(cls, s, **kwargs):
@@ -119,7 +119,7 @@ class IODict(dict):
         https://pypi.org/project/toml/
         Return a new dict instance. A ValueError is raised in case of failure.
         """
-        return cls(IODict._decode(s, 'toml', **kwargs))
+        return cls(s, format='toml', **kwargs)
 
     @classmethod
     def from_xml(cls, s, **kwargs):
@@ -129,7 +129,7 @@ class IODict(dict):
         https://github.com/martinblech/xmltodict
         Return a new dict instance. A ValueError is raised in case of failure.
         """
-        return cls(IODict._decode(s, 'xml', **kwargs))
+        return cls(s, format='xml', **kwargs)
 
     @classmethod
     def from_yaml(cls, s, **kwargs):
@@ -139,7 +139,7 @@ class IODict(dict):
         https://pyyaml.org/wiki/PyYAMLDocumentation
         Return a new dict instance. A ValueError is raised in case of failure.
         """
-        return cls(IODict._decode(s, 'yaml', **kwargs))
+        return cls(s, format='yaml', **kwargs)
 
     def to_base64(self, subformat='json', encoding='utf-8', **kwargs):
         """
@@ -151,7 +151,7 @@ class IODict(dict):
         """
         kwargs['subformat'] = subformat
         kwargs['encoding'] = encoding
-        return IODict._encode(self, 'base64', **kwargs)
+        return self._encode(self, 'base64', **kwargs)
 
     def to_csv(self, key='values', columns=None, columns_row=True, **kwargs):
         """
@@ -163,7 +163,7 @@ class IODict(dict):
         """
         kwargs['columns'] = columns
         kwargs['columns_row'] = columns_row
-        return IODict._encode(self[key], 'csv', **kwargs)
+        return self._encode(self[key], 'csv', **kwargs)
 
     def to_pickle(self, **kwargs):
         """
@@ -174,7 +174,7 @@ class IODict(dict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return IODict._encode(self, 'pickle', **kwargs)
+        return self._encode(self, 'pickle', **kwargs)
 
     def to_json(self, **kwargs):
         """
@@ -184,7 +184,7 @@ class IODict(dict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return IODict._encode(self, 'json', **kwargs)
+        return self._encode(self, 'json', **kwargs)
 
     def to_query_string(self, **kwargs):
         """
@@ -192,7 +192,7 @@ class IODict(dict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return IODict._encode(self, 'query_string', **kwargs)
+        return self._encode(self, 'query_string', **kwargs)
 
     def to_toml(self, **kwargs):
         """
@@ -202,7 +202,7 @@ class IODict(dict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return IODict._encode(self, 'toml', **kwargs)
+        return self._encode(self, 'toml', **kwargs)
 
     def to_xml(self, **kwargs):
         """
@@ -212,7 +212,7 @@ class IODict(dict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return IODict._encode(self, 'xml', **kwargs)
+        return self._encode(self, 'xml', **kwargs)
 
     def to_yaml(self, **kwargs):
         """
@@ -222,4 +222,4 @@ class IODict(dict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return IODict._encode(self, 'yaml', **kwargs)
+        return self._encode(self, 'yaml', **kwargs)

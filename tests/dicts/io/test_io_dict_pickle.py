@@ -48,6 +48,9 @@ class io_dict_pickle_test_case(io_dict_test_case):
         # constructor
         d = IODict(filepath, format='pickle')
         self.assertTrue(isinstance(d, dict))
+        # constructor with format autodetection
+        d = IODict(filepath)
+        self.assertTrue(isinstance(d, dict))
 
     def test_from_pickle_with_valid_file_valid_content_invalid_format(self):
         filepath = self.input_path('valid-content.json')
@@ -91,6 +94,9 @@ class io_dict_pickle_test_case(io_dict_test_case):
         self.assertTrue(isinstance(d, dict))
         # constructor
         d = IODict(url, format='pickle')
+        self.assertTrue(isinstance(d, dict))
+        # constructor with format autodetection
+        d = IODict(url)
         self.assertTrue(isinstance(d, dict))
 
     def test_from_pickle_with_valid_url_invalid_content(self):

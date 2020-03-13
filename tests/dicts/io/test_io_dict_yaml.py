@@ -40,6 +40,9 @@ b:
         # constructor
         d = IODict(filepath, format='yaml')
         self.assertTrue(isinstance(d, dict))
+        # constructor with format autodetection
+        d = IODict(filepath)
+        self.assertTrue(isinstance(d, dict))
 
     def test_from_yaml_with_valid_file_valid_content_invalid_format(self):
         filepath = self.input_path('valid-content.base64')
@@ -83,6 +86,9 @@ b:
         self.assertTrue(isinstance(d, dict))
         # constructor
         d = IODict(url, format='yaml')
+        self.assertTrue(isinstance(d, dict))
+        # constructor with format autodetection
+        d = IODict(url)
         self.assertTrue(isinstance(d, dict))
 
     def test_from_yaml_with_valid_url_invalid_content(self):

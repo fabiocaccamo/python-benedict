@@ -1,11 +1,19 @@
 # -*- coding: utf-8 -*-
 
 from benedict.serializers import (
-    get_serializer_by_format, get_serializers_extensions, )
+    get_format_by_path, get_serializer_by_format, get_serializers_extensions, )
 
 import errno
 import os
 import requests
+
+
+def autodetect_format(s, default=None):
+    if is_data(s):
+        return default
+    elif is_url(s) or is_filepath(s):
+        return get_format_by_path(s)
+    return default
 
 
 def decode(s, format, **kwargs):

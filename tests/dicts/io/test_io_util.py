@@ -11,6 +11,30 @@ class io_util_test_case(unittest.TestCase):
         # TODO
         pass
 
+    def test_autodetect_format_by_data(self):
+        s = '{"a": 1, "b": 2, "c": 3}'
+        self.assertEqual(io_util.autodetect_format(s), None)
+
+    def test_autodetect_format_by_data_with_default(self):
+        s = '{"a": 1, "b": 2, "c": 3}'
+        self.assertEqual(io_util.autodetect_format(s, default='json'), 'json')
+
+    def test_autodetect_format_by_path(self):
+        s = 'path-to/data.xml'
+        self.assertEqual(io_util.autodetect_format(s), 'xml')
+
+    def test_autodetect_format_by_path_with_unsupported_format(self):
+        s = 'path-to/data.jpg'
+        self.assertEqual(io_util.autodetect_format(s), None)
+
+    def test_autodetect_format_by_url(self):
+        s = 'https://github.com/fabiocaccamo/python-benedict.xml'
+        self.assertEqual(io_util.autodetect_format(s), 'xml')
+
+    def test_autodetect_format_by_url_with_unsupported_format(self):
+        s = 'https://github.com/fabiocaccamo/python-benedict.jpg'
+        self.assertEqual(io_util.autodetect_format(s), None)
+
     def test_decode_with_invalid_format(self):
         with self.assertRaises(ValueError):
             io_util.decode('', format='xxx')

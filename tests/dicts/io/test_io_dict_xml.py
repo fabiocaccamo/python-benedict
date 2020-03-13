@@ -44,6 +44,9 @@ class io_dict_xml_test_case(io_dict_test_case):
         # constructor
         d = IODict(filepath, format='xml')
         self.assertTrue(isinstance(d, dict))
+        # constructor with format autodetection
+        d = IODict(filepath)
+        self.assertTrue(isinstance(d, dict))
 
     def test_from_xml_with_valid_file_valid_content_invalid_format(self):
         filepath = self.input_path('valid-content.base64')
@@ -87,6 +90,9 @@ class io_dict_xml_test_case(io_dict_test_case):
         self.assertTrue(isinstance(d, dict))
         # constructor
         d = IODict(url, format='xml')
+        self.assertTrue(isinstance(d, dict))
+        # constructor with format autodetection
+        d = IODict(url)
         self.assertTrue(isinstance(d, dict))
 
     def test_from_xml_with_valid_url_invalid_content(self):
