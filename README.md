@@ -2,6 +2,7 @@
 [![](https://img.shields.io/pypi/v/python-benedict.svg?color=blue&logo=pypi&logoColor=white)](https://pypi.org/project/python-benedict/)
 [![](https://pepy.tech/badge/python-benedict)](https://pepy.tech/project/python-benedict)
 [![](https://img.shields.io/github/stars/fabiocaccamo/python-benedict?logo=github)](https://github.com/fabiocaccamo/python-benedict/)
+[![](https://badges.pufler.dev/visits/fabiocaccamo/python-benedict?label=visitors&color=blue)](https://badges.pufler.dev)
 [![](https://img.shields.io/pypi/l/python-benedict.svg?color=blue)](https://github.com/fabiocaccamo/python-benedict/blob/master/LICENSE.txt)
 
 [![](https://img.shields.io/travis/fabiocaccamo/python-benedict?logo=travis&label=build)](https://travis-ci.org/fabiocaccamo/python-benedict)
