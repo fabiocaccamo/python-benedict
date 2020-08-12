@@ -15,10 +15,6 @@ class io_util_test_case(unittest.TestCase):
         s = '{"a": 1, "b": 2, "c": 3}'
         self.assertEqual(io_util.autodetect_format(s), None)
 
-    def test_autodetect_format_by_data_with_default(self):
-        s = '{"a": 1, "b": 2, "c": 3}'
-        self.assertEqual(io_util.autodetect_format(s, default='json'), 'json')
-
     def test_autodetect_format_by_path(self):
         s = 'path-to/data.xml'
         self.assertEqual(io_util.autodetect_format(s), 'xml')

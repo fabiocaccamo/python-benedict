@@ -20,7 +20,8 @@ class IODict(dict):
 
     @staticmethod
     def _decode_init(s, **kwargs):
-        default_format = io_util.autodetect_format(s, default='json')
+        autodetected_format = io_util.autodetect_format(s)
+        default_format = autodetected_format or 'json'
         format = kwargs.pop('format', default_format).lower()
         if format in ['b64', 'base64']:
             kwargs.setdefault('subformat', 'json')

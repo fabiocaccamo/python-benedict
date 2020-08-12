@@ -82,6 +82,18 @@ class io_dict_json_test_case(io_dict_test_case):
         d = IODict(filepath)
         self.assertTrue(isinstance(d, dict))
 
+    def test_from_json_with_valid_file_valid_content_but_unexpected_extension(self):
+        filepath = self.input_path('valid-content.json.txt')
+        # static method
+        d = IODict.from_json(filepath)
+        self.assertTrue(isinstance(d, dict))
+        # constructor
+        d = IODict(filepath, format='json')
+        self.assertTrue(isinstance(d, dict))
+        # constructor with format autodetection
+        d = IODict(filepath)
+        self.assertTrue(isinstance(d, dict))
+
     def test_from_json_with_valid_file_valid_content_invalid_format(self):
         filepath = self.input_path('valid-content.base64')
         with self.assertRaises(ValueError):

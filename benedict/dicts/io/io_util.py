@@ -8,12 +8,10 @@ import os
 import requests
 
 
-def autodetect_format(s, default=None):
-    if is_data(s):
-        return default
-    elif is_url(s) or is_filepath(s):
+def autodetect_format(s):
+    if is_url(s) or is_filepath(s):
         return get_format_by_path(s)
-    return default
+    return None
 
 
 def decode(s, format, **kwargs):
@@ -38,8 +36,9 @@ def is_data(s):
 
 
 def is_filepath(s):
-    return any([s.endswith(extension)
-                for extension in get_serializers_extensions()])
+    if any([s.endswith(ext) for ext in get_serializers_extensions()]):
+        return True
+    return os.path.isfile(s)
 
 
 def is_url(s):
