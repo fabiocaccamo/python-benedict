@@ -26,11 +26,7 @@ class IODict(dict):
         if format in ['b64', 'base64']:
             kwargs.setdefault('subformat', 'json')
         # decode data-string and initialize with dict data.
-        try:
-            d = IODict._decode(s, format, **kwargs)
-            return d
-        except ValueError:
-            raise ValueError('Invalid string data input.')
+        return IODict._decode(s, format, **kwargs)
 
     @staticmethod
     def _decode(s, format, **kwargs):
