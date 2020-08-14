@@ -770,7 +770,6 @@ git clone https://github.com/fabiocaccamo/python-benedict.git src && cd src
 pip install --upgrade pip
 pip install -r requirements-dev.txt
 pip install -r requirements.txt
-pip install tox
 
 # run tests using tox
 tox
