@@ -757,8 +757,8 @@ d.get_str_list(key, default=[], separator=',')
 
 ## Testing
 ```bash
-# create python 3.8 virtual environment
-virtualenv testing_benedict -p "python3.8" --no-site-packages
+# create python virtual environment
+virtualenv testing_benedict
 
 # activate virtualenv
 cd testing_benedict && . bin/activate
