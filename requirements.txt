@@ -1,3 +1,5 @@
+codecov
+coverage
 ftfy
 mailchecker
 phonenumbers
@@ -7,4 +9,5 @@ pyyaml
 requests
 six
 toml
+tox
 xmltodict
