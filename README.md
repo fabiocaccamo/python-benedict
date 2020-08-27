@@ -160,6 +160,7 @@ lng = loc.get_decimal('longitude')
     -   [`clone`](#clone)
     -   [`dump`](#dump)
     -   [`filter`](#filter)
+    -   [`find`](#find)
     -   [`flatten`](#flatten)
     -   [`groupby`](#groupby)
     -   [`invert`](#invert)
@@ -263,6 +264,15 @@ print(d.dump())
 # Predicate function receives key, value arguments and should return a bool value.
 predicate = lambda k, v: v is not None
 f = d.filter(predicate)
+```
+
+-   #### find
+
+```python
+# Return the first match searching for the given keys/keypaths.
+# If no result found, default value is returned.
+keys = ['a.b.c', 'm.n.o', 'x.y.z']
+f = d.find(keys, default=0)
 ```
 
 -   #### flatten

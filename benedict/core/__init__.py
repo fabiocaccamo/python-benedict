@@ -4,6 +4,7 @@ from benedict.core.clean import clean
 from benedict.core.clone import clone
 from benedict.core.dump import dump
 from benedict.core.filter import filter
+from benedict.core.find import find
 from benedict.core.flatten import flatten
 from benedict.core.groupby import groupby
 from benedict.core.invert import invert

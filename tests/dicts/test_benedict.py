@@ -368,6 +368,21 @@ class benedict_test_case(unittest.TestCase):
         self.assertEqual(f, r)
         self.assertTrue(isinstance(f, benedict))
 
+    def test_filter(self):
+        d = {
+            'a': 1,
+            'b': 2,
+            'c': {
+                'd': {
+                    'e': 3,
+                    'f': 4,
+                }
+            },
+        }
+        b = benedict(d)
+        r = b.find(['x.y.z', 'a.b.c', 'c.d.e'])
+        self.assertEqual(r, 3)
+
     def test_flatten(self):
         d = {
             'a': 1,

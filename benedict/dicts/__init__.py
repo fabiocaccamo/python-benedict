@@ -4,6 +4,7 @@ from benedict.core import clean as _clean
 from benedict.core import clone as _clone
 from benedict.core import dump as _dump
 from benedict.core import filter as _filter
+from benedict.core import find as _find
 from benedict.core import flatten as _flatten
 from benedict.core import groupby as _groupby
 from benedict.core import invert as _invert
@@ -85,6 +86,13 @@ class benedict(KeypathDict, IODict, ParseDict):
         Predicate function receives key, value arguments and should return a bool value.
         """
         return _filter(self, predicate)
+
+    def find(self, keys, default=None):
+        """
+        Return the first match searching for the given keys.
+        If no result found, default value is returned.
+        """
+        return _find(self, keys, default)
 
     def flatten(self, separator='_'):
         """
