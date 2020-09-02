@@ -31,7 +31,7 @@ class pickle_serializer_test_case(unittest.TestCase):
         }
         serializer = PickleSerializer()
         s = serializer.encode(d)
-        print(s)
+        # print(s)
         self.assertTrue(type_util.is_string(s))
         r = serializer.decode(s)
         self.assertTrue(type_util.is_dict(d))
