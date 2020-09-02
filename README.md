@@ -327,7 +327,8 @@ print(k)
 ```python
 # Merge one or more dictionary objects into current instance (deepupdate).
 # Sub-dictionaries keys will be merged toghether.
-d.merge(a, b, c)
+# If overwrite is False, existing values will not be overwritten.
+d.merge(a, b, c, overwrite=True)
 ```
 
 -   #### move

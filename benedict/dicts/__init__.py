@@ -136,12 +136,13 @@ class benedict(KeypathDict, IODict, ParseDict):
         sep = self._keypath_separator or '.'
         return _keypaths(self, separator=sep)
 
-    def merge(self, other, *args):
+    def merge(self, other, *args, **kwargs):
         """
         Merge one or more dict objects into current instance (deepupdate).
         Sub-dictionaries will be merged toghether.
+        If overwrite is False, existing values will not be overwritten.
         """
-        _merge(self, other, *args)
+        _merge(self, other, *args, **kwargs)
 
     def move(self, key_src, key_dest):
         """

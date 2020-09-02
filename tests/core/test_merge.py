@@ -116,3 +116,70 @@ class merge_test_case(unittest.TestCase):
             },
         }
         self.assertEqual(d, r)
+
+    def test_merge_without_overwrite(self):
+        d = {
+            'a': 1,
+            'b': {
+                'c': {
+                    'x': 2,
+                    'y': 3,
+                },
+                'd': {
+                    'x': 4,
+                    'y': 5,
+                },
+                'e': {
+                    'x': 6,
+                    'y': 7,
+                },
+            },
+        }
+        m = {
+            'a': 0,
+            'b': {
+                'c': 1,
+                'd': {
+                    'y': 1,
+                    'z': 2,
+                },
+                'e': {
+                    'f': {
+                        'x': 2,
+                        'y': 3,
+                    },
+                    'g': {
+                        'x': 4,
+                        'y': 5,
+                    },
+                },
+            },
+        }
+        _merge(d, m, overwrite=False)
+        r = {
+            'a': 1,
+            'b': {
+                'c': {
+                    'x': 2,
+                    'y': 3,
+                },
+                'd': {
+                    'x': 4,
+                    'y': 5,
+                    'z': 2,
+                },
+                'e': {
+                    'f': {
+                        'x': 2,
+                        'y': 3,
+                    },
+                    'g': {
+                        'x': 4,
+                        'y': 5,
+                    },
+                    'x': 6,
+                    'y': 7,
+                },
+            },
+        }
+        self.assertEqual(d, r)
