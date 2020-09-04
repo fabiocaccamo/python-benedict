@@ -35,32 +35,22 @@ SERVER:
         # print(servers.dump())
         return dict(servers)
 
-    @unittest.skip('testing copy and pointers failure')
-    def test_copy_and_pointers_with_benedict_casting(self):
-        servers = benedict(self.load_dict())
-        s01_ptr=benedict(servers['SERVER.S01'])
-        s01_copy=benedict(servers['SERVER.S01'].copy())
-        s01_ptr['alias']='ptr_alias'
-        s01_ptr['location.building']='ptr_building'
-        s01_ptr['credentials.username']='ptr_unsername'
-        self.assertEqual(s01_ptr, s01_copy)
-
-    @unittest.skip('testing copy and pointers failure')
-    def test_copy_and_pointers_with_dict_casting(self):
-        servers = self.load_dict()
-        s01_ptr=dict(servers['SERVER']['S01'])
-        s01_copy=dict(servers['SERVER']['S01'].copy())
-        s01_ptr['alias']='ptr_alias'
-        s01_ptr['location']['building']='ptr_building'
-        s01_ptr['credentials']['username']='ptr_unsername'
-        self.assertEqual(s01_ptr, s01_copy)
-
-    @unittest.skip('testing copy and pointers failure')
-    def test_copy_and_pointers_with_dict(self):
-        servers = self.load_dict()
+    # @unittest.skip('testing main_dict and pointers failure')
+    def test_pointers_with_dict(self):
+        servers = dict(self.load_dict())
+        # s01_ptr=dict(servers['SERVER']['S01'])
         s01_ptr=servers['SERVER']['S01']
-        s01_copy=servers['SERVER']['S01'].copy()
         s01_ptr['alias']='ptr_alias'
         s01_ptr['location']['building']='ptr_building'
         s01_ptr['credentials']['username']='ptr_unsername'
-        self.assertEqual(s01_ptr, s01_copy)
+        self.assertEqual(s01_ptr, servers['SERVER']['S01'])
+
+    # @unittest.skip('testing copy and pointers failure')
+    def test_pointers_with_benedict_casting(self):
+        servers = benedict(self.load_dict())
+        # s01_ptr=benedict(servers['SERVER.S01'])
+        s01_ptr=servers['SERVER.S01']
+        s01_ptr['alias']='ptr_alias'
+        s01_ptr['location']['building']='ptr_building'
+        s01_ptr['credentials']['username']='ptr_unsername'
+        self.assertEqual(s01_ptr, servers['SERVER.S01'])
