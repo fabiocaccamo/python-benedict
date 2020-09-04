@@ -6,4 +6,4 @@ __description__ = 'python-benedict is a dict subclass with keylist/keypath suppo
 __email__ = 'fabio.caccamo@gmail.com'
 __license__ = 'MIT'
 __title__ = 'benedict'
-__version__ = '0.18.1'
+__version__ = '0.18.2'
