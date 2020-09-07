@@ -36,7 +36,7 @@ class KeylistDict(dict):
         elif type_util.is_list(parent):
             del parent[key]
             return
-        raise KeyError
+        raise KeyError(keys)
 
     def __getitem__(self, key):
         if type_util.is_list_or_tuple(key):
@@ -49,7 +49,7 @@ class KeylistDict(dict):
             return parent[key]
         elif type_util.is_list(parent):
             return parent[key]
-        raise KeyError
+        raise KeyError(keys)
 
     def __setitem__(self, key, value):
         if type_util.is_list_or_tuple(key):
