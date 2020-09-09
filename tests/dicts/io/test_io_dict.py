@@ -31,6 +31,14 @@ class io_dict_test_case(unittest.TestCase):
     def assertFileExists(self, filepath):
         self.assertTrue(os.path.isfile(filepath))
 
+    def test_init_with_key_value_list(self):
+        d = IODict(a='1', b='2', c='3')
+        self.assertEqual(d, {
+            'a': '1',
+            'b': '2',
+            'c': '3',
+        })
+
     def test_init_with_invalid_data(self):
         with self.assertRaises(ValueError):
             d = IODict('invalid json data')

@@ -12,7 +12,7 @@ class IODict(dict):
         """
         # if first argument is data-string, url or filepath try to decode it.
         # use 'format' kwarg to specify the decoder to use, default 'json'.
-        if len(args) and type_util.is_string(args[0]):
+        if len(args) == 1 and type_util.is_string(args[0]):
             d = IODict._decode_init(args[0], **kwargs)
             super(IODict, self).__init__(d)
             return
