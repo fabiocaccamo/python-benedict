@@ -3,6 +3,8 @@
 from benedict.serializers import (
     get_format_by_path, get_serializer_by_format, get_serializers_extensions, )
 
+from six import PY2
+
 import errno
 import os
 import requests
@@ -64,7 +66,8 @@ def read_content(s):
 def read_file(filepath):
     if os.path.isfile(filepath):
         content = ''
-        with open(filepath, 'r') as file:
+        options = {} if PY2 else { 'encoding':'utf-8' }
+        with open(filepath, 'r', **options) as file:
             content = file.read()
         return content
     return None
@@ -95,6 +98,7 @@ def write_file_dir(filepath):
 def write_file(filepath, content):
     # https://stackoverflow.com/questions/12517451/automatically-creating-directories-with-file-output
     write_file_dir(filepath)
-    with open(filepath, 'w+') as file:
+    options = {} if PY2 else { 'encoding':'utf-8' }
+    with open(filepath, 'w+', **options) as file:
         file.write(content)
     return True
