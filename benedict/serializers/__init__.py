@@ -10,6 +10,9 @@ from benedict.serializers.toml import TOMLSerializer
 from benedict.serializers.xml import XMLSerializer
 from benedict.serializers.yaml import YAMLSerializer
 
+import re
+
+
 _BASE64_SERIALIZER = Base64Serializer()
 _CSV_SERIALIZER = CSVSerializer()
 _JSON_SERIALIZER = JSONSerializer()
@@ -27,8 +30,6 @@ _SERIALIZERS = {
     'pickle': _PICKLE_SERIALIZER,
     'qs': _QUERY_STRING_SERIALIZER,
     'querystring': _QUERY_STRING_SERIALIZER,
-    'query-string': _QUERY_STRING_SERIALIZER,
-    'query_string': _QUERY_STRING_SERIALIZER,
     'toml': _TOML_SERIALIZER,
     'yaml': _YAML_SERIALIZER,
     'yml': _YAML_SERIALIZER,
@@ -48,7 +49,9 @@ def get_format_by_path(path):
 
 
 def get_serializer_by_format(format):
-    return _SERIALIZERS.get((format or '').lower().replace(' ', '_'))
+    format_key = (format or '').lower().strip()
+    format_key = re.sub(r'[\s\-\_]*', '', format_key)
+    return _SERIALIZERS.get(format_key)
 
 
 def get_serializers_extensions():
