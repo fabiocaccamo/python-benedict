@@ -81,16 +81,6 @@ class IODict(dict):
         return cls(s, format='csv', **kwargs)
 
     @classmethod
-    def from_pickle(cls, s, **kwargs):
-        """
-        Load and decode a pickle encoded in Base64 format data from url, filepath or data-string.
-        Decoder specific options can be passed using kwargs:
-        https://docs.python.org/3/library/pickle.html
-        Return a new dict instance. A ValueError is raised in case of failure.
-        """
-        return cls(s, format='pickle', **kwargs)
-
-    @classmethod
     def from_json(cls, s, **kwargs):
         """
         Load and decode JSON data from url, filepath or data-string.
@@ -99,6 +89,16 @@ class IODict(dict):
         Return a new dict instance. A ValueError is raised in case of failure.
         """
         return cls(s, format='json', **kwargs)
+
+    @classmethod
+    def from_pickle(cls, s, **kwargs):
+        """
+        Load and decode a pickle encoded in Base64 format data from url, filepath or data-string.
+        Decoder specific options can be passed using kwargs:
+        https://docs.python.org/3/library/pickle.html
+        Return a new dict instance. A ValueError is raised in case of failure.
+        """
+        return cls(s, format='pickle', **kwargs)
 
     @classmethod
     def from_query_string(cls, s, **kwargs):
@@ -162,6 +162,16 @@ class IODict(dict):
         kwargs['columns_row'] = columns_row
         return self._encode(self[key], 'csv', **kwargs)
 
+    def to_json(self, **kwargs):
+        """
+        Encode the current dict instance in JSON format.
+        Encoder specific options can be passed using kwargs:
+        https://docs.python.org/3/library/json.html
+        Return the encoded string and optionally save it at 'filepath'.
+        A ValueError is raised in case of failure.
+        """
+        return self._encode(self, 'json', **kwargs)
+
     def to_pickle(self, **kwargs):
         """
         Encode the current dict instance as pickle (encoded in Base64).
@@ -172,16 +182,6 @@ class IODict(dict):
         A ValueError is raised in case of failure.
         """
         return self._encode(self, 'pickle', **kwargs)
-
-    def to_json(self, **kwargs):
-        """
-        Encode the current dict instance in JSON format.
-        Encoder specific options can be passed using kwargs:
-        https://docs.python.org/3/library/json.html
-        Return the encoded string and optionally save it at 'filepath'.
-        A ValueError is raised in case of failure.
-        """
-        return self._encode(self, 'json', **kwargs)
 
     def to_query_string(self, **kwargs):
         """
