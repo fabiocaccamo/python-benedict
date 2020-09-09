@@ -5,6 +5,7 @@ from benedict.dicts.io import IODict
 from .test_io_dict import io_dict_test_case
 
 import datetime as dt
+import plistlib
 import six
 
 
@@ -19,13 +20,13 @@ class io_dict_plist_test_case(io_dict_test_case):
                 aFloat = 0.1,
                 anInt = 728,
                 aDict = dict(
-                    anotherString = '<hello & hi there!>',
+                    anotherString = u'<hello & hi there!>',
                     aThirdString = u'M\xe4ssig, Ma\xdf',
                     aTrueValue = True,
                     aFalseValue = False,
                 ),
-                someData = '<binary gunk>',
-                someMoreData = '<lots of binary gunk>' * 10,
+                someData = plistlib.Data('<binary gunk>'),
+                someMoreData = plistlib.Data('<lots of binary gunk>' * 10),
                 aDate = dt.datetime.fromtimestamp(481406100),
             )
         else:
@@ -40,8 +41,8 @@ class io_dict_plist_test_case(io_dict_test_case):
                     aTrueValue = True,
                     aFalseValue = False,
                 ),
-                someData = b'<binary gunk>',
-                someMoreData = b'<lots of binary gunk>' * 10,
+                someData = bytes('<binary gunk>', encoding='utf-8'),
+                someMoreData = bytes('<lots of binary gunk>' * 10, encoding='utf-8'),
                 aDate = dt.datetime.fromtimestamp(481406100),
             )
         # self._dict = {
