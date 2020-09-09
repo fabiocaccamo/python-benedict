@@ -101,6 +101,16 @@ class IODict(dict):
         return cls(s, format='pickle', **kwargs)
 
     @classmethod
+    def from_plist(cls, s, **kwargs):
+        """
+        Load and decode p-list data from url, filepath or data-string.
+        Decoder specific options can be passed using kwargs:
+        https://docs.python.org/3/library/plistlib.html
+        Return a new dict instance. A ValueError is raised in case of failure.
+        """
+        return cls(s, format='plist', **kwargs)
+
+    @classmethod
     def from_query_string(cls, s, **kwargs):
         """
         Load and decode query-string from url, filepath or data-string.
@@ -182,6 +192,16 @@ class IODict(dict):
         A ValueError is raised in case of failure.
         """
         return self._encode(self, 'pickle', **kwargs)
+
+    def to_plist(self, **kwargs):
+        """
+        Encode the current dict instance as p-list.
+        Encoder specific options can be passed using kwargs:
+        https://docs.python.org/3/library/plistlib.html
+        Return the encoded string and optionally save it at 'filepath'.
+        A ValueError is raised in case of failure.
+        """
+        return self._encode(self, 'plist', **kwargs)
 
     def to_query_string(self, **kwargs):
         """

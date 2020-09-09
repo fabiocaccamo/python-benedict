@@ -14,14 +14,14 @@
 [![](https://requires.io/github/fabiocaccamo/python-benedict/requirements.svg?branch=master)](https://requires.io/github/fabiocaccamo/python-benedict/requirements/?branch=master)
 
 # python-benedict
-python-benedict is a dict subclass with **keylist/keypath** support, **I/O** shortcuts (`Base64`, `CSV`, `JSON`, `TOML`, `XML`, `YAML`, `pickle`, `query-string`) and many **utilities**... for humans, obviously.
+python-benedict is a dict subclass with **keylist/keypath** support, **I/O** shortcuts (`base64`, `csv`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xml`, `yaml`.) and many **utilities**... for humans, obviously.
 
 ## Features
 -   100% **backward-compatible**, you can safely wrap existing dictionaries.
 -   **Keylist** support using **list of keys** as key.
 -   **Keypath** support using **keypath-separator** *(dot syntax by default)*.
 -   Keypath **list-index** support  *(also negative)* using the standard `[n]` suffix.
--   Easy **I/O operations** with most common formats: `Base64`, `CSV`, `JSON`, `TOML`, `XML`, `YAML`, `pickle`, `query-string`.
+-   Easy **I/O operations** with most common formats: `base64`, `csv`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xml`, `yaml`.
 -   Many **utility** and **parse methods** to retrieve data as needed *(check the [API](#api) section)*.
 -   Well **tested**. ;)
 
@@ -186,6 +186,7 @@ lng = loc.get_decimal('longitude')
     -   [`from_csv`](#from_csv)
     -   [`from_json`](#from_json)
     -   [`from_pickle`](#from_pickle)
+    -   [`from_plist`](#from_plist)
     -   [`from_query_string`](#from_query_string)
     -   [`from_toml`](#from_toml)
     -   [`from_xml`](#from_xml)
@@ -194,6 +195,7 @@ lng = loc.get_decimal('longitude')
     -   [`to_csv`](#to_csv)
     -   [`to_json`](#to_json)
     -   [`to_pickle`](#to_pickle)
+    -   [`to_plist`](#to_plist)
     -   [`to_query_string`](#to_query_string)
     -   [`to_toml`](#to_toml)
     -   [`to_xml`](#to_xml)
@@ -431,7 +433,7 @@ d = benedict('https://localhost:8000/data.xml', format='xml')
 d = benedict('{"a": 1, "b": 2, "c": 3, "x": 7, "y": 8, "z": 9}')
 ```
 
-These methods simplify I/O operations with most common formats: `base64`, `csv`, `json`, `toml`, `xml`, `yaml`, `pickle`, `query-string`
+These methods simplify I/O operations with most common formats: `base64`, `csv`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xml`, `yaml`.
 
 In all `from_*` methods, the first argument can be: **url**, **filepath** or **data-string**.
 
@@ -481,6 +483,17 @@ d = benedict.from_json(s, **kwargs)
 # https://docs.python.org/3/library/pickle.html
 # A ValueError is raised in case of failure.
 d = benedict.from_pickle(s, **kwargs)
+```
+
+-   #### from_plist
+
+```python
+# Try to load/decode a p-list encoded data and return it as benedict instance.
+# Accept as first argument: url, filepath or data-string.
+# It's possible to pass decoder specific options using kwargs:
+# https://docs.python.org/3/library/plistlib.html
+# A ValueError is raised in case of failure.
+d = benedict.from_plist(s, **kwargs)
 ```
 
 -   #### from_query_string
@@ -566,6 +579,16 @@ s = d.to_json(**kwargs)
 # https://docs.python.org/3/library/pickle.html
 # A ValueError is raised in case of failure.
 s = d.to_pickle(**kwargs)
+```
+
+-   #### to_plist
+
+```python
+# Return the dict instance encoded in p-list format and optionally save it at the specified filepath.
+# It's possible to pass encoder specific options using kwargs:
+# https://docs.python.org/3/library/plistlib.html
+# A ValueError is raised in case of failure.
+s = d.to_plist(**kwargs)
 ```
 
 -   #### to_query_string
