@@ -188,17 +188,17 @@ class io_dict_plist_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(filepath, format='plist')
 
-    # def test_from_plist_with_valid_url_valid_content(self):
-    #     url = self.input_url('valid-content.plist')
-    #     # static method
-    #     d = IODict.from_plist(url)
-    #     self.assertTrue(isinstance(d, dict))
-    #     # constructor
-    #     d = IODict(url, format='plist')
-    #     self.assertTrue(isinstance(d, dict))
-    #     # constructor with format autodetection
-    #     d = IODict(url)
-    #     self.assertTrue(isinstance(d, dict))
+    def test_from_plist_with_valid_url_valid_content(self):
+        url = self.input_url('valid-content.plist')
+        # static method
+        d = IODict.from_plist(url)
+        self.assertTrue(isinstance(d, dict))
+        # constructor
+        d = IODict(url, format='plist')
+        self.assertTrue(isinstance(d, dict))
+        # constructor with format autodetection
+        d = IODict(url)
+        self.assertTrue(isinstance(d, dict))
 
     def test_from_plist_with_valid_url_invalid_content(self):
         url = 'https://github.com/fabiocaccamo/python-benedict'
