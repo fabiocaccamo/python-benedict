@@ -63,10 +63,10 @@ def read_content(s):
     return s
 
 
-def read_file(filepath):
+def read_file(filepath, encoding='utf-8'):
     if os.path.isfile(filepath):
         content = ''
-        options = {} if PY2 else { 'encoding':'utf-8' }
+        options = {} if PY2 else { 'encoding':encoding }
         with open(filepath, 'r', **options) as file:
             content = file.read()
         return content
@@ -95,10 +95,10 @@ def write_file_dir(filepath):
             raise e
 
 
-def write_file(filepath, content):
+def write_file(filepath, content, encoding='utf-8'):
     # https://stackoverflow.com/questions/12517451/automatically-creating-directories-with-file-output
     write_file_dir(filepath)
-    options = {} if PY2 else { 'encoding':'utf-8' }
+    options = {} if PY2 else { 'encoding':encoding }
     with open(filepath, 'w+', **options) as file:
         file.write(content)
     return True
