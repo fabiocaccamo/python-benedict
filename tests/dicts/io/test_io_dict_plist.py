@@ -20,14 +20,14 @@ class io_dict_plist_test_case(io_dict_test_case):
                 aFloat = 0.1,
                 anInt = 728,
                 aDict = dict(
-                    anotherString = u'<hello & hi there!>',
+                    anotherString = '<hello & hi there!>',
                     aThirdString = u'M\xe4ssig, Ma\xdf',
                     aTrueValue = True,
                     aFalseValue = False,
                 ),
                 someData = plistlib.Data('<binary gunk>'),
                 someMoreData = plistlib.Data('<lots of binary gunk>' * 10),
-                aDate = dt.datetime.fromtimestamp(481406100),
+                aDate = dt.datetime(1985, 4, 3, 23, 55)# dt.datetime.fromtimestamp(481413300),
             )
         else:
             self._dict = dict(
@@ -43,7 +43,7 @@ class io_dict_plist_test_case(io_dict_test_case):
                 ),
                 someData = bytes('<binary gunk>', encoding='utf-8'),
                 someMoreData = bytes('<lots of binary gunk>' * 10, encoding='utf-8'),
-                aDate = dt.datetime.fromtimestamp(481406100),
+                aDate = dt.datetime(1985, 4, 3, 23, 55)# dt.datetime.fromtimestamp(481413300),
             )
         # self._dict = {
         #     'aString': 'Doodah',
@@ -65,7 +65,7 @@ class io_dict_plist_test_case(io_dict_test_case):
 <plist version="1.0">
 <dict>
     <key>aDate</key>
-    <date>1985-04-03T21:55:00Z</date>
+    <date>1985-04-03T23:55:00Z</date>
     <key>aDict</key>
     <dict>
         <key>aFalseValue</key>
@@ -116,6 +116,7 @@ class io_dict_plist_test_case(io_dict_test_case):
         # static method
         d = IODict.from_plist(j)
         self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d.get('aDate'), self._dict.get('aDate'))
         self.assertEqual(d, self._dict)
         # constructor
         d = IODict(j, format='plist')
