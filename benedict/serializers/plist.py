@@ -6,6 +6,7 @@ from benedict.serializers.abstract import AbstractSerializer
 
 import plistlib
 import six
+import unicodedata
 
 
 class PListSerializer(AbstractSerializer):
@@ -17,6 +18,8 @@ class PListSerializer(AbstractSerializer):
 
     def decode(self, s, **kwargs):
         if six.PY2:
+            if isinstance(s, unicode):
+                s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore')
             return plistlib.readPlistFromString(s)
         kwargs.setdefault('fmt', plistlib.FMT_XML)
         encoding = kwargs.pop('encoding', 'utf-8')
