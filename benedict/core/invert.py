@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from benedict.core import clone
 from benedict.utils import type_util
 
 
@@ -16,8 +17,7 @@ def _invert_list(d, key, value, flat):
 
 
 def invert(d, flat=False):
-    new_dict = d.copy()
-    new_dict.clear()
+    new_dict = clone(d, empty=True)
     for key, value in d.items():
         if type_util.is_list_or_tuple(value):
             _invert_list(new_dict, key, value, flat)

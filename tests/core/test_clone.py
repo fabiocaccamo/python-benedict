@@ -22,3 +22,15 @@ class clone_test_case(unittest.TestCase):
         o['a']['b']['c'] = 2
         self.assertEqual(i['a']['b']['c'], 1)
         self.assertEqual(o['a']['b']['c'], 2)
+
+    def test_clone_empty(self):
+        i = {
+            'a': {
+                'b': {
+                    'c': 1
+                }
+            }
+        }
+        o = _clone(i, empty=True)
+        self.assertEqual(type(i), type(o))
+        self.assertEqual(o, {})

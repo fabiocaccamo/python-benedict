@@ -3,5 +3,8 @@
 import copy
 
 
-def clone(obj):
-    return copy.deepcopy(obj)
+def clone(obj, empty=False):
+    d = copy.deepcopy(obj)
+    if empty:
+        d.clear()
+    return d

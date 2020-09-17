@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from benedict.core import clone
 from benedict.utils import type_util
 
 
@@ -10,8 +11,7 @@ def _flatten_key(base_key, key, separator):
 
 
 def flatten(d, separator='_', **kwargs):
-    new_dict = d.copy()
-    new_dict.clear()
+    new_dict = clone(d, empty=True)
     keys = list(d.keys())
     base_key = kwargs.pop('base_key', '')
     for key in keys:

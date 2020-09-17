@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
+from benedict.core import clone
 from benedict.utils import type_util
 
 
 def subset(d, keys, *args):
-    new_dict = d.copy()
-    new_dict.clear()
+    new_dict = clone(d, empty=True)
     if type_util.is_string(keys):
         keys = [keys]
     keys += args
