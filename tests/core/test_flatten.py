@@ -68,11 +68,12 @@ class flatten_test_case(unittest.TestCase):
                 'e': 6,
             }
         }
-        o = _flatten(i)
-        r = {
-            'a': 1,
-            'b': 2,
-            'c_d': 4,
-            'd_e': 5,
-        }
-        self.assertEqual(o, r)
+        with self.assertRaises(KeyError):
+            o = _flatten(i)
+        # r = {
+        #     'a': 1,
+        #     'b': 2,
+        #     'c_d': 4,
+        #     'd_e': 5,
+        # }
+        # self.assertEqual(o, r)
