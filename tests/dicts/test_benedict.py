@@ -20,7 +20,7 @@ class benedict_test_case(unittest.TestCase):
             'g': None,
             'h': '0'
         }
-        bd = benedict(d)
+        bd = benedict(d.copy())
         bd.clean()
         r = {
             'b': { 'x': 1 },
@@ -30,7 +30,7 @@ class benedict_test_case(unittest.TestCase):
         }
         self.assertEqual(bd, r)
 
-        bd = benedict(d)
+        bd = benedict(d.copy())
         bd.clean(collections=False)
         r = {
             'a': {},
@@ -42,7 +42,7 @@ class benedict_test_case(unittest.TestCase):
         }
         self.assertEqual(bd, r)
 
-        bd = benedict(d)
+        bd = benedict(d.copy())
         bd.clean(strings=False)
         r = {
             'b': { 'x': 1 },

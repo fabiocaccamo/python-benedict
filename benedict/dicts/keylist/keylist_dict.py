@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
+from benedict.dicts.base import BaseDict
 from benedict.dicts.keylist import keylist_util
 from benedict.utils import type_util
 
 
-class KeylistDict(dict):
+class KeylistDict(BaseDict):
 
     def __init__(self, *args, **kwargs):
         super(KeylistDict, self).__init__(*args, **kwargs)

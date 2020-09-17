@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
+from benedict.dicts.base import BaseDict
 from benedict.dicts.io import io_util
 from benedict.utils import type_util
 
 
-class IODict(dict):
+class IODict(BaseDict):
 
     def __init__(self, *args, **kwargs):
         """
@@ -158,7 +159,7 @@ class IODict(dict):
         """
         kwargs['subformat'] = subformat
         kwargs['encoding'] = encoding
-        return self._encode(self, 'base64', **kwargs)
+        return self._encode(self._dict, 'base64', **kwargs)
 
     def to_csv(self, key='values', columns=None, columns_row=True, **kwargs):
         """
@@ -180,7 +181,7 @@ class IODict(dict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return self._encode(self, 'json', **kwargs)
+        return self._encode(self._dict, 'json', **kwargs)
 
     def to_pickle(self, **kwargs):
         """
@@ -191,7 +192,7 @@ class IODict(dict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return self._encode(self, 'pickle', **kwargs)
+        return self._encode(self._dict, 'pickle', **kwargs)
 
     def to_plist(self, **kwargs):
         """
@@ -201,7 +202,7 @@ class IODict(dict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return self._encode(self, 'plist', **kwargs)
+        return self._encode(self._dict, 'plist', **kwargs)
 
     def to_query_string(self, **kwargs):
         """
@@ -209,7 +210,7 @@ class IODict(dict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return self._encode(self, 'query_string', **kwargs)
+        return self._encode(self._dict, 'query_string', **kwargs)
 
     def to_toml(self, **kwargs):
         """
@@ -219,7 +220,7 @@ class IODict(dict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return self._encode(self, 'toml', **kwargs)
+        return self._encode(self._dict, 'toml', **kwargs)
 
     def to_xml(self, **kwargs):
         """
@@ -229,7 +230,7 @@ class IODict(dict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return self._encode(self, 'xml', **kwargs)
+        return self._encode(self._dict, 'xml', **kwargs)
 
     def to_yaml(self, **kwargs):
         """
@@ -239,4 +240,4 @@ class IODict(dict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return self._encode(self, 'yaml', **kwargs)
+        return self._encode(self._dict, 'yaml', **kwargs)

@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
+from benedict.dicts.base import BaseDict
 from benedict.dicts.parse import parse_util
 from benedict.utils import type_util
 
 from decimal import Decimal
 
 
-class ParseDict(dict):
+class ParseDict(BaseDict):
 
     def __init__(self, *args, **kwargs):
         """
