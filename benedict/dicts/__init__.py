@@ -37,6 +37,19 @@ class benedict(KeypathDict, IODict, ParseDict):
         """
         super(benedict, self).__init__(*args, **kwargs)
 
+    def __getitem__(self, key):
+        return self._cast(
+            super(benedict, self).__getitem__(key))
+
+    def _cast(self, value):
+        """
+        Cast a dict instance to a benedict instance
+        keeping the pointer to the original dict.
+        """
+        if isinstance(value, dict) and not isinstance(value, benedict):
+            return benedict(value, keypath_separator=self._keypath_separator)
+        return value
+
     def clean(self, strings=True, collections=True):
         """
         Clean the current dict instance removing all empty values: None, '', {}, [], ().
@@ -49,17 +62,15 @@ class benedict(KeypathDict, IODict, ParseDict):
         """
         Creates and return a clone of the current dict instance (deep copy).
         """
-        return benedict(
-            _clone(self),
-            keypath_separator=self._keypath_separator)
+        return self._cast(
+            _clone(self))
 
     def copy(self):
         """
         Creates and return a copy of the current instance (shallow copy).
         """
-        return benedict(
-            super(benedict, self).copy(),
-            keypath_separator=self._keypath_separator)
+        return self._cast(
+            super(benedict, self).copy())
 
     def deepcopy(self):
         """
@@ -101,11 +112,16 @@ class benedict(KeypathDict, IODict, ParseDict):
         """
         return _flatten(self, separator)
 
+    def get(self, key, default=None):
+        return self._cast(
+            super(benedict, self).get(key, default))
+
     def groupby(self, key, by_key):
         """
         Group a list of dicts at key by the value of the given by_key and return a new dict.
         """
-        return benedict(_groupby(self[key], by_key))
+        return self._cast(
+            _groupby(self[key], by_key))
 
     def invert(self, flat=False):
         """
@@ -158,12 +174,20 @@ class benedict(KeypathDict, IODict, ParseDict):
         """
         return _nest(self[key], id_key, parent_id_key, children_key)
 
+    def pop(self, key, *args):
+        return self._cast(
+            super(benedict, self).pop(key, *args))
+
     def remove(self, keys, *args):
         """
         Remove multiple keys from the current dict instance.
         It is possible to pass a single key or more keys (as list or *args).
         """
         _remove(self, keys, *args)
+
+    def setdefault(self, key, default=None):
+        return self._cast(
+            super(benedict, self).setdefault(key, default))
 
     def rename(self, key, key_new):
         """
