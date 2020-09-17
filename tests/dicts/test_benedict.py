@@ -474,14 +474,15 @@ class benedict_test_case(unittest.TestCase):
             },
         }
         b = benedict(d)
-        f = b.flatten()
-        r = {
-            'a': 1,
-            'b': 2,
-            'c_d': 4,
-        }
-        self.assertEqual(f, r)
-        self.assertFalse(b is f)
+        with self.assertRaises(KeyError):
+            f = b.flatten()
+        # r = {
+        #     'a': 1,
+        #     'b': 2,
+        #     'c_d': 4,
+        # }
+        # self.assertEqual(f, r)
+        # self.assertFalse(b is f)
 
     def test_fromkeys(self):
         k = [
