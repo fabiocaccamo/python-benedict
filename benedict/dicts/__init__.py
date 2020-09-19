@@ -116,6 +116,14 @@ class benedict(KeypathDict, IODict, ParseDict):
         return self._cast(
             super(benedict, self).get(key, default))
 
+    def get_dict(self, key, default=None):
+        return self._cast(
+            super(benedict, self).get_dict(key, default))
+
+    def get_list_item(self, key, index=0, default=None, separator=','):
+        return self._cast(
+            super(benedict, self).get_list_item(key, index, default, separator))
+
     def groupby(self, key, by_key):
         """
         Group a list of dicts at key by the value of the given by_key and return a new dict.
