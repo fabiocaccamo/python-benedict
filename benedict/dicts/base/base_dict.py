@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from benedict.utils import type_util
-
 
 class BaseDict(dict):
 
@@ -9,10 +7,10 @@ class BaseDict(dict):
 
     def __init__(self, *args, **kwargs):
         super(BaseDict, self).__init__()
-        if len(args) == 1 and type_util.is_dict(args[0]):
+        if len(args) == 1 and isinstance(args[0], dict):
             self._dict = args[0]
-        else:
-            self._dict = dict(*args, **kwargs)
+            return
+        self._dict = dict(*args, **kwargs)
 
     def __bool__(self):
         return bool(self._dict)
