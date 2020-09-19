@@ -35,6 +35,9 @@ class benedict(KeypathDict, IODict, ParseDict):
         """
         Constructs a new instance.
         """
+        if len(args) == 1 and isinstance(args[0], benedict):
+            super(benedict, self).__init__(args[0].dict())
+            return
         super(benedict, self).__init__(*args, **kwargs)
 
     def __getitem__(self, key):
