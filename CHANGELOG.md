@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.20.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.20.0) - 2020-09-20
+-   Added `BaseDict` as base class to keep pointer to the initial input dict. #32
+-   Added automatic `benedict` casting to all methods that return dict instances.
+-   Updated `flatten` method, now a `KeyError` is raised in case of existing key.
+
 ## [0.19.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.19.0) - 2020-09-11
 -   Added `plist` format support.
 -   Enforced `IODict` initial check when using filepath or data-string.
