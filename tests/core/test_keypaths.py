@@ -61,7 +61,7 @@ class keypaths_test_case(unittest.TestCase):
         ]
         self.assertEqual(o, r)
 
-    def test_keypaths_without_separator(self):
+    def test_keypaths_with_invalid_separator(self):
         i = {
             'a': 1,
             'b': {
@@ -76,7 +76,36 @@ class keypaths_test_case(unittest.TestCase):
             },
         }
         with self.assertRaises(ValueError):
-            o = _keypaths(i, separator=None)
+            o = _keypaths(i, separator=True)
+
+    def test_keypaths_without_separator(self):
+        i = {
+            'a': 1,
+            'b': {
+                'c': {
+                    'x': 2,
+                    'y': 3,
+                },
+                'd': {
+                    'x': 4,
+                    'y': 5,
+                },
+            },
+        }
+        # with self.assertRaises(ValueError):
+        #     o = _keypaths(i, separator=None)
+        o = _keypaths(i)
+        r = [
+            'a',
+            'b',
+            'b.c',
+            'b.c.x',
+            'b.c.y',
+            'b.d',
+            'b.d.x',
+            'b.d.y',
+        ]
+        self.assertEqual(o, r)
 
     def test_keypaths_with_non_string_keys(self):
         i = {
