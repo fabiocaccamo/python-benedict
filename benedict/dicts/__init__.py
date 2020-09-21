@@ -125,7 +125,8 @@ class benedict(KeypathDict, IODict, ParseDict):
 
     def get_list_item(self, key, index=0, default=None, separator=','):
         return self._cast(
-            super(benedict, self).get_list_item(key, index, default, separator))
+            super(benedict, self).get_list_item(
+                key, index, default, separator))
 
     def groupby(self, key, by_key):
         """
@@ -161,8 +162,8 @@ class benedict(KeypathDict, IODict, ParseDict):
         Return a list of all keypaths in the dict.
         If indexes is True, the output will include list values indexes.
         """
-        sep = self._keypath_separator or '.'
-        return _keypaths(self, separator=sep, indexes=indexes)
+        return _keypaths(
+            self, separator=self._keypath_separator, indexes=indexes)
 
     def merge(self, other, *args, **kwargs):
         """
@@ -179,7 +180,8 @@ class benedict(KeypathDict, IODict, ParseDict):
         """
         _move(self, key_src, key_dest)
 
-    def nest(self, key, id_key='id', parent_id_key='parent_id', children_key='children'):
+    def nest(self, key,
+             id_key='id', parent_id_key='parent_id', children_key='children'):
         """
         Nest a list of dicts at the given key and return a new nested list
         using the specified keys to establish the correct items hierarchy.
