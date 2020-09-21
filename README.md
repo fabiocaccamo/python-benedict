@@ -320,7 +320,8 @@ items = d.items_sorted_by_values(reverse=False)
 
 ```python
 # Return a list of all keypaths in the dict.
-k = d.keypaths()
+# If indexes is True, the output will include list values indexes.
+k = d.keypaths(indexes=False)
 print(k)
 ```
 

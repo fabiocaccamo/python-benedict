@@ -1020,6 +1020,7 @@ b:
                     'c': 0,
                     'd': None,
                     'e': {},
+                    'f': [1,2,3,4,5],
                 },
             },
         }
@@ -1030,11 +1031,29 @@ b:
             'a.b.c',
             'a.b.d',
             'a.b.e',
+            'a.b.f',
             'x',
             'x.y',
             'x.z',
         ]
         self.assertEqual(b.keypaths(), r)
+        r = [
+            'a',
+            'a.b',
+            'a.b.c',
+            'a.b.d',
+            'a.b.e',
+            'a.b.f',
+            'a.b.f[0]',
+            'a.b.f[1]',
+            'a.b.f[2]',
+            'a.b.f[3]',
+            'a.b.f[4]',
+            'x',
+            'x.y',
+            'x.z',
+        ]
+        self.assertEqual(b.keypaths(indexes=True), r)
 
     def test_merge_with_single_dict(self):
         d = {
