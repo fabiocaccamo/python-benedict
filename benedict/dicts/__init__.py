@@ -36,7 +36,9 @@ class benedict(KeypathDict, IODict, ParseDict):
         Constructs a new instance.
         """
         if len(args) == 1 and isinstance(args[0], benedict):
-            super(benedict, self).__init__(args[0].dict(), **kwargs)
+            obj = args[0]
+            kwargs.setdefault('keypath_separator', obj.keypath_separator)
+            super(benedict, self).__init__(obj.dict(), **kwargs)
             return
         super(benedict, self).__init__(*args, **kwargs)
 
