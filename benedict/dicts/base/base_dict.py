@@ -33,6 +33,9 @@ class BaseDict(dict):
     def __len__(self):
         return len(self._dict)
 
+    def __nonzero__(self):
+        return bool(self._dict)
+
     def __repr__(self):
         return repr(self._dict)
 
@@ -41,6 +44,9 @@ class BaseDict(dict):
 
     def __str__(self):
         return str(self._dict)
+
+    def __unicode__(self):
+        return unicode(self._dict)
 
     def clear(self):
         self._dict.clear()
