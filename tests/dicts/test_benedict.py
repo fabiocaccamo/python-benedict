@@ -4,6 +4,7 @@ from benedict import benedict
 from datetime import datetime
 from decimal import Decimal
 
+import re
 import unittest
 
 
@@ -1054,6 +1055,100 @@ b:
             'x.z',
         ]
         self.assertEqual(b.keypaths(indexes=True), r)
+
+    def test_match_with_regex_pattern(self):
+        d = {
+            'results': [
+                {
+                    'name_1': 'A',
+                },
+                {
+                    'name_2': 'B',
+                },
+                {
+                    'name_3': 'C',
+                },
+                {
+                    'name_X': 'D',
+                },
+            ],
+        }
+        b = benedict(d)
+        r = re.compile(r'results\[[\d]+\].name_[\d]+')
+        m = b.match(r)
+        self.assertEqual(m, ['A', 'B', 'C'])
+
+    def test_match_with_regex_pattern_and_custom_keypath_separator(self):
+        d = {
+            'results': [
+                {
+                    'name_1': 'A',
+                },
+                {
+                    'name_2': 'B',
+                },
+                {
+                    'name_3': 'C',
+                },
+                {
+                    'name_X': 'D',
+                },
+            ],
+        }
+        b = benedict(d, keypath_separator='/')
+        r = re.compile(r'results\[[\d]+\]/name_[\d]+')
+        m = b.match(r)
+        self.assertEqual(m, ['A', 'B', 'C'])
+
+    def test_match_with_string_pattern(self):
+        d = {
+            'results': [
+                {
+                    'name': 'A',
+                    'props': [1, 2, 3],
+                },
+                {
+                    'name': 'B',
+                    'props': [4, 5, 6],
+                },
+                {
+                    'name': 'C',
+                    'props': [7, 8, 9],
+                },
+            ],
+        }
+        b = benedict(d)
+        m = b.match('results[*].name')
+        self.assertEqual(m, ['A', 'B', 'C'])
+        m = b.match('results[*].props[0]')
+        self.assertEqual(m, [1, 4, 7])
+        m = b.match('results[*].props[1]')
+        self.assertEqual(m, [2, 5, 8])
+        m = b.match('results[*].props[2]')
+        self.assertEqual(m, [3, 6, 9])
+
+    def test_match_with_string_pattern_and_custom_keypath_separator(self):
+        d = {
+            'results': [
+                {
+                    'name': 'A',
+                    'props': [1, 2, 3],
+                },
+                {
+                    'name': 'B',
+                    'props': [4, 5, 6],
+                },
+                {
+                    'name': 'C',
+                    'props': [7, 8, 9],
+                },
+            ],
+        }
+        b = benedict(d, keypath_separator='/')
+        m = b.match('results[*]/name')
+        self.assertEqual(m, ['A', 'B', 'C'])
+        m = b.match('results[*]/props[2]')
+        self.assertEqual(m, [3, 6, 9])
 
     def test_merge_with_single_dict(self):
         d = {

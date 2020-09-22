@@ -167,6 +167,7 @@ lng = loc.get_decimal('longitude')
     -   [`items_sorted_by_keys`](#items_sorted_by_keys)
     -   [`items_sorted_by_values`](#items_sorted_by_values)
     -   [`keypaths`](#keypaths)
+    -   [`match`](#match)
     -   [`merge`](#merge)
     -   [`move`](#move)
     -   [`nest`](#nest)
@@ -323,6 +324,15 @@ items = d.items_sorted_by_values(reverse=False)
 # If indexes is True, the output will include list values indexes.
 k = d.keypaths(indexes=False)
 print(k)
+```
+
+-   #### match
+
+```python
+# Return a list of all values whose keypath matches the given pattern (a regex or string).
+# If pattern is string, wildcard can be used (eg. [*] can be used to match all list indexes).
+# If indexes is True, the pattern will be matched also against list values.
+d.match(pattern, indexes=True)
 ```
 
 -   #### merge

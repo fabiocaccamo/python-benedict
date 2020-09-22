@@ -4,6 +4,10 @@ from datetime import datetime
 from decimal import Decimal
 from six import integer_types, string_types
 
+import re
+
+regex = re.compile('').__class__
+
 
 def is_bool(val):
     return isinstance(val, bool)
@@ -61,6 +65,10 @@ def is_none(val):
 
 def is_not_none(val):
     return val is not None
+
+
+def is_regex(val):
+    return isinstance(val, regex)
 
 
 def is_set(val):

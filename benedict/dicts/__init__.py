@@ -11,6 +11,7 @@ from benedict.core import invert as _invert
 from benedict.core import items_sorted_by_keys as _items_sorted_by_keys
 from benedict.core import items_sorted_by_values as _items_sorted_by_values
 from benedict.core import keypaths as _keypaths
+from benedict.core import match as _match
 from benedict.core import merge as _merge
 from benedict.core import move as _move
 from benedict.core import nest as _nest
@@ -166,6 +167,15 @@ class benedict(KeypathDict, IODict, ParseDict):
         """
         return _keypaths(
             self, separator=self._keypath_separator, indexes=indexes)
+
+    def match(self, pattern, indexes=True):
+        """
+        Return a list of all values whose keypath matches the given pattern (a regex or string).
+        If pattern is string, wildcard can be used (eg. [*] can be used to match all list indexes).
+        If indexes is True, the pattern will be matched also against list values.
+        """
+        return _match(
+            self, pattern, separator=self._keypath_separator, indexes=indexes)
 
     def merge(self, other, *args, **kwargs):
         """

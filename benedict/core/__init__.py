@@ -12,6 +12,7 @@ from benedict.core.items_sorted import (
     items_sorted_by_keys, items_sorted_by_values, )
 from benedict.core.keylists import keylists
 from benedict.core.keypaths import keypaths
+from benedict.core.match import match
 from benedict.core.merge import merge
 from benedict.core.move import move
 from benedict.core.nest import nest
