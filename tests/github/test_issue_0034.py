@@ -25,5 +25,5 @@ class github_issue_0034_test_case(unittest.TestCase):
                 },
             },
         })
-        dumped = json.dumps(b)
+        dumped = json.dumps(b, sort_keys=True)
         self.assertEqual(dumped, '{"a": 1, "b": {"c": {"d": 2}}}')
