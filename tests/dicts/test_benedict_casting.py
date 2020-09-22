@@ -23,7 +23,7 @@ class benedict_casting_test_case(unittest.TestCase):
         self.assertTrue(c == d['b']['c'])
         self.assertFalse(c is d['b']['c'])
 
-    def test_cast_benedict_instance(self):
+    def test_cast_dict_to_benedict(self):
         d = {
             'a': 1,
             'b': {
@@ -37,8 +37,45 @@ class benedict_casting_test_case(unittest.TestCase):
         bbd = bb.dict()
         self.assertTrue(isinstance(bbd, dict))
         self.assertFalse(isinstance(bbd, benedict))
-        self.assertTrue(d == bbd)
+        self.assertEqual(d, bbd)
         self.assertTrue(d is bbd)
+
+    def test_cast_benedict_to_dict(self):
+        b = benedict({
+            'a': 1,
+            'b': {
+                'c': {
+                    'd': 2,
+                },
+            },
+        })
+        # d1 = dict(**b)
+        # print(d1)
+        d = dict(b)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(type(d), dict)
+        self.assertEqual(b, d)
+        self.assertFalse(b is d)
+        d = dict(b)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(type(d), dict)
+        self.assertEqual(b, d)
+        self.assertFalse(b is d)
+
+    def test_cast_benedict_kwargs_to_dict(self):
+        b = benedict({
+            'a': 1,
+            'b': {
+                'c': {
+                    'd': 2,
+                },
+            },
+        })
+        d = dict(**b)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(type(d), dict)
+        self.assertEqual(b, d)
+        self.assertFalse(b is d)
 
     def test_dict(self):
         d = {
