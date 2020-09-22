@@ -6,11 +6,11 @@ class BaseDict(dict):
     _dict = {}
 
     def __init__(self, *args, **kwargs):
-        super(BaseDict, self).__init__()
         if len(args) == 1 and isinstance(args[0], dict):
             self._dict = args[0]
-            return
-        self._dict = dict(*args, **kwargs)
+        else:
+            self._dict = dict(*args, **kwargs)
+        super(BaseDict, self).__init__(*args, **kwargs)
 
     def __bool__(self):
         return bool(self._dict)
@@ -20,6 +20,7 @@ class BaseDict(dict):
 
     def __delitem__(self, key):
         del self._dict[key]
+        super(BaseDict, self).__delitem__(key)
 
     def __eq__(self, other):
         return self._dict == other
@@ -41,6 +42,7 @@ class BaseDict(dict):
 
     def __setitem__(self, key, value):
         self._dict[key] = value
+        super(BaseDict, self).__setitem__(key, value)
 
     def __str__(self):
         return str(self._dict)
@@ -50,6 +52,7 @@ class BaseDict(dict):
 
     def clear(self):
         self._dict.clear()
+        super(BaseDict, self).clear()
 
     def copy(self):
         return self._dict.copy()
@@ -67,13 +70,18 @@ class BaseDict(dict):
         return self._dict.keys()
 
     def pop(self, key, *args):
-        return self._dict.pop(key, *args)
+        value = self._dict.pop(key, *args)
+        super(BaseDict, self).pop(key, None)
+        return value
 
     def setdefault(self, key, default=None):
-        return self._dict.setdefault(key, default)
+        value = self._dict.setdefault(key, default)
+        super(BaseDict, self).setdefault(key, default)
+        return value
 
     def update(self, other):
         self._dict.update(other)
+        super(BaseDict, self).update(other)
 
     def values(self):
         return self._dict.values()
