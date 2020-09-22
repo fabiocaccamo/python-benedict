@@ -91,6 +91,7 @@ class keylists_test_case(unittest.TestCase):
             },
         }
         o = _keylists(i, indexes=True)
+        o.sort()
         r = [
             ['a'],
             ['b'],
@@ -141,6 +142,7 @@ class keylists_test_case(unittest.TestCase):
             },
         }
         o = _keylists(i, indexes=True)
+        o.sort()
         r = [
             ['a'],
             ['a', 'b'],
@@ -190,6 +192,7 @@ class keylists_test_case(unittest.TestCase):
             },
         }
         o = _keylists(i, indexes=False)
+        o.sort()
         r = [
             ['a'],
             ['b'],
