@@ -323,7 +323,6 @@ items = d.items_sorted_by_values(reverse=False)
 # Return a list of all keypaths in the dict.
 # If indexes is True, the output will include list values indexes.
 k = d.keypaths(indexes=False)
-print(k)
 ```
 
 -   #### match
@@ -332,7 +331,7 @@ print(k)
 # Return a list of all values whose keypath matches the given pattern (a regex or string).
 # If pattern is string, wildcard can be used (eg. [*] can be used to match all list indexes).
 # If indexes is True, the pattern will be matched also against list values.
-d.match(pattern, indexes=True)
+m = d.match(pattern, indexes=True)
 ```
 
 -   #### merge
