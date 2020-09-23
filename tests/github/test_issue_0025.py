@@ -46,7 +46,8 @@ SERVER:
 
     # @unittest.skip('testing copy and pointers failure')
     def test_pointers_with_benedict_casting(self):
-        servers = benedict(self.load_dict())
+        d = self.load_dict()
+        servers = benedict(d)
         s01_ptr=servers['SERVER.S01']
         self.assertTrue(isinstance(s01_ptr, benedict))
         self.assertEqual(type(s01_ptr), benedict)
@@ -54,3 +55,20 @@ SERVER:
         s01_ptr['location']['building']='ptr_building'
         s01_ptr['credentials']['username']='ptr_unsername'
         self.assertEqual(s01_ptr, servers['SERVER.S01'])
+
+    # @unittest.skip('testing copy and pointers failure')
+    def test_pointers_after_pointer_update(self):
+        d = self.load_dict()
+        b = benedict(d)
+        d['SERVER']['S01']['alias'] = 'new_alias'
+        d['SERVER_2'] = 'server_2'
+        self.assertEqual(b, d)
+        self.assertEqual(b.dict(), d)
+
+    # @unittest.skip('testing copy and pointers failure')
+    def test_pointers_after_pointer_clear(self):
+        d = self.load_dict()
+        b = benedict(d)
+        d.clear()
+        self.assertEqual(b, d)
+        self.assertEqual(b.dict(), d)
