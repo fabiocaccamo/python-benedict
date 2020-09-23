@@ -35,7 +35,6 @@ SERVER:
         servers = yaml.safe_load(yaml_str)
         return servers
 
-    # @unittest.skip('testing main_dict and pointers failure')
     def test_pointers_with_dict(self):
         servers = dict(self.load_dict())
         s01_ptr=servers['SERVER']['S01']
@@ -44,7 +43,6 @@ SERVER:
         s01_ptr['credentials']['username']='ptr_unsername'
         self.assertEqual(s01_ptr, servers['SERVER']['S01'])
 
-    # @unittest.skip('testing copy and pointers failure')
     def test_pointers_with_benedict_casting(self):
         d = self.load_dict()
         servers = benedict(d)
@@ -56,7 +54,6 @@ SERVER:
         s01_ptr['credentials']['username']='ptr_unsername'
         self.assertEqual(s01_ptr, servers['SERVER.S01'])
 
-    # @unittest.skip('testing copy and pointers failure')
     def test_pointers_after_pointer_update(self):
         d = self.load_dict()
         b = benedict(d)
@@ -65,7 +62,6 @@ SERVER:
         self.assertEqual(b, d)
         self.assertEqual(b.dict(), d)
 
-    # @unittest.skip('testing copy and pointers failure')
     def test_pointers_after_pointer_clear(self):
         d = self.load_dict()
         b = benedict(d)
