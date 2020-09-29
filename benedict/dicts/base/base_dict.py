@@ -10,7 +10,7 @@ class BaseDict(dict):
             self._dict = args[0]
         else:
             self._dict = dict(*args, **kwargs)
-        super(BaseDict, self).__init__(*args, **kwargs)
+        super(BaseDict, self).__init__(self._dict)
 
     def __bool__(self):
         return bool(self._dict)
