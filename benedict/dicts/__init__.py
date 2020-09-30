@@ -53,7 +53,9 @@ class benedict(KeypathDict, IODict, ParseDict):
         keeping the pointer to the original dict.
         """
         if isinstance(value, dict) and not isinstance(value, benedict):
-            return benedict(value, keypath_separator=self._keypath_separator)
+            return benedict(value,
+                            keypath_separator=self._keypath_separator,
+                            check_keys=False)
         return value
 
     def clean(self, strings=True, collections=True):

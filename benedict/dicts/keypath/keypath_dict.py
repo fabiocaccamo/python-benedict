@@ -10,8 +10,10 @@ class KeypathDict(KeylistDict):
 
     def __init__(self, *args, **kwargs):
         self._keypath_separator = kwargs.pop('keypath_separator', '.')
+        check_keys = kwargs.pop('check_keys', True)
         super(KeypathDict, self).__init__(*args, **kwargs)
-        keypath_util.check_keys(self, self._keypath_separator)
+        if check_keys:
+            keypath_util.check_keys(self, self._keypath_separator)
 
     @property
     def keypath_separator(self):
