@@ -17,8 +17,8 @@ import re
 
 _BASE64_SERIALIZER = Base64Serializer()
 _CSV_SERIALIZER = CSVSerializer()
-_JSON_SERIALIZER = JSONSerializer()
 _INI_SERIALIZER = INISerializer()
+_JSON_SERIALIZER = JSONSerializer()
 _PICKLE_SERIALIZER = PickleSerializer()
 _PLIST_SERIALIZER = PListSerializer()
 _QUERY_STRING_SERIALIZER = QueryStringSerializer()
@@ -30,6 +30,7 @@ _SERIALIZERS = {
     'b64': _BASE64_SERIALIZER,
     'base64': _BASE64_SERIALIZER,
     'csv': _CSV_SERIALIZER,
+    'ini': _INI_SERIALIZER,
     'json': _JSON_SERIALIZER,
     'pickle': _PICKLE_SERIALIZER,
     'plist': _PLIST_SERIALIZER,
@@ -39,7 +40,6 @@ _SERIALIZERS = {
     'yaml': _YAML_SERIALIZER,
     'yml': _YAML_SERIALIZER,
     'xml': _XML_SERIALIZER,
-    'ini': _INI_SERIALIZER,
 }
 
 _SERIALIZERS_EXTENSIONS = [
