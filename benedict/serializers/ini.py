@@ -30,7 +30,7 @@ class INISerializer(AbstractSerializer):
             data.seek(0)
             return data.getvalue()
 
-    def _preprocessed_dict(self, d: Dict, default_namespace="default"):
+    def _preprocessed_dict(self, d, default_namespace="default"):
         sections = {
             default_namespace: {}
         }
