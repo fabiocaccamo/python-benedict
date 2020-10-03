@@ -18,8 +18,6 @@ TARGET_DICT = {
     }
 }
 
-
-
 INI_STR = """
         [section_a]
         b: 1
