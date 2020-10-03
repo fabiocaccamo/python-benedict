@@ -39,15 +39,17 @@ class IODict(BaseDict):
                 return data
             elif type_util.is_list(data):
                 # force list to dict
-                return {'values': data}
+                return {
+                    'values': data
+                }
             else:
                 raise ValueError(
-                    'Invalid data type: {}, expected dict or list.'.format(
-                        type(data)))
+                        'Invalid data type: {}, expected dict or list.'.format(
+                                type(data)))
         except Exception as e:
             raise ValueError(
-                'Invalid data or url or filepath argument: {}\n{}'.format(
-                    s, e))
+                    'Invalid data or url or filepath argument: {}\n{}'.format(
+                            s, e))
 
     @staticmethod
     def _encode(d, format, **kwargs):
@@ -182,6 +184,16 @@ class IODict(BaseDict):
         A ValueError is raised in case of failure.
         """
         return self._encode(self, 'json', **kwargs)
+
+    def to_ini(self, **kwargs):
+        """
+        Encode the current dict instance in JSON format.
+        Encoder specific options can be passed using kwargs:
+        https://docs.python.org/3/library/json.html
+        Return the encoded string and optionally save it at 'filepath'.
+        A ValueError is raised in case of failure.
+        """
+        return self._encode(self, 'ini', **kwargs)
 
     def to_pickle(self, **kwargs):
         """

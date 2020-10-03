@@ -3,6 +3,7 @@
 from benedict.serializers.abstract import AbstractSerializer
 from benedict.serializers.base64 import Base64Serializer
 from benedict.serializers.csv import CSVSerializer
+from benedict.serializers.ini import INISerializer
 from benedict.serializers.json import JSONSerializer
 from benedict.serializers.pickle import PickleSerializer
 from benedict.serializers.plist import PListSerializer
@@ -17,6 +18,7 @@ import re
 _BASE64_SERIALIZER = Base64Serializer()
 _CSV_SERIALIZER = CSVSerializer()
 _JSON_SERIALIZER = JSONSerializer()
+_INI_SERIALIZER = INISerializer()
 _PICKLE_SERIALIZER = PickleSerializer()
 _PLIST_SERIALIZER = PListSerializer()
 _QUERY_STRING_SERIALIZER = QueryStringSerializer()
@@ -37,6 +39,7 @@ _SERIALIZERS = {
     'yaml': _YAML_SERIALIZER,
     'yml': _YAML_SERIALIZER,
     'xml': _XML_SERIALIZER,
+    'ini': _INI_SERIALIZER,
 }
 
 _SERIALIZERS_EXTENSIONS = [
