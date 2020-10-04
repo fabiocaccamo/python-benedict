@@ -3,11 +3,10 @@
 from __future__ import absolute_import
 
 import io
-from copy import deepcopy
-
-from benedict.serializers.abstract import AbstractSerializer
-
 import configparser
+
+from benedict.core import clone
+from benedict.serializers.abstract import AbstractSerializer
 
 
 class INISerializer(AbstractSerializer):
@@ -55,7 +54,7 @@ class INISerializer(AbstractSerializer):
         }
         for key, value in d.items():
             if isinstance(value, dict):
-                sections[key] = deepcopy(value)
+                sections[key] = clone(value)
             else:
                 sections[default_namespace][key] = value
 

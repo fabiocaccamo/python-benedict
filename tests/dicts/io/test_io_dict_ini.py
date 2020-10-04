@@ -7,7 +7,7 @@ from .test_io_dict import io_dict_test_case
 TARGET_DICT = {
     "section_a": {
         "b": 1,
-        "c": "helloworld"
+        "c": "hếllôworlđ"
     },
     "section_b": {
         "c": 2.5,
@@ -21,7 +21,7 @@ TARGET_DICT = {
 INI_STR = """
         [section_a]
         b: 1
-        c: helloworld
+        c: hếllôworlđ
         [section_b]
         c: 2.5
         f: True
@@ -34,6 +34,25 @@ INVALID_INI_STR = """
     {test}
     abc = def 
     """
+
+TARGET_DICT_WITH_OBJ = {
+    "section_a": {
+        "b": [1, 2, 3],
+        "c": {
+            "d": "e"
+        }
+    },
+    "f": "g"
+}
+
+INI_STR_WITH_OBJECT = """[default]
+f = g
+
+[section_a]
+b = [1, 2, 3]
+c = {'d': 'e'}
+
+"""
 
 
 class io_dict_ini_test_case(io_dict_test_case):
@@ -140,6 +159,11 @@ class io_dict_ini_test_case(io_dict_test_case):
         d = IODict(TARGET_DICT)
         s = d.to_ini()
         self.assertEqual(d, IODict.from_ini(s))
+        d = IODict(TARGET_DICT_WITH_OBJ)
+        # We won't have any mechanism to convert a stringified representation of an object back to the object itself,
+        # because of the limited capability of ini files to store data.
+        # If you need to store complicated objects, use other format.
+        self.assertEqual(d.to_ini(), INI_STR_WITH_OBJECT)
 
     def test_to_ini_file(self):
         d = IODict(TARGET_DICT)
