@@ -7,6 +7,9 @@ from six import integer_types, string_types
 import re
 
 regex = re.compile('').__class__
+uuid_re = re.compile(
+    '^([0-9a-f]{32}){1}$|^([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}){1}$',
+    flags=re.IGNORECASE)
 
 
 def is_bool(val):
@@ -81,3 +84,7 @@ def is_string(val):
 
 def is_tuple(val):
     return isinstance(val, tuple)
+
+
+def is_uuid(val):
+    return is_string(val) and uuid_re.match(val)

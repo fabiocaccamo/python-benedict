@@ -281,3 +281,11 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f({'a':0, 'b':1, 'c':2}))
         self.assertFalse(f('hello world'))
         self.assertFalse(f(lambda a: a))
+
+    def test_is_uuid(self):
+        f = type_util.is_uuid
+        self.assertTrue(f('ca761232ed4211cebacd00aa0057b223'))
+        self.assertTrue(f('CA761232-ED42-11CE-BACD-00AA0057B223'))
+        self.assertTrue(f('CA761232-ED42-11CE-BACD-00AA0057B223'))
+        self.assertFalse(f('CA761232-ED42-11CE-BACD-00AA0057B22X'))
+        self.assertFalse(f('CA761232-ED42-11CE-BACD-00AA0057B22'))

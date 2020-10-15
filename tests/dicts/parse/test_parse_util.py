@@ -64,3 +64,7 @@ class parse_util_test_case(unittest.TestCase):
     def test_parse_str(self):
         # TODO
         pass
+
+    def test_parse_uuid(self):
+        # TODO
+        pass

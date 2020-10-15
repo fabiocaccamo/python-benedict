@@ -221,3 +221,19 @@ class ParseDict(BaseDict):
         """
         return self._get_values_list(
             key, default, separator, parse_util.parse_str)
+
+    def get_uuid(self, key, default='', choices=None):
+        """
+        Get value by key or keypath trying to return it as valid uuid.
+        If choices and value is in choices return value otherwise default.
+        """
+        return self._get_value(
+            key, default, choices, parse_util.parse_uuid)
+
+    def get_uuid_list(self, key, default=None, separator=','):
+        """
+        Get value by key or keypath trying to return it as list of valid uuid values.
+        If separator is specified and value is a string it will be splitted.
+        """
+        return self._get_values_list(
+            key, default, separator, parse_util.parse_uuid)

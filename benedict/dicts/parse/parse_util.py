@@ -205,3 +205,8 @@ def parse_str(val):
     val = val.strip()
     val = ' '.join(val.split())
     return val
+
+
+def parse_uuid(val):
+    s = parse_str(val)
+    return s if type_util.is_uuid(s) else None

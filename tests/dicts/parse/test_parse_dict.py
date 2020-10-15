@@ -490,3 +490,36 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_str('a', choices=['Sunday', 'Saturday']), 'Sunday')
         self.assertEqual(b.get_str('b', choices=['Sunday', 'Saturday'], default='Saturday'), 'Saturday')
         self.assertEqual(b.get_str('c', choices=['Sunday', 'Saturday'], default='Saturday'), 'Saturday')
+
+    def test_get_uuid(self):
+        d = {
+            'a': 'CA761232-ED42-11CE-BACD-00AA0057B223',
+            'b': ' CA761232-ED42-11CE-BACD-00AA0057B223 ',
+            'c': ' CA761232ED4211CEBACD00AA0057B223 ',
+            'd': ' ca761232ed4211cebacd00aa0057b223 ',
+            'e': 'CA761232ED4211CEBACD00AA0057B223',
+            'f': 'CA761232ED4211CEBACD00AA0057B2233',  # invalid too long
+            'g': 'CA761232ED4211CEBACD00AA0057B22x', # invalid chars
+            'h': 'CA761232ED4211CEBACD00AA0057B22', # invalid too short
+            'i': 'CA761232-ED42-11CE-BACD-00AA0057B2234', # invalid too long
+        }
+        b = ParseDict(d)
+        self.assertEqual(b.get_uuid('a'), 'CA761232-ED42-11CE-BACD-00AA0057B223')
+        self.assertEqual(b.get_uuid('b'), 'CA761232-ED42-11CE-BACD-00AA0057B223')
+        self.assertEqual(b.get_uuid('c'), 'CA761232ED4211CEBACD00AA0057B223')
+        self.assertEqual(b.get_uuid('d'), 'ca761232ed4211cebacd00aa0057b223')
+        self.assertEqual(b.get_uuid('e'), 'CA761232ED4211CEBACD00AA0057B223')
+        self.assertEqual(b.get_uuid('f'), '')
+        self.assertEqual(b.get_uuid('f', 'none'), 'none')
+        self.assertEqual(b.get_uuid('g'), '')
+        self.assertEqual(b.get_uuid('h'), '')
+        self.assertEqual(b.get_uuid('i'), '')
+
+    def test_get_uuid_list(self):
+        d = {
+            'a': ['CA761232-ED42-11CE-BACD-00AA0057B223', ' FB761232-ED42-314E-BFCA-00AA0057B118 ', 99.9],
+            'b': 'Hello World, See you later, 99.9',
+        }
+        b = ParseDict(d)
+        self.assertEqual(b.get_uuid_list('a'), ['CA761232-ED42-11CE-BACD-00AA0057B223', 'FB761232-ED42-314E-BFCA-00AA0057B118', None])
+        self.assertEqual(b.get_uuid_list('b'), [None, None, None])
