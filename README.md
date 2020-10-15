@@ -223,6 +223,8 @@ lng = loc.get_decimal('longitude')
     -   [`get_slug_list`](#get_slug_list)
     -   [`get_str`](#get_str)
     -   [`get_str_list`](#get_str_list)
+    -   [`get_uuid`](#get_uuid)
+    -   [`get_uuid_list`](#get_uuid_list)
 
 ### Utility methods
 
@@ -797,6 +799,22 @@ d.get_str(key, default='', choices=[])
 # Get value by key or keypath trying to return it as list of str values.
 # If separator is specified and value is a string it will be splitted.
 d.get_str_list(key, default=[], separator=',')
+```
+
+-   #### get_uuid
+
+```python
+# Get value by key or keypath trying to return it as valid uuid.
+# If choices and value is in choices return value otherwise default.
+d.get_uuid(key, default='', choices=[])
+```
+
+-   #### get_uuid_list
+
+```python
+# Get value by key or keypath trying to return it as list of valid uuid values.
+# If separator is specified and value is a string it will be splitted.
+d.get_uuid_list(key, default=[], separator=',')
 ```
 
 ## Testing
