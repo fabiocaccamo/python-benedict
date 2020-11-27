@@ -844,3 +844,9 @@ python setup.py test
 
 ## License
 Released under [MIT License](LICENSE.txt).
+
+---
+
+## See also
+
+- [`python-fsutil`](https://github.com/fabiocaccamo/python-fsutil) - file-system utilities for lazy devs. 🧟‍♂️
