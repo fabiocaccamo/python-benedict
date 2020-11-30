@@ -276,4 +276,4 @@ class benedict(KeypathDict, IODict, ParseDict):
 from yaml import SafeDumper
 from yaml.representer import SafeRepresenter
 
-SafeDumper.yaml_representers[cls] = SafeRepresenter.represent_dict
+SafeDumper.yaml_representers[benedict] = SafeRepresenter.represent_dict
