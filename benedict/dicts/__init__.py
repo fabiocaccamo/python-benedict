@@ -270,3 +270,10 @@ class benedict(KeypathDict, IODict, ParseDict):
         Remove duplicated values from the current dict instance.
         """
         _unique(self)
+
+
+# fix benedict yaml representer - #43
+from yaml import SafeDumper
+from yaml.representer import SafeRepresenter
+
+SafeDumper.yaml_representers[cls] = SafeRepresenter.represent_dict

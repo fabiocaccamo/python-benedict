@@ -3,6 +3,7 @@
 from benedict import benedict
 
 import unittest
+import yaml
 
 
 class github_issue_0043_test_case(unittest.TestCase):
@@ -21,3 +22,8 @@ class github_issue_0043_test_case(unittest.TestCase):
   level2: Hello world
 """
         self.assertEqual(s, r)
+
+    def test_dict_compatibility(self):
+        yaml.safe_dump(dict(benedict({})))
+        yaml.safe_dump(dict(benedict({"level1": None})))
+        yaml.safe_dump(dict(benedict({"level1": {"level2": "blablabla"}})))
