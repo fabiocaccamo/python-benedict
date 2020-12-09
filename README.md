@@ -342,7 +342,8 @@ m = d.match(pattern, indexes=True)
 # Merge one or more dictionary objects into current instance (deepupdate).
 # Sub-dictionaries keys will be merged toghether.
 # If overwrite is False, existing values will not be overwritten.
-d.merge(a, b, c, overwrite=True)
+# If concat is True, list values will be concatenated toghether.
+d.merge(a, b, c, overwrite=True, concat=False)
 ```
 
 -   #### move

@@ -24,6 +24,48 @@ class merge_test_case(unittest.TestCase):
         }
         self.assertEqual(d, r)
 
+    def test_merge_with_lists(self):
+        d = {
+            'a': [0, 1, 2],
+            'b': [5, 6, 7],
+            'c': [],
+            'd': [],
+        }
+        m = {
+            'a': [3, 4, 5],
+            'b': [8, 9, 0],
+            'c': [-1]
+        }
+        _merge(d, m)
+        r = {
+            'a': [3, 4, 5],
+            'b': [8, 9, 0],
+            'c': [-1],
+            'd': [],
+        }
+        self.assertEqual(d, r)
+
+    def test_merge_with_lists_and_concat(self):
+        d = {
+            'a': [0, 1, 2],
+            'b': [5, 6, 7],
+            'c': [],
+            'd': [],
+        }
+        m = {
+            'a': [3, 4, 5],
+            'b': [8, 9, 0],
+            'c': [-1]
+        }
+        _merge(d, m, concat=True)
+        r = {
+            'a': [0, 1, 2, 3, 4, 5],
+            'b': [5, 6, 7, 8, 9, 0],
+            'c': [-1],
+            'd': [],
+        }
+        self.assertEqual(d, r)
+
     def test_merge_with_multiple_dicts(self):
         d = {
             'a': 1,
