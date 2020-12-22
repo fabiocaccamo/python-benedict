@@ -17,5 +17,5 @@ class YAMLSerializer(AbstractSerializer):
         return data
 
     def encode(self, d, **kwargs):
-        data = yaml.dump(dict(d), **kwargs)
+        data = yaml.dump(dict(d.items()), **kwargs)
         return data
