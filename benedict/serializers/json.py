@@ -21,6 +21,7 @@ class JSONSerializer(AbstractSerializer):
 
     def encode(self, d, **kwargs):
         kwargs.setdefault('default', self._encode_default)
+        kwargs.setdefault('sort_keys', True)
         data = json.dumps(d, **kwargs)
         return data
 
