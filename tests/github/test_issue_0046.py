@@ -75,7 +75,7 @@ class github_issue_0046_test_case(unittest.TestCase):
         d_new_raw = {'id': '37e4f6e876', 'meta': {'k0': {'kc': {'extra_key2': 'value2', 'key1': '', 'key2': 'value2', 'key3': 'value3', 'key4': True}}, 'language': 'en'}}
         d_new_json = json.dumps(d_new_raw, sort_keys=True)
         self.assertEqual(d_new, d_new_raw)
-        self.assertEqual(d_new.to_json(), d_new_json)
+        self.assertEqual(d_new.to_json(sort_keys=True), d_new_json)
 
         d_new2 = d_new.clone()
         self.assertEqual(d_new, d_new2)
