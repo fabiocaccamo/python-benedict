@@ -79,4 +79,4 @@ class github_issue_0046_test_case(unittest.TestCase):
 
         d_new2 = d_new.clone()
         self.assertEqual(d_new, d_new2)
-        self.assertEqual(d_new.to_json(), d_new2.to_json())
+        self.assertEqual(d_new.to_json(sort_keys=True), d_new2.to_json(sort_keys=True))
