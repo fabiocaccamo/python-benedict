@@ -43,6 +43,12 @@ class benedict(KeypathDict, IODict, ParseDict):
             return
         super(benedict, self).__init__(*args, **kwargs)
 
+    def __deepcopy__(self, memo):
+        obj = benedict(keypath_separator=self._keypath_separator)
+        for key, value in self.items():
+            obj[key] = _clone(value, memo=memo)
+        return obj
+
     def __getitem__(self, key):
         return self._cast(
             super(benedict, self).__getitem__(key))

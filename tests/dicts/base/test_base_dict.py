@@ -7,6 +7,7 @@ try:
 except ImportError:
     from collections import Iterable
 
+import copy
 import unittest
 
 
@@ -49,6 +50,27 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(b, b.dict())
         del d['a']
         self.assertFalse('a' in b)
+
+    def test__deepcopy__(self):
+        b1 = BaseDict()
+        b1['a'] = {}
+        b1['a']['b'] = {}
+        b1['a']['b']['c'] = True
+        b2 = copy.deepcopy(b1)
+        self.assertEqual(b1, b2)
+        self.assertEqual(type(b1), type(b2))
+        self.assertFalse(b1 is b2)
+
+    def test__deepcopy__with_pointer(self):
+        d = {}
+        d['a'] = {}
+        d['a']['b'] = {}
+        d['a']['b']['c'] = True
+        b1 = BaseDict(d)
+        b2 = copy.deepcopy(b1)
+        self.assertEqual(b1, b2)
+        self.assertEqual(type(b1), type(b2))
+        self.assertFalse(b1 is b2)
 
     def test__delitem__(self):
         b = BaseDict()
