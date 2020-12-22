@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.22.3](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.22.3) - 2020-12-22
+-   Added `concat` option to merge method. #45
+-   Added `sort_keys=True` by default in `JSON` serializer.
+-   Added `memo` option to clone core method.
+-   Fixed broken `json.dumps` using cloned instance. #46
+
+## [0.22.2](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.22.2) - 2020-11-30
+-   Fixed `benedict` `yaml` representer. #43
+
 ## [0.22.1](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.22.1) - 2020-11-27
 -   Fixed dump `benedict` object to `yaml` not working correctly. #43
 
