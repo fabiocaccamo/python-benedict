@@ -3,11 +3,7 @@
 from benedict.serializers import (
     get_format_by_path, get_serializer_by_format, get_serializers_extensions, )
 
-from six import PY2
-
-import errno
-import os
-import requests
+import fsutil
 
 
 def autodetect_format(s):
@@ -40,7 +36,7 @@ def is_data(s):
 def is_filepath(s):
     if any([s.endswith(ext) for ext in get_serializers_extensions()]):
         return True
-    return os.path.isfile(s)
+    return fsutil.is_file(s)
 
 
 def is_url(s):
@@ -63,42 +59,15 @@ def read_content(s):
     return s
 
 
-def read_file(filepath, encoding='utf-8'):
-    if os.path.isfile(filepath):
-        content = ''
-        options = {} if PY2 else { 'encoding':encoding }
-        with open(filepath, 'r', **options) as file:
-            content = file.read()
-        return content
+def read_file(filepath, **options):
+    if fsutil.is_file(filepath):
+        return fsutil.read_file(filepath, **options)
     return None
 
 
-def read_url(url, *args, **kwargs):
-    response = requests.get(url, *args, **kwargs)
-    if response.status_code == requests.codes.ok:
-        content = response.text
-        return content
-    raise ValueError(
-        'Invalid url response status code: {}.'.format(
-            response.status_code))
+def read_url(url, **options):
+    return fsutil.read_file_from_url(url, **options)
 
 
-def write_file_dir(filepath):
-    filedir = os.path.dirname(filepath)
-    if os.path.exists(filedir):
-        return
-    try:
-        os.makedirs(filedir)
-    except OSError as e:
-        # Guard against race condition
-        if e.errno != errno.EEXIST:
-            raise e
-
-
-def write_file(filepath, content, encoding='utf-8'):
-    # https://stackoverflow.com/questions/12517451/automatically-creating-directories-with-file-output
-    write_file_dir(filepath)
-    options = {} if PY2 else { 'encoding':encoding }
-    with open(filepath, 'w+', **options) as file:
-        file.write(content)
-    return True
+def write_file(filepath, content, **options):
+    fsutil.write_file(filepath, content, **options)

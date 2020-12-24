@@ -49,6 +49,7 @@ setup(
         'mailchecker',
         'phonenumbers',
         'python-dateutil',
+        'python-fsutil',
         'python-slugify',
         'pyyaml',
         'requests',
