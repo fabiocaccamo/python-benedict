@@ -69,6 +69,25 @@ class ParseDict(BaseDict):
         return self._get_values_list(
             key, default, separator, parse_util.parse_bool)
 
+    def get_date(self, key, default=None, format=None, choices=None):
+        """
+        Get value by key or keypath trying to return it as date.
+        If format is not specified it will be autodetected.
+        If choices and value is in choices return value otherwise default.
+        """
+        return self._get_value(
+            key, default, choices, parse_util.parse_date,
+            {'format': format})
+
+    def get_date_list(self, key, default=None, format=None, separator=','):
+        """
+        Get value by key or keypath trying to return it as list of date values.
+        If separator is specified and value is a string it will be splitted.
+        """
+        return self._get_values_list(
+            key, default, separator, parse_util.parse_date,
+            {'format': format})
+
     def get_datetime(self, key, default=None, format=None, choices=None):
         """
         Get value by key or keypath trying to return it as datetime.

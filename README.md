@@ -206,6 +206,8 @@ lng = loc.get_decimal('longitude')
 
     -   [`get_bool`](#get_bool)
     -   [`get_bool_list`](#get_bool_list)
+    -   [`get_date`](#get_date)
+    -   [`get_date_list`](#get_date_list)
     -   [`get_datetime`](#get_datetime)
     -   [`get_datetime_list`](#get_datetime_list)
     -   [`get_decimal`](#get_decimal)
@@ -468,7 +470,7 @@ d = benedict.from_base64(s, subformat='json', encoding='utf-8', **kwargs)
 
 ```python
 # Try to load/decode a csv encoded data and return it as benedict instance.
-# Accept as first argument: url, filepath or data-string.ù
+# Accept as first argument: url, filepath or data-string.
 # It's possible to specify the columns list, default: None (in this case the first row values will be used as keys).
 # It's possible to pass decoder specific options using kwargs:
 # https://docs.python.org/3/library/csv.html
@@ -661,6 +663,23 @@ d.get_bool(key, default=False)
 # Get value by key or keypath trying to return it as list of bool values.
 # If separator is specified and value is a string it will be splitted.
 d.get_bool_list(key, default=[], separator=',')
+```
+
+-   #### get_date
+
+```python
+# Get value by key or keypath trying to return it as date.
+# If format is not specified it will be autodetected.
+# If choices and value is in choices return value otherwise default.
+d.get_date(key, default=None, format=None, choices=[])
+```
+
+-   #### get_date_list
+
+```python
+# Get value by key or keypath trying to return it as list of date values.
+# If separator is specified and value is a string it will be splitted.
+d.get_date_list(key, default=[], format=None, separator=',')
 ```
 
 -   #### get_datetime

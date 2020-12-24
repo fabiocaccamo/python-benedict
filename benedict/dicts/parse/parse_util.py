@@ -40,6 +40,13 @@ def parse_bool(val):
     return _parse_with(val, type_util.is_bool, _parse_bool)
 
 
+def parse_date(val, format=None):
+    val = parse_datetime(val, format)
+    if val:
+        return val.date()
+    return None
+
+
 def _parse_datetime_with_format(val, format):
     try:
         return datetime.strptime(val, format)

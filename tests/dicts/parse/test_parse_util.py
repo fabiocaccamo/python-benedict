@@ -25,6 +25,10 @@ class parse_util_test_case(unittest.TestCase):
         self.assertFalse(f('Ko'))
         self.assertFalse(f('Off'))
 
+    def test_parse_date(self):
+        # TODO
+        pass
+
     def test_parse_datetime(self):
         # TODO
         pass

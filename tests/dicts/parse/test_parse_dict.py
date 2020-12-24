@@ -73,6 +73,32 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_bool_list('c'), [True, True, True, False, False, False, None])
         self.assertEqual(b.get_bool_list('d', default=[False]), [False])
 
+    def test_get_date_default(self):
+        today = datetime.now().date()
+        d = {
+            'a': None,
+        }
+        b = ParseDict(d)
+        self.assertEqual(b.get_date('a', today), today)
+        self.assertEqual(b.get_date('b', today), today)
+
+    def test_get_date_with_date_value(self):
+        today = datetime.now().date()
+        d = {
+            'a': today,
+        }
+        b = ParseDict(d)
+        self.assertEqual(b.get_date('a'), today)
+
+    def test_get_date_list(self):
+        d = {
+            'a': ['2019-05-01', '2018-12-31', 'Hello World'],
+            'b': '2019-05-01,2018-12-31',
+        }
+        b = ParseDict(d)
+        self.assertEqual(b.get_date_list('a'), [datetime(2019, 5, 1).date(), datetime(2018, 12, 31).date(), None])
+        self.assertEqual(b.get_date_list('b'), [datetime(2019, 5, 1).date(), datetime(2018, 12, 31).date()])
+
     def test_get_datetime_default(self):
         now = datetime.now()
         d = {
