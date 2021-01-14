@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.23.1](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.23.1) - 2021-01-14
+-   Fixed `get_int_list` with single value.
+
 ## [0.23.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.23.0) - 2020-12-24
 -   Added `get_date` and `get_date_list` methods.
 -   Added `python-fsutil` library for file-system operations.
