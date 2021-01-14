@@ -320,10 +320,18 @@ class parse_dict_test_case(unittest.TestCase):
         d = {
             'a': ['0', '1', '2', 'Hello World'],
             'b': '0,1,2',
+            'c': '0',
+            'd': '1',
+            'e': '',
+            'f': None,
         }
         b = ParseDict(d)
         self.assertEqual(b.get_int_list('a'), [0, 1, 2, None])
         self.assertEqual(b.get_int_list('b'), [0, 1, 2])
+        self.assertEqual(b.get_int_list('c'), [0])
+        self.assertEqual(b.get_int_list('d'), [1])
+        self.assertEqual(b.get_int_list('e'), [])
+        self.assertEqual(b.get_int_list('f'), [])
 
     def test_get_list(self):
         d = {

@@ -143,15 +143,18 @@ def parse_int(val):
 
 
 def _parse_list(val, separator=None):
-    serializer = JSONSerializer()
-    try:
-        l = serializer.decode(val)
-        if type_util.is_list(l):
-            return l
-    except Exception:
-        if separator:
-            l = list(val.split(separator))
-            return l
+    if val.startswith('{') and val.endswith('}') or val.startswith('[') and val.endswith(']'):
+        try:
+            serializer = JSONSerializer()
+            l = serializer.decode(val)
+            if type_util.is_list(l):
+                return l
+            return None
+        except Exception:
+            pass
+    if separator:
+        l = list(val.split(separator))
+        return l
     return None
 
 
