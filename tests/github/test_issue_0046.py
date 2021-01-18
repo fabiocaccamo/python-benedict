@@ -72,11 +72,18 @@ class github_issue_0046_test_case(unittest.TestCase):
         d_new = benedict()
         d_new = d.subset(keypaths)
 
-        d_new_raw = {'id': '37e4f6e876', 'meta': {'k0': {'kc': {'extra_key2': 'value2', 'key1': '', 'key2': 'value2', 'key3': 'value3', 'key4': True}}, 'language': 'en'}}
-        d_new_json = json.dumps(d_new_raw, sort_keys=True)
-        self.assertEqual(d_new, d_new_raw)
-        self.assertEqual(d_new.to_json(sort_keys=True), d_new_json)
+        # patch the json module to force the use of the python encoder - #46
+        # import json
+        # json.encoder.c_make_encoder = None
+        json_encoder = None
+        json_dumps = lambda d: json.dumps(d, sort_keys=True, cls=json_encoder)
 
-        d_new2 = d_new.clone()
-        self.assertEqual(d_new, d_new2)
-        self.assertEqual(d_new.to_json(sort_keys=True), d_new2.to_json(sort_keys=True))
+        d_new_raw = {'id': '37e4f6e876', 'meta': {'k0': {'kc': {'extra_key2': 'value2', 'key1': '', 'key2': 'value2', 'key3': 'value3', 'key4': True}}, 'language': 'en'}}
+        self.assertEqual(d_new, d_new_raw)
+        self.assertEqual(json_dumps(d_new), json_dumps(d_new_raw))
+        self.assertEqual(d_new.to_json(sort_keys=True, cls=json_encoder), json_dumps(d_new_raw))
+
+        d_new_cloned = d_new.clone()
+        self.assertEqual(d_new, d_new_cloned)
+        self.assertEqual(json_dumps(d_new), json_dumps(d_new_cloned))
+        self.assertEqual(d_new.to_json(sort_keys=True), d_new_cloned.to_json(sort_keys=True))

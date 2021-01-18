@@ -62,6 +62,18 @@ class parse_util_test_case(unittest.TestCase):
         self.assertEqual(f(''), None)
         self.assertEqual(f(None), None)
 
+    def test_parse_list_with_valid_json(self):
+        f = lambda value: parse_util.parse_list(value, separator=None)
+        self.assertEqual(f('[0,1,2,3]'), [0, 1, 2, 3])
+
+    def test_parse_list_with_invalid_json_with_separator(self):
+        f = lambda value: parse_util.parse_list(value, separator=',')
+        self.assertEqual(f('[a,b,c]'), ['[a', 'b', 'c]'])
+
+    def test_parse_list_with_invalid_json_without_separator(self):
+        f = lambda value: parse_util.parse_list(value, separator=None)
+        self.assertEqual(f('[a,b,c]'), None)
+
     def test_parse_phonenumber(self):
         # TODO
         pass
