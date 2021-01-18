@@ -8,6 +8,7 @@ except ImportError:
     from collections import Iterable
 
 import copy
+import sys
 import unittest
 
 
@@ -185,6 +186,17 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(str(d), str(b))
         self.assertEqual(b, b.dict())
 
+    @unittest.skipIf(sys.version_info[0] > 2, 'No unicode in Python 3')
+    def test__unicode__(self):
+        d = BaseDict()
+        d['name'] = 'pythòn-bènèdìçt'
+        print(unicode(d))
+
+    @unittest.skipIf(sys.version_info[0] > 2, 'No unicode in Python > 2')
+    def test__unicode__with_pointer(self):
+        d = BaseDict({ 'name': 'pythòn-bènèdìçt' })
+        print(unicode(d))
+
     def test_clear(self):
         d = { 'a':1, 'b':2, 'c':3 }
         b = BaseDict()
@@ -337,14 +349,14 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(b, b.dict())
 
     def test_setdefault(self):
-        d = { 'a':1, 'b':2, 'c':3 }
-        b = BaseDict(d)
+        b = BaseDict()
+        b['a'] = 1
+        b['b'] = 2
+        b['c'] = 3
         v = b.setdefault('c', 4)
         self.assertEqual(v, 3)
         v = b.setdefault('d', 4)
         self.assertEqual(v, 4)
-        self.assertEqual(d, { 'a':1, 'b':2, 'c':3, 'd':4 })
-        self.assertTrue(b == d)
         self.assertEqual(b, b.dict())
 
     def test_setdefault_with_pointer(self):
