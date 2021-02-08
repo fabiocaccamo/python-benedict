@@ -23,7 +23,7 @@ class QueryStringSerializer(AbstractSerializer):
 
     def decode(self, s, **kwargs):
         flat = kwargs.pop('flat', True)
-        qs_re = r'^(([\w\-\%\+]+\=[\w\-\%\+]*)+([\&]{1})?)+'
+        qs_re = r'(?:([\w\-\%\+\.\|]+\=[\w\-\%\+\.\|]*)+(?:[\&]{1})?)+'
         qs_pattern = re.compile(qs_re)
         if qs_pattern.match(s):
             data = parse_qs(s)
