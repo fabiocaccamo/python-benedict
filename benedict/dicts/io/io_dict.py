@@ -163,7 +163,7 @@ class IODict(BaseDict):
 
     def to_csv(self, key='values', columns=None, columns_row=True, **kwargs):
         """
-        Encode the current dict instance in CSV format.
+        Encode a list of dicts in the current dict instance in CSV format.
         Encoder specific options can be passed using kwargs:
         https://docs.python.org/3/library/csv.html
         Return the encoded string and optionally save it at 'filepath'.

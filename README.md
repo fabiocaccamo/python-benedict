@@ -568,11 +568,11 @@ s = d.to_base64(subformat='json', encoding='utf-8', **kwargs)
 -   #### to_csv
 
 ```python
-# Return a list of dicts encoded in csv format and optionally save it at the specified filepath.
+# Return a list of dicts in the current dict encoded in csv format and optionally save it at the specified filepath.
 # It's possible to specify the key of the item (list of dicts) to encode, default: 'values'.
 # It's possible to specify the columns list, default: None (in this case the keys of the first item will be used).
 # A ValueError is raised in case of failure.
-d = benedict.to_csv(key='values', columns=None, columns_row=True, **kwargs)
+s = d.to_csv(key='values', columns=None, columns_row=True, **kwargs)
 ```
 
 -   #### to_json
