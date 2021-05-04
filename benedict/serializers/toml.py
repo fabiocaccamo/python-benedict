@@ -17,5 +17,5 @@ class TOMLSerializer(AbstractSerializer):
         return data
 
     def encode(self, d, **kwargs):
-        data = toml.dumps(d, **kwargs)
+        data = toml.dumps(d._dict, **kwargs)
         return data
