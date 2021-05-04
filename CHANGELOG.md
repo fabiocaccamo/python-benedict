@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.24.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.24.0) - 2021-05-04
+-   Added `ini` format support. #36 #40
+-   Added `python 3.9` to CI (tox, travis and GitHub actions).
+-   Fixed `to_toml` circular reference error. #53
+-   Updated `ftfy` requirement version depending on `python` version.
+-   Updated (improved) `QueryStringSerializer` regex.
+
 ## [0.23.2](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.23.2) - 2021-01-19
 -   Fixed `merge` method lists concat when merging nested dicts. #48
 -   Fixed `BaseDict` initialized with `BaseDict` subclass argument.
