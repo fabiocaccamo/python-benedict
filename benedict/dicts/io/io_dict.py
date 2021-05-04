@@ -82,6 +82,16 @@ class IODict(BaseDict):
         return cls(s, format='csv', **kwargs)
 
     @classmethod
+    def from_ini(cls, s, **kwargs):
+        """
+        Load and decode INI data from url, filepath or data-string.
+        Decoder specific options can be passed using kwargs:
+        https://docs.python.org/3/library/configparser.html
+        Return a new dict instance. A ValueError is raised in case of failure.
+        """
+        return cls(s, format='ini', **kwargs)
+
+    @classmethod
     def from_json(cls, s, **kwargs):
         """
         Load and decode JSON data from url, filepath or data-string.
@@ -172,6 +182,16 @@ class IODict(BaseDict):
         kwargs['columns'] = columns
         kwargs['columns_row'] = columns_row
         return self._encode(self.dict()[key], 'csv', **kwargs)
+
+    def to_ini(self, **kwargs):
+        """
+        Encode the current dict instance in INI format.
+        Encoder specific options can be passed using kwargs:
+        https://docs.python.org/3/library/configparser.html
+        Return the encoded string and optionally save it at 'filepath'.
+        A ValueError is raised in case of failure.
+        """
+        return self._encode(self.dict(), 'ini', **kwargs)
 
     def to_json(self, **kwargs):
         """

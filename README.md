@@ -14,14 +14,14 @@
 [![](https://requires.io/github/fabiocaccamo/python-benedict/requirements.svg?branch=master)](https://requires.io/github/fabiocaccamo/python-benedict/requirements/?branch=master)
 
 # python-benedict
-python-benedict is a dict subclass with **keylist/keypath** support, **I/O** shortcuts (`base64`, `csv`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xml`, `yaml`.) and many **utilities**... for humans, obviously.
+python-benedict is a dict subclass with **keylist/keypath** support, **I/O** shortcuts (`base64`, `csv`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xml`, `yaml`) and many **utilities**... for humans, obviously.
 
 ## Features
 -   100% **backward-compatible**, you can safely wrap existing dictionaries.
 -   **Keylist** support using **list of keys** as key.
 -   **Keypath** support using **keypath-separator** *(dot syntax by default)*.
 -   Keypath **list-index** support  *(also negative)* using the standard `[n]` suffix.
--   Easy **I/O operations** with most common formats: `base64`, `csv`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xml`, `yaml`.
+-   Normalized **I/O operations** with most common formats: `base64`, `csv`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xml`, `yaml`.
 -   Many **utility** and **parse methods** to retrieve data as needed *(check the [API](#api) section)*.
 -   Well **tested**. ;)
 
@@ -185,6 +185,7 @@ lng = loc.get_decimal('longitude')
 
     -   [`from_base64`](#from_base64)
     -   [`from_csv`](#from_csv)
+    -   [`from_ini`](#from_ini)
     -   [`from_json`](#from_json)
     -   [`from_pickle`](#from_pickle)
     -   [`from_plist`](#from_plist)
@@ -194,6 +195,7 @@ lng = loc.get_decimal('longitude')
     -   [`from_yaml`](#from_yaml)
     -   [`to_base64`](#to_base64)
     -   [`to_csv`](#to_csv)
+    -   [`to_ini`](#to_ini)
     -   [`to_json`](#to_json)
     -   [`to_pickle`](#to_pickle)
     -   [`to_plist`](#to_plist)
@@ -478,6 +480,17 @@ d = benedict.from_base64(s, subformat='json', encoding='utf-8', **kwargs)
 d = benedict.from_csv(s, columns=None, columns_row=True, **kwargs)
 ```
 
+-   #### from_ini
+
+```python
+# Try to load/decode a ini encoded data and return it as benedict instance.
+# Accept as first argument: url, filepath or data-string.
+# It's possible to pass decoder specific options using kwargs:
+# https://docs.python.org/3/library/configparser.html
+# A ValueError is raised in case of failure.
+d = benedict.from_ini(s, **kwargs)
+```
+
 -   #### from_json
 
 ```python
@@ -573,6 +586,16 @@ s = d.to_base64(subformat='json', encoding='utf-8', **kwargs)
 # It's possible to specify the columns list, default: None (in this case the keys of the first item will be used).
 # A ValueError is raised in case of failure.
 s = d.to_csv(key='values', columns=None, columns_row=True, **kwargs)
+```
+
+-   #### to_ini
+
+```python
+# Return the dict instance encoded in ini format and optionally save it at the specified filepath.
+# It's possible to pass encoder specific options using kwargs:
+# https://docs.python.org/3/library/configparser.html
+# A ValueError is raised in case of failure.
+s = d.to_ini(**kwargs)
 ```
 
 -   #### to_json

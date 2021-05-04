@@ -37,6 +37,8 @@ setup(
         'python', 'dictionary', 'dictionaries', 'dict', 'benedict',
         'subclass', 'extended', 'keylist', 'keypath', 'utility', 'io',
         'data', 'file', 'url', 'read', 'write', 'parse',
+        'configparser', 'config', 'cfg', 'pickle', 'plist',
+        'base64', 'csv', 'ini', 'json', 'query-string', 'toml', 'xml', 'yaml',
         'clean', 'clone', 'deepclone', 'deepupdate', 'dump',
         'filter', 'flatten', 'groupby', 'invert', 'merge',
         'move', 'nest', 'remove', 'rename', 'search', 'standardize',
