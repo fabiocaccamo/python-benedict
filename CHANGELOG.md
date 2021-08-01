@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.24.1](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.24.1) - 2021-08-01
+-   Fixed `json.dumps()` when `benedict` is initialized with an empty dict. #57
+
 ## [0.24.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.24.0) - 2021-05-04
 -   Added `ini` format support. #36 #40
 -   Added `python 3.9` to CI (tox, travis and GitHub actions).
