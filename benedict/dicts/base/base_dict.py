@@ -7,7 +7,7 @@ class BaseDict(dict):
     _pointer = False
 
     def __init__(self, *args, **kwargs):
-        if len(args) == 1 and isinstance(args[0], dict) and args[0]:
+        if len(args) == 1 and isinstance(args[0], dict):
             self._dict = args[0].dict() if issubclass(
                 type(args[0]), BaseDict) else args[0]
             self._pointer = True
@@ -103,6 +103,11 @@ class BaseDict(dict):
         if self._pointer:
             return self._dict.items()
         return super(BaseDict, self).items()
+
+    def iteritems(self):
+        if self._pointer:
+            return self._dict.iteritems()
+        return super(BaseDict, self).iteritems()
 
     def keys(self):
         if self._pointer:

@@ -279,6 +279,12 @@ class benedict(KeypathDict, IODict, ParseDict):
         _unique(self)
 
 
+# fix benedict json dumps support - #57 #59 #61
+from json import encoder
+
+encoder.c_make_encoder = None
+
+
 # fix benedict yaml representer - #43
 from yaml import SafeDumper
 from yaml.representer import SafeRepresenter
