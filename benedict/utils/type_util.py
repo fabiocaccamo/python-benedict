@@ -36,6 +36,10 @@ def is_dict_or_list(val):
     return isinstance(val, (dict, list, ))
 
 
+def is_dict_or_list_or_tuple(val):
+    return isinstance(val, (dict, list, tuple, ))
+
+
 def is_float(val):
     return isinstance(val, float)
 

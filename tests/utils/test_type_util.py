@@ -106,6 +106,22 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f('hello world'))
         self.assertFalse(f(lambda a: a))
 
+    def test_is_dict_or_list_or_tuple(self):
+        f = type_util.is_dict_or_list_or_tuple
+        self.assertFalse(f(None))
+        self.assertFalse(f(True))
+        self.assertFalse(f(False))
+        self.assertFalse(f(int(0)))
+        self.assertFalse(f(float(0.5)))
+        self.assertFalse(f(Decimal(0.5)))
+        self.assertFalse(f(datetime.now()))
+        self.assertTrue(f((0, 1, 2, )))
+        self.assertTrue(f([0, 1, 2]))
+        self.assertFalse(f(set([0, 1, 2])))
+        self.assertTrue(f({'a':0, 'b':1, 'c':2}))
+        self.assertFalse(f('hello world'))
+        self.assertFalse(f(lambda a: a))
+
     def test_is_float(self):
         f = type_util.is_float
         self.assertFalse(f(None))
