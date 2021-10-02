@@ -17,9 +17,7 @@ class KeylistDict(BaseDict):
 
     def _contains_by_keys(self, keys):
         parent, _, _ = keylist_util.get_item(self, keys)
-        if type_util.is_dict(parent):
-            return True
-        elif type_util.is_list(parent):
+        if type_util.is_dict_or_list_or_tuple(parent):
             return True
         return False
 
@@ -31,12 +29,12 @@ class KeylistDict(BaseDict):
 
     def _delitem_by_keys(self, keys):
         parent, key, _ = keylist_util.get_item(self, keys)
-        if type_util.is_dict(parent):
+        if type_util.is_dict_or_list(parent):
             del parent[key]
             return
-        elif type_util.is_list(parent):
+        elif type_util.is_tuple(parent):
+            # raise the standard TypeError
             del parent[key]
-            return
         raise KeyError('Invalid keys: "{}"'.format(keys))
 
     def __getitem__(self, key):
@@ -46,9 +44,7 @@ class KeylistDict(BaseDict):
 
     def _getitem_by_keys(self, keys):
         parent, key, _ = keylist_util.get_item(self, keys)
-        if type_util.is_dict(parent):
-            return parent[key]
-        elif type_util.is_list(parent):
+        if type_util.is_dict_or_list_or_tuple(parent):
             return parent[key]
         raise KeyError('Invalid keys: "{}"'.format(keys))
 
@@ -70,7 +66,7 @@ class KeylistDict(BaseDict):
         parent, key, _ = keylist_util.get_item(self, keys)
         if type_util.is_dict(parent):
             return parent.get(key, default)
-        elif type_util.is_list(parent):
+        elif type_util.is_list_or_tuple(parent):
             return parent[key]
         return default
 
@@ -85,6 +81,9 @@ class KeylistDict(BaseDict):
             return parent.pop(key, *args)
         elif type_util.is_list(parent):
             return parent.pop(key)
+        elif type_util.is_tuple(parent):
+            # raise the standard TypeError
+            del parent[key]
         if args:
             return args[0]
         raise KeyError('Invalid keys: "{}"'.format(keys))

@@ -10,7 +10,7 @@ def _get_index(key):
 
 
 def _get_item_key_and_value(item, key):
-    if type_util.is_list(item):
+    if type_util.is_list_or_tuple(item):
         index = _get_index(key)
         if index is not None:
             return (index, item[index], )
@@ -22,7 +22,7 @@ def _get_item_key_and_value(item, key):
 def _get_or_new_item_value(item, key, subkey):
     try:
         _, value = _get_item_key_and_value(item, key)
-        if not type_util.is_dict_or_list(value):
+        if not type_util.is_dict_or_list_or_tuple(value):
             raise TypeError
     except (IndexError, KeyError, TypeError, ):
         value = _new_item_value(subkey)
