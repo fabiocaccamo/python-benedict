@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.24.3](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.24.3) - 2021-10-04
+-   Added tuple index support when getting items. #66
+-   Added `type_util.is_dict_or_list_or_tuple` method.
+-   Improved tests.
+
 ## [0.24.2](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.24.2) - 2021-08-11
 -   Fixed `json.dumps()` when `benedict` is initialized with an empty dict. #57 #61
 -   Fixed `merge` not working with an empty dict. #59
