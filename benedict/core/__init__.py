@@ -8,8 +8,7 @@ from benedict.core.find import find
 from benedict.core.flatten import flatten
 from benedict.core.groupby import groupby
 from benedict.core.invert import invert
-from benedict.core.items_sorted import (
-    items_sorted_by_keys, items_sorted_by_values, )
+from benedict.core.items_sorted import items_sorted_by_keys, items_sorted_by_values
 from benedict.core.keylists import keylists
 from benedict.core.keypaths import keypaths
 from benedict.core.match import match

@@ -11,7 +11,6 @@ import csv
 
 
 class CSVSerializer(AbstractSerializer):
-
     def __init__(self):
         super(CSVSerializer, self).__init__()
 

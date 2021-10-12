@@ -8,8 +8,8 @@ from benedict.utils import type_util
 def _unflatten_item(key, value, separator):
     keys = key.split(separator)
     if type_util.is_dict(value):
-        return (keys, unflatten(value, separator=separator), )
-    return (keys, value, )
+        return (keys, unflatten(value, separator=separator))
+    return (keys, value)
 
 
 def unflatten(d, separator='_'):

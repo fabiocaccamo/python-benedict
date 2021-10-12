@@ -2,7 +2,6 @@
 
 
 class AbstractSerializer(object):
-
     def __init__(self):
         super(AbstractSerializer, self).__init__()
 

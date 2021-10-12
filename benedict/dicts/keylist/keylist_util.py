@@ -13,9 +13,9 @@ def _get_item_key_and_value(item, key):
     if type_util.is_list_or_tuple(item):
         index = _get_index(key)
         if index is not None:
-            return (index, item[index], )
+            return (index, item[index])
     elif type_util.is_dict(item):
-        return (key, item[key], )
+        return (key, item[key])
     raise KeyError('Invalid key: "{}"'.format(key))
 
 
@@ -24,7 +24,7 @@ def _get_or_new_item_value(item, key, subkey):
         _, value = _get_item_key_and_value(item, key)
         if not type_util.is_dict_or_list_or_tuple(value):
             raise TypeError
-    except (IndexError, KeyError, TypeError, ):
+    except (IndexError, KeyError, TypeError):
         value = _new_item_value(subkey)
         item[key] = value
     return value
@@ -43,7 +43,7 @@ def _set_item_value(item, key, value):
             item[index] = value
         except IndexError:
             # insert index
-            item += ([None] * (index - len(item)))
+            item += [None] * (index - len(item))
             item.insert(index, value)
     else:
         item[key] = value
@@ -51,7 +51,7 @@ def _set_item_value(item, key, value):
 
 def get_item(d, keys):
     items = get_items(d, keys)
-    return items[-1] if items else (None, None, None, )
+    return items[-1] if items else (None, None, None)
 
 
 def get_items(d, keys):
@@ -60,10 +60,10 @@ def get_items(d, keys):
     for key in keys:
         try:
             item_key, item_value = _get_item_key_and_value(item, key)
-            items.append((item, item_key, item_value, ))
+            items.append((item, item_key, item_value))
             item = item_value
-        except (IndexError, KeyError, ):
-            items.append((None, None, None, ))
+        except (IndexError, KeyError):
+            items.append((None, None, None))
             break
     return items
 

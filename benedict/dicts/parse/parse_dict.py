@@ -8,15 +8,13 @@ from decimal import Decimal
 
 
 class ParseDict(BaseDict):
-
     def __init__(self, *args, **kwargs):
         """
         Constructs a new instance.
         """
         super(ParseDict, self).__init__(*args, **kwargs)
 
-    def _get_value(self, key, default, choices,
-                   parser_func, parser_kwargs=None):
+    def _get_value(self, key, default, choices, parser_func, parser_kwargs=None):
         """
         Get value by key, or keypath core method.
         If choices and value is in choices return value otherwise default.
@@ -35,14 +33,18 @@ class ParseDict(BaseDict):
             return default
 
         # If choices and value in choices return value otherwise default.
-        if type_util.is_list_or_tuple(choices) and len(choices) and \
-                value not in choices:
+        if (
+            type_util.is_list_or_tuple(choices)
+            and len(choices)
+            and value not in choices
+        ):
             return default
 
         return value
 
-    def _get_values_list(self, key, default, separator,
-                         parser_func, parser_kwargs=None):
+    def _get_values_list(
+        self, key, default, separator, parser_func, parser_kwargs=None
+    ):
         """
         Get value by key or keypath trying to return it as list of bool values.
         If separator is specified and value is a string it will be splitted.
@@ -50,24 +52,21 @@ class ParseDict(BaseDict):
         if key not in self:
             return default or []
         values_list = self.get_list(key, [], separator)
-        return [parser_func(value, **(parser_kwargs or {}))
-                for value in values_list]
+        return [parser_func(value, **(parser_kwargs or {})) for value in values_list]
 
     def get_bool(self, key, default=False):
         """
         Get value by key or keypath trying to return it as bool.
         Values like `1`, `true`, `yes`, `on` will be returned as `True`.
         """
-        return self._get_value(
-            key, default, [True, False], parse_util.parse_bool)
+        return self._get_value(key, default, [True, False], parse_util.parse_bool)
 
     def get_bool_list(self, key, default=None, separator=','):
         """
         Get value by key or keypath trying to return it as list of bool values.
         If separator is specified and value is a string it will be splitted.
         """
-        return self._get_values_list(
-            key, default, separator, parse_util.parse_bool)
+        return self._get_values_list(key, default, separator, parse_util.parse_bool)
 
     def get_date(self, key, default=None, format=None, choices=None):
         """
@@ -76,8 +75,8 @@ class ParseDict(BaseDict):
         If choices and value is in choices return value otherwise default.
         """
         return self._get_value(
-            key, default, choices, parse_util.parse_date,
-            {'format': format})
+            key, default, choices, parse_util.parse_date, {'format': format}
+        )
 
     def get_date_list(self, key, default=None, format=None, separator=','):
         """
@@ -85,8 +84,8 @@ class ParseDict(BaseDict):
         If separator is specified and value is a string it will be splitted.
         """
         return self._get_values_list(
-            key, default, separator, parse_util.parse_date,
-            {'format': format})
+            key, default, separator, parse_util.parse_date, {'format': format}
+        )
 
     def get_datetime(self, key, default=None, format=None, choices=None):
         """
@@ -95,8 +94,8 @@ class ParseDict(BaseDict):
         If choices and value is in choices return value otherwise default.
         """
         return self._get_value(
-            key, default, choices, parse_util.parse_datetime,
-            {'format': format})
+            key, default, choices, parse_util.parse_datetime, {'format': format}
+        )
 
     def get_datetime_list(self, key, default=None, format=None, separator=','):
         """
@@ -104,32 +103,29 @@ class ParseDict(BaseDict):
         If separator is specified and value is a string it will be splitted.
         """
         return self._get_values_list(
-            key, default, separator, parse_util.parse_datetime,
-            {'format': format})
+            key, default, separator, parse_util.parse_datetime, {'format': format}
+        )
 
     def get_decimal(self, key, default=Decimal('0.0'), choices=None):
         """
         Get value by key or keypath trying to return it as Decimal.
         If choices and value is in choices return value otherwise default.
         """
-        return self._get_value(
-            key, default, choices, parse_util.parse_decimal)
+        return self._get_value(key, default, choices, parse_util.parse_decimal)
 
     def get_decimal_list(self, key, default=None, separator=','):
         """
         Get value by key or keypath trying to return it as list of Decimal values.
         If separator is specified and value is a string it will be splitted.
         """
-        return self._get_values_list(
-            key, default, separator, parse_util.parse_decimal)
+        return self._get_values_list(key, default, separator, parse_util.parse_decimal)
 
     def get_dict(self, key, default=None):
         """
         Get value by key or keypath trying to return it as dict.
         If value is a json string it will be automatically decoded.
         """
-        return self._get_value(
-            key, default or {}, None, parse_util.parse_dict)
+        return self._get_value(key, default or {}, None, parse_util.parse_dict)
 
     def get_email(self, key, default='', choices=None, check_blacklist=True):
         """
@@ -138,40 +134,40 @@ class ParseDict(BaseDict):
         If check_blacklist is False, it will be not ignored even if blacklisted.
         """
         return self._get_value(
-            key, default, choices, parse_util.parse_email,
-            {'check_blacklist': check_blacklist})
+            key,
+            default,
+            choices,
+            parse_util.parse_email,
+            {'check_blacklist': check_blacklist},
+        )
 
     def get_float(self, key, default=0.0, choices=None):
         """
         Get value by key or keypath trying to return it as float.
         If choices and value is in choices return value otherwise default.
         """
-        return self._get_value(
-            key, default, choices, parse_util.parse_float)
+        return self._get_value(key, default, choices, parse_util.parse_float)
 
     def get_float_list(self, key, default=None, separator=','):
         """
         Get value by key or keypath trying to return it as list of float values.
         If separator is specified and value is a string it will be splitted.
         """
-        return self._get_values_list(
-            key, default, separator, parse_util.parse_float)
+        return self._get_values_list(key, default, separator, parse_util.parse_float)
 
     def get_int(self, key, default=0, choices=None):
         """
         Get value by key or keypath trying to return it as int.
         If choices and value is in choices return value otherwise default.
         """
-        return self._get_value(
-            key, default, choices, parse_util.parse_int)
+        return self._get_value(key, default, choices, parse_util.parse_int)
 
     def get_int_list(self, key, default=None, separator=','):
         """
         Get value by key or keypath trying to return it as list of int values.
         If separator is specified and value is a string it will be splitted.
         """
-        return self._get_values_list(
-            key, default, separator, parse_util.parse_int)
+        return self._get_values_list(key, default, separator, parse_util.parse_int)
 
     def get_list(self, key, default=None, separator=','):
         """
@@ -179,8 +175,8 @@ class ParseDict(BaseDict):
         If separator is specified and value is a string it will be splitted.
         """
         return self._get_value(
-            key, default or [], None, parse_util.parse_list,
-            {'separator': separator})
+            key, default or [], None, parse_util.parse_list, {'separator': separator}
+        )
 
     def get_list_item(self, key, index=0, default=None, separator=','):
         """
@@ -205,24 +201,26 @@ class ParseDict(BaseDict):
         it will be used to parse phone number correctly.
         """
         return self._get_value(
-            key, default or {}, None, parse_util.parse_phonenumber,
-            {'country_code': country_code})
+            key,
+            default or {},
+            None,
+            parse_util.parse_phonenumber,
+            {'country_code': country_code},
+        )
 
     def get_slug(self, key, default='', choices=None):
         """
         Get value by key or keypath trying to return it as slug.
         If choices and value is in choices return value otherwise default.
         """
-        return self._get_value(
-            key, default, choices, parse_util.parse_slug)
+        return self._get_value(key, default, choices, parse_util.parse_slug)
 
     def get_slug_list(self, key, default=None, separator=','):
         """
         Get value by key or keypath trying to return it as list of slug values.
         If separator is specified and value is a string it will be splitted.
         """
-        return self._get_values_list(
-            key, default, separator, parse_util.parse_slug)
+        return self._get_values_list(key, default, separator, parse_util.parse_slug)
 
     def get_str(self, key, default='', choices=None):
         """
@@ -230,29 +228,25 @@ class ParseDict(BaseDict):
         Encoding issues will be automatically fixed.
         If choices and value is in choices return value otherwise default.
         """
-        return self._get_value(
-            key, default, choices, parse_util.parse_str)
+        return self._get_value(key, default, choices, parse_util.parse_str)
 
     def get_str_list(self, key, default=None, separator=','):
         """
         Get value by key or keypath trying to return it as list of str values.
         If separator is specified and value is a string it will be splitted.
         """
-        return self._get_values_list(
-            key, default, separator, parse_util.parse_str)
+        return self._get_values_list(key, default, separator, parse_util.parse_str)
 
     def get_uuid(self, key, default='', choices=None):
         """
         Get value by key or keypath trying to return it as valid uuid.
         If choices and value is in choices return value otherwise default.
         """
-        return self._get_value(
-            key, default, choices, parse_util.parse_uuid)
+        return self._get_value(key, default, choices, parse_util.parse_uuid)
 
     def get_uuid_list(self, key, default=None, separator=','):
         """
         Get value by key or keypath trying to return it as list of valid uuid values.
         If separator is specified and value is a string it will be splitted.
         """
-        return self._get_values_list(
-            key, default, separator, parse_util.parse_uuid)
+        return self._get_values_list(key, default, separator, parse_util.parse_uuid)

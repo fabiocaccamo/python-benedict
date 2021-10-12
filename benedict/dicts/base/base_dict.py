@@ -8,8 +8,9 @@ class BaseDict(dict):
 
     def __init__(self, *args, **kwargs):
         if len(args) == 1 and isinstance(args[0], dict):
-            self._dict = args[0].dict() if issubclass(
-                type(args[0]), BaseDict) else args[0]
+            self._dict = (
+                args[0].dict() if issubclass(type(args[0]), BaseDict) else args[0]
+            )
             self._pointer = True
             super(BaseDict, self).__init__(self._dict)
             return

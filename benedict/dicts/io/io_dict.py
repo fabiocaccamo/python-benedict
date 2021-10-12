@@ -6,7 +6,6 @@ from benedict.utils import type_util
 
 
 class IODict(BaseDict):
-
     def __init__(self, *args, **kwargs):
         """
         Constructs a new instance.
@@ -42,12 +41,12 @@ class IODict(BaseDict):
                 return {'values': data}
             else:
                 raise ValueError(
-                    'Invalid data type: {}, expected dict or list.'.format(
-                        type(data)))
+                    'Invalid data type: {}, expected dict or list.'.format(type(data))
+                )
         except Exception as e:
             raise ValueError(
-                'Invalid data or url or filepath argument: {}\n{}'.format(
-                    s, e))
+                'Invalid data or url or filepath argument: {}\n{}'.format(s, e)
+            )
 
     @staticmethod
     def _encode(d, format, **kwargs):

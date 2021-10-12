@@ -6,7 +6,6 @@ from benedict.utils import type_util
 
 
 class KeylistDict(BaseDict):
-
     def __init__(self, *args, **kwargs):
         super(KeylistDict, self).__init__(*args, **kwargs)
 

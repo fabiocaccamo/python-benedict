@@ -7,7 +7,7 @@ from benedict.utils import type_util
 def _get_term(value, case_sensitive):
     v_is_str = type_util.is_string(value)
     v = value.lower() if (v_is_str and not case_sensitive) else value
-    return (v, v_is_str, )
+    return (v, v_is_str)
 
 
 def _get_match(query, value, exact, case_sensitive):
@@ -19,16 +19,14 @@ def _get_match(query, value, exact, case_sensitive):
     return q == v
 
 
-def search(d, query,
-           in_keys=True, in_values=True, exact=False, case_sensitive=True):
+def search(d, query, in_keys=True, in_values=True, exact=False, case_sensitive=True):
     items = []
 
     def _search_item(item_dict, item_key, item_value):
-        match_key = in_keys and _get_match(
-            query, item_key, exact, case_sensitive)
-        match_val = in_values and _get_match(
-            query, item_value, exact, case_sensitive)
+        match_key = in_keys and _get_match(query, item_key, exact, case_sensitive)
+        match_val = in_values and _get_match(query, item_value, exact, case_sensitive)
         if any([match_key, match_val]):
-            items.append((item_dict, item_key, item_value, ))
+            items.append((item_dict, item_key, item_value))
+
     traverse(d, _search_item)
     return items

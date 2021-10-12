@@ -10,25 +10,20 @@ try:
     from configparser import DEFAULTSECT as default_section
 except ImportError:
     from ConfigParser import ConfigParser
+
     default_section = 'DEFAULT'
 
 from six import PY2, StringIO
 
 
 class INISerializer(AbstractSerializer):
-
     def __init__(self):
         super(INISerializer, self).__init__()
 
     @staticmethod
     def _get_section_option_value(parser, section, option):
         value = None
-        funcs = [
-            parser.getint,
-            parser.getfloat,
-            parser.getboolean,
-            parser.get,
-        ]
+        funcs = [parser.getint, parser.getfloat, parser.getboolean, parser.get]
         for func in funcs:
             try:
                 value = func(section, option)
@@ -46,12 +41,14 @@ class INISerializer(AbstractSerializer):
         data = {}
         for option, _ in parser.defaults().items():
             data[option] = self._get_section_option_value(
-                parser, default_section, option)
+                parser, default_section, option
+            )
         for section in parser.sections():
             data[section] = {}
             for option, _ in parser.items(section):
                 data[section][option] = self._get_section_option_value(
-                    parser, section, option)
+                    parser, section, option
+                )
         return data
 
     def encode(self, d, **kwargs):

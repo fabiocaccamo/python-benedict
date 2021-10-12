@@ -31,7 +31,6 @@ from benedict.dicts.parse import ParseDict
 
 
 class benedict(KeypathDict, IODict, ParseDict):
-
     def __init__(self, *args, **kwargs):
         """
         Constructs a new instance.
@@ -50,8 +49,7 @@ class benedict(KeypathDict, IODict, ParseDict):
         return obj
 
     def __getitem__(self, key):
-        return self._cast(
-            super(benedict, self).__getitem__(key))
+        return self._cast(super(benedict, self).__getitem__(key))
 
     def _cast(self, value):
         """
@@ -59,9 +57,9 @@ class benedict(KeypathDict, IODict, ParseDict):
         keeping the pointer to the original dict.
         """
         if isinstance(value, dict) and not isinstance(value, benedict):
-            return benedict(value,
-                            keypath_separator=self._keypath_separator,
-                            check_keys=False)
+            return benedict(
+                value, keypath_separator=self._keypath_separator, check_keys=False
+            )
         return value
 
     def clean(self, strings=True, collections=True):
@@ -76,15 +74,13 @@ class benedict(KeypathDict, IODict, ParseDict):
         """
         Creates and return a clone of the current dict instance (deep copy).
         """
-        return self._cast(
-            _clone(self))
+        return self._cast(_clone(self))
 
     def copy(self):
         """
         Creates and return a copy of the current instance (shallow copy).
         """
-        return self._cast(
-            super(benedict, self).copy())
+        return self._cast(super(benedict, self).copy())
 
     def deepcopy(self):
         """
@@ -127,24 +123,21 @@ class benedict(KeypathDict, IODict, ParseDict):
         return _flatten(self, separator)
 
     def get(self, key, default=None):
-        return self._cast(
-            super(benedict, self).get(key, default))
+        return self._cast(super(benedict, self).get(key, default))
 
     def get_dict(self, key, default=None):
-        return self._cast(
-            super(benedict, self).get_dict(key, default))
+        return self._cast(super(benedict, self).get_dict(key, default))
 
     def get_list_item(self, key, index=0, default=None, separator=','):
         return self._cast(
-            super(benedict, self).get_list_item(
-                key, index, default, separator))
+            super(benedict, self).get_list_item(key, index, default, separator)
+        )
 
     def groupby(self, key, by_key):
         """
         Group a list of dicts at key by the value of the given by_key and return a new dict.
         """
-        return self._cast(
-            _groupby(self[key], by_key))
+        return self._cast(_groupby(self[key], by_key))
 
     def invert(self, flat=False):
         """
@@ -173,8 +166,7 @@ class benedict(KeypathDict, IODict, ParseDict):
         Return a list of all keypaths in the dict.
         If indexes is True, the output will include list values indexes.
         """
-        return _keypaths(
-            self, separator=self._keypath_separator, indexes=indexes)
+        return _keypaths(self, separator=self._keypath_separator, indexes=indexes)
 
     def match(self, pattern, indexes=True):
         """
@@ -182,8 +174,7 @@ class benedict(KeypathDict, IODict, ParseDict):
         If pattern is string, wildcard can be used (eg. [*] can be used to match all list indexes).
         If indexes is True, the pattern will be matched also against list values.
         """
-        return _match(
-            self, pattern, separator=self._keypath_separator, indexes=indexes)
+        return _match(self, pattern, separator=self._keypath_separator, indexes=indexes)
 
     def merge(self, other, *args, **kwargs):
         """
@@ -201,8 +192,9 @@ class benedict(KeypathDict, IODict, ParseDict):
         """
         _move(self, key_src, key_dest)
 
-    def nest(self, key,
-             id_key='id', parent_id_key='parent_id', children_key='children'):
+    def nest(
+        self, key, id_key='id', parent_id_key='parent_id', children_key='children'
+    ):
         """
         Nest a list of dicts at the given key and return a new nested list
         using the specified keys to establish the correct items hierarchy.
@@ -210,8 +202,7 @@ class benedict(KeypathDict, IODict, ParseDict):
         return _nest(self[key], id_key, parent_id_key, children_key)
 
     def pop(self, key, *args):
-        return self._cast(
-            super(benedict, self).pop(key, *args))
+        return self._cast(super(benedict, self).pop(key, *args))
 
     def remove(self, keys, *args):
         """
@@ -221,8 +212,7 @@ class benedict(KeypathDict, IODict, ParseDict):
         _remove(self, keys, *args)
 
     def setdefault(self, key, default=None):
-        return self._cast(
-            super(benedict, self).setdefault(key, default))
+        return self._cast(super(benedict, self).setdefault(key, default))
 
     def rename(self, key, key_new):
         """
@@ -231,9 +221,9 @@ class benedict(KeypathDict, IODict, ParseDict):
         """
         _rename(self, key, key_new)
 
-    def search(self, query,
-               in_keys=True, in_values=True,
-               exact=False, case_sensitive=False):
+    def search(
+        self, query, in_keys=True, in_values=True, exact=False, case_sensitive=False
+    ):
         """
         Search and return a list of items (dict, key, value, ) matching the given query.
         """

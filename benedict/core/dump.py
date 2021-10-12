@@ -5,10 +5,7 @@ from benedict.serializers import JSONSerializer
 
 def dump(obj, **kwargs):
     serializer = JSONSerializer()
-    options = {
-        'indent': 4,
-        'sort_keys': True,
-    }
+    options = {'indent': 4, 'sort_keys': True}
     options.update(**kwargs)
     try:
         output = serializer.encode(obj, **options)

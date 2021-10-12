@@ -13,6 +13,7 @@ class PListSerializer(AbstractSerializer):
     """
     https://docs.python.org/3/library/plistlib.html
     """
+
     def __init__(self):
         super(PListSerializer, self).__init__()
 

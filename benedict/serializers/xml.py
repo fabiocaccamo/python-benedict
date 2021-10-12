@@ -8,7 +8,6 @@ import xmltodict
 
 
 class XMLSerializer(AbstractSerializer):
-
     def __init__(self):
         super(XMLSerializer, self).__init__()
 

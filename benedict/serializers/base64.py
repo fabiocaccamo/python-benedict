@@ -16,7 +16,6 @@ import base64
 
 
 class Base64CoreSerializer(AbstractSerializer):
-
     def __init__(self):
         super(Base64CoreSerializer, self).__init__()
 
@@ -51,7 +50,6 @@ class Base64CoreSerializer(AbstractSerializer):
 
 
 class Base64Serializer(Base64CoreSerializer):
-
     def __init__(self):
         super(Base64Serializer, self).__init__()
 
@@ -59,8 +57,9 @@ class Base64Serializer(Base64CoreSerializer):
         encoding = options.pop('encoding', 'utf-8')
         subformat = options.pop('subformat', None)
         from benedict.serializers import get_serializer_by_format
+
         serializer = get_serializer_by_format(subformat)
-        return (serializer, encoding, )
+        return (serializer, encoding)
 
     def decode(self, s, **kwargs):
         serializer, encoding = self._pop_options(kwargs)

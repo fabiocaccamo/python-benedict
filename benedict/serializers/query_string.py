@@ -17,7 +17,6 @@ import re
 
 
 class QueryStringSerializer(AbstractSerializer):
-
     def __init__(self):
         super(QueryStringSerializer, self).__init__()
 

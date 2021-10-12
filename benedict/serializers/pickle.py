@@ -9,17 +9,14 @@ import pickle
 
 
 class PickleSerializer(AbstractSerializer):
-
     def __init__(self):
         super(PickleSerializer, self).__init__()
 
     def decode(self, s, **kwargs):
         encoding = kwargs.pop('encoding', 'utf-8')
-        return pickle.loads(
-            base64.b64decode(s.encode(encoding)), **kwargs)
+        return pickle.loads(base64.b64decode(s.encode(encoding)), **kwargs)
 
     def encode(self, d, **kwargs):
         encoding = kwargs.pop('encoding', 'utf-8')
         kwargs.setdefault('protocol', 2)
-        return base64.b64encode(
-            pickle.dumps(d, **kwargs)).decode(encoding)
+        return base64.b64encode(pickle.dumps(d, **kwargs)).decode(encoding)

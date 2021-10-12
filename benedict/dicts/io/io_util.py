@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from benedict.serializers import (
-    get_format_by_path, get_serializer_by_format, get_serializers_extensions, )
+    get_format_by_path,
+    get_serializer_by_format,
+    get_serializers_extensions,
+)
 
 import fsutil
 
@@ -30,7 +33,7 @@ def encode(d, format, **kwargs):
 
 
 def is_data(s):
-    return (len(s.splitlines()) > 1)
+    return len(s.splitlines()) > 1
 
 
 def is_filepath(s):
@@ -40,8 +43,7 @@ def is_filepath(s):
 
 
 def is_url(s):
-    return any([s.startswith(protocol)
-                for protocol in ['http://', 'https://']])
+    return any([s.startswith(protocol) for protocol in ['http://', 'https://']])
 
 
 def read_content(s):

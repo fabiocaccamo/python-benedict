@@ -8,7 +8,6 @@ import yaml
 
 
 class YAMLSerializer(AbstractSerializer):
-
     def __init__(self):
         super(YAMLSerializer, self).__init__()
 

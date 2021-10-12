@@ -9,7 +9,8 @@ import re
 regex = re.compile('').__class__
 uuid_re = re.compile(
     '^([0-9a-f]{32}){1}$|^([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}){1}$',
-    flags=re.IGNORECASE)
+    flags=re.IGNORECASE,
+)
 
 
 def is_bool(val):
@@ -17,7 +18,7 @@ def is_bool(val):
 
 
 def is_collection(val):
-    return isinstance(val, (dict, list, set, tuple, ))
+    return isinstance(val, (dict, list, set, tuple))
 
 
 def is_datetime(val):
@@ -33,11 +34,11 @@ def is_dict(val):
 
 
 def is_dict_or_list(val):
-    return isinstance(val, (dict, list, ))
+    return isinstance(val, (dict, list))
 
 
 def is_dict_or_list_or_tuple(val):
-    return isinstance(val, (dict, list, tuple, ))
+    return isinstance(val, (dict, list, tuple))
 
 
 def is_float(val):
@@ -53,8 +54,9 @@ def is_integer(val):
 
 
 def is_json_serializable(val):
-    json_types = (type(None), bool, dict, float, list, tuple, ) + \
-                 integer_types + string_types
+    json_types = (
+        (type(None), bool, dict, float, list, tuple) + integer_types + string_types
+    )
     return isinstance(val, json_types)
 
 
@@ -63,7 +65,7 @@ def is_list(val):
 
 
 def is_list_or_tuple(val):
-    return isinstance(val, (list, tuple, ))
+    return isinstance(val, (list, tuple))
 
 
 def is_none(val):

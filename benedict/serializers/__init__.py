@@ -42,8 +42,7 @@ _SERIALIZERS = {
     'xml': _XML_SERIALIZER,
 }
 
-_SERIALIZERS_EXTENSIONS = [
-    '.{}'.format(extension) for extension in _SERIALIZERS.keys()]
+_SERIALIZERS_EXTENSIONS = ['.{}'.format(extension) for extension in _SERIALIZERS.keys()]
 
 
 def get_format_by_path(path):

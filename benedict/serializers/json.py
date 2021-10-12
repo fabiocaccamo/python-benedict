@@ -11,7 +11,6 @@ import json
 
 
 class JSONSerializer(AbstractSerializer):
-
     def __init__(self):
         super(JSONSerializer, self).__init__()
 

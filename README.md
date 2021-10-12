@@ -8,10 +8,11 @@
 [![](https://img.shields.io/travis/fabiocaccamo/python-benedict?logo=travis&label=build)](https://travis-ci.org/fabiocaccamo/python-benedict)
 [![](https://img.shields.io/circleci/build/gh/fabiocaccamo/python-benedict?logo=circleci&label=build)](https://circleci.com/gh/fabiocaccamo/python-benedict)
 [![](https://img.shields.io/codecov/c/gh/fabiocaccamo/python-benedict?logo=codecov)](https://codecov.io/gh/fabiocaccamo/python-benedict)
+[![](https://img.shields.io/codeclimate/maintainability/fabiocaccamo/python-benedict?logo=code-climate)](https://codeclimate.com/github/fabiocaccamo/python-benedict/)
 [![](https://img.shields.io/codacy/grade/0dbd5cc2089f4dce80a0e49e6822be3c?logo=codacy)](https://www.codacy.com/app/fabiocaccamo/python-benedict)
 [![](https://img.shields.io/scrutinizer/quality/g/fabiocaccamo/python-benedict?logo=scrutinizer)](https://scrutinizer-ci.com/g/fabiocaccamo/python-benedict/?branch=master)
-[![](https://img.shields.io/codeclimate/maintainability/fabiocaccamo/python-benedict?logo=code-climate)](https://codeclimate.com/github/fabiocaccamo/python-benedict/)
-[![](https://requires.io/github/fabiocaccamo/python-benedict/requirements.svg?branch=master)](https://requires.io/github/fabiocaccamo/python-benedict/requirements/?branch=master)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 
 # python-benedict
 python-benedict is a dict subclass with **keylist/keypath** support, **I/O** shortcuts (`base64`, `csv`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xml`, `yaml`) and many **utilities**... for humans, obviously.
