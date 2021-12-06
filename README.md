@@ -894,4 +894,6 @@ Released under [MIT License](LICENSE.txt).
 
 ## See also
 
+- [`python-fontbro`](https://github.com/fabiocaccamo/python-fontbro) - friendly font operations. 🧢
+
 - [`python-fsutil`](https://github.com/fabiocaccamo/python-fsutil) - file-system utilities for lazy devs. 🧟‍♂️
