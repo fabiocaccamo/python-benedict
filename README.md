@@ -5,6 +5,7 @@
 [![](https://badges.pufler.dev/visits/fabiocaccamo/python-benedict?label=visitors&color=blue)](https://badges.pufler.dev)
 [![](https://img.shields.io/pypi/l/python-benedict.svg?color=blue)](https://github.com/fabiocaccamo/python-benedict/blob/master/LICENSE.txt)
 
+[![](https://img.shields.io/github/workflow/status/fabiocaccamo/python-benedict/Python%20package?label=build&logo=github)](https://github.com/fabiocaccamo/python-benedict)
 [![](https://img.shields.io/circleci/build/gh/fabiocaccamo/python-benedict?logo=circleci&label=build)](https://circleci.com/gh/fabiocaccamo/python-benedict)
 [![](https://img.shields.io/codecov/c/gh/fabiocaccamo/python-benedict?logo=codecov)](https://codecov.io/gh/fabiocaccamo/python-benedict)
 [![](https://img.shields.io/codeclimate/maintainability/fabiocaccamo/python-benedict?logo=code-climate)](https://codeclimate.com/github/fabiocaccamo/python-benedict/)
