@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        platform: [ubuntu-latest, macos-latest, windows-latest]
         python-version: ['2.7', '3.5', '3.6', '3.7', '3.8', '3.9', '3.10']
 
     steps:
@@ -26,7 +27,16 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install -r requirements-test.txt
-        pip install tox tox-gh-actions
 
-    - name: Test with tox
-      run: tox
+    - name: Run tests
+      run: |
+        coverage run -m unittest
+        coverage xml -o ./coverage.xml
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
+      with:
+        fail_ci_if_error: false
+        files: ./coverage.xml
+        flags: unittests
+        verbose: true
