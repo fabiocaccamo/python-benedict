@@ -112,6 +112,11 @@ setup(
         "toml",
         "xmltodict",
     ],
+    extras_require = {
+        's3': [
+            's3fs',
+        ]
+    },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: MacOS X",
