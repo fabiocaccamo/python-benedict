@@ -21,15 +21,15 @@ class QueryStringSerializer(AbstractSerializer):
         super(QueryStringSerializer, self).__init__()
 
     def decode(self, s, **kwargs):
-        flat = kwargs.pop('flat', True)
-        qs_re = r'(?:([\w\-\%\+\.\|]+\=[\w\-\%\+\.\|]*)+(?:[\&]{1})?)+'
+        flat = kwargs.pop("flat", True)
+        qs_re = r"(?:([\w\-\%\+\.\|]+\=[\w\-\%\+\.\|]*)+(?:[\&]{1})?)+"
         qs_pattern = re.compile(qs_re)
         if qs_pattern.match(s):
             data = parse_qs(s)
             if flat:
                 data = {key: value[0] for key, value in data.items()}
             return data
-        raise ValueError('Invalid query string: {}'.format(s))
+        raise ValueError("Invalid query string: {}".format(s))
 
     def encode(self, d, **kwargs):
         data = urlencode(d, **kwargs)

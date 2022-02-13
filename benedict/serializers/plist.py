@@ -20,14 +20,14 @@ class PListSerializer(AbstractSerializer):
     def decode(self, s, **kwargs):
         if six.PY2:
             if isinstance(s, unicode):
-                s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore')
+                s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore")
             return plistlib.readPlistFromString(s)
-        kwargs.setdefault('fmt', plistlib.FMT_XML)
-        encoding = kwargs.pop('encoding', 'utf-8')
+        kwargs.setdefault("fmt", plistlib.FMT_XML)
+        encoding = kwargs.pop("encoding", "utf-8")
         return plistlib.loads(s.encode(encoding), **kwargs)
 
     def encode(self, d, **kwargs):
         if six.PY2:
             return plistlib.writePlistToString(d)
-        encoding = kwargs.pop('encoding', 'utf-8')
+        encoding = kwargs.pop("encoding", "utf-8")
         return plistlib.dumps(d, **kwargs).decode(encoding)

@@ -11,7 +11,7 @@ try:
 except ImportError:
     from ConfigParser import ConfigParser
 
-    default_section = 'DEFAULT'
+    default_section = "DEFAULT"
 
 from six import PY2, StringIO
 
@@ -55,12 +55,12 @@ class INISerializer(AbstractSerializer):
         parser = ConfigParser(**kwargs)
         for key, value in d.items():
             if not type_util.is_dict(value):
-                parser.set(default_section, key, '{}'.format(value))
+                parser.set(default_section, key, "{}".format(value))
                 continue
             section = key
             parser.add_section(section)
             for option_key, option_value in value.items():
-                parser.set(section, option_key, '{}'.format(option_value))
+                parser.set(section, option_key, "{}".format(option_value))
         str_data = StringIO()
         parser.write(str_data)
         return str_data.getvalue()

@@ -6,9 +6,9 @@ from six import integer_types, string_types
 
 import re
 
-regex = re.compile('').__class__
+regex = re.compile("").__class__
 uuid_re = re.compile(
-    '^([0-9a-f]{32}){1}$|^([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}){1}$',
+    "^([0-9a-f]{32}){1}$|^([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}){1}$",
     flags=re.IGNORECASE,
 )
 

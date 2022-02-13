@@ -19,7 +19,7 @@ class JSONSerializer(AbstractSerializer):
         return data
 
     def encode(self, d, **kwargs):
-        kwargs.setdefault('default', self._encode_default)
+        kwargs.setdefault("default", self._encode_default)
         data = json.dumps(d, **kwargs)
         return data
 

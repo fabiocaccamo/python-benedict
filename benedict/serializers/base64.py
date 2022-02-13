@@ -25,12 +25,12 @@ class Base64CoreSerializer(AbstractSerializer):
         # fix padding
         m = len(s) % 4
         if m != 0:
-            s += '=' * (4 - m)
+            s += "=" * (4 - m)
         return s
 
     def decode(self, s, **kwargs):
         value = self._fix_url_encoding_and_padding(s)
-        encoding = kwargs.pop('encoding', 'utf-8')
+        encoding = kwargs.pop("encoding", "utf-8")
         if encoding:
             value = value.encode(encoding)
         value = base64.b64decode(value)
@@ -40,7 +40,7 @@ class Base64CoreSerializer(AbstractSerializer):
 
     def encode(self, d, **kwargs):
         value = d
-        encoding = kwargs.pop('encoding', 'utf-8')
+        encoding = kwargs.pop("encoding", "utf-8")
         if encoding and type_util.is_string(value):
             value = value.encode(encoding)
         value = base64.b64encode(value)
@@ -54,8 +54,8 @@ class Base64Serializer(Base64CoreSerializer):
         super(Base64Serializer, self).__init__()
 
     def _pop_options(self, options):
-        encoding = options.pop('encoding', 'utf-8')
-        subformat = options.pop('subformat', None)
+        encoding = options.pop("encoding", "utf-8")
+        subformat = options.pop("subformat", None)
         from benedict.serializers import get_serializer_by_format
 
         serializer = get_serializer_by_format(subformat)

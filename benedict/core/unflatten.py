@@ -12,7 +12,7 @@ def _unflatten_item(key, value, separator):
     return (keys, value)
 
 
-def unflatten(d, separator='_'):
+def unflatten(d, separator="_"):
     new_dict = clone(d, empty=True)
     keys = list(d.keys())
     for key in keys:

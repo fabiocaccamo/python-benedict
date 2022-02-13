@@ -18,7 +18,7 @@ def autodetect_format(s):
 def decode(s, format, **kwargs):
     serializer = get_serializer_by_format(format)
     if not serializer:
-        raise ValueError('Invalid format: {}.'.format(format))
+        raise ValueError("Invalid format: {}.".format(format))
     decode_opts = kwargs.copy()
     data = serializer.decode(s.strip(), **decode_opts)
     return data
@@ -27,7 +27,7 @@ def decode(s, format, **kwargs):
 def encode(d, format, **kwargs):
     serializer = get_serializer_by_format(format)
     if not serializer:
-        raise ValueError('Invalid format: {}.'.format(format))
+        raise ValueError("Invalid format: {}.".format(format))
     s = serializer.encode(d, **kwargs)
     return s
 
@@ -43,7 +43,7 @@ def is_filepath(s):
 
 
 def is_url(s):
-    return any([s.startswith(protocol) for protocol in ['http://', 'https://']])
+    return any([s.startswith(protocol) for protocol in ["http://", "https://"]])
 
 
 def read_content(s):

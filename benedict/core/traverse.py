@@ -27,5 +27,5 @@ def _traverse_list(l, callback):
 
 def traverse(d, callback):
     if not callable(callback):
-        raise ValueError('callback argument must be a callable.')
+        raise ValueError("callback argument must be a callable.")
     _traverse_collection(d, callback)

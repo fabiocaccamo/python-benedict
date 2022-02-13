@@ -10,40 +10,59 @@ import six
 
 
 class io_dict_plist_test_case(io_dict_test_case):
+    """
+    This class describes an IODict / plist test case.
+    """
 
     def __init__(self, *args, **kwargs):
         super(io_dict_plist_test_case, self).__init__(*args, **kwargs)
         if six.PY2:
             self._dict = dict(
-                aString = 'Doodah',
-                aList = ['A', 'B', 12, 32.1, [1, 2, 3]],
-                aFloat = 0.1,
-                anInt = 728,
-                aDict = dict(
-                    anotherString = '<hello & hi there!>',
-                    aThirdString = u'M\xe4ssig, Ma\xdf',
-                    aTrueValue = True,
-                    aFalseValue = False,
+                aString="Doodah",
+                aList=[
+                    "A",
+                    "B",
+                    12,
+                    32.1,
+                    [1, 2, 3],
+                ],
+                aFloat=0.1,
+                anInt=728,
+                aDict=dict(
+                    anotherString="<hello & hi there!>",
+                    aThirdString="M\xe4ssig, Ma\xdf",
+                    aTrueValue=True,
+                    aFalseValue=False,
                 ),
-                someData = plistlib.Data('<binary gunk>'),
-                someMoreData = plistlib.Data('<lots of binary gunk>' * 10),
-                aDate = dt.datetime(1985, 4, 3, 23, 55)# dt.datetime.fromtimestamp(481413300),
+                someData=plistlib.Data("<binary gunk>"),
+                someMoreData=plistlib.Data("<lots of binary gunk>" * 10),
+                aDate=dt.datetime(
+                    1985, 4, 3, 23, 55
+                ),  # dt.datetime.fromtimestamp(481413300),
             )
         else:
             self._dict = dict(
-                aString = 'Doodah',
-                aList = ['A', 'B', 12, 32.1, [1, 2, 3]],
-                aFloat = 0.1,
-                anInt = 728,
-                aDict = dict(
-                    anotherString = '<hello & hi there!>',
-                    aThirdString = 'M\xe4ssig, Ma\xdf',
-                    aTrueValue = True,
-                    aFalseValue = False,
+                aString="Doodah",
+                aList=[
+                    "A",
+                    "B",
+                    12,
+                    32.1,
+                    [1, 2, 3],
+                ],
+                aFloat=0.1,
+                anInt=728,
+                aDict=dict(
+                    anotherString="<hello & hi there!>",
+                    aThirdString="M\xe4ssig, Ma\xdf",
+                    aTrueValue=True,
+                    aFalseValue=False,
                 ),
-                someData = bytes('<binary gunk>', encoding='utf-8'),
-                someMoreData = bytes('<lots of binary gunk>' * 10, encoding='utf-8'),
-                aDate = dt.datetime(1985, 4, 3, 23, 55)# dt.datetime.fromtimestamp(481413300),
+                someData=bytes("<binary gunk>", encoding="utf-8"),
+                someMoreData=bytes("<lots of binary gunk>" * 10, encoding="utf-8"),
+                aDate=dt.datetime(
+                    1985, 4, 3, 23, 55
+                ),  # dt.datetime.fromtimestamp(481413300),
             )
         # self._dict = {
         #     'aString': 'Doodah',
@@ -116,107 +135,107 @@ class io_dict_plist_test_case(io_dict_test_case):
         # static method
         d = IODict.from_plist(j)
         self.assertTrue(isinstance(d, dict))
-        self.assertEqual(d.get('aDate'), self._dict.get('aDate'))
+        self.assertEqual(d.get("aDate"), self._dict.get("aDate"))
         self.assertEqual(d, self._dict)
         # constructor
-        d = IODict(j, format='plist')
+        d = IODict(j, format="plist")
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, self._dict)
 
     def test_from_plist_with_invalid_data(self):
-        j = 'Lorem ipsum est in ea occaecat nisi officia.'
+        j = "Lorem ipsum est in ea occaecat nisi officia."
         # static method
         with self.assertRaises(ValueError):
             IODict.from_plist(j)
         # constructor
         with self.assertRaises(ValueError):
-            IODict(j, format='plist')
+            IODict(j, format="plist")
 
     def test_from_plist_with_valid_file_valid_content(self):
-        filepath = self.input_path('valid-content.plist')
+        filepath = self.input_path("valid-content.plist")
         # static method
         d = IODict.from_plist(filepath)
         self.assertTrue(isinstance(d, dict))
         # constructor
-        d = IODict(filepath, format='plist')
+        d = IODict(filepath, format="plist")
         self.assertTrue(isinstance(d, dict))
         # constructor with format autodetection
         d = IODict(filepath)
         self.assertTrue(isinstance(d, dict))
 
     def test_from_plist_with_valid_file_valid_content_invalid_format(self):
-        filepath = self.input_path('valid-content.base64')
+        filepath = self.input_path("valid-content.base64")
         with self.assertRaises(ValueError):
             IODict.from_plist(filepath)
-        filepath = self.input_path('valid-content.csv')
+        filepath = self.input_path("valid-content.csv")
         with self.assertRaises(ValueError):
             IODict.from_plist(filepath)
-        filepath = self.input_path('valid-content.json')
+        filepath = self.input_path("valid-content.json")
         with self.assertRaises(ValueError):
             IODict.from_plist(filepath)
-        filepath = self.input_path('valid-content.pickle')
+        filepath = self.input_path("valid-content.pickle")
         with self.assertRaises(ValueError):
             IODict.from_plist(filepath)
-        filepath = self.input_path('valid-content.qs')
+        filepath = self.input_path("valid-content.qs")
         with self.assertRaises(ValueError):
             IODict.from_plist(filepath)
-        filepath = self.input_path('valid-content.toml')
+        filepath = self.input_path("valid-content.toml")
         with self.assertRaises(ValueError):
             IODict.from_plist(filepath)
-        filepath = self.input_path('valid-content.xml')
+        filepath = self.input_path("valid-content.xml")
         with self.assertRaises(ValueError):
             IODict.from_plist(filepath)
-        filepath = self.input_path('valid-content.yml')
+        filepath = self.input_path("valid-content.yml")
         with self.assertRaises(ValueError):
             IODict.from_plist(filepath)
 
     def test_from_plist_with_valid_file_invalid_content(self):
-        filepath = self.input_path('invalid-content.plist')
+        filepath = self.input_path("invalid-content.plist")
         # static method
         with self.assertRaises(ValueError):
             IODict.from_plist(filepath)
         # constructor
         with self.assertRaises(ValueError):
-            IODict(filepath, format='plist')
+            IODict(filepath, format="plist")
 
     def test_from_plist_with_invalid_file(self):
-        filepath = self.input_path('invalid-file.plist')
+        filepath = self.input_path("invalid-file.plist")
         # static method
         with self.assertRaises(ValueError):
             IODict.from_plist(filepath)
         # constructor
         with self.assertRaises(ValueError):
-            IODict(filepath, format='plist')
+            IODict(filepath, format="plist")
 
     def test_from_plist_with_valid_url_valid_content(self):
-        url = self.input_url('valid-content.plist')
+        url = self.input_url("valid-content.plist")
         # static method
         d = IODict.from_plist(url)
         self.assertTrue(isinstance(d, dict))
         # constructor
-        d = IODict(url, format='plist')
+        d = IODict(url, format="plist")
         self.assertTrue(isinstance(d, dict))
         # constructor with format autodetection
         d = IODict(url)
         self.assertTrue(isinstance(d, dict))
 
     def test_from_plist_with_valid_url_invalid_content(self):
-        url = 'https://github.com/fabiocaccamo/python-benedict'
+        url = "https://github.com/fabiocaccamo/python-benedict"
         # static method
         with self.assertRaises(ValueError):
             IODict.from_plist(url)
         # constructor
         with self.assertRaises(ValueError):
-            IODict(url, format='plist')
+            IODict(url, format="plist")
 
     def test_from_plist_with_invalid_url(self):
-        url = 'https://github.com/fabiocaccamo/python-benedict-invalid'
+        url = "https://github.com/fabiocaccamo/python-benedict-invalid"
         # static method
         with self.assertRaises(ValueError):
             IODict.from_plist(url)
         # constructor
         with self.assertRaises(ValueError):
-            IODict(url, format='plist')
+            IODict(url, format="plist")
 
     def test_to_plist(self):
         # example data taken from:
@@ -228,7 +247,7 @@ class io_dict_plist_test_case(io_dict_test_case):
 
     def test_to_plist_file(self):
         d = IODict(self._dict)
-        filepath = self.output_path('test_to_plist_file.plist')
+        filepath = self.output_path("test_to_plist_file.plist")
         d.to_plist(filepath=filepath)
         self.assertFileExists(filepath)
         self.assertEqual(d, IODict.from_plist(filepath))

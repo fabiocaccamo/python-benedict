@@ -12,7 +12,7 @@ class XMLSerializer(AbstractSerializer):
         super(XMLSerializer, self).__init__()
 
     def decode(self, s, **kwargs):
-        kwargs.setdefault('dict_constructor', dict)
+        kwargs.setdefault("dict_constructor", dict)
         data = xmltodict.parse(s, **kwargs)
         return data
 

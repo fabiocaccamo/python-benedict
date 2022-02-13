@@ -6,7 +6,7 @@ from benedict.utils import type_util
 import re
 
 
-KEY_INDEX_RE = r'(?:\[[\'\"]*(\-?[\d]+)[\'\"]*\]){1}$'
+KEY_INDEX_RE = r"(?:\[[\'\"]*(\-?[\d]+)[\'\"]*\]){1}$"
 
 
 def check_keys(d, separator):
@@ -19,8 +19,8 @@ def check_keys(d, separator):
     def check_key(parent, key, value):
         if key and type_util.is_string(key) and separator in key:
             raise ValueError(
-                'keys should not contain keypath separator '
-                '\'{}\', found: \'{}\'.'.format(separator, key)
+                "keys should not contain keypath separator "
+                "'{}', found: '{}'.".format(separator, key)
             )
 
     traverse(d, check_key)
@@ -43,12 +43,12 @@ def _split_key_indexes(key):
     Splits key indexes:
     eg. 'item[0][1]' -> ['item', 0, 1].
     """
-    if '[' in key and key.endswith(']'):
+    if "[" in key and key.endswith("]"):
         keys = []
         while True:
             matches = re.findall(KEY_INDEX_RE, key)
             if matches:
-                key = re.sub(KEY_INDEX_RE, '', key)
+                key = re.sub(KEY_INDEX_RE, "", key)
                 index = int(matches[0])
                 keys.insert(0, index)
                 # keys.insert(0, { keylist_util.INDEX_KEY:index })

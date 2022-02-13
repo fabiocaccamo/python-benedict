@@ -16,7 +16,7 @@ def _get_keylist_for_list(l, parent_keys, indexes):
     keylist = []
     for key, value in enumerate(l):
         keys = list(parent_keys)
-        keys[-1] += '[{}]'.format(key)
+        keys[-1] += "[{}]".format(key)
         keylist += [keys]
         keylist += _get_keylist_for_value(value, keys, indexes)
     return keylist

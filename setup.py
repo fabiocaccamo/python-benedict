@@ -102,6 +102,7 @@ setup(
         'ftfy == 5.9.0; python_version == "3.5"',
         'ftfy; python_version >= "3.6"',
         "mailchecker",
+        "openpyxl",
         "phonenumbers",
         "python-dateutil",
         "python-fsutil",

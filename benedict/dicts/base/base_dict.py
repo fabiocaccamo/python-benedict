@@ -77,7 +77,7 @@ class BaseDict(dict):
     def __unicode__(self):
         if self._pointer:
             return unicode(self._dict)
-        return '{}'.format(self)
+        return "{}".format(self)
 
     def clear(self):
         if self._pointer:

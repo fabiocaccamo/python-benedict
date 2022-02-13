@@ -6,7 +6,7 @@ from benedict.utils import type_util
 
 def _flatten_key(base_key, key, separator):
     if base_key and separator:
-        return '{}{}{}'.format(base_key, separator, key)
+        return "{}{}{}".format(base_key, separator, key)
     return key
 
 
@@ -24,12 +24,12 @@ def _flatten_item(d, base_dict, base_key, separator):
             continue
         if new_key in new_dict:
             raise KeyError(
-                'Invalid key: "{}", key already in flatten dict.'.format(new_key)
+                "Invalid key: '{}', key already in flatten dict.".format(new_key)
             )
         new_dict[new_key] = value
     return new_dict
 
 
-def flatten(d, separator='_'):
+def flatten(d, separator="_"):
     new_dict = clone(d, empty=True)
-    return _flatten_item(d, base_dict=new_dict, base_key='', separator=separator)
+    return _flatten_item(d, base_dict=new_dict, base_key="", separator=separator)

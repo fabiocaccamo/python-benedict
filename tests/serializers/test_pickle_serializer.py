@@ -8,6 +8,9 @@ import unittest
 
 
 class pickle_serializer_test_case(unittest.TestCase):
+    """
+    This class describes a pickle serializer test case.
+    """
 
     # def test_decode_pickle(self):
     #     s = 'gAJ9cQBYBAAAAGRhdGVxAWNkYXRldGltZQpkYXRldGltZQpxAmNfY29kZWNzCmVuY29kZQpxA1gLAAAAB8OBBAMAAAAAAABxBFgGAAAAbGF0aW4xcQWGcQZScQeFcQhScQlzLg=='
@@ -27,7 +30,7 @@ class pickle_serializer_test_case(unittest.TestCase):
 
     def test_encode_decode_pickle(self):
         d = {
-            'date': dt.datetime(year=1985, month=4, day=3),
+            "date": dt.datetime(year=1985, month=4, day=3),
         }
         serializer = PickleSerializer()
         s = serializer.encode(d)

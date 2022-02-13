@@ -22,8 +22,8 @@ def _merge_item(d, key, value, overwrite=True, concat=False):
 
 
 def merge(d, other, *args, **kwargs):
-    overwrite = kwargs.get('overwrite', True)
-    concat = kwargs.get('concat', False)
+    overwrite = kwargs.get("overwrite", True)
+    concat = kwargs.get("concat", False)
     others = [other] + list(args)
     for other in others:
         _merge_dict(d, other, overwrite=overwrite, concat=concat)
