@@ -11,6 +11,10 @@ import json
 
 
 class JSONSerializer(AbstractSerializer):
+    """
+    This class describes a json serializer.
+    """
+
     def __init__(self):
         super(JSONSerializer, self).__init__()
 

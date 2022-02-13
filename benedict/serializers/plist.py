@@ -11,6 +11,7 @@ import unicodedata
 
 class PListSerializer(AbstractSerializer):
     """
+    This class describes a p list serializer.
     https://docs.python.org/3/library/plistlib.html
     """
 

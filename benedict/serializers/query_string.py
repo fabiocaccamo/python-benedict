@@ -17,6 +17,10 @@ import re
 
 
 class QueryStringSerializer(AbstractSerializer):
+    """
+    This class describes a query-string serializer.
+    """
+
     def __init__(self):
         super(QueryStringSerializer, self).__init__()
 

@@ -9,6 +9,10 @@ import pickle
 
 
 class PickleSerializer(AbstractSerializer):
+    """
+    This class describes a pickle serializer.
+    """
+
     def __init__(self):
         super(PickleSerializer, self).__init__()
 

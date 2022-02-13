@@ -11,6 +11,10 @@ import csv
 
 
 class CSVSerializer(AbstractSerializer):
+    """
+    This class describes a csv serializer.
+    """
+
     def __init__(self):
         super(CSVSerializer, self).__init__()
 

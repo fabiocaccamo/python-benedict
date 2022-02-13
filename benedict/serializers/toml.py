@@ -8,6 +8,10 @@ import toml
 
 
 class TOMLSerializer(AbstractSerializer):
+    """
+    This class describes a toml serializer.
+    """
+
     def __init__(self):
         super(TOMLSerializer, self).__init__()
 

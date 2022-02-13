@@ -17,6 +17,10 @@ from six import PY2, StringIO
 
 
 class INISerializer(AbstractSerializer):
+    """
+    This class describes an ini serializer.
+    """
+
     def __init__(self):
         super(INISerializer, self).__init__()
 

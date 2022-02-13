@@ -16,6 +16,10 @@ import base64
 
 
 class Base64CoreSerializer(AbstractSerializer):
+    """
+    This class describes a base64 core serializer.
+    """
+
     def __init__(self):
         super(Base64CoreSerializer, self).__init__()
 
