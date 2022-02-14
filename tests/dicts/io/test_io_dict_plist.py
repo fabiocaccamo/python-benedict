@@ -17,11 +17,12 @@ class io_dict_plist_test_case(io_dict_test_case):
     def __init__(self, *args, **kwargs):
         super(io_dict_plist_test_case, self).__init__(*args, **kwargs)
         if six.PY2:
+            # fmt: off
             self._dict = dict(
-                aString="Doodah",
+                aString=u"Doodah",
                 aList=[
-                    "A",
-                    "B",
+                    u"A",
+                    u"B",
                     12,
                     32.1,
                     [1, 2, 3],
@@ -29,8 +30,8 @@ class io_dict_plist_test_case(io_dict_test_case):
                 aFloat=0.1,
                 anInt=728,
                 aDict=dict(
-                    anotherString="<hello & hi there!>",
-                    aThirdString="M\xe4ssig, Ma\xdf",
+                    anotherString=u"<hello & hi there!>",
+                    aThirdString=u"M\xe4ssig, Ma\xdf",
                     aTrueValue=True,
                     aFalseValue=False,
                 ),
@@ -40,6 +41,7 @@ class io_dict_plist_test_case(io_dict_test_case):
                     1985, 4, 3, 23, 55
                 ),  # dt.datetime.fromtimestamp(481413300),
             )
+            # fmt: on
         else:
             self._dict = dict(
                 aString="Doodah",
