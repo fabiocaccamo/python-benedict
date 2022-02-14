@@ -99,7 +99,7 @@ setup(
     ],
     install_requires=[
         'ftfy == 4.4.3; python_version <= "2.7"',
-        'ftfy == 5.9.0; python_version == "3.5"',
+        'ftfy == 6.1.1; python_version == "3.5"',
         'ftfy; python_version >= "3.6"',
         "mailchecker",
         "phonenumbers",
