@@ -29,7 +29,22 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install -r requirements-test.txt
-        pip install tox-gh-actions
+
+    # # fails on python 2.7
+    # - name: Run tests
+    #   run: |
+    #     coverage run --append -m unittest
+    #     coverage xml -o ./coverage.xml
 
     - name: Run tests
-      run: tox
+      run: |
+        coverage run --append --source=benedict -m unittest
+        coverage xml -o ./coverage.xml
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
+      with:
+        fail_ci_if_error: false
+        files: ./coverage.xml
+        flags: unittests
+        verbose: true
