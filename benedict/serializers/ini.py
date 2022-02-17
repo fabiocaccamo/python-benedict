@@ -1,19 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from benedict.serializers.abstract import AbstractSerializer
 from benedict.utils import type_util
 
-try:
-    from configparser import ConfigParser
-    from configparser import DEFAULTSECT as default_section
-except ImportError:
-    from ConfigParser import ConfigParser
-
-    default_section = "DEFAULT"
-
-from six import PY2, StringIO
+from configparser import ConfigParser
+from configparser import DEFAULTSECT as default_section
+from io import StringIO
 
 
 class INISerializer(AbstractSerializer):
@@ -38,10 +30,7 @@ class INISerializer(AbstractSerializer):
 
     def decode(self, s, **kwargs):
         parser = ConfigParser(**kwargs)
-        if PY2:
-            parser.readfp(StringIO(s))
-        else:
-            parser.read_string(s)
+        parser.read_string(s)
         data = {}
         for option, _ in parser.defaults().items():
             data[option] = self._get_section_option_value(

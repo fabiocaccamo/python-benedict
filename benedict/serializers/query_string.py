@@ -1,17 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from benedict.serializers.abstract import AbstractSerializer
 
-try:
-    # python 3
-    from urllib.parse import urlencode
-    from urllib.parse import parse_qs
-except ImportError:
-    # python 2
-    from urllib import urlencode
-    from urlparse import parse_qs
+from urllib.parse import urlencode
+from urllib.parse import parse_qs
 
 import re
 

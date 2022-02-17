@@ -1,16 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from benedict.serializers.abstract import AbstractSerializer
 from benedict.utils import type_util
 
-try:
-    # python 3
-    from urllib.parse import unquote
-except ImportError:
-    # python 2
-    from urllib import unquote
+from urllib.parse import unquote
 
 import base64
 

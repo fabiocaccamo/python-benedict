@@ -1,14 +1,10 @@
-ftfy==4.4.3; python_version <= '2.7'
-ftfy==5.9.0; python_version >= '3.0' and python_version <= '3.5'
-ftfy; python_version >= '3.6'
+ftfy
 mailchecker
 phonenumbers
 python-dateutil
 python-fsutil
-python-slugify == 5.0.0; python_version <= '2.7'
-python-slugify; python_version >= '3.6'
+python-slugify
 pyyaml
 requests
-six
 toml
 xmltodict

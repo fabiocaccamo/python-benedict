@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from benedict.serializers.abstract import AbstractSerializer
 from benedict.utils import type_util
 
-from six import StringIO
+from io import StringIO
 
 import csv
 

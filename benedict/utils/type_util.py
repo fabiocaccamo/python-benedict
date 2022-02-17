@@ -2,7 +2,6 @@
 
 from datetime import datetime
 from decimal import Decimal
-from six import integer_types, string_types
 
 import re
 
@@ -50,13 +49,11 @@ def is_function(val):
 
 
 def is_integer(val):
-    return isinstance(val, integer_types)
+    return isinstance(val, int)
 
 
 def is_json_serializable(val):
-    json_types = (
-        (type(None), bool, dict, float, list, tuple) + integer_types + string_types
-    )
+    json_types = (type(None), bool, dict, float, int, list, str, tuple)
     return isinstance(val, json_types)
 
 
@@ -85,7 +82,7 @@ def is_set(val):
 
 
 def is_string(val):
-    return isinstance(val, string_types)
+    return isinstance(val, str)
 
 
 def is_tuple(val):

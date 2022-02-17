@@ -8,7 +8,6 @@ from dateutil import parser as date_parser
 from decimal import Decimal, DecimalException
 from MailChecker import MailChecker
 from phonenumbers import phonenumberutil, PhoneNumberFormat
-from six import text_type
 from slugify import slugify
 
 import ftfy
@@ -21,7 +20,7 @@ def _parse_with(val, type_checker, parser, **kwargs):
         return None
     if callable(type_checker) and type_checker(val):
         return val
-    s = text_type(val)
+    s = str(val)
     if not len(s):
         return None
     return parser(s, **kwargs)
@@ -71,7 +70,7 @@ def _parse_datetime_from_timestamp(val):
 def parse_datetime(val, format=None):
     if type_util.is_datetime(val):
         return val
-    s = text_type(val)
+    s = str(val)
     if format:
         return _parse_datetime_with_format(s, format)
     else:
@@ -214,7 +213,7 @@ def parse_str(val):
         except UnicodeError:
             pass
     else:
-        val = text_type(val)
+        val = str(val)
     val = val.strip()
     val = " ".join(val.split())
     return val

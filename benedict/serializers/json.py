@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from benedict.serializers.abstract import AbstractSerializer
 from benedict.utils import type_util
-
-from six import text_type
 
 import json
 
@@ -33,5 +29,5 @@ class JSONSerializer(AbstractSerializer):
         elif type_util.is_datetime(obj):
             return obj.isoformat()
         elif type_util.is_decimal(obj):
-            return text_type(obj)
-        return text_type(obj)
+            return str(obj)
+        return str(obj)

@@ -54,10 +54,6 @@ class BaseDict(dict):
             return len(self._dict)
         return super(BaseDict, self).__len__()
 
-    def __nonzero__(self):
-        # python 2
-        return self.__bool__()
-
     def __repr__(self):
         if self._pointer:
             return repr(self._dict)
@@ -73,11 +69,6 @@ class BaseDict(dict):
         if self._pointer:
             return str(self._dict)
         return super(BaseDict, self).__str__()
-
-    def __unicode__(self):
-        if self._pointer:
-            return unicode(self._dict)
-        return "{}".format(self)
 
     def clear(self):
         if self._pointer:
