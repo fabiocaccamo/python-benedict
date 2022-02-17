@@ -96,11 +96,6 @@ class BaseDict(dict):
             return self._dict.items()
         return super(BaseDict, self).items()
 
-    def iteritems(self):
-        if self._pointer:
-            return self._dict.iteritems()
-        return super(BaseDict, self).iteritems()
-
     def keys(self):
         if self._pointer:
             return self._dict.keys()

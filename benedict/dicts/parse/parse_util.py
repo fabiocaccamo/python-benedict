@@ -208,10 +208,7 @@ def parse_slug(val):
 
 def parse_str(val):
     if type_util.is_string(val):
-        try:
-            val = ftfy.fix_text(val)
-        except UnicodeError:
-            pass
+        val = ftfy.fix_text(val)
     else:
         val = str(val)
     val = val.strip()

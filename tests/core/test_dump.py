@@ -2,7 +2,6 @@
 
 from benedict.core import dump as _dump
 from decimal import Decimal
-from six import PY3
 
 import datetime as dt
 import unittest

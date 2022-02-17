@@ -4,9 +4,7 @@ from benedict.dicts.parse import ParseDict
 
 from datetime import datetime
 from decimal import Decimal
-from six import PY2, PY3
 
-import time
 import unittest
 
 
@@ -142,7 +140,7 @@ class parse_dict_test_case(unittest.TestCase):
 
     def test_get_datetime_with_timestamp_int(self):
         now = datetime.now()
-        ts = time.mktime(now.timetuple()) if PY2 else datetime.timestamp(now)
+        ts = datetime.timestamp(now)
         d = {
             "a": ts,
         }
@@ -151,7 +149,7 @@ class parse_dict_test_case(unittest.TestCase):
 
     def test_get_datetime_with_timestamp_string(self):
         now = datetime.now()
-        ts = time.mktime(now.timetuple()) if PY2 else datetime.timestamp(now)
+        ts = datetime.timestamp(now)
         d = {
             "a": str(ts),
         }
@@ -561,10 +559,8 @@ class parse_dict_test_case(unittest.TestCase):
             "b": "Localit\xe0",
         }
         b = ParseDict(d)
-        # only python 3
-        if PY3:
-            self.assertEqual(b.get_str("a"), "Sex'n Drug")
-            self.assertEqual(b.get_str("b"), "Località")
+        self.assertEqual(b.get_str("a"), "Sex'n Drug")
+        self.assertEqual(b.get_str("b"), "Località")
 
     def test_get_str_list(self):
         d = {
