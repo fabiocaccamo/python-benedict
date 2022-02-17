@@ -105,7 +105,7 @@ setup(
         "phonenumbers",
         "python-dateutil",
         "python-fsutil",
-        "python-slugify == 5.0.2; python_version <= '2.7'",
+        "python-slugify == 5.0.0; python_version <= '2.7'",
         "python-slugify; python_version >= '3.6'",
         "pyyaml",
         "requests",
