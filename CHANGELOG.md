@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.25.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.25.0) - 2022-02-18
+-   Added official `python 3.10` support.
+-   Dropped `python 2.7` and `python 3.5` support.
+-   Pinned requirements versions.
+-   Reformatted code with **Black**.
+
 ## [0.24.3](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.24.3) - 2021-10-04
 -   Added tuple index support when getting items. #66
 -   Added `type_util.is_dict_or_list_or_tuple` method.
