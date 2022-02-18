@@ -16,7 +16,7 @@ def match(d, pattern, separator=".", indexes=True):
         pattern = re.sub(r"(\[([^\[\]]*)\])", "\\[\\g<2>\\]", pattern)
         regex = re.compile(pattern, flags=re.DOTALL)
     else:
-        raise ValueError("Expected regex or string, found: {}".format(type(pattern)))
+        raise ValueError(f"Expected regex or string, found: {type(pattern)}")
     kps = keypaths(d, separator=separator, indexes=indexes)
     values = [d.get(kp) for kp in kps if regex.match(kp)]
     return values

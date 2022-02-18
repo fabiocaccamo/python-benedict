@@ -191,7 +191,7 @@ def parse_phonenumber(val, country_code=None):
     phone_raw = re.sub(r"[^0-9\+]", " ", s)
     phone_raw = phone_raw.strip()
     if phone_raw.startswith("00"):
-        phone_raw = "+{}".format(phone_raw[2:])
+        phone_raw = "+" + phone_raw[2:]
     if country_code and len(country_code) >= 2:
         country_code = country_code[0:2].upper()
     return _parse_with(phone_raw, None, _parse_phonenumber, country_code=country_code)

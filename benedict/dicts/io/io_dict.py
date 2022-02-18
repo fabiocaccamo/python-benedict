@@ -41,12 +41,10 @@ class IODict(BaseDict):
                 return {"values": data}
             else:
                 raise ValueError(
-                    "Invalid data type: {}, expected dict or list.".format(type(data))
+                    f"Invalid data type: {type(data)}, expected dict or list."
                 )
         except Exception as e:
-            raise ValueError(
-                "Invalid data or url or filepath argument: {}\n{}".format(s, e)
-            )
+            raise ValueError(f"Invalid data or url or filepath argument: {s}\n{e}")
 
     @staticmethod
     def _encode(d, format, **kwargs):

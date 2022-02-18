@@ -25,7 +25,7 @@ class QueryStringSerializer(AbstractSerializer):
             if flat:
                 data = {key: value[0] for key, value in data.items()}
             return data
-        raise ValueError("Invalid query string: {}".format(s))
+        raise ValueError(f"Invalid query string: {s}")
 
     def encode(self, d, **kwargs):
         data = urlencode(d, **kwargs)

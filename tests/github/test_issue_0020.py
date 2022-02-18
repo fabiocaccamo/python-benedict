@@ -18,7 +18,7 @@ class GetAtt(yaml.YAMLObject):
         return cls(node.value)
 
     def __repr__(self):
-        return "GetAtt({})".format(self.val)
+        return f"GetAtt({self.val})"
 
 
 yaml.add_constructor("!GetAtt", GetAtt.from_yaml)

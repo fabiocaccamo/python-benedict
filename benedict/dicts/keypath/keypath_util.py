@@ -19,8 +19,7 @@ def check_keys(d, separator):
     def check_key(parent, key, value):
         if key and type_util.is_string(key) and separator in key:
             raise ValueError(
-                "keys should not contain keypath separator "
-                "'{}', found: '{}'.".format(separator, key)
+                f"Key should not contain keypath separator '{separator}', found: '{key}'."
             )
 
     traverse(d, check_key)
