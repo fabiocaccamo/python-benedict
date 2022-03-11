@@ -6,8 +6,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+
+  test:
+  
     runs-on: ubuntu-latest
+    
     strategy:
       fail-fast: false
       matrix:
@@ -29,12 +32,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install -r requirements-test.txt
-
-    # # fails on python 2.7
-    # - name: Run tests
-    #   run: |
-    #     coverage run --append -m unittest
-    #     coverage xml -o ./coverage.xml
 
     - name: Run tests
       run: |
