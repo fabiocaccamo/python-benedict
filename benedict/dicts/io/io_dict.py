@@ -31,6 +31,9 @@ class IODict(BaseDict):
     @staticmethod
     def _decode(s, format, **kwargs):
         try:
+            if format in ["xls"]:
+                # TODO: xls is not a text file, no need to read file text content before
+                pass
             content = io_util.read_content(s)
             # decode content using the given format
             data = io_util.decode(content, format, **kwargs)
@@ -135,6 +138,19 @@ class IODict(BaseDict):
         Return a new dict instance. A ValueError is raised in case of failure.
         """
         return cls(s, format="toml", **kwargs)
+
+    @classmethod
+    def from_xls(cls, s, columns=None, columns_row=True, sheet_index=0, **kwargs):
+        """
+        Load and decode XLS data from filepath or data-string.
+        Decoder specific options can be passed using kwargs:
+        https://openpyxl.readthedocs.io/
+        Return a new dict instance. A ValueError is raised in case of failure.
+        """
+        kwargs["columns"] = columns
+        kwargs["columns_row"] = columns_row
+        kwargs["sheet_index"] = sheet_index
+        return cls(s, format="xls", **kwargs)
 
     @classmethod
     def from_xml(cls, s, **kwargs):
@@ -248,6 +264,9 @@ class IODict(BaseDict):
         A ValueError is raised in case of failure.
         """
         return self._encode(self.dict(), "xml", **kwargs)
+
+    def to_xls(self, **kwargs):
+        raise NotImplementedError
 
     def to_yaml(self, **kwargs):
         """

@@ -9,6 +9,7 @@ from benedict.serializers.pickle import PickleSerializer
 from benedict.serializers.plist import PListSerializer
 from benedict.serializers.query_string import QueryStringSerializer
 from benedict.serializers.toml import TOMLSerializer
+from benedict.serializers.xls import XLSSerializer
 from benedict.serializers.xml import XMLSerializer
 from benedict.serializers.yaml import YAMLSerializer
 
@@ -24,6 +25,7 @@ _PLIST_SERIALIZER = PListSerializer()
 _QUERY_STRING_SERIALIZER = QueryStringSerializer()
 _TOML_SERIALIZER = TOMLSerializer()
 _YAML_SERIALIZER = YAMLSerializer()
+_XLS_SERIALIZER = XLSSerializer()
 _XML_SERIALIZER = XMLSerializer()
 
 _SERIALIZERS = {
@@ -39,6 +41,11 @@ _SERIALIZERS = {
     "toml": _TOML_SERIALIZER,
     "yaml": _YAML_SERIALIZER,
     "yml": _YAML_SERIALIZER,
+    "xls": _XLS_SERIALIZER,
+    "xlsx": _XLS_SERIALIZER,
+    "xlsm": _XLS_SERIALIZER,
+    "xltx": _XLS_SERIALIZER,
+    "xltm": _XLS_SERIALIZER,
     "xml": _XML_SERIALIZER,
 }
 
