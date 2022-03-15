@@ -2,6 +2,10 @@
 
 
 class AbstractSerializer(object):
+    """
+    This class describes an abstract serializer.
+    """
+
     def __init__(self):
         super(AbstractSerializer, self).__init__()
 

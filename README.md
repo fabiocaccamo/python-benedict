@@ -1,16 +1,16 @@
 [![](https://img.shields.io/pypi/pyversions/python-benedict.svg?color=blue&logo=python&logoColor=white)](https://www.python.org/)
 [![](https://img.shields.io/pypi/v/python-benedict.svg?color=blue&logo=pypi&logoColor=white)](https://pypi.org/project/python-benedict/)
-[![](https://pepy.tech/badge/python-benedict)](https://pepy.tech/project/python-benedict)
+[![](https://pepy.tech/badge/python-benedict/month)](https://pepy.tech/project/python-benedict)
 [![](https://img.shields.io/github/stars/fabiocaccamo/python-benedict?logo=github)](https://github.com/fabiocaccamo/python-benedict/)
 [![](https://badges.pufler.dev/visits/fabiocaccamo/python-benedict?label=visitors&color=blue)](https://badges.pufler.dev)
 [![](https://img.shields.io/pypi/l/python-benedict.svg?color=blue)](https://github.com/fabiocaccamo/python-benedict/blob/master/LICENSE.txt)
 
-[![](https://img.shields.io/github/workflow/status/fabiocaccamo/python-benedict/Python%20package?label=build&logo=github)](https://github.com/fabiocaccamo/python-benedict)
+[![](https://img.shields.io/github/workflow/status/fabiocaccamo/python-benedict/Test%20package?label=build&logo=github)](https://github.com/fabiocaccamo/python-benedict)
 [![](https://img.shields.io/codecov/c/gh/fabiocaccamo/python-benedict?logo=codecov)](https://codecov.io/gh/fabiocaccamo/python-benedict)
 [![](https://img.shields.io/codeclimate/maintainability/fabiocaccamo/python-benedict?logo=code-climate)](https://codeclimate.com/github/fabiocaccamo/python-benedict/)
 [![](https://img.shields.io/codacy/grade/0dbd5cc2089f4dce80a0e49e6822be3c?logo=codacy)](https://www.codacy.com/app/fabiocaccamo/python-benedict)
 [![](https://img.shields.io/scrutinizer/quality/g/fabiocaccamo/python-benedict?logo=scrutinizer)](https://scrutinizer-ci.com/g/fabiocaccamo/python-benedict/?branch=master)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 
 # python-benedict

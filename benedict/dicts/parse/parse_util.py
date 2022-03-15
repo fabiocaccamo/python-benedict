@@ -8,7 +8,6 @@ from dateutil import parser as date_parser
 from decimal import Decimal, DecimalException
 from MailChecker import MailChecker
 from phonenumbers import phonenumberutil, PhoneNumberFormat
-from six import text_type
 from slugify import slugify
 
 import ftfy
@@ -21,7 +20,7 @@ def _parse_with(val, type_checker, parser, **kwargs):
         return None
     if callable(type_checker) and type_checker(val):
         return val
-    s = text_type(val)
+    s = str(val)
     if not len(s):
         return None
     return parser(s, **kwargs)
@@ -29,9 +28,9 @@ def _parse_with(val, type_checker, parser, **kwargs):
 
 def _parse_bool(val):
     val = val.lower()
-    if val in ['1', 'true', 'yes', 'ok', 'on']:
+    if val in ["1", "true", "yes", "ok", "on"]:
         return True
-    elif val in ['0', 'false', 'no', 'ko', 'off']:
+    elif val in ["0", "false", "no", "ko", "off"]:
         return False
     return None
 
@@ -71,7 +70,7 @@ def _parse_datetime_from_timestamp(val):
 def parse_datetime(val, format=None):
     if type_util.is_datetime(val):
         return val
-    s = text_type(val)
+    s = str(val)
     if format:
         return _parse_datetime_with_format(s, format)
     else:
@@ -143,10 +142,10 @@ def parse_int(val):
 
 def _parse_list(val, separator=None):
     if (
-        val.startswith('{')
-        and val.endswith('}')
-        or val.startswith('[')
-        and val.endswith(']')
+        val.startswith("{")
+        and val.endswith("}")
+        or val.startswith("[")
+        and val.endswith("]")
     ):
         try:
             serializer = JSONSerializer()
@@ -172,11 +171,11 @@ def _parse_phonenumber(val, country_code=None):
         phone_obj = phonenumbers.parse(val, country_code)
         if phonenumbers.is_valid_number(phone_obj):
             return {
-                'e164': phonenumbers.format_number(phone_obj, PhoneNumberFormat.E164),
-                'international': phonenumbers.format_number(
+                "e164": phonenumbers.format_number(phone_obj, PhoneNumberFormat.E164),
+                "international": phonenumbers.format_number(
                     phone_obj, PhoneNumberFormat.INTERNATIONAL
                 ),
-                'national': phonenumbers.format_number(
+                "national": phonenumbers.format_number(
                     phone_obj, PhoneNumberFormat.NATIONAL
                 ),
             }
@@ -189,10 +188,10 @@ def parse_phonenumber(val, country_code=None):
     s = parse_str(val)
     if not s:
         return None
-    phone_raw = re.sub(r'[^0-9\+]', ' ', s)
+    phone_raw = re.sub(r"[^0-9\+]", " ", s)
     phone_raw = phone_raw.strip()
-    if phone_raw.startswith('00'):
-        phone_raw = '+{}'.format(phone_raw[2:])
+    if phone_raw.startswith("00"):
+        phone_raw = "+" + phone_raw[2:]
     if country_code and len(country_code) >= 2:
         country_code = country_code[0:2].upper()
     return _parse_with(phone_raw, None, _parse_phonenumber, country_code=country_code)
@@ -209,14 +208,11 @@ def parse_slug(val):
 
 def parse_str(val):
     if type_util.is_string(val):
-        try:
-            val = ftfy.fix_text(val)
-        except UnicodeError:
-            pass
+        val = ftfy.fix_text(val)
     else:
-        val = text_type(val)
+        val = str(val)
     val = val.strip()
-    val = ' '.join(val.split())
+    val = " ".join(val.split())
     return val
 
 

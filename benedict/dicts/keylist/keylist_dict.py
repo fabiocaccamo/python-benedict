@@ -34,7 +34,7 @@ class KeylistDict(BaseDict):
         elif type_util.is_tuple(parent):
             # raise the standard TypeError
             del parent[key]
-        raise KeyError('Invalid keys: "{}"'.format(keys))
+        raise KeyError(f"Invalid keys: '{keys}'")
 
     def __getitem__(self, key):
         if type_util.is_list_or_tuple(key):
@@ -45,7 +45,7 @@ class KeylistDict(BaseDict):
         parent, key, _ = keylist_util.get_item(self, keys)
         if type_util.is_dict_or_list_or_tuple(parent):
             return parent[key]
-        raise KeyError('Invalid keys: "{}"'.format(keys))
+        raise KeyError(f"Invalid keys: '{keys}'")
 
     def __setitem__(self, key, value):
         if type_util.is_list_or_tuple(key):
@@ -85,7 +85,7 @@ class KeylistDict(BaseDict):
             del parent[key]
         if args:
             return args[0]
-        raise KeyError('Invalid keys: "{}"'.format(keys))
+        raise KeyError(f"Invalid keys: '{keys}'")
 
     def set(self, key, value):
         self[key] = value

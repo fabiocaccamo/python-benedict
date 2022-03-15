@@ -6,51 +6,54 @@ import unittest
 
 
 class unique_test_case(unittest.TestCase):
+    """
+    This class describes an unique test case.
+    """
 
     def test_unique(self):
         d = {
-            'a': {
-                'x': 1,
-                'y': 1,
+            "a": {
+                "x": 1,
+                "y": 1,
             },
-            'b': {
-                'x': 2,
-                'y': 2,
+            "b": {
+                "x": 2,
+                "y": 2,
             },
-            'c': {
-                'x': 1,
-                'y': 1,
+            "c": {
+                "x": 1,
+                "y": 1,
             },
-            'd': {
-                'x': 1,
+            "d": {
+                "x": 1,
             },
-            'e': {
-                'x': 1,
-                'y': 1,
-                'z': 1,
+            "e": {
+                "x": 1,
+                "y": 1,
+                "z": 1,
             },
-            'f': {
-                'x': 2,
-                'y': 2,
+            "f": {
+                "x": 2,
+                "y": 2,
             },
         }
         _unique(d)
         rv = [
             {
-                'x': 1,
-                'y': 1,
+                "x": 1,
+                "y": 1,
             },
             {
-                'x': 2,
-                'y': 2,
+                "x": 2,
+                "y": 2,
             },
             {
-                'x': 1,
+                "x": 1,
             },
             {
-                'x': 1,
-                'y': 1,
-                'z': 1,
+                "x": 1,
+                "y": 1,
+                "z": 1,
             },
         ]
         self.assertEqual(len(d.keys()), len(rv))

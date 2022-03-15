@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from benedict.serializers.abstract import AbstractSerializer
 
 import toml
 
 
 class TOMLSerializer(AbstractSerializer):
+    """
+    This class describes a toml serializer.
+    """
+
     def __init__(self):
         super(TOMLSerializer, self).__init__()
 

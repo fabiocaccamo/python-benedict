@@ -7,8 +7,8 @@ import yaml
 
 
 class github_issue_0043_test_case(unittest.TestCase):
-
     """
+    This class describes a github issue 0043 test case.
     https://github.com/fabiocaccamo/python-benedict/issues/43
 
     To run this specific test:

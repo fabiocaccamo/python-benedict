@@ -21,10 +21,10 @@ class IODict(BaseDict):
     @staticmethod
     def _decode_init(s, **kwargs):
         autodetected_format = io_util.autodetect_format(s)
-        default_format = autodetected_format or 'json'
-        format = kwargs.pop('format', default_format).lower()
-        if format in ['b64', 'base64']:
-            kwargs.setdefault('subformat', 'json')
+        default_format = autodetected_format or "json"
+        format = kwargs.pop("format", default_format).lower()
+        if format in ["b64", "base64"]:
+            kwargs.setdefault("subformat", "json")
         # decode data-string and initialize with dict data.
         return IODict._decode(s, format, **kwargs)
 
@@ -38,35 +38,33 @@ class IODict(BaseDict):
                 return data
             elif type_util.is_list(data):
                 # force list to dict
-                return {'values': data}
+                return {"values": data}
             else:
                 raise ValueError(
-                    'Invalid data type: {}, expected dict or list.'.format(type(data))
+                    f"Invalid data type: {type(data)}, expected dict or list."
                 )
         except Exception as e:
-            raise ValueError(
-                'Invalid data or url or filepath argument: {}\n{}'.format(s, e)
-            )
+            raise ValueError(f"Invalid data or url or filepath argument: {s}\n{e}")
 
     @staticmethod
     def _encode(d, format, **kwargs):
-        filepath = kwargs.pop('filepath', None)
+        filepath = kwargs.pop("filepath", None)
         s = io_util.encode(d, format, **kwargs)
         if filepath:
             io_util.write_file(filepath, s)
         return s
 
     @classmethod
-    def from_base64(cls, s, subformat='json', encoding='utf-8', **kwargs):
+    def from_base64(cls, s, subformat="json", encoding="utf-8", **kwargs):
         """
         Load and decode Base64 data from url, filepath or data-string.
         Data is decoded according to subformat and encoding.
         Decoder specific options can be passed using kwargs.
         Return a new dict instance. A ValueError is raised in case of failure.
         """
-        kwargs['subformat'] = subformat
-        kwargs['encoding'] = encoding
-        return cls(s, format='base64', **kwargs)
+        kwargs["subformat"] = subformat
+        kwargs["encoding"] = encoding
+        return cls(s, format="base64", **kwargs)
 
     @classmethod
     def from_csv(cls, s, columns=None, columns_row=True, **kwargs):
@@ -76,9 +74,9 @@ class IODict(BaseDict):
         https://docs.python.org/3/library/csv.html
         Return a new dict instance. A ValueError is raised in case of failure.
         """
-        kwargs['columns'] = columns
-        kwargs['columns_row'] = columns_row
-        return cls(s, format='csv', **kwargs)
+        kwargs["columns"] = columns
+        kwargs["columns_row"] = columns_row
+        return cls(s, format="csv", **kwargs)
 
     @classmethod
     def from_ini(cls, s, **kwargs):
@@ -88,7 +86,7 @@ class IODict(BaseDict):
         https://docs.python.org/3/library/configparser.html
         Return a new dict instance. A ValueError is raised in case of failure.
         """
-        return cls(s, format='ini', **kwargs)
+        return cls(s, format="ini", **kwargs)
 
     @classmethod
     def from_json(cls, s, **kwargs):
@@ -98,7 +96,7 @@ class IODict(BaseDict):
         https://docs.python.org/3/library/json.html
         Return a new dict instance. A ValueError is raised in case of failure.
         """
-        return cls(s, format='json', **kwargs)
+        return cls(s, format="json", **kwargs)
 
     @classmethod
     def from_pickle(cls, s, **kwargs):
@@ -108,7 +106,7 @@ class IODict(BaseDict):
         https://docs.python.org/3/library/pickle.html
         Return a new dict instance. A ValueError is raised in case of failure.
         """
-        return cls(s, format='pickle', **kwargs)
+        return cls(s, format="pickle", **kwargs)
 
     @classmethod
     def from_plist(cls, s, **kwargs):
@@ -118,7 +116,7 @@ class IODict(BaseDict):
         https://docs.python.org/3/library/plistlib.html
         Return a new dict instance. A ValueError is raised in case of failure.
         """
-        return cls(s, format='plist', **kwargs)
+        return cls(s, format="plist", **kwargs)
 
     @classmethod
     def from_query_string(cls, s, **kwargs):
@@ -126,7 +124,7 @@ class IODict(BaseDict):
         Load and decode query-string from url, filepath or data-string.
         Return a new dict instance. A ValueError is raised in case of failure.
         """
-        return cls(s, format='query_string', **kwargs)
+        return cls(s, format="query_string", **kwargs)
 
     @classmethod
     def from_toml(cls, s, **kwargs):
@@ -136,7 +134,7 @@ class IODict(BaseDict):
         https://pypi.org/project/toml/
         Return a new dict instance. A ValueError is raised in case of failure.
         """
-        return cls(s, format='toml', **kwargs)
+        return cls(s, format="toml", **kwargs)
 
     @classmethod
     def from_xml(cls, s, **kwargs):
@@ -146,7 +144,7 @@ class IODict(BaseDict):
         https://github.com/martinblech/xmltodict
         Return a new dict instance. A ValueError is raised in case of failure.
         """
-        return cls(s, format='xml', **kwargs)
+        return cls(s, format="xml", **kwargs)
 
     @classmethod
     def from_yaml(cls, s, **kwargs):
@@ -156,9 +154,9 @@ class IODict(BaseDict):
         https://pyyaml.org/wiki/PyYAMLDocumentation
         Return a new dict instance. A ValueError is raised in case of failure.
         """
-        return cls(s, format='yaml', **kwargs)
+        return cls(s, format="yaml", **kwargs)
 
-    def to_base64(self, subformat='json', encoding='utf-8', **kwargs):
+    def to_base64(self, subformat="json", encoding="utf-8", **kwargs):
         """
         Encode the current dict instance in Base64 format
         using the given subformat and encoding.
@@ -166,11 +164,11 @@ class IODict(BaseDict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        kwargs['subformat'] = subformat
-        kwargs['encoding'] = encoding
-        return self._encode(self.dict(), 'base64', **kwargs)
+        kwargs["subformat"] = subformat
+        kwargs["encoding"] = encoding
+        return self._encode(self.dict(), "base64", **kwargs)
 
-    def to_csv(self, key='values', columns=None, columns_row=True, **kwargs):
+    def to_csv(self, key="values", columns=None, columns_row=True, **kwargs):
         """
         Encode a list of dicts in the current dict instance in CSV format.
         Encoder specific options can be passed using kwargs:
@@ -178,9 +176,9 @@ class IODict(BaseDict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        kwargs['columns'] = columns
-        kwargs['columns_row'] = columns_row
-        return self._encode(self.dict()[key], 'csv', **kwargs)
+        kwargs["columns"] = columns
+        kwargs["columns_row"] = columns_row
+        return self._encode(self.dict()[key], "csv", **kwargs)
 
     def to_ini(self, **kwargs):
         """
@@ -190,7 +188,7 @@ class IODict(BaseDict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return self._encode(self.dict(), 'ini', **kwargs)
+        return self._encode(self.dict(), "ini", **kwargs)
 
     def to_json(self, **kwargs):
         """
@@ -200,7 +198,7 @@ class IODict(BaseDict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return self._encode(self.dict(), 'json', **kwargs)
+        return self._encode(self.dict(), "json", **kwargs)
 
     def to_pickle(self, **kwargs):
         """
@@ -211,7 +209,7 @@ class IODict(BaseDict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return self._encode(self.dict(), 'pickle', **kwargs)
+        return self._encode(self.dict(), "pickle", **kwargs)
 
     def to_plist(self, **kwargs):
         """
@@ -221,7 +219,7 @@ class IODict(BaseDict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return self._encode(self.dict(), 'plist', **kwargs)
+        return self._encode(self.dict(), "plist", **kwargs)
 
     def to_query_string(self, **kwargs):
         """
@@ -229,7 +227,7 @@ class IODict(BaseDict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return self._encode(self.dict(), 'query_string', **kwargs)
+        return self._encode(self.dict(), "query_string", **kwargs)
 
     def to_toml(self, **kwargs):
         """
@@ -239,7 +237,7 @@ class IODict(BaseDict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return self._encode(self.dict(), 'toml', **kwargs)
+        return self._encode(self.dict(), "toml", **kwargs)
 
     def to_xml(self, **kwargs):
         """
@@ -249,7 +247,7 @@ class IODict(BaseDict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return self._encode(self.dict(), 'xml', **kwargs)
+        return self._encode(self.dict(), "xml", **kwargs)
 
     def to_yaml(self, **kwargs):
         """
@@ -259,4 +257,4 @@ class IODict(BaseDict):
         Return the encoded string and optionally save it at 'filepath'.
         A ValueError is raised in case of failure.
         """
-        return self._encode(self.dict(), 'yaml', **kwargs)
+        return self._encode(self.dict(), "yaml", **kwargs)

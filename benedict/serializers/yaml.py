@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from benedict.serializers.abstract import AbstractSerializer
 
 import yaml
 
 
 class YAMLSerializer(AbstractSerializer):
+    """
+    This class describes an yaml serializer.
+    """
+
     def __init__(self):
         super(YAMLSerializer, self).__init__()
 

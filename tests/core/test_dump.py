@@ -2,25 +2,27 @@
 
 from benedict.core import dump as _dump
 from decimal import Decimal
-from six import PY3
 
 import datetime as dt
 import unittest
 
 
 class dump_test_case(unittest.TestCase):
+    """
+    This class describes a dump test case.
+    """
 
     @staticmethod
     def _rstrip_lines(s):
-        return '\n'.join([line.rstrip() for line in s.splitlines()])
+        return "\n".join([line.rstrip() for line in s.splitlines()])
 
     def test_dump(self):
         d = {
-            'a': {
-                'b': {
-                    'c': 1
-                }
-            }
+            "a": {
+                "b": {
+                    "c": 1,
+                },
+            },
         }
         r = """{
     "a": {
@@ -34,7 +36,7 @@ class dump_test_case(unittest.TestCase):
 
     def test_dump_with_datetime(self):
         d = {
-            'datetime': dt.datetime(2019, 6, 11),
+            "datetime": dt.datetime(2019, 6, 11),
         }
         r = """{
     "datetime": "2019-06-11T00:00:00"
@@ -44,7 +46,7 @@ class dump_test_case(unittest.TestCase):
 
     def test_dump_with_set(self):
         d = {
-            'set': set([0, 1, 2, 3, 4, 5]),
+            "set": set([0, 1, 2, 3, 4, 5]),
         }
         r = """{
     "set": [
@@ -67,6 +69,6 @@ class dump_test_case(unittest.TestCase):
         }
         # must not raise TypeError
         _dump(d)
-        d['dt'] = dt
+        d["dt"] = dt
         with self.assertRaises(TypeError):
             o = _dump(d, sort_keys=False, default=None)

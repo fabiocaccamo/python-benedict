@@ -27,22 +27,22 @@ _YAML_SERIALIZER = YAMLSerializer()
 _XML_SERIALIZER = XMLSerializer()
 
 _SERIALIZERS = {
-    'b64': _BASE64_SERIALIZER,
-    'base64': _BASE64_SERIALIZER,
-    'csv': _CSV_SERIALIZER,
-    'ini': _INI_SERIALIZER,
-    'json': _JSON_SERIALIZER,
-    'pickle': _PICKLE_SERIALIZER,
-    'plist': _PLIST_SERIALIZER,
-    'qs': _QUERY_STRING_SERIALIZER,
-    'querystring': _QUERY_STRING_SERIALIZER,
-    'toml': _TOML_SERIALIZER,
-    'yaml': _YAML_SERIALIZER,
-    'yml': _YAML_SERIALIZER,
-    'xml': _XML_SERIALIZER,
+    "b64": _BASE64_SERIALIZER,
+    "base64": _BASE64_SERIALIZER,
+    "csv": _CSV_SERIALIZER,
+    "ini": _INI_SERIALIZER,
+    "json": _JSON_SERIALIZER,
+    "pickle": _PICKLE_SERIALIZER,
+    "plist": _PLIST_SERIALIZER,
+    "qs": _QUERY_STRING_SERIALIZER,
+    "querystring": _QUERY_STRING_SERIALIZER,
+    "toml": _TOML_SERIALIZER,
+    "yaml": _YAML_SERIALIZER,
+    "yml": _YAML_SERIALIZER,
+    "xml": _XML_SERIALIZER,
 }
 
-_SERIALIZERS_EXTENSIONS = ['.{}'.format(extension) for extension in _SERIALIZERS.keys()]
+_SERIALIZERS_EXTENSIONS = [f".{extension}" for extension in _SERIALIZERS.keys()]
 
 
 def get_format_by_path(path):
@@ -54,8 +54,8 @@ def get_format_by_path(path):
 
 
 def get_serializer_by_format(format):
-    format_key = (format or '').lower().strip()
-    format_key = re.sub(r'[\s\-\_]*', '', format_key)
+    format_key = (format or "").lower().strip()
+    format_key = re.sub(r"[\s\-\_]*", "", format_key)
     return _SERIALIZERS.get(format_key)
 
 

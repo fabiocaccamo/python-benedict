@@ -6,7 +6,6 @@ def move(d, key_src, key_dest, overwrite=True):
         return
     if key_dest in d and not overwrite:
         raise KeyError(
-            'Invalid key: "{}", key already in target dict '
-            'and `overwrite` is disabled.'.format(key_dest)
+            f"Invalid key: '{key_dest}', key already in target dict and 'overwrite' is disabled."
         )
     d[key_dest] = d.pop(key_src)

@@ -6,15 +6,16 @@ import unittest
 
 
 class github_issue_0053_test_case(unittest.TestCase):
-
     """
+    This class describes a github issue 0053 test case.
     https://github.com/fabiocaccamo/python-benedict/issues/53
 
     To run this specific test:
     - Run python -m unittest tests.github.test_issue_0053
     """
+
     def test_toml_dump_circular_reference(self):
-        toml_str="""[build-system]
+        toml_str = """[build-system]
 requires = [ "poetry-core>=1.0.0",]
 build-backend = "poetry.core.masonry.api"
 
@@ -53,8 +54,8 @@ version = "^20.8b1"
 allow-prereleases = true
 """
         toml_dict = benedict.from_toml(toml_str)
-        toml_dict['tool.poetry.name'] = 'new name with custom value'
+        toml_dict["tool.poetry.name"] = "new name with custom value"
         # print(toml_dict.dump())
         toml_str_new = toml_dict.to_toml()
         # print(toml_str_new)
-        self.assertTrue('new name with custom value' in toml_str_new)
+        self.assertTrue("new name with custom value" in toml_str_new)

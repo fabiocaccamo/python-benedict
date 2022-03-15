@@ -3,7 +3,7 @@
 
 from setuptools import find_packages, setup
 
-import os, sys
+import os
 
 exec(open("benedict/metadata.py").read())
 
@@ -12,16 +12,12 @@ sponsor_url = "https://github.com/sponsors/fabiocaccamo/"
 twitter_url = "https://twitter.com/fabiocaccamo"
 package_name = "python-benedict"
 package_url = "{}/{}".format(github_url, package_name)
-package_issues_url = "{}/issues".format(github_url)
 package_path = os.path.abspath(os.path.dirname(__file__))
 long_description_file_path = os.path.join(package_path, "README.md")
 long_description_content_type = "text/markdown"
 long_description = ""
 try:
-    long_description_file_options = (
-        {} if sys.version_info[0] < 3 else {"encoding": "utf-8"}
-    )
-    with open(long_description_file_path, "r", **long_description_file_options) as f:
+    with open(long_description_file_path, "r", encoding="utf-8") as f:
         long_description = f.read()
 except IOError:
     pass
@@ -39,8 +35,8 @@ setup(
     url=package_url,
     download_url="{}/archive/{}.tar.gz".format(package_url, __version__),
     project_urls={
-        "Documentation": package_url,
-        "Issues": package_issues_url,
+        "Documentation": "{}#readme".format(package_url),
+        "Issues": "{}/issues".format(package_url),
         "Funding": sponsor_url,
         "Twitter": twitter_url,
     },
@@ -98,19 +94,16 @@ setup(
         "unique",
     ],
     install_requires=[
-        'ftfy == 4.4.3; python_version <= "2.7"',
-        'ftfy == 5.9.0; python_version == "3.5"',
-        'ftfy; python_version >= "3.6"',
-        "mailchecker",
-        "phonenumbers",
-        "python-dateutil",
-        "python-fsutil",
-        "python-slugify",
-        "pyyaml",
-        "requests",
-        "six",
-        "toml",
-        "xmltodict",
+        "ftfy >= 6.0.0, < 7.0.0",
+        "mailchecker >= 4.1.0, < 5.0.0",
+        "phonenumbers >= 8.12.0, < 9.0.0",
+        "python-dateutil >= 2.8.0, < 3.0.0",
+        "python-fsutil >= 0.6.0, < 1.0.0",
+        "python-slugify >= 6.0.1, < 7.0.0",
+        "pyyaml >= 6.0, < 7.0",
+        "requests >= 2.26.0, < 3.0.0",
+        "toml >= 0.10.2, < 1.0.0",
+        "xmltodict >= 0.12.0, < 1.0.0",
     ],
     extras_require = {
         's3': [
@@ -131,10 +124,7 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",
         "Operating System :: OS Independent",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",

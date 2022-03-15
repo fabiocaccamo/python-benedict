@@ -37,7 +37,7 @@ class benedict(KeypathDict, IODict, ParseDict):
         """
         if len(args) == 1 and isinstance(args[0], benedict):
             obj = args[0]
-            kwargs.setdefault('keypath_separator', obj.keypath_separator)
+            kwargs.setdefault("keypath_separator", obj.keypath_separator)
             super(benedict, self).__init__(obj.dict(), **kwargs)
             return
         super(benedict, self).__init__(*args, **kwargs)
@@ -115,7 +115,7 @@ class benedict(KeypathDict, IODict, ParseDict):
         """
         return _find(self, keys, default)
 
-    def flatten(self, separator='_'):
+    def flatten(self, separator="_"):
         """
         Return a new flattened dict using the given separator
         to join nested dict keys to flatten keypaths.
@@ -128,7 +128,7 @@ class benedict(KeypathDict, IODict, ParseDict):
     def get_dict(self, key, default=None):
         return self._cast(super(benedict, self).get_dict(key, default))
 
-    def get_list_item(self, key, index=0, default=None, separator=','):
+    def get_list_item(self, key, index=0, default=None, separator=","):
         return self._cast(
             super(benedict, self).get_list_item(key, index, default, separator)
         )
@@ -193,7 +193,7 @@ class benedict(KeypathDict, IODict, ParseDict):
         _move(self, key_src, key_dest)
 
     def nest(
-        self, key, id_key='id', parent_id_key='parent_id', children_key='children'
+        self, key, id_key="id", parent_id_key="parent_id", children_key="children"
     ):
         """
         Nest a list of dicts at the given key and return a new nested list
@@ -255,7 +255,7 @@ class benedict(KeypathDict, IODict, ParseDict):
         """
         _traverse(self, callback)
 
-    def unflatten(self, separator='_'):
+    def unflatten(self, separator="_"):
         """
         Return a new unflattened dict using the given separator
         to split dict keys to nested keypaths.

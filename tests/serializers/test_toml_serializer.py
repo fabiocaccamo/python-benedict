@@ -6,6 +6,9 @@ import unittest
 
 
 class toml_serializer_test_case(unittest.TestCase):
+    """
+    This class describes a toml serializer test case.
+    """
 
     def test_decode_toml(self):
         # TODO

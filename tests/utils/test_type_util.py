@@ -9,6 +9,9 @@ import unittest
 
 
 class type_util_test_case(unittest.TestCase):
+    """
+    This class describes a type utility test case.
+    """
 
     def test_is_bool(self):
         f = type_util.is_bool
@@ -19,11 +22,11 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(float(0.5)))
         self.assertFalse(f(Decimal(0.5)))
         self.assertFalse(f(datetime.now()))
-        self.assertFalse(f((0, 1, 2, )))
+        self.assertFalse(f((0, 1, 2)))
         self.assertFalse(f([0, 1, 2]))
         self.assertFalse(f(set([0, 1, 2])))
-        self.assertFalse(f({'a':0, 'b':1, 'c':2}))
-        self.assertFalse(f('hello world'))
+        self.assertFalse(f({"a": 0, "b": 1, "c": 2}))
+        self.assertFalse(f("hello world"))
         self.assertFalse(f(lambda a: a))
 
     def test_is_collection(self):
@@ -35,11 +38,11 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(float(0.5)))
         self.assertFalse(f(Decimal(0.5)))
         self.assertFalse(f(datetime.now()))
-        self.assertTrue(f((0, 1, 2, )))
+        self.assertTrue(f((0, 1, 2)))
         self.assertTrue(f([0, 1, 2]))
         self.assertTrue(f(set([0, 1, 2])))
-        self.assertTrue(f({'a':0, 'b':1, 'c':2}))
-        self.assertFalse(f('hello world'))
+        self.assertTrue(f({"a": 0, "b": 1, "c": 2}))
+        self.assertFalse(f("hello world"))
         self.assertFalse(f(lambda a: a))
 
     def test_is_datetime(self):
@@ -51,11 +54,11 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(float(0.5)))
         self.assertFalse(f(Decimal(0.5)))
         self.assertTrue(f(datetime.now()))
-        self.assertFalse(f((0, 1, 2, )))
+        self.assertFalse(f((0, 1, 2)))
         self.assertFalse(f([0, 1, 2]))
         self.assertFalse(f(set([0, 1, 2])))
-        self.assertFalse(f({'a':0, 'b':1, 'c':2}))
-        self.assertFalse(f('hello world'))
+        self.assertFalse(f({"a": 0, "b": 1, "c": 2}))
+        self.assertFalse(f("hello world"))
         self.assertFalse(f(lambda a: a))
 
     def test_is_decimal(self):
@@ -67,11 +70,11 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(float(0.5)))
         self.assertTrue(f(Decimal(0.5)))
         self.assertFalse(f(datetime.now()))
-        self.assertFalse(f((0, 1, 2, )))
+        self.assertFalse(f((0, 1, 2)))
         self.assertFalse(f([0, 1, 2]))
         self.assertFalse(f(set([0, 1, 2])))
-        self.assertFalse(f({'a':0, 'b':1, 'c':2}))
-        self.assertFalse(f('hello world'))
+        self.assertFalse(f({"a": 0, "b": 1, "c": 2}))
+        self.assertFalse(f("hello world"))
         self.assertFalse(f(lambda a: a))
 
     def test_is_dict(self):
@@ -83,11 +86,11 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(float(0.5)))
         self.assertFalse(f(Decimal(0.5)))
         self.assertFalse(f(datetime.now()))
-        self.assertFalse(f((0, 1, 2, )))
+        self.assertFalse(f((0, 1, 2)))
         self.assertFalse(f([0, 1, 2]))
         self.assertFalse(f(set([0, 1, 2])))
-        self.assertTrue(f({'a':0, 'b':1, 'c':2}))
-        self.assertFalse(f('hello world'))
+        self.assertTrue(f({"a": 0, "b": 1, "c": 2}))
+        self.assertFalse(f("hello world"))
         self.assertFalse(f(lambda a: a))
 
     def test_is_dict_or_list(self):
@@ -99,11 +102,11 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(float(0.5)))
         self.assertFalse(f(Decimal(0.5)))
         self.assertFalse(f(datetime.now()))
-        self.assertFalse(f((0, 1, 2, )))
+        self.assertFalse(f((0, 1, 2)))
         self.assertTrue(f([0, 1, 2]))
         self.assertFalse(f(set([0, 1, 2])))
-        self.assertTrue(f({'a':0, 'b':1, 'c':2}))
-        self.assertFalse(f('hello world'))
+        self.assertTrue(f({"a": 0, "b": 1, "c": 2}))
+        self.assertFalse(f("hello world"))
         self.assertFalse(f(lambda a: a))
 
     def test_is_dict_or_list_or_tuple(self):
@@ -115,11 +118,11 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(float(0.5)))
         self.assertFalse(f(Decimal(0.5)))
         self.assertFalse(f(datetime.now()))
-        self.assertTrue(f((0, 1, 2, )))
+        self.assertTrue(f((0, 1, 2)))
         self.assertTrue(f([0, 1, 2]))
         self.assertFalse(f(set([0, 1, 2])))
-        self.assertTrue(f({'a':0, 'b':1, 'c':2}))
-        self.assertFalse(f('hello world'))
+        self.assertTrue(f({"a": 0, "b": 1, "c": 2}))
+        self.assertFalse(f("hello world"))
         self.assertFalse(f(lambda a: a))
 
     def test_is_float(self):
@@ -131,11 +134,11 @@ class type_util_test_case(unittest.TestCase):
         self.assertTrue(f(float(0.5)))
         self.assertFalse(f(Decimal(0.5)))
         self.assertFalse(f(datetime.now()))
-        self.assertFalse(f((0, 1, 2, )))
+        self.assertFalse(f((0, 1, 2)))
         self.assertFalse(f([0, 1, 2]))
         self.assertFalse(f(set([0, 1, 2])))
-        self.assertFalse(f({'a':0, 'b':1, 'c':2}))
-        self.assertFalse(f('hello world'))
+        self.assertFalse(f({"a": 0, "b": 1, "c": 2}))
+        self.assertFalse(f("hello world"))
         self.assertFalse(f(lambda a: a))
 
     def test_is_function(self):
@@ -147,11 +150,11 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(float(0.5)))
         self.assertFalse(f(Decimal(0.5)))
         self.assertFalse(f(datetime.now()))
-        self.assertFalse(f((0, 1, 2, )))
+        self.assertFalse(f((0, 1, 2)))
         self.assertFalse(f([0, 1, 2]))
         self.assertFalse(f(set([0, 1, 2])))
-        self.assertFalse(f({'a':0, 'b':1, 'c':2}))
-        self.assertFalse(f('hello world'))
+        self.assertFalse(f({"a": 0, "b": 1, "c": 2}))
+        self.assertFalse(f("hello world"))
         self.assertTrue(f(lambda a: a))
 
     def test_is_integer(self):
@@ -163,11 +166,11 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(float(0.5)))
         self.assertFalse(f(Decimal(0.5)))
         self.assertFalse(f(datetime.now()))
-        self.assertFalse(f((0, 1, 2, )))
+        self.assertFalse(f((0, 1, 2)))
         self.assertFalse(f([0, 1, 2]))
         self.assertFalse(f(set([0, 1, 2])))
-        self.assertFalse(f({'a':0, 'b':1, 'c':2}))
-        self.assertFalse(f('hello world'))
+        self.assertFalse(f({"a": 0, "b": 1, "c": 2}))
+        self.assertFalse(f("hello world"))
         self.assertFalse(f(lambda a: a))
 
     def test_is_json_serializable(self):
@@ -179,11 +182,11 @@ class type_util_test_case(unittest.TestCase):
         self.assertTrue(f(float(0.5)))
         self.assertFalse(f(Decimal(0.5)))
         self.assertFalse(f(datetime.now()))
-        self.assertTrue(f((0, 1, 2, )))
+        self.assertTrue(f((0, 1, 2)))
         self.assertTrue(f([0, 1, 2]))
         self.assertFalse(f(set([0, 1, 2])))
-        self.assertTrue(f({'a':0, 'b':1, 'c':2}))
-        self.assertTrue(f('hello world'))
+        self.assertTrue(f({"a": 0, "b": 1, "c": 2}))
+        self.assertTrue(f("hello world"))
         self.assertFalse(f(lambda a: a))
 
     def test_is_list(self):
@@ -195,11 +198,11 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(float(0.5)))
         self.assertFalse(f(Decimal(0.5)))
         self.assertFalse(f(datetime.now()))
-        self.assertFalse(f((0, 1, 2, )))
+        self.assertFalse(f((0, 1, 2)))
         self.assertTrue(f([0, 1, 2]))
         self.assertFalse(f(set([0, 1, 2])))
-        self.assertFalse(f({'a':0, 'b':1, 'c':2}))
-        self.assertFalse(f('hello world'))
+        self.assertFalse(f({"a": 0, "b": 1, "c": 2}))
+        self.assertFalse(f("hello world"))
         self.assertFalse(f(lambda a: a))
 
     def test_is_list_or_tuple(self):
@@ -211,11 +214,11 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(float(0.5)))
         self.assertFalse(f(Decimal(0.5)))
         self.assertFalse(f(datetime.now()))
-        self.assertTrue(f((0, 1, 2, )))
+        self.assertTrue(f((0, 1, 2)))
         self.assertTrue(f([0, 1, 2]))
         self.assertFalse(f(set([0, 1, 2])))
-        self.assertFalse(f({'a':0, 'b':1, 'c':2}))
-        self.assertFalse(f('hello world'))
+        self.assertFalse(f({"a": 0, "b": 1, "c": 2}))
+        self.assertFalse(f("hello world"))
         self.assertFalse(f(lambda a: a))
 
     def test_is_none(self):
@@ -227,11 +230,11 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(float(0.5)))
         self.assertFalse(f(Decimal(0.5)))
         self.assertFalse(f(datetime.now()))
-        self.assertFalse(f((0, 1, 2, )))
+        self.assertFalse(f((0, 1, 2)))
         self.assertFalse(f([0, 1, 2]))
         self.assertFalse(f(set([0, 1, 2])))
-        self.assertFalse(f({'a':0, 'b':1, 'c':2}))
-        self.assertFalse(f('hello world'))
+        self.assertFalse(f({"a": 0, "b": 1, "c": 2}))
+        self.assertFalse(f("hello world"))
         self.assertFalse(f(lambda a: a))
 
     def test_is_not_none(self):
@@ -243,11 +246,11 @@ class type_util_test_case(unittest.TestCase):
         self.assertTrue(f(float(0.5)))
         self.assertTrue(f(Decimal(0.5)))
         self.assertTrue(f(datetime.now()))
-        self.assertTrue(f((0, 1, 2, )))
+        self.assertTrue(f((0, 1, 2)))
         self.assertTrue(f([0, 1, 2]))
         self.assertTrue(f(set([0, 1, 2])))
-        self.assertTrue(f({'a':0, 'b':1, 'c':2}))
-        self.assertTrue(f('hello world'))
+        self.assertTrue(f({"a": 0, "b": 1, "c": 2}))
+        self.assertTrue(f("hello world"))
         self.assertTrue(f(lambda a: a))
 
     def test_is_set(self):
@@ -259,11 +262,11 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(float(0.5)))
         self.assertFalse(f(Decimal(0.5)))
         self.assertFalse(f(datetime.now()))
-        self.assertFalse(f((0, 1, 2, )))
+        self.assertFalse(f((0, 1, 2)))
         self.assertFalse(f([0, 1, 2]))
         self.assertTrue(f(set([0, 1, 2])))
-        self.assertFalse(f({'a':0, 'b':1, 'c':2}))
-        self.assertFalse(f('hello world'))
+        self.assertFalse(f({"a": 0, "b": 1, "c": 2}))
+        self.assertFalse(f("hello world"))
         self.assertFalse(f(lambda a: a))
 
     def test_is_string(self):
@@ -275,11 +278,11 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(float(0.5)))
         self.assertFalse(f(Decimal(0.5)))
         self.assertFalse(f(datetime.now()))
-        self.assertFalse(f((0, 1, 2, )))
+        self.assertFalse(f((0, 1, 2)))
         self.assertFalse(f([0, 1, 2]))
         self.assertFalse(f(set([0, 1, 2])))
-        self.assertFalse(f({'a':0, 'b':1, 'c':2}))
-        self.assertTrue(f('hello world'))
+        self.assertFalse(f({"a": 0, "b": 1, "c": 2}))
+        self.assertTrue(f("hello world"))
         self.assertFalse(f(lambda a: a))
 
     def test_is_tuple(self):
@@ -291,17 +294,17 @@ class type_util_test_case(unittest.TestCase):
         self.assertFalse(f(float(0.5)))
         self.assertFalse(f(Decimal(0.5)))
         self.assertFalse(f(datetime.now()))
-        self.assertTrue(f((0, 1, 2, )))
+        self.assertTrue(f((0, 1, 2)))
         self.assertFalse(f([0, 1, 2]))
         self.assertFalse(f(set([0, 1, 2])))
-        self.assertFalse(f({'a':0, 'b':1, 'c':2}))
-        self.assertFalse(f('hello world'))
+        self.assertFalse(f({"a": 0, "b": 1, "c": 2}))
+        self.assertFalse(f("hello world"))
         self.assertFalse(f(lambda a: a))
 
     def test_is_uuid(self):
         f = type_util.is_uuid
-        self.assertTrue(f('ca761232ed4211cebacd00aa0057b223'))
-        self.assertTrue(f('CA761232-ED42-11CE-BACD-00AA0057B223'))
-        self.assertTrue(f('CA761232-ED42-11CE-BACD-00AA0057B223'))
-        self.assertFalse(f('CA761232-ED42-11CE-BACD-00AA0057B22X'))
-        self.assertFalse(f('CA761232-ED42-11CE-BACD-00AA0057B22'))
+        self.assertTrue(f("ca761232ed4211cebacd00aa0057b223"))
+        self.assertTrue(f("CA761232-ED42-11CE-BACD-00AA0057B223"))
+        self.assertTrue(f("CA761232-ED42-11CE-BACD-00AA0057B223"))
+        self.assertFalse(f("CA761232-ED42-11CE-BACD-00AA0057B22X"))
+        self.assertFalse(f("CA761232-ED42-11CE-BACD-00AA0057B22"))

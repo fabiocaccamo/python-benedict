@@ -5,11 +5,11 @@ from benedict.utils import type_util
 
 def groupby(items, key):
     if not type_util.is_list(items):
-        raise ValueError('items should be a list of dicts.')
+        raise ValueError("items should be a list of dicts.")
     items_grouped = {}
     for item in items:
         if not type_util.is_dict(item):
-            raise ValueError('item should be a dict.')
+            raise ValueError("item should be a dict.")
         group = item.get(key)
         if group not in items_grouped:
             items_grouped[group] = []
