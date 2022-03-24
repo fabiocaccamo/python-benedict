@@ -3,7 +3,6 @@
 from benedict.serializers.abstract import AbstractSerializer
 
 import plistlib
-import unicodedata
 
 
 class PListSerializer(AbstractSerializer):

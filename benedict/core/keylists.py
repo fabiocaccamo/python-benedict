@@ -12,9 +12,9 @@ def _get_keylist_for_dict(d, parent_keys, indexes):
     return keylist
 
 
-def _get_keylist_for_list(l, parent_keys, indexes):
+def _get_keylist_for_list(ls, parent_keys, indexes):
     keylist = []
-    for key, value in enumerate(l):
+    for key, value in enumerate(ls):
         keys = list(parent_keys)
         keys[-1] += f"[{key}]"
         keylist += [keys]

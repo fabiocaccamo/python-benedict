@@ -39,21 +39,21 @@ class CSVSerializer(AbstractSerializer):
         return data
 
     def encode(self, d, **kwargs):
-        l = d
+        ls = d
         # kwargs.setdefault('delimiter', ',')
         if kwargs.pop("quote", False):
             kwargs.setdefault("quoting", csv.QUOTE_ALL)
         kwargs.setdefault("lineterminator", "\n")
         columns = kwargs.pop("columns", None)
         columns_row = kwargs.pop("columns_row", True)
-        if not columns and len(l) and type_util.is_dict(l[0]):
-            keys = [str(key) for key in l[0].keys()]
+        if not columns and len(ls) and type_util.is_dict(ls[0]):
+            keys = [str(key) for key in ls[0].keys()]
             columns = list(sorted(keys))
         f = StringIO()
         w = csv.writer(f, **kwargs)
         if columns_row and columns:
             w.writerow(columns)
-        for item in l:
+        for item in ls:
             if type_util.is_dict(item):
                 row = [item.get(key, "") for key in columns]
             elif type_util.is_collection(item):

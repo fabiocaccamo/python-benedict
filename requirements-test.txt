@@ -1,3 +1,4 @@
 codecov
 coverage
+flake8
 tox

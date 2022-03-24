@@ -29,6 +29,16 @@ from benedict.dicts.keylist import KeylistDict
 from benedict.dicts.keypath import KeypathDict
 from benedict.dicts.parse import ParseDict
 
+# fix benedict json dumps support - #57 #59 #61
+from json import encoder
+
+# fix benedict yaml representer - #43
+from yaml import SafeDumper
+from yaml.representer import SafeRepresenter
+
+
+__all__ = ["benedict", "IODict", "KeylistDict", "KeypathDict", "ParseDict"]
+
 
 class benedict(KeypathDict, IODict, ParseDict):
     def __init__(self, *args, **kwargs):
@@ -270,13 +280,7 @@ class benedict(KeypathDict, IODict, ParseDict):
 
 
 # fix benedict json dumps support - #57 #59 #61
-from json import encoder
-
 encoder.c_make_encoder = None
 
-
 # fix benedict yaml representer - #43
-from yaml import SafeDumper
-from yaml.representer import SafeRepresenter
-
 SafeDumper.yaml_representers[benedict] = SafeRepresenter.represent_dict
