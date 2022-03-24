@@ -24,3 +24,32 @@ from benedict.core.swap import swap
 from benedict.core.traverse import traverse
 from benedict.core.unflatten import unflatten
 from benedict.core.unique import unique
+
+
+__all__ = [
+    "clean",
+    "clone",
+    "dump",
+    "filter",
+    "find",
+    "flatten",
+    "groupby",
+    "invert",
+    "items_sorted_by_keys",
+    "items_sorted_by_values",
+    "keylists",
+    "keypaths",
+    "match",
+    "merge",
+    "move",
+    "nest",
+    "remove",
+    "rename",
+    "search",
+    "standardize",
+    "subset",
+    "swap",
+    "traverse",
+    "unflatten",
+    "unique",
+]

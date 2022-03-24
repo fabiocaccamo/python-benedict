@@ -16,6 +16,20 @@ from benedict.serializers.yaml import YAMLSerializer
 import re
 
 
+__all__ = [
+    "AbstractSerializer",
+    "Base64Serializer",
+    "CSVSerializer",
+    "INISerializer",
+    "JSONSerializer",
+    "PickleSerializer",
+    "PListSerializer",
+    "QueryStringSerializer",
+    "TOMLSerializer",
+    "XMLSerializer",
+    "YAMLSerializer",
+]
+
 _BASE64_SERIALIZER = Base64Serializer()
 _CSV_SERIALIZER = CSVSerializer()
 _INI_SERIALIZER = INISerializer()

@@ -149,15 +149,15 @@ def _parse_list(val, separator=None):
     ):
         try:
             serializer = JSONSerializer()
-            l = serializer.decode(val)
-            if type_util.is_list(l):
-                return l
+            ls = serializer.decode(val)
+            if type_util.is_list(ls):
+                return ls
             return None
         except Exception:
             pass
     if separator:
-        l = list(val.split(separator))
-        return l
+        ls = list(val.split(separator))
+        return ls
     return None
 
 
