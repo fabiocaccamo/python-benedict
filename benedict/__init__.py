@@ -9,3 +9,13 @@ from benedict.metadata import (
     __title__,
     __version__,
 )
+
+__all__ = [
+    "benedict",
+    "__author__",
+    "__copyright__",
+    "__description__",
+    "__license__",
+    "__title__",
+    "__version__",
+]
