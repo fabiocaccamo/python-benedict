@@ -130,6 +130,11 @@ class benedict(KeypathDict, IODict, ParseDict):
         Return a new flattened dict using the given separator
         to join nested dict keys to flatten keypaths.
         """
+        if separator == self._keypath_separator:
+            raise ValueError(
+                f"Invalid flatten separator: '{separator}', "
+                "flatten separator must be different from keypath separator."
+            )
         return _flatten(self, separator)
 
     def get(self, key, default=None):
