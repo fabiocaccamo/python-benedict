@@ -1,4 +1,5 @@
 codecov
 coverage
 flake8
+orjson
 tox

@@ -6,11 +6,20 @@ class BaseDict(dict):
     _dict = None
     _pointer = False
 
+    @classmethod
+    def _get_dict_or_value(cls, value):
+        value = value.dict() if isinstance(value, cls) else value
+        if isinstance(value, dict):
+            for key in value.keys():
+                key_val = value[key]
+                if isinstance(key_val, cls):
+                    key_val = cls._get_dict_or_value(value[key])
+                    value[key] = key_val
+        return value
+
     def __init__(self, *args, **kwargs):
         if len(args) == 1 and isinstance(args[0], dict):
-            self._dict = (
-                args[0].dict() if issubclass(type(args[0]), BaseDict) else args[0]
-            )
+            self._dict = self._get_dict_or_value(args[0])
             self._pointer = True
             super(BaseDict, self).__init__(self._dict)
             return
@@ -60,7 +69,14 @@ class BaseDict(dict):
         return super(BaseDict, self).__repr__()
 
     def __setitem__(self, key, value):
+        value = self._get_dict_or_value(value)
         if self._pointer:
+            is_dict_item = key in self._dict and isinstance(self._dict[key], dict)
+            is_dict_value = isinstance(value, dict)
+            if is_dict_item and is_dict_value:
+                self._dict[key].clear()
+                self._dict[key].update(value)
+                return
             self._dict[key] = value
             return
         super(BaseDict, self).__setitem__(key, value)
@@ -107,11 +123,13 @@ class BaseDict(dict):
         return super(BaseDict, self).pop(key, *args)
 
     def setdefault(self, key, default=None):
+        default = self._get_dict_or_value(default)
         if self._pointer:
             return self._dict.setdefault(key, default)
         return super(BaseDict, self).setdefault(key, default)
 
     def update(self, other):
+        other = self._get_dict_or_value(other)
         if self._pointer:
             self._dict.update(other)
             return
