@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from benedict.core import clone as _clone
+
 
 class BaseDict(dict):
 
@@ -36,6 +38,12 @@ class BaseDict(dict):
         if self._pointer:
             return key in self._dict
         return super(BaseDict, self).__contains__(key)
+
+    def __deepcopy__(self, memo):
+        obj = self.__class__()
+        for key, value in self.items():
+            obj[key] = _clone(value, memo=memo)
+        return obj
 
     def __delitem__(self, key):
         if self._pointer:
