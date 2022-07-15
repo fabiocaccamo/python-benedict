@@ -10,4 +10,4 @@ __description__ = (
 __email__ = "fabio.caccamo@gmail.com"
 __license__ = "MIT"
 __title__ = "benedict"
-__version__ = "0.25.1"
+__version__ = "0.25.2"
