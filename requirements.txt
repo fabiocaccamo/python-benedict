@@ -1,5 +1,5 @@
 ftfy ~= 6.0.0
-mailchecker ~= 4.1.19
+mailchecker ~= 5.0.0
 phonenumbers ~= 8.12.53
 python-dateutil ~= 2.8.2
 python-fsutil ~= 0.6.1
