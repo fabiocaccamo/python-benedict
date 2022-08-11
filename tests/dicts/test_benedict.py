@@ -2081,6 +2081,22 @@ b:
         b = benedict(d)
         b.swap("a.y", "b.y")
         b.swap("b.x", "c.x")
+        r = {
+            "a": {
+                "x": 1,
+                "y": 2,
+            },
+            "b": {
+                "x": 3,
+                "y": 1,
+            },
+            "c": {
+                "x": 2,
+                "y": 3,
+            },
+        }
+        self.assertEqual(b, r)
+
         b.swap("a", "c")
         r = {
             "a": {

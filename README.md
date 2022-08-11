@@ -862,19 +862,17 @@ d.get_uuid_list(key, default=[], separator=',')
 
 ## Testing
 ```bash
-# create python virtual environment
-virtualenv testing_benedict
+# clone repository
+git clone https://github.com/fabiocaccamo/python-benedict.git && cd python-benedict
 
-# activate virtualenv
-cd testing_benedict && . bin/activate
+# create virtualenv and activate it
+python -m venv venv && . venv/bin/activate
 
-# clone repo
-git clone https://github.com/fabiocaccamo/python-benedict.git src && cd src
+# upgrade pip
+python -m pip install --upgrade pip
 
 # install requirements
-pip install --upgrade pip
-pip install -r requirements.txt
-pip install -r requirements-test.txt
+pip install -r requirements.txt -r requirements-test.txt
 
 # run tests using tox
 tox
@@ -890,6 +888,13 @@ python setup.py test
 Released under [MIT License](LICENSE.txt).
 
 ---
+
+## Supporting
+
+- :star: Star this project on [GitHub](https://github.com/fabiocaccamo/python-benedict)
+- :octocat: Follow me on [GitHub](https://github.com/fabiocaccamo)
+- :blue_heart: Follow me on [Twitter](https://twitter.com/fabiocaccamo)
+- :moneybag: Sponsor me on [Github](https://github.com/sponsors/fabiocaccamo)
 
 ## See also
 
