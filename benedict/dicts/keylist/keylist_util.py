@@ -9,8 +9,17 @@ def _get_index(key):
     return None
 
 
-def _get_item_key_and_value(item, key):
-    if type_util.is_list_or_tuple(item):
+def _get_item_key_and_value(item, key, parent=None):
+    if type_util.is_list_or_tuple(item) and type_util.is_wildcard(key):
+        return key, item
+    elif (
+        type_util.is_list_or_tuple(item)
+        and type_util.is_wildcard(parent)
+        and type_util.contains_only_dict(item)
+        and any(key in _item.keys() for _item in item)
+    ):
+        return key, [_item for _item in item if key in _item.keys()]
+    elif type_util.is_list_or_tuple(item):
         index = _get_index(key)
         if index is not None:
             return (index, item[index])
@@ -45,6 +54,10 @@ def _set_item_value(item, key, value):
             # insert index
             item += [None] * (index - len(item))
             item.insert(index, value)
+    elif type_util.is_list(item):
+        for idx, _item in enumerate(value):
+            if _item is not None:
+                item[idx].update({key: _item})
     else:
         item[key] = value
 
@@ -59,7 +72,13 @@ def get_items(d, keys):
     item = d
     for key in keys:
         try:
-            item_key, item_value = _get_item_key_and_value(item, key)
+            if any(items) and type_util.is_wildcard(val=key):
+                parent = items[-1][1]
+            elif any(items) and type_util.is_wildcard(items[-1][1]):
+                parent = items[-1][1]
+            else:
+                parent = None
+            item_key, item_value = _get_item_key_and_value(item, key, parent)
             items.append((item, item_key, item_value))
             item = item_value
         except (IndexError, KeyError):

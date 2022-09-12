@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from copy import deepcopy
 
 from benedict.dicts import benedict
 from benedict.metadata import (

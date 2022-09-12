@@ -78,6 +78,12 @@ class KeylistDict(BaseDict):
         parent, key, _ = keylist_util.get_item(self, keys)
         if type_util.is_dict(parent):
             return parent.pop(key, *args)
+        elif (
+            type_util.is_list(parent)
+            and all(type_util.is_dict(_item) for _item in parent)
+            and any(type_util.is_wildcard(_key) for _key in keys)
+        ):
+            return [_item.pop(key) if key in _item else None for _item in parent]
         elif type_util.is_list(parent):
             return parent.pop(key)
         elif type_util.is_tuple(parent):

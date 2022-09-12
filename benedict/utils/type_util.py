@@ -91,3 +91,11 @@ def is_tuple(val):
 
 def is_uuid(val):
     return is_string(val) and uuid_re.match(val)
+
+
+def is_wildcard(val):
+    return is_string(val) and val in ["*"]
+
+
+def contains_only_dict(val):
+    return all(is_dict(_val) for _val in val)

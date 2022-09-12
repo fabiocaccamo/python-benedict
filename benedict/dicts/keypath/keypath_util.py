@@ -6,7 +6,7 @@ from benedict.utils import type_util
 import re
 
 
-KEY_INDEX_RE = r"(?:\[[\'\"]*(\-?[\d]+)[\'\"]*\]){1}$"
+KEY_INDEX_RE = r"(?:\[[\'\"]*(\-?[\d|\*]+)[\'\"]*\]){1}$"
 
 
 def check_keys(d, separator):
@@ -48,9 +48,8 @@ def _split_key_indexes(key):
             matches = re.findall(KEY_INDEX_RE, key)
             if matches:
                 key = re.sub(KEY_INDEX_RE, "", key)
-                index = int(matches[0])
+                index = int(matches[0]) if not any(match in ['*'] for match in matches) else matches[0]
                 keys.insert(0, index)
-                # keys.insert(0, { keylist_util.INDEX_KEY:index })
                 continue
             keys.insert(0, key)
             break
