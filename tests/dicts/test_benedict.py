@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from copy import deepcopy
 
 from benedict import benedict
 from datetime import datetime
@@ -1762,7 +1763,7 @@ b:
         with self.assertRaises(KeyError):
             b.rename("aa", "b")
 
-    def test_rename_asterix(self):
+    def test_rename_wildcard(self):
         d = {
             "a": [
                 {
@@ -1787,12 +1788,17 @@ b:
                 },
             ]
         }
-        b = benedict(d.copy())
-        b.rename('a[0].x', 'a[0].m')
-        b.rename('a[1].x', 'a[1].m')
+        b = benedict(deepcopy(d))
+        print(b)
+        b.rename("a[0].x", "a[0].m")
+        b.rename("a[1].x", "a[1].m")
+        print(b)
         self.assertEqual(b, r)
-        b = benedict(d.copy())
-        b.rename('a[*].x', 'a[*].m')
+        b = benedict(deepcopy(d))
+        print(b)
+        b.rename("a[*].x", "a[*].m")
+        print(b)
+        print(r)
         self.assertEqual(b, r)
 
     def test_search(self):
