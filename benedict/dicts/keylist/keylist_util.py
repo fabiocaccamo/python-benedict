@@ -72,10 +72,13 @@ def get_items(d, keys):
     item = d
     for key in keys:
         try:
-            if any(items) and type_util.is_wildcard(val=key):
-                parent = items[-1][1]
-            elif any(items) and type_util.is_wildcard(items[-1][1]):
-                parent = items[-1][1]
+            if any(items):
+                if type_util.is_wildcard(val=key):
+                    parent = items[-1][1]
+                elif type_util.is_wildcard(items[-1][1]):
+                    parent = items[-1][1]
+                else:
+                    parent = None
             else:
                 parent = None
             item_key, item_value = _get_item_key_and_value(item, key, parent)
