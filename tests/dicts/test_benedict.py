@@ -1786,17 +1786,13 @@ b:
                 },
             ]
         }
-        b = benedict(deepcopy(d))
-        print(b)
+        d = benedict(d)
+        b = benedict(d.clone())
         b.rename("a[0].x", "a[0].m")
         b.rename("a[1].x", "a[1].m")
-        print(b)
         self.assertEqual(b, r)
-        b = benedict(deepcopy(d))
-        print(b)
+        b = benedict(d.clone())
         b.rename("a[*].x", "a[*].m")
-        print(b)
-        print(r)
         self.assertEqual(b, r)
 
     def test_search(self):
