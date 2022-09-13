@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from copy import deepcopy
-
 from benedict import benedict
 from datetime import datetime
 from decimal import Decimal
