@@ -97,5 +97,5 @@ def is_wildcard(val):
     return is_string(val) and val == "*"
 
 
-def contains_only_dict(val):
+def is_list_of_dicts(val):
     return all(is_dict(_val) for _val in val)

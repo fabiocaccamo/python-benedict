@@ -9,23 +9,23 @@ def _get_index(key):
     return None
 
 
-def _get_item_key_and_value(item, key, parent=None):
-    if type_util.is_list_or_tuple(item) and type_util.is_wildcard(key):
-        return key, item
-    elif (
-        type_util.is_list_or_tuple(item)
-        and type_util.is_wildcard(parent)
-        and type_util.contains_only_dict(item)
-        and any(key in _item.keys() for _item in item)
-    ):
-        return key, [_item for _item in item if key in _item.keys()]
-    elif type_util.is_list_or_tuple(item):
-        index = _get_index(key)
-        if index is not None:
-            return (index, item[index])
+def _get_item_key_and_value(item, index, parent=None):
+    if type_util.is_list_or_tuple(item):
+        if type_util.is_wildcard(index):
+            return index, item
+        elif (
+            type_util.is_wildcard(parent)
+            and type_util.is_list_of_dicts(item)
+            and any(index in _item.keys() for _item in item)
+        ):
+            return index, [_item for _item in item if index in _item.keys()]
+        else:
+            index = _get_index(index)
+            if index is not None:
+                return index, item[index]
     elif type_util.is_dict(item):
-        return (key, item[key])
-    raise KeyError(f"Invalid key: '{key}'")
+        return index, item[index]
+    raise KeyError(f"Invalid key: '{index}'")
 
 
 def _get_or_new_item_value(item, key, subkey):
