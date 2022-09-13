@@ -94,7 +94,7 @@ def is_uuid(val):
 
 
 def is_wildcard(val):
-    return is_string(val) and val in ["*"]
+    return is_string(val) and val == "*"
 
 
 def contains_only_dict(val):
