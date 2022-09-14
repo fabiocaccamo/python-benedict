@@ -1761,40 +1761,6 @@ b:
         with self.assertRaises(KeyError):
             b.rename("aa", "b")
 
-    def test_rename_wildcard(self):
-        d = {
-            "a": [
-                {
-                    "x": 1,
-                    "y": 1,
-                },
-                {
-                    "x": 2,
-                    "y": 2,
-                },
-            ]
-        }
-        r = {
-            "a": [
-                {
-                    "m": 1,
-                    "y": 1,
-                },
-                {
-                    "m": 2,
-                    "y": 2,
-                },
-            ]
-        }
-        d = benedict(d)
-        b = benedict(d.clone())
-        b.rename("a[0].x", "a[0].m")
-        b.rename("a[1].x", "a[1].m")
-        self.assertEqual(b, r)
-        b = benedict(d.clone())
-        b.rename("a[*].x", "a[*].m")
-        self.assertEqual(b, r)
-
     def test_search(self):
         d = {
             "a": "Hello world",
