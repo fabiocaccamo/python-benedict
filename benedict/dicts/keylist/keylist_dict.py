@@ -81,8 +81,7 @@ class KeylistDict(BaseDict):
         if type_util.is_dict(parent):
             return parent.pop(key, *args)
         elif (
-            type_util.is_list(parent)
-            and type_util.is_list_of_dicts(parent)
+            type_util.is_list_of_dicts(parent)
             and any(type_util.is_wildcard(_key) for _key in keys)
         ):
             return [_item.pop(key) if key in _item else None for _item in parent]

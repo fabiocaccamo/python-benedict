@@ -98,4 +98,4 @@ def is_wildcard(val):
 
 
 def is_list_of_dicts(val):
-    return all(is_dict(_val) for _val in val)
+    return is_list(val) and all(is_dict(_val) for _val in val)
