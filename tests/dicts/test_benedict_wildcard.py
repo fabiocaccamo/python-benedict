@@ -4,21 +4,14 @@ from benedict import benedict
 
 
 class keypath_dict_list_wildcard_test_case(unittest.TestCase):
-    def setUp(self):
-        self.d = {
+    def test_rename_wildcard(self):
+        d = {
             "a": [
                 {"x": 1, "y": 1},
                 {"x": 2, "y": 2},
             ],
-            "x": [
-                {"a": 10, "b": 10},
-                {"a": 11, "b": 11},
-            ],
         }
-
-    def test_rename_wildcard(self):
-        self.d.pop("x")
-        d = benedict(self.d)
+        d = benedict(d)
         b = benedict(d.clone())
         b.rename("a[0].x", "a[0].m")
         b.rename("a[1].x", "a[1].m")
@@ -42,7 +35,17 @@ class keypath_dict_list_wildcard_test_case(unittest.TestCase):
         self.assertEqual(b, result)
 
     def test_swap_wildcard(self):
-        b = benedict(self.d)
+        self.d = {
+            "a": [
+                {"x": 1, "y": 1},
+                {"x": 2, "y": 2},
+            ],
+            "x": [
+                {"a": 10, "b": 10},
+                {"a": 11, "b": 11},
+            ],
+        }
+        b = benedict(d)
         b = benedict(b.clone())
         b.swap("a[*].x", "x[*].a")
         result = {
