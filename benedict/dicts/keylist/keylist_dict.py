@@ -43,6 +43,8 @@ class KeylistDict(BaseDict):
 
     def _getitem_by_keys(self, keys):
         parent, key, _ = keylist_util.get_item(self, keys)
+        if type_util.is_list_of_dicts(parent):
+            return [item.get(key) for item in parent]
         if type_util.is_dict_or_list_or_tuple(parent):
             return parent[key]
         raise KeyError(f"Invalid keys: '{keys}'")
