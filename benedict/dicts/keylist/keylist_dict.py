@@ -29,7 +29,7 @@ class KeylistDict(BaseDict):
     def _delitem_by_keys(self, keys):
         parent, key, _ = keylist_util.get_item(self, keys)
         if type_util.is_wildcard(key):
-            self[keys[:-1]] = []
+            self[keys[:-1]].clear()
             return
         elif type_util.is_dict_or_list(parent):
             del parent[key]
