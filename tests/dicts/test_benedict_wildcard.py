@@ -35,7 +35,7 @@ class keypath_dict_list_wildcard_test_case(unittest.TestCase):
         self.assertEqual(b, result)
 
     def test_swap_wildcard(self):
-        self.d = {
+        d = {
             "a": [
                 {"x": 1, "y": 1},
                 {"x": 2, "y": 2},

@@ -19,5 +19,5 @@ class keypath_dict_list_wildcard_test_case(unittest.TestCase):
         )
 
     def test_correct_wildcard(self):
-        correct_wildcard_path_example = "a[*]"
+        correct_wildcard_path_example = "a[*].x"
         self.assertEqual(self.blueprint[correct_wildcard_path_example], [1, 2])
