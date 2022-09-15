@@ -46,7 +46,6 @@ class keypath_dict_list_wildcard_test_case(unittest.TestCase):
             ],
         }
         b = benedict(d)
-        b = benedict(b.clone())
         b.swap("a[*].x", "x[*].a")
         result = {
             "a": [
@@ -59,3 +58,17 @@ class keypath_dict_list_wildcard_test_case(unittest.TestCase):
             ],
         }
         self.assertEqual(b, result)
+
+    def test_swap_wildcard_whole_list(self):
+        d = {
+            "a": [
+                {"x": 1, "y": 1},
+                {"x": 2, "y": 2},
+            ],
+            "x": [
+                {"a": 10, "b": 10},
+                {"a": 11, "b": 11},
+            ],
+        }
+        b = benedict(d)
+        b.get("a[1]")
