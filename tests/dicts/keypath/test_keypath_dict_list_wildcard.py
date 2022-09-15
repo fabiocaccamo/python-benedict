@@ -327,3 +327,48 @@ class keypath_dict_list_wildcard_test_case(unittest.TestCase):
                 "d": [4, 5, 6, [0]],
             },
         )
+
+    def test_wildcard_asterix_as_key(self):
+        d = {
+            "*": {
+                "b": [
+                    {
+                        "*": 1,
+                        "d": [1, 2, 3, [0]],
+                    },
+                    {
+                        "c": 2,
+                        "*": [4, 5, 6, [0]],
+                    },
+                ],
+            },
+        }
+        b = KeypathDict(d)
+        self.assertTrue(
+            b["*"],
+            {
+                "b": [
+                    {
+                        "*": 1,
+                        "d": [1, 2, 3, [0]],
+                    },
+                    {
+                        "c": 2,
+                        "*": [4, 5, 6, [0]],
+                    },
+                ],
+            },
+        )
+        self.assertTrue(b["*.b[0].*"], 1)
+        self.assertTrue(b.get("*.b[0].*", 2), 1)
+
+        # wrong index => default value should be used
+        self.assertTrue(b.get("*.b[2].*", 2), 2)
+        self.assertTrue(b["*.b[1][*]"], [4, 5, 6, [0]])
+
+        with self.assertRaises(KeyError):
+            self.assertFalse(b["*.a"], None)
+        with self.assertRaises(KeyError):
+            self.assertFalse(b["*.*"], None)
+
+        self.assertEqual(b.get("*.*", "not-existing"), "not-existing")
