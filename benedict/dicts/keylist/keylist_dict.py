@@ -43,7 +43,7 @@ class KeylistDict(BaseDict):
 
     def _getitem_by_keys(self, keys):
         parent, key, _ = keylist_util.get_item(self, keys)
-        if type_util.is_list_of_dicts(parent):
+        if type_util.is_list_of_dicts(parent) and any(type_util.is_wildcard(_key) for _key in keys):
             return [item.get(key) for item in parent]
         if type_util.is_dict_or_list_or_tuple(parent):
             return parent[key]
