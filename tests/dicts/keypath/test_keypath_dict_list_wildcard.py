@@ -50,6 +50,11 @@ class keypath_dict_list_wildcard_test_case(unittest.TestCase):
         self.assertTrue("a.b[0].d[*]" in b)
         self.assertTrue("a.b[1].d[*]" in b)
         self.assertTrue("a.b[*]" in b)
+        self.assertFalse("a.c[*]" in b)
+        self.assertFalse("a.b.c[*]" in b)
+        self.assertFalse("a.b[0].c[*]" in b)
+        self.assertTrue("a.b[0].d[*][*]" in b)
+        self.assertTrue("a.b[1].d[*][*]" in b)
 
     def test_wildcard_delitem_with_flat_list(self):
         d = {
