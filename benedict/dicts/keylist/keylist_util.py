@@ -26,7 +26,7 @@ def _get_or_new_item_value(item, key, subkey):
             raise TypeError
     except (IndexError, KeyError, TypeError):
         value = _new_item_value(subkey)
-        item[key] = value
+        _set_item_value(item, key, value)
     return value
 
 
