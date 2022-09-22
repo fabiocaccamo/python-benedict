@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from benedict.dicts import benedict
 from benedict.metadata import (
     __author__,

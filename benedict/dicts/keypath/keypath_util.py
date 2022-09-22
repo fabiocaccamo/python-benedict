@@ -7,6 +7,7 @@ import re
 
 
 KEY_INDEX_RE = r"(?:\[[\'\"]*(\-?[\d]+)[\'\"]*\]){1}$"
+KEY_WILDCARD_RE = r"(?:\[[\'\"]*(\-?[\*]+)[\'\"]*\]){1}$"
 
 
 def check_keys(d, separator):
@@ -45,12 +46,17 @@ def _split_key_indexes(key):
     if "[" in key and key.endswith("]"):
         keys = []
         while True:
-            matches = re.findall(KEY_INDEX_RE, key)
-            if matches:
+            index_matches = re.findall(KEY_INDEX_RE, key)
+            if index_matches:
                 key = re.sub(KEY_INDEX_RE, "", key)
-                index = int(matches[0])
+                index = int(index_matches[0])
                 keys.insert(0, index)
-                # keys.insert(0, { keylist_util.INDEX_KEY:index })
+                continue
+            index_matches = re.findall(KEY_WILDCARD_RE, key)
+            if bool(re.search(KEY_WILDCARD_RE, key)):
+                key = re.sub(KEY_WILDCARD_RE, "", key)
+                index = index_matches[0]
+                keys.insert(0, index)
                 continue
             keys.insert(0, key)
             break

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from itertools import chain
+
 from benedict.utils import type_util
 
 
@@ -9,14 +11,30 @@ def _get_index(key):
     return None
 
 
-def _get_item_key_and_value(item, key):
+def _get_item_key_and_value(item, index, parent=None):
     if type_util.is_list_or_tuple(item):
-        index = _get_index(key)
-        if index is not None:
-            return (index, item[index])
+        if type_util.is_wildcard(index):
+            return index, item
+        elif type_util.is_wildcard(parent):
+            if type_util.is_list_of_dicts(item) and any(
+                index in _item.keys() for _item in item
+            ):
+                return index, [
+                    _item.get(index) for _item in item if index in _item.keys()
+                ]
+            elif type_util.is_list_of_list(item):
+                return index, [
+                    _item.get(index)
+                    for _item in chain.from_iterable(item)
+                    if index in _item.keys()
+                ]
+        else:
+            index = _get_index(index)
+            if index is not None:
+                return index, item[index]
     elif type_util.is_dict(item):
-        return (key, item[key])
-    raise KeyError(f"Invalid key: '{key}'")
+        return index, item[index]
+    raise KeyError(f"Invalid key: '{index}'")
 
 
 def _get_or_new_item_value(item, key, subkey):
@@ -45,6 +63,10 @@ def _set_item_value(item, key, value):
             # insert index
             item += [None] * (index - len(item))
             item.insert(index, value)
+    elif type_util.is_list(item):
+        for idx, _item in enumerate(value):
+            if _item is not None:
+                item[idx].update({key: _item})
     else:
         item[key] = value
 
@@ -59,7 +81,16 @@ def get_items(d, keys):
     item = d
     for key in keys:
         try:
-            item_key, item_value = _get_item_key_and_value(item, key)
+            if any(items):
+                if type_util.is_wildcard(val=key):
+                    parent = items[-1][1]
+                elif type_util.is_wildcard(items[-1][1]):
+                    parent = items[-1][1]
+                else:
+                    parent = None
+            else:
+                parent = None
+            item_key, item_value = _get_item_key_and_value(item, key, parent)
             items.append((item, item_key, item_value))
             item = item_value
         except (IndexError, KeyError):
