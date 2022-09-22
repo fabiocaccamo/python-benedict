@@ -13,12 +13,22 @@ def _get_item_key_and_value(item, index, parent=None):
     if type_util.is_list_or_tuple(item):
         if type_util.is_wildcard(index):
             return index, item
-        elif (
-            type_util.is_wildcard(parent)
-            and type_util.is_list_of_dicts(item)
-            and any(index in _item.keys() for _item in item)
-        ):
-            return index, [_item for _item in item if index in _item.keys()]
+        elif type_util.is_wildcard(parent):
+            if type_util.is_list_of_dicts(item) and any(
+                index in _item.keys() for _item in item
+            ):
+                return index, [
+                    _item.get(index) for _item in item if index in _item.keys()
+                ]
+            if type_util.is_list_of_list(item):
+                data = []
+                for i_list in item:
+                    extracted = [
+                        _item.get(index) for _item in i_list if index in _item.keys()
+                    ]
+                    data.append(extracted)
+
+                return index, data
         else:
             index = _get_index(index)
             if index is not None:

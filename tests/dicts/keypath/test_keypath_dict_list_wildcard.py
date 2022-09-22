@@ -372,3 +372,86 @@ class keypath_dict_list_wildcard_test_case(unittest.TestCase):
             self.assertFalse(b["*.*"], None)
 
         self.assertEqual(b.get("*.*", "not-existing"), "not-existing")
+
+    def test_complex_wildcard_usage(self):
+        d = {
+            "a": {
+                "b": [
+                    {
+                        "c": [
+                            {"x": 10, "y": 20},
+                            {"x": 11, "y": 21},
+                            {"x": 12, "y": 22},
+                        ],
+                    },
+                    {
+                        "c": [
+                            {"x": 20, "y": 30},
+                            {"x": 21, "y": 31},
+                            {"x": 22, "y": 32},
+                        ],
+                    },
+                ],
+            },
+        }
+        b = KeypathDict(d)
+        self.assertEqual(
+            b.get("a.b[0]"),
+            {
+                "c": [
+                    {"x": 10, "y": 20},
+                    {"x": 11, "y": 21},
+                    {"x": 12, "y": 22},
+                ],
+            },
+        )
+        self.assertEqual(
+            b.get("a.b[*]"),
+            [
+                {
+                    "c": [
+                        {"x": 10, "y": 20},
+                        {"x": 11, "y": 21},
+                        {"x": 12, "y": 22},
+                    ],
+                },
+                {
+                    "c": [
+                        {"x": 20, "y": 30},
+                        {"x": 21, "y": 31},
+                        {"x": 22, "y": 32},
+                    ],
+                },
+            ],
+        )
+        self.assertEqual(
+            b.get("a.b[0].c"),
+            [
+                {"x": 10, "y": 20},
+                {"x": 11, "y": 21},
+                {"x": 12, "y": 22},
+            ],
+        )
+        self.assertEqual(
+            b.get("a.b[1].c"),
+            [
+                {"x": 20, "y": 30},
+                {"x": 21, "y": 31},
+                {"x": 22, "y": 32},
+            ],
+        )
+        self.assertEqual(b.get("a.b[1].c[1]"), {"x": 21, "y": 31})
+        self.assertEqual(
+            b.get("a.b[*].c"),
+            [
+                [{"x": 10, "y": 20}, {"x": 11, "y": 21}, {"x": 12, "y": 22}],
+                [{"x": 20, "y": 30}, {"x": 21, "y": 31}, {"x": 22, "y": 32}],
+            ],
+        )
+        self.assertEqual(
+            b.get("a.b[*].c[*].x"),
+            [
+                [10, 11, 12],
+                [20, 21, 22],
+            ],
+        )

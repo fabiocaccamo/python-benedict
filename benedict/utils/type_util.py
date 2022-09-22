@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import re
 from datetime import datetime
 from decimal import Decimal
-
-import re
 
 regex = re.compile("").__class__
 uuid_re = re.compile(
@@ -103,3 +102,7 @@ def is_list_of_dicts(val):
 
 def any_wildcard_in_list(val):
     return is_list(val) and any(is_wildcard(_val) for _val in val)
+
+
+def is_list_of_list(val):
+    return is_list(val) and all(is_list(_val) for _val in val)
