@@ -456,3 +456,41 @@ class keypath_dict_list_wildcard_test_case(unittest.TestCase):
             b.get("a.b[*].c[*].x[-1]"),
             22,
         )
+
+    def test_complex_wildcard_non_consecutive(self):
+        d = {
+            "a": [
+                {
+                    "b": [
+                        {
+                            "c": {
+                                "d": [
+                                    {"x": 10, "y": 20},
+                                    {"x": 11, "y": 21},
+                                    {"x": 12, "y": 22},
+                                ],
+                                "e": [
+                                    {"x": 20, "y": 30},
+                                    {"x": 21, "y": 31},
+                                    {"x": 22, "y": 32},
+                                ],
+                            },
+                            "l": {"m": 2},
+                        },
+                    ],
+                }
+            ],
+        }
+        b = KeypathDict(d)
+        self.assertEqual(
+            b["a[*].b[*].c.d"],
+            [
+                {"x": 10, "y": 20},
+                {"x": 11, "y": 21},
+                {"x": 12, "y": 22},
+            ],
+        )
+        self.assertEqual(
+            b["a[*].b[*].c.d[*].x"],
+            [10, 11, 12],
+        )

@@ -13,21 +13,25 @@ def _get_index(key):
 
 def _get_item_key_and_value(item, index, parent=None):
     if type_util.is_list_or_tuple(item):
-        if type_util.is_wildcard(index):
-            return index, item
-        elif type_util.is_wildcard(parent):
-            if type_util.is_list_of_dicts(item) and any(
-                index in _item.keys() for _item in item
-            ):
-                return index, [
-                    _item.get(index) for _item in item if index in _item.keys()
-                ]
+        if type_util.is_wildcard(parent):
+            if type_util.is_list_of_dicts(item) and any(index in _item.keys() for _item in item):
+                data = [_item.get(index) for _item in item if index in _item.keys()]
+                if type_util.is_list_of_list(data):
+                    data = list(chain.from_iterable(data))
+                return index, data
             elif type_util.is_list_of_list(item):
-                return index, [
-                    _item.get(index)
-                    for _item in chain.from_iterable(item)
-                    if index in _item.keys()
-                ]
+                data = [_item.get(index) for _item in chain.from_iterable(item) if index in _item.keys()]
+                return index, data
+            elif type_util.is_wildcard(index):
+                return index, item
+        elif type_util.is_wildcard(index):
+            return index, item
+        elif type_util.is_list_of_dicts(item) and not type_util.is_integer(index):
+            data = [_item.get(index) for _item in item if index in _item.keys()]
+            if type_util.is_list_of_list(data):
+                data = list(chain.from_iterable(data))
+            if any(data):
+                return index, data
         else:
             index = _get_index(index)
             if index is not None:
@@ -82,12 +86,7 @@ def get_items(d, keys):
     for key in keys:
         try:
             if any(items):
-                if type_util.is_wildcard(val=key):
-                    parent = items[-1][1]
-                elif type_util.is_wildcard(items[-1][1]):
-                    parent = items[-1][1]
-                else:
-                    parent = None
+                parent = items[-1][1]
             else:
                 parent = None
             item_key, item_value = _get_item_key_and_value(item, key, parent)

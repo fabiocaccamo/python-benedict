@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from itertools import chain
 
 from benedict.dicts.base import BaseDict
 from benedict.dicts.keylist import keylist_util
@@ -49,7 +50,10 @@ class KeylistDict(BaseDict):
         if type_util.is_list(parent) and type_util.is_wildcard(key):
             return parent
         if type_util.is_list_of_dicts(parent) and type_util.any_wildcard_in_list(keys):
-            return [item.get(key) for item in parent]
+            data = [item.get(key) for item in parent]
+            if type_util.is_list_of_dicts(data) or type_util.is_list_of_list(data):
+                return list(chain.from_iterable(data))
+            return data
         if type_util.is_dict_or_list_or_tuple(parent):
             return parent[key]
         raise KeyError(f"Invalid keys: '{keys}'")
@@ -95,9 +99,7 @@ class KeylistDict(BaseDict):
         elif type_util.is_list(parent) and type_util.is_wildcard(key):
             del self[keys[:-1]]
             return parent
-        elif type_util.is_list_of_dicts(parent) and type_util.any_wildcard_in_list(
-            keys
-        ):
+        elif type_util.is_list_of_dicts(parent) and type_util.any_wildcard_in_list(keys):
             return [_item.pop(key) if key in _item else None for _item in parent]
         elif type_util.is_list(parent):
             return parent.pop(key)
