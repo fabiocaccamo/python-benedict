@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from itertools import chain
+
 from benedict.utils import type_util
 
 
@@ -20,15 +22,12 @@ def _get_item_key_and_value(item, index, parent=None):
                 return index, [
                     _item.get(index) for _item in item if index in _item.keys()
                 ]
-            if type_util.is_list_of_list(item):
-                data = []
-                for i_list in item:
-                    extracted = [
-                        _item.get(index) for _item in i_list if index in _item.keys()
-                    ]
-                    data.append(extracted)
-
-                return index, data
+            elif type_util.is_list_of_list(item):
+                return index, [
+                    _item.get(index)
+                    for _item in chain.from_iterable(item)
+                    if index in _item.keys()
+                ]
         else:
             index = _get_index(index)
             if index is not None:

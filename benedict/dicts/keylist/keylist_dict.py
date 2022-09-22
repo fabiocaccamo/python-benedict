@@ -75,7 +75,7 @@ class KeylistDict(BaseDict):
         elif type_util.is_wildcard(keys[-2]):
             if type_util.is_list_of_dicts(parent):
                 return [item.get(key) for item in parent]
-            if type_util.is_list_of_list(parent):
+            elif type_util.is_list_of_list(parent):
                 return _
         elif type_util.is_dict(parent):
             return parent.get(key, default)

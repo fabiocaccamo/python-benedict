@@ -450,8 +450,9 @@ class keypath_dict_list_wildcard_test_case(unittest.TestCase):
         )
         self.assertEqual(
             b.get("a.b[*].c[*].x"),
-            [
-                [10, 11, 12],
-                [20, 21, 22],
-            ],
+            [10, 11, 12, 20, 21, 22],
+        )
+        self.assertEqual(
+            b.get("a.b[*].c[*].x[-1]"),
+            22,
         )
