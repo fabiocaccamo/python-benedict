@@ -96,6 +96,7 @@ setup(
     install_requires=[
         "ftfy >= 6.0.0, < 7.0.0",
         "mailchecker >= 4.1.0, < 6.0.0",
+        "openpyxl >= 3.0.0, < 4.0.0",
         "phonenumbers >= 8.12.0, < 9.0.0",
         "python-dateutil >= 2.8.0, < 3.0.0",
         "python-fsutil >= 0.6.0, < 1.0.0",
