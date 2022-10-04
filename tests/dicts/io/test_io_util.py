@@ -51,16 +51,16 @@ class io_util_test_case(unittest.TestCase):
         pass
 
     def test_is_filepath(self):
-        # TODO
-        pass
+        path = "my-folder/my-file.json"
+        self.assertTrue(io_util.is_filepath(path))
 
     def test_is_s3_filepath(self):
-        # TODO
-        pass
+        path = "s3://my-folder/my-file.json"
+        self.assertTrue(io_util.is_s3_filepath(path))
 
     def test_is_url(self):
-        # TODO
-        pass
+        path = "https://my-site.com/my-folder/my-file.json"
+        self.assertTrue(io_util.is_url(path))
 
     def test_read_content(self):
         # TODO
