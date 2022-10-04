@@ -7,20 +7,21 @@ from benedict.serializers import (
 )
 
 import fsutil
+import s3fs
 
-try:
-    import s3fs
-    _s3fs_available = True
-except ImportError:
-    _s3fs_available = False
+# try:
+#     import s3fs
+#     _s3fs_available = True
+# except ImportError:
+#     _s3fs_available = False
 
 
 def _get_s3_file_system(**options):
-    if not _s3fs_available:
-        raise ModuleNotFoundError(
-            'Optional library module \'s3fs\' was not found. ' \
-            'This can be solved by running: \'pip install python-benedict[s3]\''
-        )
+    # if not _s3fs_available:
+    #     raise ModuleNotFoundError(
+    #         'Optional library module \'s3fs\' was not found. ' \
+    #         'This can be solved by running: \'pip install python-benedict[s3]\''
+    #     )
     fs = s3fs.S3FileSystem(**options)
     return fs
 
@@ -48,25 +49,27 @@ def encode(d, format, **kwargs):
     return s
 
 
+def _is_supported_file_extension(s):
+    return any([s.lower().endswith(ext) for ext in get_serializers_extensions()])
+
+
 def is_data(s):
     return len(s.splitlines()) > 1
 
 
 def is_filepath(s):
-    if any([s.endswith(ext) for ext in get_serializers_extensions()]):
-        return True
-    return fsutil.is_file(s)
+    return _is_supported_file_extension(s) or fsutil.is_file(s)
 
 
 def is_s3_filepath(s):
-    return s.startswith('s3://') and is_filepath(s)
+    return _is_supported_file_extension(s) and s.startswith("s3://")
 
 
 def is_url(s):
     return any([s.startswith(protocol) for protocol in ["http://", "https://"]])
 
 
-def read_content(s):
+def read_content(s, **options):
     # s -> filepath or url or data
     if is_data(s):
         # data
@@ -77,6 +80,9 @@ def read_content(s):
     elif is_filepath(s):
         # filepath
         return read_file(s)
+    elif is_s3_filepath(s):
+        # s3 filepath
+        return read_file_from_s3(s, **options)
     # one-line data?!
     return s
 
@@ -91,7 +97,7 @@ def read_file(filepath, **options):
 
 def read_file_from_s3(filepath, **options):
     fs = _get_s3_file_system(**options)
-    with fs.open(filepath, 'r') as file:
+    with fs.open(filepath, "r") as file:
         return file.read()
     return None
 
@@ -110,4 +116,4 @@ def write_file(filepath, content, **options):
 def write_file_to_s3(filepath, content, **options):
     fs = _get_s3_file_system(**options)
     with fs.open(filepath) as file:
-        file.write(content.encode('utf-8'))
+        file.write(content.encode("utf-8"))
