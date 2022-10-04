@@ -14,11 +14,18 @@ import s3fs
 #     _s3fs_available = True
 # except ImportError:
 #     _s3fs_available = False
+#
+# # TODO: move to exceptions module
+# try:
+#     LibraryNotInstalledError = ModuleNotFoundError
+# except NameError:
+#     # python < 3.6
+#     LibraryNotInstalledError = ImportError
 
 
 def _get_s3_file_system(**options):
     # if not _s3fs_available:
-    #     raise ModuleNotFoundError(
+    #     raise LibraryNotInstalledError(
     #         'Optional library module \'s3fs\' was not found. ' \
     #         'This can be solved by running: \'pip install python-benedict[s3]\''
     #     )
@@ -62,7 +69,7 @@ def is_filepath(s):
 
 
 def is_s3_filepath(s):
-    return _is_supported_file_extension(s) and s.startswith("s3://")
+    return s.startswith("s3://") and _is_supported_file_extension(s)
 
 
 def is_url(s):
@@ -96,6 +103,7 @@ def read_file(filepath, **options):
 
 
 def read_file_from_s3(filepath, **options):
+    options.setdefault("default_cache_type", "none")
     fs = _get_s3_file_system(**options)
     with fs.open(filepath, "r") as file:
         return file.read()
