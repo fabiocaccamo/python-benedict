@@ -27,16 +27,6 @@ jobs:
         python-version: ${{ matrix.python-version }}
         cache: 'pip'
 
-    - name: Set up LocalStack
-      env:
-        LOCALSTACK_API_KEY: ${{ secrets.LOCALSTACK_API_KEY }}
-      run: |
-        pip install localstack awscli-local[ver1]
-        docker pull localstack/localstack
-        localstack start -d
-        localstack wait -t 30
-        awslocal s3 mb s3://test
-
     - name: Install requirements
       run: |
         python -m pip install --upgrade pip

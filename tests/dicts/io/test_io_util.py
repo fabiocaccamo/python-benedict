@@ -72,9 +72,6 @@ class io_util_test_case(unittest.TestCase):
 
     def test_read_file_from_s3(self):
         # TODO:
-        # content = io_util.read_file_from_s3("s3://my-bucket/my-file.txt", anon=True)
-        # # print(content)
-        # self.assertEqual(content, None)
         pass
 
     def test_read_url(self):
@@ -86,10 +83,14 @@ class io_util_test_case(unittest.TestCase):
         pass
 
     def test_write_file_to_s3(self):
-        io_util.write_file_to_s3("s3://my-bucket/my-file.txt", "ok", anon=True)
+        # TODO:
+        # io_util.write_file_to_s3("s3://test-bucket/my-file.txt", "ok", anon=True)
+        pass
 
     def test_write_file_to_s3_and_read_file_from_s3(self):
-        filepath = "s3://my-bucket/my-file.txt"
-        io_util.write_file_to_s3(filepath, "ok", anon=True)
-        content = io_util.read_file_from_s3(filepath, anon=True)
-        self.assertEqual(content, "ok")
+        # TODO:
+        # filepath = "s3://test-bucket/my-file.txt"
+        # io_util.write_file_to_s3(filepath, "ok", anon=True)
+        # content = io_util.read_file_from_s3(filepath, anon=True)
+        # self.assertEqual(content, "ok")
+        pass

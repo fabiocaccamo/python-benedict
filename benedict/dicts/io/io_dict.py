@@ -31,7 +31,7 @@ class IODict(BaseDict):
     @staticmethod
     def _decode(s, format, **kwargs):
         try:
-            content = io_util.read_content(s)
+            content = io_util.read_content(s, **kwargs)
             # decode content using the given format
             data = io_util.decode(content, format, **kwargs)
             if type_util.is_dict(data):

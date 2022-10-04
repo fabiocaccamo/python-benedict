@@ -89,7 +89,8 @@ def read_content(s, **options):
         return read_file(s)
     elif is_s3_filepath(s):
         # s3 filepath
-        return read_file_from_s3(s, **options)
+        s3_options = options.pop("s3_options", {})
+        return read_file_from_s3(s, **s3_options)
     # one-line data?!
     return s
 
