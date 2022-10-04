@@ -101,15 +101,16 @@ setup(
         "python-fsutil >= 0.6.0, < 1.0.0",
         "python-slugify >= 6.0.1, < 7.0.0",
         "pyyaml >= 6.0, < 7.0",
+        "s3fs >= 2022.8.2, < 2023.0.0",
         "requests >= 2.26.0, < 3.0.0",
         "toml >= 0.10.2, < 1.0.0",
         "xmltodict >= 0.12.0, < 1.0.0",
     ],
-    extras_require = {
-        's3': [
-            's3fs',
-        ]
-    },
+    # extras_require = {
+    #     's3': [
+    #         's3fs',
+    #     ]
+    # },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: MacOS X",
