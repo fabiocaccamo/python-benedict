@@ -26,6 +26,7 @@ __all__ = [
     "PListSerializer",
     "QueryStringSerializer",
     "TOMLSerializer",
+    "XLSSerializer",
     "XMLSerializer",
     "YAMLSerializer",
 ]
