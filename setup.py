@@ -104,6 +104,7 @@ setup(
         "pyyaml >= 6.0, < 7.0",
         "requests >= 2.26.0, < 3.0.0",
         "toml >= 0.10.2, < 1.0.0",
+        "xlrd >= 2.0.0, < 3.0.0",
         "xmltodict >= 0.12.0, < 1.0.0",
     ],
     classifiers=[
