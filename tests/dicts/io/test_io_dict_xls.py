@@ -68,6 +68,56 @@ class io_dict_xls_test_case(io_dict_test_case):
                 self.assertTrue(isinstance(d, dict))
                 self.assertEqual(d, expected_dict)
 
+    def test_from_xls_with_valid_url_valid_content(self):
+        expected_dict = {
+            "values": [
+                {
+                    "mon": 10,
+                    "tue": 11,
+                    "wed": 12,
+                    "thu": 13,
+                    "fri": 14,
+                    "sat": 15,
+                    "sun": 16,
+                },
+                {
+                    "mon": 20,
+                    "tue": 21,
+                    "wed": 22,
+                    "thu": 23,
+                    "fri": 24,
+                    "sat": 25,
+                    "sun": 26,
+                },
+                {
+                    "mon": 30,
+                    "tue": 31,
+                    "wed": 32,
+                    "thu": 33,
+                    "fri": 34,
+                    "sat": 35,
+                    "sun": 36,
+                },
+            ]
+        }
+        for extension in self._extensions:
+            with self.subTest(
+                msg=f"test_from_xls_({extension})_with_valid_url_valid_content"
+            ):
+                url = f"https://github.com/fabiocaccamo/python-benedict/raw/xls/tests/dicts/io/input/valid-content.{extension}"
+                # static method
+                d = IODict.from_xls(url)
+                self.assertTrue(isinstance(d, dict))
+                self.assertEqual(d, expected_dict)
+                # constructor explicit format
+                d = IODict(url, format=extension)
+                self.assertTrue(isinstance(d, dict))
+                self.assertEqual(d, expected_dict)
+                # constructor implicit format
+                d = IODict(url)
+                self.assertTrue(isinstance(d, dict))
+                self.assertEqual(d, expected_dict)
+
     def test_from_xls_with_valid_file_valid_content_custom_sheet_by_index_and_columns(
         self,
     ):

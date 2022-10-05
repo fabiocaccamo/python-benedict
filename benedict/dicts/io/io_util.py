@@ -7,6 +7,7 @@ from benedict.serializers import (
 )
 
 import fsutil
+import tempfile
 
 
 def autodetect_format(s):
@@ -80,8 +81,9 @@ def read_content_from_file(filepath, format):
 def read_content_from_url(url, format, **options):
     binary_format = is_binary_format(format)
     if binary_format:
-        # TODO: download file and return its local path
-        return ""
+        dirpath = tempfile.gettempdir()
+        filepath = fsutil.download_file(url, dirpath, **options)
+        return filepath
     return read_url(url, **options)
 
 
