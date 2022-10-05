@@ -6,9 +6,9 @@ class AbstractSerializer(object):
     This class describes an abstract serializer.
     """
 
-    def __init__(self, extensions):
+    def __init__(self, extensions=None):
         super(AbstractSerializer, self).__init__()
-        self._extensions = extensions.copy()
+        self._extensions = (extensions or []).copy()
 
     def decode(self, s, **kwargs):
         raise NotImplementedError()
