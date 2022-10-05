@@ -40,8 +40,6 @@ def is_binary_format(format):
         "xls",
         "xlsx",
         "xlsm",
-        "xltx",
-        "xltm",
     ]
 
 
