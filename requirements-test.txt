@@ -1,5 +1,5 @@
-codecov
-coverage
-flake8
-orjson
-tox
+codecov == 2.1.12
+coverage == 6.5.0
+flake8 == 5.0.4
+orjson == 3.8.0
+tox == 3.26.0
