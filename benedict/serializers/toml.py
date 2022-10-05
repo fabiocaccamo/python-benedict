@@ -11,7 +11,11 @@ class TOMLSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(TOMLSerializer, self).__init__()
+        super(TOMLSerializer, self).__init__(
+            extensions=[
+                "toml",
+            ],
+        )
 
     def decode(self, s, **kwargs):
         data = toml.loads(s, **kwargs)
