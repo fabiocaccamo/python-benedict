@@ -39,9 +39,9 @@ _PICKLE_SERIALIZER = PickleSerializer()
 _PLIST_SERIALIZER = PListSerializer()
 _QUERY_STRING_SERIALIZER = QueryStringSerializer()
 _TOML_SERIALIZER = TOMLSerializer()
-_YAML_SERIALIZER = YAMLSerializer()
 _XLS_SERIALIZER = XLSSerializer()
 _XML_SERIALIZER = XMLSerializer()
+_YAML_SERIALIZER = YAMLSerializer()
 
 _SERIALIZERS_LIST = [
     _BASE64_SERIALIZER,
