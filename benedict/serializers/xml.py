@@ -11,7 +11,11 @@ class XMLSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(XMLSerializer, self).__init__()
+        super(XMLSerializer, self).__init__(
+            extensions=[
+                "xml",
+            ],
+        )
 
     def decode(self, s, **kwargs):
         kwargs.setdefault("dict_constructor", dict)

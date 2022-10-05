@@ -12,7 +12,12 @@ class YAMLSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(YAMLSerializer, self).__init__()
+        super(YAMLSerializer, self).__init__(
+            extensions=[
+                "yaml",
+                "yml",
+            ],
+        )
         self._json_serializer = JSONSerializer()
 
     def decode(self, s, **kwargs):

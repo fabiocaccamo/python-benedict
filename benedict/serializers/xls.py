@@ -11,7 +11,14 @@ class XLSSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(XLSSerializer, self).__init__()
+        super(XLSSerializer, self).__init__(
+            extensions=[
+                # "xls",
+                "xlsx",
+                "xlsm",
+                # "xlt",
+            ],
+        )
 
     def decode(self, s, **kwargs):
         columns = kwargs.pop("columns", None)

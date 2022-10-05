@@ -43,28 +43,28 @@ _YAML_SERIALIZER = YAMLSerializer()
 _XLS_SERIALIZER = XLSSerializer()
 _XML_SERIALIZER = XMLSerializer()
 
-_SERIALIZERS = {
-    "b64": _BASE64_SERIALIZER,
-    "base64": _BASE64_SERIALIZER,
-    "csv": _CSV_SERIALIZER,
-    "ini": _INI_SERIALIZER,
-    "json": _JSON_SERIALIZER,
-    "pickle": _PICKLE_SERIALIZER,
-    "plist": _PLIST_SERIALIZER,
-    "qs": _QUERY_STRING_SERIALIZER,
-    "querystring": _QUERY_STRING_SERIALIZER,
-    "toml": _TOML_SERIALIZER,
-    "yaml": _YAML_SERIALIZER,
-    "yml": _YAML_SERIALIZER,
-    "xls": _XLS_SERIALIZER,
-    "xlsx": _XLS_SERIALIZER,
-    "xlsm": _XLS_SERIALIZER,
-    "xltx": _XLS_SERIALIZER,
-    "xltm": _XLS_SERIALIZER,
-    "xml": _XML_SERIALIZER,
-}
+_SERIALIZERS_LIST = [
+    _BASE64_SERIALIZER,
+    _CSV_SERIALIZER,
+    _INI_SERIALIZER,
+    _JSON_SERIALIZER,
+    _PICKLE_SERIALIZER,
+    _PLIST_SERIALIZER,
+    _QUERY_STRING_SERIALIZER,
+    _TOML_SERIALIZER,
+    _YAML_SERIALIZER,
+    _XLS_SERIALIZER,
+    _XML_SERIALIZER,
+]
 
-_SERIALIZERS_EXTENSIONS = [f".{extension}" for extension in _SERIALIZERS.keys()]
+_SERIALIZERS_BY_EXTENSION = {}
+for serializer in _SERIALIZERS_LIST:
+    for extension in serializer.extensions():
+        _SERIALIZERS_BY_EXTENSION[extension] = serializer
+
+_SERIALIZERS_EXTENSIONS = [
+    f".{extension}" for extension in _SERIALIZERS_BY_EXTENSION.keys()
+]
 
 
 def get_format_by_path(path):
@@ -78,7 +78,10 @@ def get_format_by_path(path):
 def get_serializer_by_format(format):
     format_key = (format or "").lower().strip()
     format_key = re.sub(r"[\s\-\_]*", "", format_key)
-    return _SERIALIZERS.get(format_key)
+    serializer = _SERIALIZERS_BY_EXTENSION.get(format_key, None)
+    if not serializer:
+        raise ValueError(f"Invalid format: {format}.")
+    return serializer
 
 
 def get_serializers_extensions():
