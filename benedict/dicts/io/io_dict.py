@@ -23,31 +23,24 @@ class IODict(BaseDict):
         autodetected_format = io_util.autodetect_format(s)
         default_format = autodetected_format or "json"
         format = kwargs.pop("format", default_format).lower()
-        if format in ["b64", "base64"]:
-            kwargs.setdefault("subformat", "json")
         # decode data-string and initialize with dict data.
         return IODict._decode(s, format, **kwargs)
 
     @staticmethod
     def _decode(s, format, **kwargs):
+        data = None
         try:
-            if format in ["xls"]:
-                # TODO: xls is not a text file, no need to read file text content before
-                pass
-            content = io_util.read_content(s)
-            # decode content using the given format
-            data = io_util.decode(content, format, **kwargs)
-            if type_util.is_dict(data):
-                return data
-            elif type_util.is_list(data):
-                # force list to dict
-                return {"values": data}
-            else:
-                raise ValueError(
-                    f"Invalid data type: {type(data)}, expected dict or list."
-                )
+            data = io_util.decode(s, format, **kwargs)
         except Exception as e:
             raise ValueError(f"Invalid data or url or filepath argument: {s}\n{e}")
+        # if possible return data as dict, otherwise raise exception
+        if type_util.is_dict(data):
+            return data
+        elif type_util.is_list(data):
+            # force list to dict
+            return {"values": data}
+        else:
+            raise ValueError(f"Invalid data type: {type(data)}, expected dict or list.")
 
     @staticmethod
     def _encode(d, format, **kwargs):

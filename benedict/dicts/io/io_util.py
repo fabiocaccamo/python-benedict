@@ -20,7 +20,10 @@ def decode(s, format, **kwargs):
     if not serializer:
         raise ValueError(f"Invalid format: {format}.")
     decode_opts = kwargs.copy()
-    data = serializer.decode(s.strip(), **decode_opts)
+    if format in ["b64", "base64"]:
+        decode_opts.setdefault("subformat", "json")
+    content = read_content(s, format)
+    data = serializer.decode(content, **decode_opts)
     return data
 
 
@@ -30,6 +33,16 @@ def encode(d, format, **kwargs):
         raise ValueError(f"Invalid format: {format}.")
     s = serializer.encode(d, **kwargs)
     return s
+
+
+def is_binary_format(format):
+    return format in [
+        "xls",
+        "xlsx",
+        "xlsm",
+        "xltx",
+        "xltm",
+    ]
 
 
 def is_data(s):
@@ -46,25 +59,36 @@ def is_url(s):
     return any([s.startswith(protocol) for protocol in ["http://", "https://"]])
 
 
-def read_content(s):
+def read_content(s, format):
     # s -> filepath or url or data
+    s = s.strip()
     if is_data(s):
-        # data
         return s
     elif is_url(s):
-        # url
-        return read_url(s)
+        return read_content_from_url(s, format)
     elif is_filepath(s):
-        # filepath
-        return read_file(s)
+        return read_content_from_file(s, format)
     # one-line data?!
     return s
 
 
+def read_content_from_file(filepath, format):
+    binary_format = is_binary_format(format)
+    if binary_format:
+        return filepath
+    return read_file(filepath)
+
+
+def read_content_from_url(url, format, **options):
+    binary_format = is_binary_format(format)
+    if binary_format:
+        # TODO: download file and return its local path
+        return ""
+    return read_url(url, **options)
+
+
 def read_file(filepath, **options):
-    if fsutil.is_file(filepath):
-        return fsutil.read_file(filepath, **options)
-    return None
+    return fsutil.read_file(filepath, **options)
 
 
 def read_url(url, **options):
