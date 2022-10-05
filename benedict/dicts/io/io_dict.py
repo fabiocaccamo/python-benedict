@@ -133,16 +133,17 @@ class IODict(BaseDict):
         return cls(s, format="toml", **kwargs)
 
     @classmethod
-    def from_xls(cls, s, columns=None, columns_row=True, sheet_index=0, **kwargs):
+    def from_xls(cls, s, sheet=0, columns=None, columns_row=True, **kwargs):
         """
-        Load and decode XLS data from filepath or data-string.
+        Load and decode XLS files (".xls", ".xlsx", ".xlsm") from url, filepath or data-string.
         Decoder specific options can be passed using kwargs:
-        https://openpyxl.readthedocs.io/
+        - https://openpyxl.readthedocs.io/ (for .xlsx and .xlsm files)
+        - https://pypi.org/project/xlrd/ (for .xls files)
         Return a new dict instance. A ValueError is raised in case of failure.
         """
+        kwargs["sheet"] = sheet
         kwargs["columns"] = columns
         kwargs["columns_row"] = columns_row
-        kwargs["sheet_index"] = sheet_index
         return cls(s, format="xls", **kwargs)
 
     @classmethod
@@ -258,7 +259,28 @@ class IODict(BaseDict):
         """
         return self._encode(self.dict(), "xml", **kwargs)
 
-    def to_xls(self, **kwargs):
+    def to_xls(
+        self,
+        key="values",
+        sheet=0,
+        columns=None,
+        columns_row=True,
+        format="xlsx",
+        **kwargs,
+    ):
+        """
+        Encode a list of dicts in the current dict instance in XLS format.
+        Encoder specific options can be passed using kwargs:
+        - https://openpyxl.readthedocs.io/ (for .xlsx and .xlsm files)
+        - https://pypi.org/project/xlrd/ (for .xls files)
+        Return the encoded string and optionally save it at 'filepath'.
+        A ValueError is raised in case of failure.
+        """
+        # kwargs["sheet"] = sheet
+        # kwargs["columns"] = columns
+        # kwargs["columns_row"] = columns_row
+        # kwargs["format"] = format
+        # return self._encode(self.dict()[key], "xls", **kwargs)
         raise NotImplementedError
 
     def to_yaml(self, **kwargs):
