@@ -96,6 +96,7 @@ setup(
     install_requires=[
         "ftfy >= 6.0.0, < 7.0.0",
         "mailchecker >= 4.1.0, < 6.0.0",
+        "openpyxl >= 3.0.0, < 4.0.0",
         "phonenumbers >= 8.12.0, < 9.0.0",
         "python-dateutil >= 2.8.0, < 3.0.0",
         "python-fsutil >= 0.6.0, < 1.0.0",
@@ -105,6 +106,7 @@ setup(
         "requests >= 2.26.0, < 3.0.0",
         "s3fs >= 2022.8.2, < 2023.1.1",
         "toml >= 0.10.2, < 1.0.0",
+        "xlrd >= 2.0.0, < 3.0.0",
         "xmltodict >= 0.12.0, < 1.0.0",
     ],
     # extras_require={
@@ -127,7 +129,6 @@ setup(
         "Natural Language :: English",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",

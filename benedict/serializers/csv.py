@@ -14,7 +14,11 @@ class CSVSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(CSVSerializer, self).__init__()
+        super(CSVSerializer, self).__init__(
+            extensions=[
+                "csv",
+            ],
+        )
 
     def decode(self, s, **kwargs):
         # kwargs.setdefault('delimiter', ',')

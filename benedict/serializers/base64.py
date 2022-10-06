@@ -14,7 +14,12 @@ class Base64CoreSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(Base64CoreSerializer, self).__init__()
+        super(Base64CoreSerializer, self).__init__(
+            extensions=[
+                "b64",
+                "base64",
+            ],
+        )
 
     def _fix_url_encoding_and_padding(self, s):
         # fix urlencoded chars
