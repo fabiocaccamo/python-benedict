@@ -53,7 +53,8 @@ class benedict(KeypathDict, IODict, ParseDict):
         super(benedict, self).__init__(*args, **kwargs)
 
     def __deepcopy__(self, memo):
-        obj = benedict(keypath_separator=self._keypath_separator)
+        obj_type = type(self)
+        obj = obj_type(keypath_separator=self._keypath_separator)
         for key, value in self.items():
             obj[key] = _clone(value, memo=memo)
         return obj
@@ -66,8 +67,9 @@ class benedict(KeypathDict, IODict, ParseDict):
         Cast a dict instance to a benedict instance
         keeping the pointer to the original dict.
         """
-        if isinstance(value, dict) and not isinstance(value, benedict):
-            return benedict(
+        obj_type = type(self)
+        if isinstance(value, dict) and not isinstance(value, obj_type):
+            return obj_type(
                 value, keypath_separator=self._keypath_separator, check_keys=False
             )
         return value
