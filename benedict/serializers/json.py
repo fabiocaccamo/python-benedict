@@ -12,7 +12,11 @@ class JSONSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(JSONSerializer, self).__init__()
+        super(JSONSerializer, self).__init__(
+            extensions=[
+                "json",
+            ],
+        )
 
     def decode(self, s, **kwargs):
         data = json.loads(s, **kwargs)

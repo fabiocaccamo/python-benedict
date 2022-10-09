@@ -12,7 +12,11 @@ class PickleSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(PickleSerializer, self).__init__()
+        super(PickleSerializer, self).__init__(
+            extensions=[
+                "pickle",
+            ],
+        )
 
     def decode(self, s, **kwargs):
         encoding = kwargs.pop("encoding", "utf-8")
