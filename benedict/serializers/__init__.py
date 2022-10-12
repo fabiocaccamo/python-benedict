@@ -79,10 +79,4 @@ def get_serializer_by_format(format):
     format_key = (format or "").lower().strip()
     format_key = re.sub(r"[\s\-\_]*", "", format_key)
     serializer = _SERIALIZERS_BY_EXTENSION.get(format_key, None)
-    if not serializer:
-        raise ValueError(f"Invalid format: {format}.")
     return serializer
-
-
-def get_serializers_extensions():
-    return list(_SERIALIZERS_EXTENSIONS)

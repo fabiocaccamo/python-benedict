@@ -44,10 +44,7 @@ class IODict(BaseDict):
 
     @staticmethod
     def _encode(d, format, **kwargs):
-        filepath = kwargs.pop("filepath", None)
         s = io_util.encode(d, format, **kwargs)
-        if filepath:
-            io_util.write_file(filepath, s)
         return s
 
     @classmethod

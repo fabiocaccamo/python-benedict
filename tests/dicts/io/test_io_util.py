@@ -2,6 +2,8 @@
 
 from benedict.dicts.io import io_util
 
+from decouple import config
+
 import unittest
 
 
@@ -54,9 +56,9 @@ class io_util_test_case(unittest.TestCase):
         path = "my-folder/my-file.json"
         self.assertTrue(io_util.is_filepath(path))
 
-    def test_is_s3_filepath(self):
+    def test_is_s3(self):
         path = "s3://my-folder/my-file.json"
-        self.assertTrue(io_util.is_s3_filepath(path))
+        self.assertTrue(io_util.is_s3(path))
 
     def test_is_url(self):
         path = "https://my-site.com/my-folder/my-file.json"
@@ -87,10 +89,17 @@ class io_util_test_case(unittest.TestCase):
         # io_util.write_file_to_s3("s3://test-bucket/my-file.txt", "ok", anon=True)
         pass
 
-    def test_write_file_to_s3_and_read_file_from_s3(self):
-        # TODO:
-        # filepath = "s3://test-bucket/my-file.txt"
-        # io_util.write_file_to_s3(filepath, "ok", anon=True)
-        # content = io_util.read_file_from_s3(filepath, anon=True)
-        # self.assertEqual(content, "ok")
-        pass
+    def test_write_and_read_content_s3(self):
+        aws_access_key_id = config("AWS_ACCESS_KEY_ID")
+        aws_secret_access_key = config("AWS_SECRET_ACCESS_KEY")
+        if not all([aws_access_key_id, aws_secret_access_key]):
+            # skip s3 on GH CI
+            return
+        s3_options = {
+            "aws_access_key_id": aws_access_key_id,
+            "aws_secret_access_key": aws_secret_access_key,
+        }
+        filepath = "s3://python-benedict/test-io.txt"
+        io_util.write_content_to_s3(filepath, "ok", s3_options=s3_options)
+        content = io_util.read_content_from_s3(filepath, s3_options=s3_options)
+        self.assertEqual(content, "ok")
