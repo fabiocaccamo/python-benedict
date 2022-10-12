@@ -122,8 +122,8 @@ class io_dict_xls_test_case(io_dict_test_case):
                 self.assertEqual(d, expected_dict)
 
     def test_from_xls_with_valid_s3_url_valid_content(self):
-        aws_access_key_id = config("AWS_ACCESS_KEY_ID")
-        aws_secret_access_key = config("AWS_SECRET_ACCESS_KEY")
+        aws_access_key_id = config("AWS_ACCESS_KEY_ID", default=None)
+        aws_secret_access_key = config("AWS_SECRET_ACCESS_KEY", default=None)
         if not all([aws_access_key_id, aws_secret_access_key]):
             # don't use s3 on GH CI
             return

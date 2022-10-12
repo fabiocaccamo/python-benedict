@@ -90,8 +90,8 @@ class io_util_test_case(unittest.TestCase):
         pass
 
     def test_write_and_read_content_s3(self):
-        aws_access_key_id = config("AWS_ACCESS_KEY_ID")
-        aws_secret_access_key = config("AWS_SECRET_ACCESS_KEY")
+        aws_access_key_id = config("AWS_ACCESS_KEY_ID", default=None)
+        aws_secret_access_key = config("AWS_SECRET_ACCESS_KEY", default=None)
         if not all([aws_access_key_id, aws_secret_access_key]):
             # skip s3 on GH CI
             return
