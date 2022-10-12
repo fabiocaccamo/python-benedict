@@ -94,6 +94,7 @@ setup(
         "unique",
     ],
     install_requires=[
+        "boto3 >= 1.24.89, < 2.0.0",
         "ftfy >= 6.0.0, < 7.0.0",
         "mailchecker >= 4.1.0, < 6.0.0",
         "openpyxl >= 3.0.0, < 4.0.0",
