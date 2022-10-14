@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.dicts.keylist import keylist_util
-
 import unittest
+
+from benedict.dicts.keylist import keylist_util
 
 
 class keylist_util_test_case(unittest.TestCase):

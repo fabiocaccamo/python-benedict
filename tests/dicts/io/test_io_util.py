@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from benedict.dicts.io import io_util
+import unittest
 
 from decouple import config
 
-import unittest
+from benedict.dicts.io import io_util
 
 
 class io_util_test_case(unittest.TestCase):

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from benedict.serializers.abstract import AbstractSerializer
-
 import base64
 import pickle
+
+from benedict.serializers.abstract import AbstractSerializer
 
 
 class PickleSerializer(AbstractSerializer):

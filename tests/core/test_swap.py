@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.core import swap as _swap
-
 import unittest
+
+from benedict.core import swap as _swap
 
 
 class swap_test_case(unittest.TestCase):

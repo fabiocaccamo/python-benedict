@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.dicts.keypath import KeypathDict
-
 import unittest
+
+from benedict.dicts.keypath import KeypathDict
 
 
 class keypath_dict_test_case(unittest.TestCase):

@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from benedict.utils import type_util
-
+import unittest
 from datetime import datetime
 from decimal import Decimal
 
-import unittest
+from benedict.utils import type_util
 
 
 class type_util_test_case(unittest.TestCase):

@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
+import copy
+import sys
+import unittest
+
 from benedict.dicts.base import BaseDict
 
 try:
     from collections.abc import Iterable
 except ImportError:
     from collections import Iterable
-
-import copy
-import sys
-import unittest
 
 
 class base_dict_test_case(unittest.TestCase):

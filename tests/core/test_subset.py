@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.core import subset as _subset
-
 import unittest
+
+from benedict.core import subset as _subset
 
 
 class subset_test_case(unittest.TestCase):

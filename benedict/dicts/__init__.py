@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 
+# fix benedict json dumps support - #57 #59 #61
+from json import encoder
+
+# fix benedict yaml representer - #43
+from yaml import SafeDumper
+from yaml.representer import SafeRepresenter
+
 from benedict.core import clean as _clean
 from benedict.core import clone as _clone
 from benedict.core import dump as _dump
@@ -28,14 +35,6 @@ from benedict.dicts.io import IODict
 from benedict.dicts.keylist import KeylistDict
 from benedict.dicts.keypath import KeypathDict
 from benedict.dicts.parse import ParseDict
-
-# fix benedict json dumps support - #57 #59 #61
-from json import encoder
-
-# fix benedict yaml representer - #43
-from yaml import SafeDumper
-from yaml.representer import SafeRepresenter
-
 
 __all__ = ["benedict", "IODict", "KeylistDict", "KeypathDict", "ParseDict"]
 

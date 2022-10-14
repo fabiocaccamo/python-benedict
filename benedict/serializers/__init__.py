@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import re
+
 from benedict.serializers.abstract import AbstractSerializer
 from benedict.serializers.base64 import Base64Serializer
 from benedict.serializers.csv import CSVSerializer
@@ -12,9 +14,6 @@ from benedict.serializers.toml import TOMLSerializer
 from benedict.serializers.xls import XLSSerializer
 from benedict.serializers.xml import XMLSerializer
 from benedict.serializers.yaml import YAMLSerializer
-
-import re
-
 
 __all__ = [
     "AbstractSerializer",

@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from benedict.serializers import (
-    get_format_by_path,
-    get_serializer_by_format,
-)
+import tempfile
 
 # from botocore.exceptions import ClientError
 from urllib.parse import urlparse
 
 import boto3
 import fsutil
-import tempfile
+
+from benedict.serializers import get_format_by_path, get_serializer_by_format
 
 
 def autodetect_format(s):
@@ -71,7 +69,7 @@ def parse_s3_url(url):
     bucket = parsed.netloc
     key = parsed.path.lstrip("/")
     if parsed.query:
-        key += "?" + self._parsed.query
+        key += "?" + parsed.query
     url = parsed.geturl()
     return {
         "url": url,

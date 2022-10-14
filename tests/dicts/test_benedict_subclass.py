@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict import benedict
-
 import unittest
+
+from benedict import benedict
 
 
 class subbenedict(benedict):

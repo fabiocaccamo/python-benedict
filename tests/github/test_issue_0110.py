@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from benedict import benedict
-
 # import toml
 import unittest
+
+from benedict import benedict
 
 
 class github_issue_0110_test_case(unittest.TestCase):

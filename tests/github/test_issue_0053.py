@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict import benedict
-
 import unittest
+
+from benedict import benedict
 
 
 class github_issue_0053_test_case(unittest.TestCase):

@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from benedict.serializers.abstract import AbstractSerializer
-from benedict.utils import type_util
-
+import base64
 from urllib.parse import unquote
 
-import base64
+from benedict.serializers.abstract import AbstractSerializer
+from benedict.utils import type_util
 
 
 class Base64CoreSerializer(AbstractSerializer):

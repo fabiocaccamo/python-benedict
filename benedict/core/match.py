@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import re
+
 from benedict.core.keypaths import keypaths
 from benedict.utils import type_util
-
-import re
 
 
 def match(d, pattern, separator=".", indexes=True):
