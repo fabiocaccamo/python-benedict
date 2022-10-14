@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.serializers import JSONSerializer
-
 import unittest
+
+from benedict.serializers import JSONSerializer
 
 
 class json_serializer_test_case(unittest.TestCase):

@@ -4,7 +4,6 @@ import unittest
 
 
 class stackoverflow_question_60072709_test_case(unittest.TestCase):
-
     def test_stackoverflow_question_60072709(self):
         """
         https://stackoverflow.com/questions/60072709/i-want-to-convert-sample-json-data-into-nested-json-using-specific-key-value-in
@@ -732,16 +731,18 @@ class stackoverflow_question_60072709_test_case(unittest.TestCase):
         for key in keys:
             item = bdict(data.get(key))
             # move all items to the top level
-            items += list(item['breakdown'])
-            item['breakdown'] = []
+            items += list(item["breakdown"])
+            item["breakdown"] = []
             items.append(item)
             break
 
         # convert all parent_id values to int to allow comparison
         for item in items:
-            if 'parent_id' in item:
-                item['parent_id'] = int(item['parent_id'])
+            if "parent_id" in item:
+                item["parent_id"] = int(item["parent_id"])
 
-        items_dict = bdict({ 'items':items })
-        items_dict['items_nested'] = items_dict.nest('items', id_key='id', parent_id_key='parent_id', children_key='breakdown')
+        items_dict = bdict({"items": items})
+        items_dict["items_nested"] = items_dict.nest(
+            "items", id_key="id", parent_id_key="parent_id", children_key="breakdown"
+        )
         # print(items_dict.dump())

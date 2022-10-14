@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.core import invert as _invert
-
 import unittest
+
+from benedict.core import invert as _invert
 
 
 class invert_test_case(unittest.TestCase):

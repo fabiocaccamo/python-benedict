@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from benedict.core import dump as _dump
-from decimal import Decimal
-
 import datetime as dt
 import unittest
+from decimal import Decimal
+
+from benedict.core import dump as _dump
 
 
 class dump_test_case(unittest.TestCase):

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
+from decimal import Decimal
+
 from benedict.dicts.base import BaseDict
 from benedict.dicts.parse import parse_util
 from benedict.utils import type_util
-
-from decimal import Decimal
 
 
 class ParseDict(BaseDict):

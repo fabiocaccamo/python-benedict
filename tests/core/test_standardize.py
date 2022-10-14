@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.core import standardize as _standardize
-
 import unittest
+
+from benedict.core import standardize as _standardize
 
 
 class standardize_test_case(unittest.TestCase):

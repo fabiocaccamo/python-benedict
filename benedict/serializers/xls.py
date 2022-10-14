@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from benedict.serializers.abstract import AbstractSerializer
+import fsutil
 from openpyxl import load_workbook
 from slugify import slugify
 from xlrd import open_workbook
-import fsutil
+
+from benedict.serializers.abstract import AbstractSerializer
 
 
 class XLSSerializer(AbstractSerializer):
@@ -21,7 +22,7 @@ class XLSSerializer(AbstractSerializer):
             ],
         )
 
-    def _get_sheet_index_and_name(self, **kwargs):
+    def _get_sheet_index_and_name_from_options(self, **kwargs):
         sheet_index_or_name = kwargs.pop("sheet", 0)
         sheet_index = 0
         sheet_name = ""
@@ -31,6 +32,17 @@ class XLSSerializer(AbstractSerializer):
             sheet_name = sheet_index_or_name
         return (sheet_index, sheet_name)
 
+    def _get_sheet_index_by_name(self, sheet_name, sheet_names):
+        sheet_names = list([slugify(name) for name in sheet_names])
+        try:
+            sheet_index = sheet_names.index(slugify(sheet_name))
+            return sheet_index
+        except ValueError:
+            raise Exception(f"Invalid sheet name '{sheet_name}', sheet not found.")
+
+    def _get_sheet_columns_indexes(self, columns_count):
+        return [column_index for column_index in range(columns_count)]
+
     def _decode_legacy(self, s, **kwargs):
         filepath = s
 
@@ -38,13 +50,10 @@ class XLSSerializer(AbstractSerializer):
         workbook = open_workbook(filename=filepath)
 
         # get sheet by index or by name
-        sheet_index, sheet_name = self._get_sheet_index_and_name(**kwargs)
+        sheet_index, sheet_name = self._get_sheet_index_and_name_from_options(**kwargs)
         if sheet_name:
             sheet_names = workbook.sheet_names()
-            try:
-                sheet_index = sheet_names.index(slugify(sheet_name))
-            except ValueError:
-                raise Exception(f"Invalid sheet name '{sheet_name}', sheet not found.")
+            sheet_index = self._get_sheet_index_by_name(sheet_name, sheet_names)
         sheet = workbook.sheet_by_index(sheet_index)
         sheet_columns_range = range(sheet.ncols)
 
@@ -62,7 +71,7 @@ class XLSSerializer(AbstractSerializer):
             else:
                 # otherwise use columns indexes as column names
                 # for row in sheet.iter_rows(min_row=1, max_row=1):
-                columns = [col_index for col_index in sheet_columns_range]
+                columns = self._get_sheet_columns_indexes(sheet_columns_range)
 
         # standardize column names, eg. "Date Created" -> "date_created"
         if columns_standardized:
@@ -88,15 +97,12 @@ class XLSSerializer(AbstractSerializer):
         # load the worksheet
         workbook = load_workbook(filename=filepath, read_only=True)
 
-        # select sheet by index or by name
-        sheet_index, sheet_name = self._get_sheet_index_and_name(**kwargs)
+        # get sheet by index or by name
+        sheet_index, sheet_name = self._get_sheet_index_and_name_from_options(**kwargs)
         sheets = [sheet for sheet in workbook]
         if sheet_name:
-            sheet_names = [slugify(sheet.title) for sheet in sheets]
-            try:
-                sheet_index = sheet_names.index(slugify(sheet_name))
-            except ValueError:
-                raise Exception(f"Invalid sheet name '{sheet_name}', sheet not found.")
+            sheet_names = [sheet.title for sheet in sheets]
+            sheet_index = self._get_sheet_index_by_name(sheet_name, sheet_names)
         sheet = sheets[sheet_index]
         sheet_columns_cells = list(sheet.iter_rows(min_row=1, max_row=1))[0]
 
@@ -112,7 +118,7 @@ class XLSSerializer(AbstractSerializer):
             else:
                 # otherwise use columns indexes as column names
                 # for row in sheet.iter_rows(min_row=1, max_row=1):
-                columns = [index for index in range(len(sheet_columns_cells))]
+                columns = self._get_sheet_columns_indexes(len(sheet_columns_cells))
 
         # standardize column names, eg. "Date Created" -> "date_created"
         if columns_standardized:

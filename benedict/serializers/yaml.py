@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import yaml
+
 from benedict.serializers.abstract import AbstractSerializer
 from benedict.serializers.json import JSONSerializer
-
-import yaml
 
 
 class YAMLSerializer(AbstractSerializer):

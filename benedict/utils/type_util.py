@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import re
 from datetime import datetime
 from decimal import Decimal
-
-import re
 
 regex = re.compile("").__class__
 uuid_re = re.compile(

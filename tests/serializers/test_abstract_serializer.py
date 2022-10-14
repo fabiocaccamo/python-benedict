@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.serializers import AbstractSerializer
-
 import unittest
+
+from benedict.serializers import AbstractSerializer
 
 
 class abstract_serializer_test_case(unittest.TestCase):

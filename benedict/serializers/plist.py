@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.serializers.abstract import AbstractSerializer
-
 import plistlib
+
+from benedict.serializers.abstract import AbstractSerializer
 
 
 class PListSerializer(AbstractSerializer):

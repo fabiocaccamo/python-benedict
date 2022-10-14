@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from benedict.serializers.abstract import AbstractSerializer
-from benedict.utils import type_util
-
+import csv
 from io import StringIO
 
-import csv
+from benedict.serializers.abstract import AbstractSerializer
+from benedict.utils import type_util
 
 
 class CSVSerializer(AbstractSerializer):

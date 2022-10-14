@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.serializers import XLSSerializer
-
 import unittest
+
+from benedict.serializers import XLSSerializer
 
 
 class xls_serializer_test_case(unittest.TestCase):

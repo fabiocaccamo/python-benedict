@@ -25,7 +25,6 @@ from benedict.core.traverse import traverse
 from benedict.core.unflatten import unflatten
 from benedict.core.unique import unique
 
-
 __all__ = [
     "clean",
     "clone",

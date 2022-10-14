@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import json
+
 from benedict.serializers.abstract import AbstractSerializer
 from benedict.utils import type_util
-
-import json
 
 
 class JSONSerializer(AbstractSerializer):

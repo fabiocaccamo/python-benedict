@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from benedict.serializers.abstract import AbstractSerializer
-
-from urllib.parse import urlencode
-from urllib.parse import parse_qs
-
 import re
+from urllib.parse import parse_qs, urlencode
+
+from benedict.serializers.abstract import AbstractSerializer
 
 
 class QueryStringSerializer(AbstractSerializer):

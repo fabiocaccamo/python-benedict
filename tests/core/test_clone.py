@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.core import clone as _clone
-
 import unittest
+
+from benedict.core import clone as _clone
 
 
 class clone_test_case(unittest.TestCase):
