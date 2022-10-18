@@ -14,7 +14,9 @@ def _get_index(key):
 def _get_item_key_and_value(item, index, parent=None, child=None):
     if type_util.is_list_or_tuple(item):
         if type_util.is_wildcard(parent):
-            if type_util.is_list_of_dicts(item) and any(index in _item.keys() for _item in item):
+            if type_util.is_list_of_dicts(item) and any(
+                index in _item.keys() for _item in item
+            ):
                 data = [_item.get(index) for _item in item if index in _item.keys()]
                 if type_util.is_list_of_list(data):
                     data = list(chain.from_iterable(data))
@@ -32,7 +34,11 @@ def _get_item_key_and_value(item, index, parent=None, child=None):
                 if type_util.is_integer(index):
                     return index, item[index]
                 else:
-                    data = [_item.get(index) for _item in chain.from_iterable(item) if index in _item.keys()]
+                    data = [
+                        _item.get(index)
+                        for _item in chain.from_iterable(item)
+                        if index in _item.keys()
+                    ]
                     return index, data
             elif type_util.is_wildcard(index):
                 return index, item
