@@ -523,6 +523,18 @@ class keypath_dict_list_wildcard_test_case(unittest.TestCase):
                 {"u": 16, "v": 26},
             ],
         )
+        self.assertEqual(
+            b.get("a.b[*][*]"),
+            [
+                {"x": 10, "y": 20},
+                {"x": 11, "y": 21},
+                {"x": 12, "y": 22},
+                {"u": 13, "v": 23},
+                {"u": 14, "v": 24},
+                {"u": 15, "v": 25},
+                {"u": 16, "v": 26},
+            ],
+        )
 
     def test_complex_wildcard_non_consecutive(self):
         d = {
