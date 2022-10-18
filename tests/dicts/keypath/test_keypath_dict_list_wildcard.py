@@ -474,6 +474,7 @@ class keypath_dict_list_wildcard_test_case(unittest.TestCase):
                         {"u": 13, "v": 23},
                         {"u": 14, "v": 24},
                         {"u": 15, "v": 25},
+                        {"u": 16, "v": 26},
                     ],
                 ],
             },
@@ -491,6 +492,7 @@ class keypath_dict_list_wildcard_test_case(unittest.TestCase):
                     {"u": 13, "v": 23},
                     {"u": 14, "v": 24},
                     {"u": 15, "v": 25},
+                    {"u": 16, "v": 26},
                 ],
             ],
         )
@@ -498,16 +500,27 @@ class keypath_dict_list_wildcard_test_case(unittest.TestCase):
             b.get("a.b[*][0]"),
             [
                 {"x": 10, "y": 20},
-                {"x": 11, "y": 21},
-                {"x": 12, "y": 22},
+                {"u": 13, "v": 23},
             ],
         )
         self.assertEqual(
             b.get("a.b[*][1]"),
             [
-                {"u": 13, "v": 23},
+                {"x": 11, "y": 21},
                 {"u": 14, "v": 24},
+            ],
+        )
+        self.assertEqual(
+            b.get("a.b[*][2]"),
+            [
+                {"x": 12, "y": 22},
                 {"u": 15, "v": 25},
+            ],
+        )
+        self.assertEqual(
+            b.get("a.b[*][3]"),
+            [
+                {"u": 16, "v": 26},
             ],
         )
 

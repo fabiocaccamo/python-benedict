@@ -30,7 +30,8 @@ def _get_item_key_and_value_for_parent_wildcard(item, index, parent, child):
         return index, data
     elif type_util.is_list_of_list(item):
         if type_util.is_integer(index):
-            return index, item[index]
+            data = [_item[index] for _item in item if index < len(_item)]
+            return index, data
         else:
             data = [
                 _item.get(index)
