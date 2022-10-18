@@ -29,8 +29,11 @@ def _get_item_key_and_value(item, index, parent=None, child=None):
                     data = data[0]
                 return index, data
             elif type_util.is_list_of_list(item):
-                data = [_item.get(index) for _item in chain.from_iterable(item) if index in _item.keys()]
-                return index, data
+                if type_util.is_integer(index):
+                    return index, item[index]
+                else:
+                    data = [_item.get(index) for _item in chain.from_iterable(item) if index in _item.keys()]
+                    return index, data
             elif type_util.is_wildcard(index):
                 return index, item
         elif type_util.is_wildcard(index):
