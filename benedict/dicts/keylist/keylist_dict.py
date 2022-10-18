@@ -73,14 +73,14 @@ class KeylistDict(BaseDict):
         return super(KeylistDict, self).get(key, default)
 
     def _get_by_keys(self, keys, default=None):
-        parent, key, _ = keylist_util.get_item(self, keys)
+        parent, key, value = keylist_util.get_item(self, keys)
         if type_util.is_list(parent) and type_util.is_wildcard(key):
             return parent
         elif type_util.is_wildcard(keys[-2]):
             if type_util.is_list_of_dicts(parent):
                 return [item.get(key) for item in parent]
             elif type_util.is_list_of_list(parent):
-                return _
+                return value
         elif type_util.is_dict(parent):
             return parent.get(key, default)
         elif type_util.is_list_or_tuple(parent):
