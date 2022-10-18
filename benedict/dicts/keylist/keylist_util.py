@@ -11,13 +11,22 @@ def _get_index(key):
     return None
 
 
-def _get_item_key_and_value(item, index, parent=None):
+def _get_item_key_and_value(item, index, parent=None, child=None):
     if type_util.is_list_or_tuple(item):
         if type_util.is_wildcard(parent):
             if type_util.is_list_of_dicts(item) and any(index in _item.keys() for _item in item):
                 data = [_item.get(index) for _item in item if index in _item.keys()]
                 if type_util.is_list_of_list(data):
                     data = list(chain.from_iterable(data))
+                # eject dict from list to able access dict properties
+                if (
+                    len(data) == 1
+                    and len(item) == 1
+                    and type_util.is_wildcard(parent)
+                    and not type_util.is_wildcard(index)
+                    and not type_util.is_wildcard(child)
+                ):
+                    data = data[0]
                 return index, data
             elif type_util.is_list_of_list(item):
                 data = [_item.get(index) for _item in chain.from_iterable(item) if index in _item.keys()]
@@ -83,13 +92,17 @@ def get_item(d, keys):
 def get_items(d, keys):
     items = []
     item = d
-    for key in keys:
+    for index, key in enumerate(keys):
         try:
             if any(items):
                 parent = items[-1][1]
             else:
                 parent = None
-            item_key, item_value = _get_item_key_and_value(item, key, parent)
+            if index < len(keys) - 1:
+                child = keys[index + 1]
+            else:
+                child = None
+            item_key, item_value = _get_item_key_and_value(item, key, parent, child)
             items.append((item, item_key, item_value))
             item = item_value
         except (IndexError, KeyError):
