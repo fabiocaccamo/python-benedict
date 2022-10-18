@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from itertools import chain
 
 from benedict.dicts.base import BaseDict
 from benedict.dicts.keylist import keylist_util
@@ -53,8 +52,6 @@ class KeylistDict(BaseDict):
             keys
         ):
             data = [item.get(key) for item in parent]
-            if type_util.is_list_of_dicts(data) or type_util.is_list_of_list(data):
-                return list(chain.from_iterable(data))
             return data
         elif type_util.is_dict_or_list_or_tuple(parent):
             return parent[key]
