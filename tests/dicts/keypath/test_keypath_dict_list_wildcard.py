@@ -320,11 +320,11 @@ class keypath_dict_list_wildcard_test_case(unittest.TestCase):
         b = KeypathDict(d)
 
         self.assertEqual(b.pop("a.b[0].d[-1][*]"), [0])
-        self.assertEqual(b["a.b[0].d"], [1, 2, 3])
-
+        self.assertEqual(b["a.b[0].d"], [1, 2, 3, []])
+        self.assertEqual(b.pop("a.b[0].d[-1]"), [])
         self.assertEqual(b.pop("a.b[0].d[*]"), [1, 2, 3])
-        self.assertEqual(b["a.b[0]"], {"c": 1})
-
+        self.assertEqual(b["a.b[0]"], {"c": 1, "d": []})
+        self.assertEqual(b.pop("a.b[0].d"), [])
         self.assertEqual(b.pop("a.b[0]"), {"c": 1})
         self.assertEqual(
             b["a.b[0]"],
