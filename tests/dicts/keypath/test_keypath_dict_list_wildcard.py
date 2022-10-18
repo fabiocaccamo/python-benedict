@@ -275,6 +275,8 @@ class keypath_dict_list_wildcard_test_case(unittest.TestCase):
         b = KeypathDict(d)
 
         self.assertEqual(b.pop("a[*]"), [1, 2, 3])
+        self.assertEqual(b, {"a": []})
+        self.assertEqual(b.pop("a"), [])
         self.assertEqual(b, {})
 
     def test_wildcard_pop_with_flat_list_and_default(self):
