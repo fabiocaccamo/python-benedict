@@ -575,3 +575,25 @@ class keypath_dict_list_wildcard_test_case(unittest.TestCase):
             b["a[*].b[*].c.d[*].x"],
             [10, 11, 12],
         )
+        d = {
+            "a": [
+                {
+                    "b": [
+                        {
+                            "c": {
+                                "d": [
+                                    {"x": {"u": 13, "v": 23}, "y": 20},
+                                    {"x": {"u": 14, "v": 24}, "y": 21},
+                                    {"x": {"u": 15, "v": 25}, "y": 22},
+                                ],
+                            },
+                        },
+                    ],
+                }
+            ],
+        }
+        b = KeypathDict(d)
+        self.assertEqual(
+            b["a[*].b[*].c.d[*].x"],
+            [{"u": 13, "v": 23}, {"u": 14, "v": 24}, {"u": 15, "v": 25}],
+        )
