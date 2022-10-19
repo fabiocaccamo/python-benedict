@@ -559,9 +559,28 @@ class keypath_dict_list_wildcard_test_case(unittest.TestCase):
                             },
                             "l": {"m": 2},
                         },
+                        {"o": [1, 2, 3, 4], "p": {"q": {}, "r": ["7", "8", "9"]}},
+                    ],
+                    "b2": [
+                        {
+                            "c2": {
+                                "d2": [
+                                    {"x": 10, "y": 20},
+                                    {"x": 11, "y": 21},
+                                    {"x": 12, "y": 22},
+                                ],
+                                "e2": [
+                                    {"x": 20, "y": 30},
+                                    {"x": 21, "y": 31},
+                                    {"x": 22, "y": 32},
+                                ],
+                            },
+                            "l2": {"m": 2},
+                        },
                     ],
                 }
             ],
+            "a2": [1, 2, 3, 4],
         }
         b = KeypathDict(d)
         self.assertEqual(
@@ -593,6 +612,7 @@ class keypath_dict_list_wildcard_test_case(unittest.TestCase):
                 }
             ],
         }
+
         b = KeypathDict(d)
         self.assertEqual(
             b["a[*].b[*].c.d[*].x"],

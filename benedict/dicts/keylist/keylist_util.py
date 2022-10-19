@@ -21,7 +21,6 @@ def _get_item_key_and_value_for_parent_wildcard(item, index, parent, child):
         # eject dict from list to be able to access dict properties
         if (
             len(data) == 1
-            and len(item) == 1
             and type_util.is_wildcard(parent)
             and not type_util.is_wildcard(index)
             and not type_util.is_wildcard(child)
