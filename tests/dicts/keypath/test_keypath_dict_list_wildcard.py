@@ -505,6 +505,7 @@ class keypath_dict_list_wildcard_test_case(unittest.TestCase):
                 {"u": 13, "v": 23},
             ],
         )
+        self.assertEqual(b.get("a.b[*].x"), [10, 11, 12])
         self.assertEqual(
             b.get("a.b[*][1]"),
             [
