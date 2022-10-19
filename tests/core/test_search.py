@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.core import search as _search
-
 import unittest
+
+from benedict.core import search as _search
 
 
 class search_test_case(unittest.TestCase):

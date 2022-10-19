@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.serializers.abstract import AbstractSerializer
-
 import plistlib
+
+from benedict.serializers.abstract import AbstractSerializer
 
 
 class PListSerializer(AbstractSerializer):
@@ -12,7 +12,11 @@ class PListSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(PListSerializer, self).__init__()
+        super(PListSerializer, self).__init__(
+            extensions=[
+                "plist",
+            ],
+        )
 
     def decode(self, s, **kwargs):
         kwargs.setdefault("fmt", plistlib.FMT_XML)

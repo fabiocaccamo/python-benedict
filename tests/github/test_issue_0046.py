@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from benedict import benedict
-
 import json
 import unittest
+
+from benedict import benedict
 
 
 class github_issue_0046_test_case(unittest.TestCase):

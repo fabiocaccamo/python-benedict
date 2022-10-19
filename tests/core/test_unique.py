@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.core import unique as _unique
-
 import unittest
+
+from benedict.core import unique as _unique
 
 
 class unique_test_case(unittest.TestCase):

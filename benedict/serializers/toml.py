@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.serializers.abstract import AbstractSerializer
-
 import toml
+
+from benedict.serializers.abstract import AbstractSerializer
 
 
 class TOMLSerializer(AbstractSerializer):
@@ -11,7 +11,11 @@ class TOMLSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(TOMLSerializer, self).__init__()
+        super(TOMLSerializer, self).__init__(
+            extensions=[
+                "toml",
+            ],
+        )
 
     def decode(self, s, **kwargs):
         data = toml.loads(s, **kwargs)

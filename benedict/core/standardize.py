@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from benedict.core.rename import rename
-from benedict.core.traverse import traverse
-from benedict.utils import type_util
+import re
 
 from slugify import slugify
 
-import re
+from benedict.core.rename import rename
+from benedict.core.traverse import traverse
+from benedict.utils import type_util
 
 
 def _standardize_item(d, key, value):

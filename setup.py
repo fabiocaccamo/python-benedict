@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import os
 
 from setuptools import find_packages, setup
-
-import os
 
 exec(open("benedict/metadata.py").read())
 
@@ -94,8 +93,10 @@ setup(
         "unique",
     ],
     install_requires=[
+        "boto3 >= 1.24.89, < 2.0.0",
         "ftfy >= 6.0.0, < 7.0.0",
         "mailchecker >= 4.1.0, < 6.0.0",
+        "openpyxl >= 3.0.0, < 4.0.0",
         "phonenumbers >= 8.12.0, < 9.0.0",
         "python-dateutil >= 2.8.0, < 3.0.0",
         "python-fsutil >= 0.6.0, < 1.0.0",
@@ -103,6 +104,7 @@ setup(
         "pyyaml >= 6.0, < 7.0",
         "requests >= 2.26.0, < 3.0.0",
         "toml >= 0.10.2, < 1.0.0",
+        "xlrd >= 2.0.0, < 3.0.0",
         "xmltodict >= 0.12.0, < 1.0.0",
     ],
     classifiers=[
@@ -120,7 +122,6 @@ setup(
         "Natural Language :: English",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",

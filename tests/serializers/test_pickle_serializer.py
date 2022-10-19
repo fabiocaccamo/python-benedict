@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from benedict.serializers import PickleSerializer
-from benedict.utils import type_util
-
 import datetime as dt
 import unittest
+
+from benedict.serializers import PickleSerializer
+from benedict.utils import type_util
 
 
 class pickle_serializer_test_case(unittest.TestCase):

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.serializers import YAMLSerializer
-
 import unittest
+
+from benedict.serializers import YAMLSerializer
 
 
 class yaml_serializer_test_case(unittest.TestCase):

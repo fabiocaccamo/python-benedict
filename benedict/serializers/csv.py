@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from benedict.serializers.abstract import AbstractSerializer
-from benedict.utils import type_util
-
+import csv
 from io import StringIO
 
-import csv
+from benedict.serializers.abstract import AbstractSerializer
+from benedict.utils import type_util
 
 
 class CSVSerializer(AbstractSerializer):
@@ -14,7 +13,11 @@ class CSVSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(CSVSerializer, self).__init__()
+        super(CSVSerializer, self).__init__(
+            extensions=[
+                "csv",
+            ],
+        )
 
     def decode(self, s, **kwargs):
         # kwargs.setdefault('delimiter', ',')

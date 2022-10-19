@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from benedict.dicts.parse import ParseDict
-
+import unittest
 from datetime import datetime
 from decimal import Decimal
 
-import unittest
+from benedict.dicts.parse import ParseDict
 
 
 class parse_dict_test_case(unittest.TestCase):

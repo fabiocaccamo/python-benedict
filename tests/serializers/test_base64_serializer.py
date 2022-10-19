@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.serializers import Base64Serializer
-
 import unittest
+
+from benedict.serializers import Base64Serializer
 
 
 class base64_serializer_test_case(unittest.TestCase):

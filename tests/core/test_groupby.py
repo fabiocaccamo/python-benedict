@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import unittest
+
 from benedict.core import clone as _clone
 from benedict.core import groupby as _groupby
-
-import unittest
 
 
 class groupby_test_case(unittest.TestCase):

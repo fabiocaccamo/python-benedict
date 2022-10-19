@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from benedict.serializers.abstract import AbstractSerializer
-from benedict.utils import type_util
-
+import base64
 from urllib.parse import unquote
 
-import base64
+from benedict.serializers.abstract import AbstractSerializer
+from benedict.utils import type_util
 
 
 class Base64CoreSerializer(AbstractSerializer):
@@ -14,7 +13,12 @@ class Base64CoreSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(Base64CoreSerializer, self).__init__()
+        super(Base64CoreSerializer, self).__init__(
+            extensions=[
+                "b64",
+                "base64",
+            ],
+        )
 
     def _fix_url_encoding_and_padding(self, s):
         # fix urlencoded chars
