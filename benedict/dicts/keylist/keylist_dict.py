@@ -2,6 +2,9 @@
 
 from benedict.dicts.base import BaseDict
 from benedict.dicts.keylist import keylist_util
+from benedict.dicts.keylist.keylist_util import (
+    generator_to_list,
+)
 from benedict.utils import type_util
 
 
@@ -15,9 +18,11 @@ class KeylistDict(BaseDict):
         return super(KeylistDict, self).__contains__(key)
 
     def _contains_by_keys(self, keys):
-        parent, _, _ = keylist_util.get_item(self, keys)
+        parent, _, val = keylist_util.get_item(self, keys)
         if type_util.is_dict_or_list_or_tuple(parent):
             return True
+        elif type_util.is_generator(val):
+            return type_util.is_generator_empty(val)
         return False
 
     def __delitem__(self, key):
@@ -28,8 +33,8 @@ class KeylistDict(BaseDict):
 
     def _delitem_by_keys(self, keys):
         parent, key, _ = keylist_util.get_item(self, keys)
-        if type_util.is_wildcard(key):
-            self[keys[:-1]].clear()
+        if type_util.is_dict_or_list(parent) and type_util.is_wildcard(key):
+            parent.clear()
             return
         elif type_util.is_dict_or_list(parent):
             del parent[key]
@@ -45,14 +50,11 @@ class KeylistDict(BaseDict):
         return super(KeylistDict, self).__getitem__(key)
 
     def _getitem_by_keys(self, keys):
-        parent, key, _ = keylist_util.get_item(self, keys)
-        if type_util.is_list(parent) and type_util.is_wildcard(key):
+        parent, key, val = keylist_util.get_item(self, keys)
+        if type_util.is_generator(val):
+            return generator_to_list(val)
+        elif type_util.is_list(parent) and type_util.is_wildcard(key):
             return parent
-        elif type_util.is_list_of_dicts(parent) and type_util.any_wildcard_in_list(
-            keys
-        ):
-            data = [item.get(key) for item in parent]
-            return data
         elif type_util.is_dict_or_list_or_tuple(parent):
             return parent[key]
         raise KeyError(f"Invalid keys: '{keys}'")
@@ -73,6 +75,11 @@ class KeylistDict(BaseDict):
 
     def _get_by_keys(self, keys, default=None):
         parent, key, value = keylist_util.get_item(self, keys)
+        if type_util.is_generator(value) and type_util.is_generator(parent):
+            data = generator_to_list(value)
+            if type_util.is_integer(key):
+                return data[key]
+            return data
         if type_util.is_list_of_list(parent) and type_util.is_wildcard(key):
             return value
         elif type_util.is_list(parent) and type_util.is_wildcard(key):
@@ -94,15 +101,25 @@ class KeylistDict(BaseDict):
         return super(KeylistDict, self).pop(key, *args)
 
     def _pop_by_keys(self, keys, *args):
-        parent, key, _ = keylist_util.get_item(self, keys)
+        parent, key, val = keylist_util.get_item(self, keys)
         if type_util.is_dict(parent):
             return parent.pop(key, *args)
-        elif type_util.is_list(parent) and type_util.is_wildcard(key):
-            return [parent.pop(index) for index in [0] * len(parent)]
+        elif type_util.is_generator(val) and type_util.is_generator(parent):
+            cleaned_list = []
+            for item in parent:
+                if type_util.is_list_or_tuple(item):
+                    if type_util.is_wildcard(key):
+                        cleaned_list.extend(item.pop(0) for _ in range(len(item)))
+                elif type_util.is_dict(item):
+                    cleaned_list.append(item)
+            return cleaned_list
+        elif type_util.is_wildcard(key):
+            data = [parent.pop(0) for _ in range(len(parent))]
+            return data
         elif type_util.is_list_of_dicts(parent) and type_util.any_wildcard_in_list(
             keys
         ):
-            return [_item.pop(key) if key in _item else None for _item in parent]
+            return [_item.pop(key) for _item in parent if key in _item]
         elif type_util.is_list(parent):
             return parent.pop(key)
         elif type_util.is_tuple(parent):

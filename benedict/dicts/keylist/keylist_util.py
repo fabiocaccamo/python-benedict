@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from itertools import chain
 
 from benedict.utils import type_util
@@ -11,22 +10,45 @@ def _get_index(key):
     return None
 
 
-def _get_item_key_and_value_for_parent_wildcard(item, index, parent, child):
+def generator_datastructures(item, index):
+    for _item in item:
+        data_chunk = _item.get(index)
+        if data_chunk:
+            yield data_chunk
+
+
+def low_level_generator(item, index):
+    for _item in item:
+        if not type_util.is_dict_or_list_or_tuple(_item):
+            yield _item
+        elif type_util.is_list(_item):
+            for __item in _item:
+                if index in __item:
+                    yield __item.get(index)
+                elif __item:
+                    yield __item
+        elif type_util.is_dict(_item) and index in _item:
+            yield _item[index]
+
+        elif index in _item and not type_util.is_wildcard(index):
+            yield _item[index]
+
+
+def generator_to_list(generator):
+    new_list = []
+    for item in generator:
+        if type_util.is_list_or_tuple(item):
+            new_list.extend(item)
+        else:
+            new_list.append(item)
+    return new_list
+
+
+def _get_item_key_and_value_for_parent_wildcard(item, index):
     if type_util.is_list_of_dicts(item) and any(
         index in _item.keys() for _item in item
     ):
-        data = [_item.get(index) for _item in item if index in _item.keys()]
-        if type_util.is_list_of_list(data):
-            data = list(chain.from_iterable(data))
-        # eject dict from list to be able to access dict properties
-        if (
-            len(data) == 1
-            and type_util.is_wildcard(parent)
-            and not type_util.is_wildcard(index)
-            and not type_util.is_wildcard(child)
-        ):
-            data = data[0]
-        return index, data
+        return index, low_level_generator(item, index)
     elif type_util.is_list_of_list(item):
         if type_util.is_integer(index):
             data = [_item[index] for _item in item if index < len(_item)]
@@ -46,12 +68,12 @@ def _get_item_key_and_value_for_parent_wildcard(item, index, parent, child):
     return index, None
 
 
-def _get_item_key_and_value(item, index, parent=None, child=None):
-    if type_util.is_list_or_tuple(item):
+def _get_item_key_and_value(item, index, parent=None):
+    if type_util.is_generator(item):
+        return index, low_level_generator(item, index)
+    elif type_util.is_list_or_tuple(item):
         if type_util.is_wildcard(parent):
-            index, item = _get_item_key_and_value_for_parent_wildcard(
-                item, index, parent, child
-            )
+            index, item = _get_item_key_and_value_for_parent_wildcard(item, index)
             if item:
                 return index, item
         elif type_util.is_wildcard(index):
@@ -113,16 +135,13 @@ def get_items(d, keys):
                 parent = items[-1][1]
             else:
                 parent = None
-            if index < len(keys) - 1:
-                child = keys[index + 1]
-            else:
-                child = None
-            item_key, item_value = _get_item_key_and_value(item, key, parent, child)
+            item_key, item_value = _get_item_key_and_value(item, key, parent)
             items.append((item, item_key, item_value))
             item = item_value
         except (IndexError, KeyError):
             items.append((None, None, None))
             break
+
     return items
 
 

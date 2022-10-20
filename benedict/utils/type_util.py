@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
+import types
 from datetime import datetime
 from decimal import Decimal
 
@@ -106,3 +107,19 @@ def any_wildcard_in_list(val):
 
 def is_list_of_list(val):
     return is_list(val) and all(is_list(_val) for _val in val)
+
+
+def is_generator(val):
+    return isinstance(val, types.GeneratorType)
+
+
+def is_generator_empty(val):
+    """
+    this function should be used only to check if generator contains any data
+    don't use it if you want to use any potential data contained in generator
+
+    val: object
+
+    return: bool
+    """
+    return any(list(val))
