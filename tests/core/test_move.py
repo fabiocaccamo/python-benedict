@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.core import move as _move
-
 import unittest
+
+from benedict.core import move as _move
 
 
 class move_test_case(unittest.TestCase):

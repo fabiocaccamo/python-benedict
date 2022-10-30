@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import unittest
+
 from benedict.dicts.keylist import keylist_util
 from benedict.dicts.keypath import keypath_util
-
-import unittest
 
 
 class keypath_util_test_case(unittest.TestCase):

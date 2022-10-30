@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.serializers import CSVSerializer
-
 import unittest
+
+from benedict.serializers import CSVSerializer
 
 
 class csv_serializer_test_case(unittest.TestCase):

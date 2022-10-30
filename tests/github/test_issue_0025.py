@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from benedict import benedict
-
 import unittest
+
 import yaml
+
+from benedict import benedict
 
 
 class github_issue_0025_test_case(unittest.TestCase):

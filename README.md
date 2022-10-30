@@ -2,9 +2,9 @@
 [![](https://img.shields.io/pypi/v/python-benedict.svg?color=blue&logo=pypi&logoColor=white)](https://pypi.org/project/python-benedict/)
 [![](https://pepy.tech/badge/python-benedict/month)](https://pepy.tech/project/python-benedict)
 [![](https://img.shields.io/github/stars/fabiocaccamo/python-benedict?logo=github)](https://github.com/fabiocaccamo/python-benedict/)
-[![](https://badges.pufler.dev/visits/fabiocaccamo/python-benedict?label=visitors&color=blue)](https://badges.pufler.dev)
 [![](https://img.shields.io/pypi/l/python-benedict.svg?color=blue)](https://github.com/fabiocaccamo/python-benedict/blob/master/LICENSE.txt)
 
+[![](https://results.pre-commit.ci/badge/github/fabiocaccamo/python-benedict/master.svg)](https://results.pre-commit.ci/latest/github/fabiocaccamo/python-benedict/master)
 [![](https://img.shields.io/github/workflow/status/fabiocaccamo/python-benedict/Test%20package?label=build&logo=github)](https://github.com/fabiocaccamo/python-benedict)
 [![](https://img.shields.io/codecov/c/gh/fabiocaccamo/python-benedict?logo=codecov)](https://codecov.io/gh/fabiocaccamo/python-benedict)
 [![](https://img.shields.io/codeclimate/maintainability/fabiocaccamo/python-benedict?logo=code-climate)](https://codeclimate.com/github/fabiocaccamo/python-benedict/)
@@ -14,14 +14,15 @@
 
 
 # python-benedict
-python-benedict is a dict subclass with **keylist/keypath** support, **I/O** shortcuts (`base64`, `csv`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xml`, `yaml`) and many **utilities**... for humans, obviously.
+python-benedict is a dict subclass with **keylist/keypath** support, **I/O** shortcuts (`base64`, `csv`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xls`, `xml`, `yaml`) and many **utilities**... for humans, obviously.
 
 ## Features
 -   100% **backward-compatible**, you can safely wrap existing dictionaries.
 -   **Keylist** support using **list of keys** as key.
 -   **Keypath** support using **keypath-separator** *(dot syntax by default)*.
 -   Keypath **list-index** support  *(also negative)* using the standard `[n]` suffix.
--   Normalized **I/O operations** with most common formats: `base64`, `csv`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xml`, `yaml`.
+-   Normalized **I/O operations** with most common formats: `base64`, `csv`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xls`, `xml`, `yaml`.
+-   `NEW` Multiple **I/O operations** backends: `filepath` *(read/write)*, `url` *(read-only)*, `s3` *(read/write)*.
 -   Many **utility** and **parse methods** to retrieve data as needed *(check the [API](#api) section)*.
 -   Well **tested**. ;)
 
@@ -191,6 +192,7 @@ lng = loc.get_decimal('longitude')
     -   [`from_plist`](#from_plist)
     -   [`from_query_string`](#from_query_string)
     -   [`from_toml`](#from_toml)
+    -   [`from_xls`](#from_xls)
     -   [`from_xml`](#from_xml)
     -   [`from_yaml`](#from_yaml)
     -   [`to_base64`](#to_base64)
@@ -437,7 +439,7 @@ d.unique()
 
 ### I/O methods
 
-It is possible to create a `benedict` instance directly from data source (filepath, url or data-string) by passing the data source and the data format (default 'json') in the constructor.
+It is possible to create a `benedict` instance directly from data-source (`filepath`, `url`, `s3` or `data-string`) by passing the data source and the data format (optional, default 'json') in the constructor.
 
 ```python
 # filepath
@@ -446,11 +448,14 @@ d = benedict('/root/data.yml', format='yaml')
 # url
 d = benedict('https://localhost:8000/data.xml', format='xml')
 
+# s3
+d = benedict('s3://my-bucket/data.xml', s3_options={"aws_access_key_id": "...", "aws_secret_access_key": "..."})
+
 # data-string
 d = benedict('{"a": 1, "b": 2, "c": 3, "x": 7, "y": 8, "z": 9}')
 ```
 
-These methods simplify I/O operations with most common formats: `base64`, `csv`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xml`, `yaml`.
+These methods simplify I/O operations with most common formats: `base64`, `csv`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xls`, `xml`, `yaml`.
 
 In all `from_*` methods, the first argument can be: **url**, **filepath** or **data-string**.
 
@@ -542,6 +547,18 @@ d = benedict.from_query_string(s, **kwargs)
 # https://pypi.org/project/toml/
 # A ValueError is raised in case of failure.
 d = benedict.from_toml(s, **kwargs)
+```
+
+-   #### from_xls
+
+```python
+# Try to load/decode a xls file (".xls", ".xlsx", ".xlsm") from url, filepath or data-string.
+# Accept as first argument: url, filepath or data-string.
+# It's possible to pass decoder specific options using kwargs:
+# - https://openpyxl.readthedocs.io/ (for .xlsx and .xlsm files)
+# - https://pypi.org/project/xlrd/ (for .xls files)
+# A ValueError is raised in case of failure.
+d = benedict.from_xls(s, sheet=0, columns=None, columns_row=True, **kwargs)
 ```
 
 -   #### from_xml

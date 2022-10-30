@@ -23,35 +23,28 @@ class IODict(BaseDict):
         autodetected_format = io_util.autodetect_format(s)
         default_format = autodetected_format or "json"
         format = kwargs.pop("format", default_format).lower()
-        if format in ["b64", "base64"]:
-            kwargs.setdefault("subformat", "json")
         # decode data-string and initialize with dict data.
         return IODict._decode(s, format, **kwargs)
 
     @staticmethod
     def _decode(s, format, **kwargs):
+        data = None
         try:
-            content = io_util.read_content(s)
-            # decode content using the given format
-            data = io_util.decode(content, format, **kwargs)
-            if type_util.is_dict(data):
-                return data
-            elif type_util.is_list(data):
-                # force list to dict
-                return {"values": data}
-            else:
-                raise ValueError(
-                    f"Invalid data type: {type(data)}, expected dict or list."
-                )
+            data = io_util.decode(s, format, **kwargs)
         except Exception as e:
             raise ValueError(f"Invalid data or url or filepath argument: {s}\n{e}")
+        # if possible return data as dict, otherwise raise exception
+        if type_util.is_dict(data):
+            return data
+        elif type_util.is_list(data):
+            # force list to dict
+            return {"values": data}
+        else:
+            raise ValueError(f"Invalid data type: {type(data)}, expected dict or list.")
 
     @staticmethod
     def _encode(d, format, **kwargs):
-        filepath = kwargs.pop("filepath", None)
         s = io_util.encode(d, format, **kwargs)
-        if filepath:
-            io_util.write_file(filepath, s)
         return s
 
     @classmethod
@@ -135,6 +128,20 @@ class IODict(BaseDict):
         Return a new dict instance. A ValueError is raised in case of failure.
         """
         return cls(s, format="toml", **kwargs)
+
+    @classmethod
+    def from_xls(cls, s, sheet=0, columns=None, columns_row=True, **kwargs):
+        """
+        Load and decode XLS files (".xls", ".xlsx", ".xlsm") from url, filepath or data-string.
+        Decoder specific options can be passed using kwargs:
+        - https://openpyxl.readthedocs.io/ (for .xlsx and .xlsm files)
+        - https://pypi.org/project/xlrd/ (for .xls files)
+        Return a new dict instance. A ValueError is raised in case of failure.
+        """
+        kwargs["sheet"] = sheet
+        kwargs["columns"] = columns
+        kwargs["columns_row"] = columns_row
+        return cls(s, format="xls", **kwargs)
 
     @classmethod
     def from_xml(cls, s, **kwargs):
@@ -248,6 +255,30 @@ class IODict(BaseDict):
         A ValueError is raised in case of failure.
         """
         return self._encode(self.dict(), "xml", **kwargs)
+
+    def to_xls(
+        self,
+        key="values",
+        sheet=0,
+        columns=None,
+        columns_row=True,
+        format="xlsx",
+        **kwargs,
+    ):
+        """
+        Encode a list of dicts in the current dict instance in XLS format.
+        Encoder specific options can be passed using kwargs:
+        - https://openpyxl.readthedocs.io/ (for .xlsx and .xlsm files)
+        - https://pypi.org/project/xlrd/ (for .xls files)
+        Return the encoded string and optionally save it at 'filepath'.
+        A ValueError is raised in case of failure.
+        """
+        # kwargs["sheet"] = sheet
+        # kwargs["columns"] = columns
+        # kwargs["columns_row"] = columns_row
+        # kwargs["format"] = format
+        # return self._encode(self.dict()[key], "xls", **kwargs)
+        raise NotImplementedError
 
     def to_yaml(self, **kwargs):
         """

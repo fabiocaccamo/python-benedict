@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from benedict.core import traverse
-from benedict.utils import type_util
-
 import re
 
+from benedict.core import traverse
+from benedict.utils import type_util
 
 KEY_INDEX_RE = r"(?:\[[\'\"]*(\-?[\d]+)[\'\"]*\]){1}$"
 KEY_WILDCARD_RE = r"(?:\[[\'\"]*(\-?[\*]+)[\'\"]*\]){1}$"

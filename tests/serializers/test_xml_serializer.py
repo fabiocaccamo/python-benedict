@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.serializers import XMLSerializer
-
 import unittest
+
+from benedict.serializers import XMLSerializer
 
 
 class xml_serializer_test_case(unittest.TestCase):

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from benedict.core import clean as _clean
-
 import unittest
+
+from benedict.core import clean as _clean
 
 
 class clean_test_case(unittest.TestCase):

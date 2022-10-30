@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import json
+
 from benedict.serializers.abstract import AbstractSerializer
 from benedict.utils import type_util
-
-import json
 
 
 class JSONSerializer(AbstractSerializer):
@@ -12,7 +12,11 @@ class JSONSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(JSONSerializer, self).__init__()
+        super(JSONSerializer, self).__init__(
+            extensions=[
+                "json",
+            ],
+        )
 
     def decode(self, s, **kwargs):
         data = json.loads(s, **kwargs)

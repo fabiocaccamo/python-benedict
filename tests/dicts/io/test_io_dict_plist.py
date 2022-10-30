@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
+import datetime as dt
+import plistlib
+
+import six
+
 from benedict.dicts.io import IODict
 
 from .test_io_dict import io_dict_test_case
-
-import datetime as dt
-import plistlib
-import six
 
 
 class io_dict_plist_test_case(io_dict_test_case):
