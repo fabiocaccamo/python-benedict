@@ -2,9 +2,7 @@
 
 from benedict.dicts.base import BaseDict
 from benedict.dicts.keylist import keylist_util
-from benedict.dicts.keylist.keylist_util import (
-    generator_to_list,
-)
+from benedict.dicts.keylist.keylist_util import generator_to_list
 from benedict.utils import type_util
 
 
