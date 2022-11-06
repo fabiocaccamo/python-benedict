@@ -1,4 +1,4 @@
-boto3 == 1.24.89
+boto3 == 1.26.3
 ftfy == 6.1.1
 mailchecker == 5.0.3
 openpyxl == 3.0.10
