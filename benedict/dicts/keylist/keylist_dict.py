@@ -16,7 +16,7 @@ class KeylistDict(BaseDict):
         return super(KeylistDict, self).__contains__(key)
 
     def _contains_by_keys(self, keys):
-        parent, _, val = keylist_util.get_item(self, keys)
+        parent, _, _ = keylist_util.get_item(self, keys)
         if type_util.is_dict_or_list_or_tuple(parent):
             return True
         return False
