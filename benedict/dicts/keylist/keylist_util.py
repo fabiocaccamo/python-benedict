@@ -129,7 +129,7 @@ def get_item(d, keys):
 def get_items(d, keys):
     items = []
     item = d
-    for index, key in enumerate(keys):
+    for key in keys:
         try:
             if any(items):
                 parent = items[-1][1]
