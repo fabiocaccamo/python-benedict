@@ -2,7 +2,7 @@
 
 from benedict.dicts.base import BaseDict
 from benedict.dicts.keylist import keylist_util
-from benedict.dicts.keylist.keylist_util import generator_to_list
+from benedict.dicts.keylist.keylist_util import generator_to_list, pop_in_generator
 from benedict.utils import type_util
 
 
@@ -103,14 +103,7 @@ class KeylistDict(BaseDict):
         if type_util.is_dict(parent):
             return parent.pop(key, *args)
         elif type_util.is_generator(val) and type_util.is_generator(parent):
-            cleaned_list = []
-            for item in parent:
-                if type_util.is_list_or_tuple(item):
-                    if type_util.is_wildcard(key):
-                        cleaned_list.extend(item.pop(0) for _ in range(len(item)))
-                elif type_util.is_dict(item):
-                    cleaned_list.append(item)
-            return cleaned_list
+            return pop_in_generator(key, parent)
         elif type_util.is_wildcard(key):
             data = [parent.pop(0) for _ in range(len(parent))]
             return data

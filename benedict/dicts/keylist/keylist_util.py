@@ -157,3 +157,14 @@ def set_item(d, keys, value):
             continue
         _set_item_value(item, key, value)
         break
+
+
+def pop_in_generator(key, parent):
+    cleaned_list = []
+    for item in parent:
+        if type_util.is_list_or_tuple(item):
+            if type_util.is_wildcard(key):
+                cleaned_list.extend(item.pop(0) for _ in range(len(item)))
+        elif type_util.is_dict(item):
+            cleaned_list.append(item)
+    return cleaned_list
