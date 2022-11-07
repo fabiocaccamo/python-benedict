@@ -19,8 +19,6 @@ class KeylistDict(BaseDict):
         parent, _, val = keylist_util.get_item(self, keys)
         if type_util.is_dict_or_list_or_tuple(parent):
             return True
-        elif type_util.is_generator(val):
-            return type_util.is_generator_empty(val)
         return False
 
     def __delitem__(self, key):
@@ -107,10 +105,6 @@ class KeylistDict(BaseDict):
         elif type_util.is_wildcard(key):
             data = [parent.pop(0) for _ in range(len(parent))]
             return data
-        elif type_util.is_list_of_dicts(parent) and type_util.any_wildcard_in_list(
-            keys
-        ):
-            return [_item.pop(key) for _item in parent if key in _item]
         elif type_util.is_list(parent):
             return parent.pop(key)
         elif type_util.is_tuple(parent):

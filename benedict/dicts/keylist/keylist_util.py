@@ -10,13 +10,6 @@ def _get_index(key):
     return None
 
 
-def generator_datastructures(item, index):
-    for _item in item:
-        data_chunk = _item.get(index)
-        if data_chunk:
-            yield data_chunk
-
-
 def low_level_generator(item, index):
     for _item in item:
         if not type_util.is_dict_or_list_or_tuple(_item):
@@ -28,9 +21,6 @@ def low_level_generator(item, index):
                 elif __item:
                     yield __item
         elif type_util.is_dict(_item) and index in _item:
-            yield _item[index]
-
-        elif index in _item and not type_util.is_wildcard(index):
             yield _item[index]
 
 
