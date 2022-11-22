@@ -2,6 +2,14 @@
 
 import toml
 
+try:
+    # python >= 3.11
+    import tomllib
+
+    tomllib_available = True
+except ImportError:
+    tomllib_available = False
+
 from benedict.serializers.abstract import AbstractSerializer
 
 
@@ -18,7 +26,10 @@ class TOMLSerializer(AbstractSerializer):
         )
 
     def decode(self, s, **kwargs):
-        data = toml.loads(s, **kwargs)
+        if tomllib_available:
+            data = tomllib.loads(s, **kwargs)
+        else:
+            data = toml.loads(s, **kwargs)
         return data
 
     def encode(self, d, **kwargs):
