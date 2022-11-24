@@ -100,7 +100,7 @@ setup(
         "phonenumbers >= 8.12.0, < 9.0.0",
         "python-dateutil >= 2.8.0, < 3.0.0",
         "python-fsutil >= 0.6.0, < 1.0.0",
-        "python-slugify >= 6.0.1, < 7.0.0",
+        "python-slugify >= 6.0.1, < 8.0.0",
         "pyyaml >= 6.0, < 7.0",
         "requests >= 2.26.0, < 3.0.0",
         "toml >= 0.10.2, < 1.0.0",
