@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.27.1](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.27.1) - 2022-11-26
+-   Add `Python 3.11` support. #143
+-   Add `pre-commit` with `black`, `isort` and `flake8`.
+-   Read `toml` files using the standard `tomlib` (if available). #143
+-   Bump requirements (`boto3`, `python-slugify`, `orjson`) version.
+
 ## [0.27.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.27.0) - 2022-10-12
 -   Add `s3` support to I/O operations. #17 (#126)
 -   Fix subclasses type. #115 (#124)
