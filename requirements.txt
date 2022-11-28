@@ -1,6 +1,6 @@
 boto3 == 1.26.16
 ftfy == 6.1.1
-mailchecker == 5.0.3
+mailchecker == 5.0.4
 openpyxl == 3.0.10
 phonenumbers == 8.13.0
 python-dateutil == 2.8.2
