@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import yaml
 
 from benedict.serializers.abstract import AbstractSerializer

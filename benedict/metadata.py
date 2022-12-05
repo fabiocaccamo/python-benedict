@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 __author__ = "Fabio Caccamo"
 __copyright__ = "Copyright (c) 2019-present - Fabio Caccamo"
 __description__ = (

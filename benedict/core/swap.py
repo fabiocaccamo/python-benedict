@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 def swap(d, key1, key2):
     if key1 == key2:
         return

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from benedict.core.clean import clean
 from benedict.core.clone import clone
 from benedict.core.dump import dump

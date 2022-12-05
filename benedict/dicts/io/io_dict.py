@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from benedict.dicts.base import BaseDict
 from benedict.dicts.io import io_util
 from benedict.utils import type_util

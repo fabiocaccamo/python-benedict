@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import fsutil
 from openpyxl import load_workbook
 from slugify import slugify

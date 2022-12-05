@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from benedict.dicts.base import BaseDict
 from benedict.dicts.keylist import keylist_util
 from benedict.utils import type_util

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from benedict.dicts import KeylistDict
 from benedict.dicts.keypath import keypath_util
 

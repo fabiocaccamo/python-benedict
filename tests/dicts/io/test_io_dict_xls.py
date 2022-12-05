@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from decouple import config
 
 from benedict.dicts.io import IODict

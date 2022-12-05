@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from configparser import DEFAULTSECT as default_section
 from configparser import ConfigParser
 from io import StringIO

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import xmltodict
 
 from benedict.serializers.abstract import AbstractSerializer

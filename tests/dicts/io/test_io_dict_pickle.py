@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import datetime as dt
 
 from benedict.dicts.io import IODict

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # fix benedict json dumps support - #57 #59 #61
 from json import encoder
 

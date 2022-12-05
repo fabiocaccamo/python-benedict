@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import datetime as dt
 import unittest
 from decimal import Decimal

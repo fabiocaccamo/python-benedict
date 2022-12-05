@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 def unique(d):
     values = []
     keys = list(d.keys())

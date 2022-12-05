@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 class AbstractSerializer(object):
     """
     This class describes an abstract serializer.

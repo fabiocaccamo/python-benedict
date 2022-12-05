@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import tempfile
 
 # from botocore.exceptions import ClientError

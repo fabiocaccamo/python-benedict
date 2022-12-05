@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import json
 
 from benedict.serializers.abstract import AbstractSerializer
