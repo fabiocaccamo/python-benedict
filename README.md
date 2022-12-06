@@ -419,7 +419,7 @@ d.swap('firstname', 'lastname')
 ```python
 # Traverse a dict passing each item (dict, key, value) to the given callback function.
 def f(d, key, value):
-    print('dict: {} - key: {} - value: {}'.format(d, key, value))
+    print(f'dict: {d} - key: {key} - value: {value}')
 d.traverse(f)
 ```
 
