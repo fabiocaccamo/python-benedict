@@ -130,7 +130,6 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
-        "Programming Language :: Python :: Implementation :: PyPy",
         "Topic :: Education :: Testing",
         "Topic :: Software Development :: Build Tools",
         "Topic :: System :: Filesystems",
