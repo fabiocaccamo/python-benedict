@@ -135,6 +135,5 @@ setup(
         "Topic :: Text Processing :: Markup :: XML",
         "Topic :: Utilities",
     ],
-    license=__license__,
     test_suite="tests",
 )
