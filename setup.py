@@ -135,5 +135,4 @@ setup(
         "Topic :: Text Processing :: Markup :: XML",
         "Topic :: Utilities",
     ],
-    test_suite="tests",
 )
