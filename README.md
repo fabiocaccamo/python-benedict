@@ -5,7 +5,7 @@
 [![](https://img.shields.io/pypi/l/python-benedict.svg?color=blue)](https://github.com/fabiocaccamo/python-benedict/blob/master/LICENSE.txt)
 
 [![](https://results.pre-commit.ci/badge/github/fabiocaccamo/python-benedict/master.svg)](https://results.pre-commit.ci/latest/github/fabiocaccamo/python-benedict/master)
-[![](https://img.shields.io/github/workflow/status/fabiocaccamo/python-benedict/Test%20package?label=build&logo=github)](https://github.com/fabiocaccamo/python-benedict)
+[![](https://img.shields.io/github/actions/workflow/status/fabiocaccamo/python-benedict/test-package.yml?branch=master&label=build&logo=github)](https://github.com/fabiocaccamo/python-benedict)
 [![](https://img.shields.io/codecov/c/gh/fabiocaccamo/python-benedict?logo=codecov)](https://codecov.io/gh/fabiocaccamo/python-benedict)
 [![](https://img.shields.io/codeclimate/maintainability/fabiocaccamo/python-benedict?logo=code-climate)](https://codeclimate.com/github/fabiocaccamo/python-benedict/)
 [![](https://img.shields.io/codacy/grade/0dbd5cc2089f4dce80a0e49e6822be3c?logo=codacy)](https://www.codacy.com/app/fabiocaccamo/python-benedict)
