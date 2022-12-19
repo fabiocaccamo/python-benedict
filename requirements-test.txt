@@ -1,5 +1,5 @@
 codecov == 2.1.12
-coverage == 6.5.0
+coverage == 7.0.0
 flake8 == 6.0.0
 orjson == 3.8.3
 pre-commit == 2.20.0
