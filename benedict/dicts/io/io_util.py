@@ -22,7 +22,7 @@ def decode(s, format, **kwargs):
     options = kwargs.copy()
     if format in ["b64", "base64"]:
         options.setdefault("subformat", "json")
-    content = read_content(s, format, **options)
+    content = read_content(s, format, options)
     data = serializer.decode(content, **options)
     return data
 
@@ -76,30 +76,33 @@ def parse_s3_url(url):
     }
 
 
-def read_content(s, format=None, **options):
+def read_content(s, format=None, options=None):
     # s -> filepath or url or data
-    options.setdefault("format", format)
+    # options.setdefault("format", format)
+    options = options or {}
     s = s.strip()
     if is_data(s):
         return s
     elif is_url(s):
-        return read_content_from_url(s, **options)
+        requests_options = options.pop("requests_options", None) or {}
+        return read_content_from_url(s, requests_options, format)
     elif is_s3(s):
-        return read_content_from_s3(s, **options)
+        s3_options = options.pop("s3_options", None) or {}
+        return read_content_from_s3(s, s3_options, format)
     elif is_filepath(s):
-        return read_content_from_file(s, **options)
+        return read_content_from_file(s, format)
     # one-line data?!
     return s
 
 
-def read_content_from_file(filepath, format=None, **options):
+def read_content_from_file(filepath, format=None):
     binary_format = is_binary_format(format)
     if binary_format:
         return filepath
     return fsutil.read_file(filepath)
 
 
-def read_content_from_s3(url, s3_options, format=None, **options):
+def read_content_from_s3(url, s3_options, format=None):
     s3_url = parse_s3_url(url)
     dirpath = tempfile.gettempdir()
     filename = fsutil.get_filename(s3_url["key"])
@@ -107,12 +110,11 @@ def read_content_from_s3(url, s3_options, format=None, **options):
     s3 = boto3.client("s3", **s3_options)
     s3.download_file(s3_url["bucket"], s3_url["key"], filepath)
     s3.close()
-    content = read_content_from_file(filepath, format, **options)
+    content = read_content_from_file(filepath, format)
     return content
 
 
-def read_content_from_url(url, requests_options=None, format=None, **options):
-    requests_options = requests_options or {}
+def read_content_from_url(url, requests_options, format=None):
     binary_format = is_binary_format(format)
     if binary_format:
         dirpath = tempfile.gettempdir()
