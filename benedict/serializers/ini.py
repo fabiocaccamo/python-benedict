@@ -12,7 +12,7 @@ class INISerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(INISerializer, self).__init__(
+        super().__init__(
             extensions=[
                 "ini",
             ],

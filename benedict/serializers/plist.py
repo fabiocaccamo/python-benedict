@@ -10,7 +10,7 @@ class PListSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(PListSerializer, self).__init__(
+        super().__init__(
             extensions=[
                 "plist",
             ],

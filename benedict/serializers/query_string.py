@@ -10,7 +10,7 @@ class QueryStringSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(QueryStringSerializer, self).__init__(
+        super().__init__(
             extensions=[
                 "qs",
                 "querystring",

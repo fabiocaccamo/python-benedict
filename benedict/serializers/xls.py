@@ -12,7 +12,7 @@ class XLSSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(XLSSerializer, self).__init__(
+        super().__init__(
             extensions=[
                 "xls",
                 "xlsx",

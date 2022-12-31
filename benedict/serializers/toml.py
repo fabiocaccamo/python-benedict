@@ -17,7 +17,7 @@ class TOMLSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(TOMLSerializer, self).__init__(
+        super().__init__(
             extensions=[
                 "toml",
             ],

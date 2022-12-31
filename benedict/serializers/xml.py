@@ -9,7 +9,7 @@ class XMLSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(XMLSerializer, self).__init__(
+        super().__init__(
             extensions=[
                 "xml",
             ],

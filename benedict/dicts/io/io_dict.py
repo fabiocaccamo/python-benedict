@@ -12,9 +12,9 @@ class IODict(BaseDict):
         # use 'format' kwarg to specify the decoder to use, default 'json'.
         if len(args) == 1 and type_util.is_string(args[0]):
             d = IODict._decode_init(args[0], **kwargs)
-            super(IODict, self).__init__(d)
+            super().__init__(d)
             return
-        super(IODict, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     @staticmethod
     def _decode_init(s, **kwargs):

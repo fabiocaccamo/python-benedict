@@ -11,7 +11,7 @@ class Base64CoreSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(Base64CoreSerializer, self).__init__(
+        super().__init__(
             extensions=[
                 "b64",
                 "base64",
@@ -50,7 +50,7 @@ class Base64CoreSerializer(AbstractSerializer):
 
 class Base64Serializer(Base64CoreSerializer):
     def __init__(self):
-        super(Base64Serializer, self).__init__()
+        super().__init__()
 
     def _pop_options(self, options):
         encoding = options.pop("encoding", "utf-8")
@@ -62,7 +62,7 @@ class Base64Serializer(Base64CoreSerializer):
 
     def decode(self, s, **kwargs):
         serializer, encoding = self._pop_options(kwargs)
-        value = super(Base64Serializer, self).decode(s, encoding=encoding)
+        value = super().decode(s, encoding=encoding)
         if serializer:
             value = serializer.decode(value, **kwargs)
         return value
@@ -72,5 +72,5 @@ class Base64Serializer(Base64CoreSerializer):
         value = d
         if serializer:
             value = serializer.encode(value, **kwargs)
-        value = super(Base64Serializer, self).encode(value, encoding=encoding)
+        value = super().encode(value, encoding=encoding)
         return value

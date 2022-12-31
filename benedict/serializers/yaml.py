@@ -10,7 +10,7 @@ class YAMLSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(YAMLSerializer, self).__init__(
+        super().__init__(
             extensions=[
                 "yaml",
                 "yml",

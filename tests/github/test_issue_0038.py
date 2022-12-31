@@ -14,8 +14,7 @@ class github_issue_0038_test_case(unittest.TestCase):
 
     @staticmethod
     def get_dict_generator():
-        for k, v in enumerate("abcd"):
-            yield k, v
+        yield from enumerate("abcd")
 
     def test_init_with_generator(self):
         b = benedict(self.get_dict_generator())

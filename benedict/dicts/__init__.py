@@ -45,9 +45,9 @@ class benedict(KeypathDict, IODict, ParseDict):
         if len(args) == 1 and isinstance(args[0], benedict):
             obj = args[0]
             kwargs.setdefault("keypath_separator", obj.keypath_separator)
-            super(benedict, self).__init__(obj.dict(), **kwargs)
+            super().__init__(obj.dict(), **kwargs)
             return
-        super(benedict, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def __deepcopy__(self, memo):
         obj_type = type(self)
@@ -57,7 +57,7 @@ class benedict(KeypathDict, IODict, ParseDict):
         return obj
 
     def __getitem__(self, key):
-        return self._cast(super(benedict, self).__getitem__(key))
+        return self._cast(super().__getitem__(key))
 
     def _cast(self, value):
         """
@@ -89,7 +89,7 @@ class benedict(KeypathDict, IODict, ParseDict):
         """
         Creates and return a copy of the current instance (shallow copy).
         """
-        return self._cast(super(benedict, self).copy())
+        return self._cast(super().copy())
 
     def deepcopy(self):
         """
@@ -137,15 +137,13 @@ class benedict(KeypathDict, IODict, ParseDict):
         return _flatten(self, separator)
 
     def get(self, key, default=None):
-        return self._cast(super(benedict, self).get(key, default))
+        return self._cast(super().get(key, default))
 
     def get_dict(self, key, default=None):
-        return self._cast(super(benedict, self).get_dict(key, default))
+        return self._cast(super().get_dict(key, default))
 
     def get_list_item(self, key, index=0, default=None, separator=","):
-        return self._cast(
-            super(benedict, self).get_list_item(key, index, default, separator)
-        )
+        return self._cast(super().get_list_item(key, index, default, separator))
 
     def groupby(self, key, by_key):
         """
@@ -216,7 +214,7 @@ class benedict(KeypathDict, IODict, ParseDict):
         return _nest(self[key], id_key, parent_id_key, children_key)
 
     def pop(self, key, *args):
-        return self._cast(super(benedict, self).pop(key, *args))
+        return self._cast(super().pop(key, *args))
 
     def remove(self, keys, *args):
         """
@@ -226,7 +224,7 @@ class benedict(KeypathDict, IODict, ParseDict):
         _remove(self, keys, *args)
 
     def setdefault(self, key, default=None):
-        return self._cast(super(benedict, self).setdefault(key, default))
+        return self._cast(super().setdefault(key, default))
 
     def rename(self, key, key_new):
         """
