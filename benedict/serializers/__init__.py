@@ -65,6 +65,7 @@ _SERIALIZERS_EXTENSIONS = [
 
 
 def get_format_by_path(path):
+    path = str(path)
     path = path.lower()
     for extension in _SERIALIZERS_EXTENSIONS:
         if path.endswith(extension):

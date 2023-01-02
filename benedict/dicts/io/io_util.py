@@ -10,12 +10,14 @@ from benedict.serializers import get_format_by_path, get_serializer_by_format
 
 
 def autodetect_format(s):
+    s = str(s)
     if any([is_url(s), is_s3(s), is_filepath(s)]):
         return get_format_by_path(s)
     return None
 
 
 def decode(s, format, **kwargs):
+    s = str(s)
     serializer = get_serializer_by_format(format)
     if not serializer:
         raise ValueError(f"Invalid format: {format}.")
@@ -34,6 +36,7 @@ def encode(d, format, filepath=None, **kwargs):
     options = kwargs.copy()
     content = serializer.encode(d, **options)
     if filepath:
+        filepath = str(filepath)
         write_content(filepath, content, **options)
     return content
 

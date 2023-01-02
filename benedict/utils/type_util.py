@@ -1,3 +1,4 @@
+import pathlib
 import re
 from datetime import datetime
 from decimal import Decimal
@@ -68,6 +69,10 @@ def is_none(val):
 
 def is_not_none(val):
     return val is not None
+
+
+def is_path(val):
+    return isinstance(val, pathlib.Path)
 
 
 def is_regex(val):
