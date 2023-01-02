@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.28.1](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.28.1) - 2023-01-02
+-  Add `pyupgrade` to `pre-commit` config.
+-  Add `setup.cfg` (`setuptools` declarative syntax) generated using `setuptools-py2cfg`.
+-  Add support for `pathlib.Path`. #144
+-  Bump requirements.
+
 ## [0.28.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.28.0) - 2022-12-29
 -   Drop `Python 3.7 support`.
 -   Replace `str.format` with `f-strings`.
