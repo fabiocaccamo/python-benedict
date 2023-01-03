@@ -4,4 +4,4 @@ flake8 == 6.0.0
 orjson == 3.8.3
 pre-commit == 2.21.0
 python-decouple == 3.6
-tox == 4.1.2
+tox == 4.1.3
