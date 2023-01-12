@@ -3,5 +3,5 @@ coverage == 7.0.5
 flake8 == 6.0.0
 orjson == 3.8.4
 pre-commit == 2.21.0
-python-decouple == 3.6
+python-decouple == 3.7
 tox == 4.2.6
