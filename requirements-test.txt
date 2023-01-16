@@ -1,5 +1,5 @@
 coverage == 7.0.*
-orjson == 3.8.5
-pre-commit == 2.21.0
+orjson == 3.8.*
+pre-commit == 2.21.*
 python-decouple == 3.7
 tox == 4.3.*
