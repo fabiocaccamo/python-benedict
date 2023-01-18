@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import yaml
 
 from benedict.serializers.abstract import AbstractSerializer
@@ -12,7 +10,7 @@ class YAMLSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(YAMLSerializer, self).__init__(
+        super().__init__(
             extensions=[
                 "yaml",
                 "yml",

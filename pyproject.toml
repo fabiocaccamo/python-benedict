@@ -1,5 +1,8 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
 [tool.black]
-py38 = true
 include = '\.pyi?$'
 exclude = '''
 /(

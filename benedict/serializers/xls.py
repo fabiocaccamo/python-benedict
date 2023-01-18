@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import fsutil
 from openpyxl import load_workbook
 from slugify import slugify
@@ -14,7 +12,7 @@ class XLSSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(XLSSerializer, self).__init__(
+        super().__init__(
             extensions=[
                 "xls",
                 "xlsx",

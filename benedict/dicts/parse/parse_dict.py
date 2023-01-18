@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from decimal import Decimal
 
 from benedict.dicts.base import BaseDict
@@ -12,7 +10,7 @@ class ParseDict(BaseDict):
         """
         Constructs a new instance.
         """
-        super(ParseDict, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def _get_value(self, key, default, choices, parser_func, parser_kwargs=None):
         """

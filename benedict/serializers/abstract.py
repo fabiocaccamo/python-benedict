@@ -1,13 +1,10 @@
-# -*- coding: utf-8 -*-
-
-
-class AbstractSerializer(object):
+class AbstractSerializer:
     """
     This class describes an abstract serializer.
     """
 
     def __init__(self, extensions=None):
-        super(AbstractSerializer, self).__init__()
+        super().__init__()
         self._extensions = (extensions or []).copy()
 
     def decode(self, s, **kwargs):

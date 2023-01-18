@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from benedict.dicts.base import BaseDict
 from benedict.dicts.io import io_util
 from benedict.utils import type_util
@@ -10,13 +8,15 @@ class IODict(BaseDict):
         """
         Constructs a new instance.
         """
-        # if first argument is data-string, url or filepath try to decode it.
+        # if first argument is data-string, url or filepath (str or pathlib.Path) try to decode it.
         # use 'format' kwarg to specify the decoder to use, default 'json'.
-        if len(args) == 1 and type_util.is_string(args[0]):
-            d = IODict._decode_init(args[0], **kwargs)
-            super(IODict, self).__init__(d)
-            return
-        super(IODict, self).__init__(*args, **kwargs)
+        if len(args) == 1:
+            arg = args[0]
+            if type_util.is_string(arg) or type_util.is_path(arg):
+                d = IODict._decode_init(arg, **kwargs)
+                super().__init__(d)
+                return
+        super().__init__(*args, **kwargs)
 
     @staticmethod
     def _decode_init(s, **kwargs):

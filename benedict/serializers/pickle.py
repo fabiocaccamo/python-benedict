@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import base64
 import pickle
 
@@ -12,7 +10,7 @@ class PickleSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(PickleSerializer, self).__init__(
+        super().__init__(
             extensions=[
                 "pickle",
             ],

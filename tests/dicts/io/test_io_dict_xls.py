@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from decouple import config
 
 from benedict.dicts.io import IODict
@@ -13,7 +11,7 @@ class io_dict_xls_test_case(io_dict_test_case):
     """
 
     def __init__(self, *args, **kwargs):
-        super(io_dict_xls_test_case, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self._extensions = [
             "xlsx",
             "xlsm",

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import csv
 from io import StringIO
 
@@ -13,7 +11,7 @@ class CSVSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(CSVSerializer, self).__init__(
+        super().__init__(
             extensions=[
                 "csv",
             ],

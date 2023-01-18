@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from benedict.core import clone
 from benedict.utils import type_util
 

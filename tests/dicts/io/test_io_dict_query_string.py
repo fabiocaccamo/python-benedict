@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from benedict.dicts.io import IODict
 
 from .test_io_dict import io_dict_test_case

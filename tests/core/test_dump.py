@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import datetime as dt
 import unittest
 from decimal import Decimal
@@ -46,7 +44,7 @@ class dump_test_case(unittest.TestCase):
 
     def test_dump_with_set(self):
         d = {
-            "set": set([0, 1, 2, 3, 4, 5]),
+            "set": {0, 1, 2, 3, 4, 5},
         }
         r = """{
     "set": [

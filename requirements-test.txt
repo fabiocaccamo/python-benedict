@@ -1,7 +1,5 @@
-codecov == 2.1.12
-coverage == 6.5.0
-flake8 == 5.0.4
-orjson == 3.8.0
-pre-commit == 2.20.0
-python-decouple == 3.6
-tox == 3.26.0
+coverage == 7.0.*
+orjson == 3.8.*
+pre-commit == 2.21.*
+python-decouple == 3.7
+tox == 4.3.*

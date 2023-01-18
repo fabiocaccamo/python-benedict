@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from configparser import DEFAULTSECT as default_section
 from configparser import ConfigParser
 from io import StringIO
@@ -14,7 +12,7 @@ class INISerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(INISerializer, self).__init__(
+        super().__init__(
             extensions=[
                 "ini",
             ],

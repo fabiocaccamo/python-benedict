@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 __author__ = "Fabio Caccamo"
 __copyright__ = "Copyright (c) 2019-present - Fabio Caccamo"
 __description__ = (
@@ -10,4 +8,4 @@ __description__ = (
 __email__ = "fabio.caccamo@gmail.com"
 __license__ = "MIT"
 __title__ = "benedict"
-__version__ = "0.27.0"
+__version__ = "0.28.3"

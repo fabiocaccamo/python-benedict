@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import re
 from urllib.parse import parse_qs, urlencode
 
@@ -12,7 +10,7 @@ class QueryStringSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(QueryStringSerializer, self).__init__(
+        super().__init__(
             extensions=[
                 "qs",
                 "querystring",

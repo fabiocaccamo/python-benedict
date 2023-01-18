@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import unittest
 
 from benedict.core import items_sorted_by_keys as _items_sorted_by_keys

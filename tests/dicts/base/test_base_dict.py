@@ -1,15 +1,9 @@
-# -*- coding: utf-8 -*-
-
 import copy
 import sys
 import unittest
+from collections.abc import Iterable
 
 from benedict.dicts.base import BaseDict
-
-try:
-    from collections.abc import Iterable
-except ImportError:
-    from collections import Iterable
 
 
 class base_dict_test_case(unittest.TestCase):
