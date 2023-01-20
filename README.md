@@ -1,7 +1,7 @@
 [![](https://img.shields.io/pypi/pyversions/python-benedict.svg?color=blue&logo=python&logoColor=white)](https://www.python.org/)
 [![](https://img.shields.io/pypi/v/python-benedict.svg?color=blue&logo=pypi&logoColor=white)](https://pypi.org/project/python-benedict/)
 [![](https://pepy.tech/badge/python-benedict/month)](https://pepy.tech/project/python-benedict)
-[![](https://img.shields.io/github/stars/fabiocaccamo/python-benedict?logo=github)](https://github.com/fabiocaccamo/python-benedict/)
+[![](https://img.shields.io/github/stars/fabiocaccamo/python-benedict?logo=github)](https://github.com/fabiocaccamo/python-benedict/stargazers)
 [![](https://img.shields.io/pypi/l/python-benedict.svg?color=blue)](https://github.com/fabiocaccamo/python-benedict/blob/main/LICENSE.txt)
 
 [![](https://results.pre-commit.ci/badge/github/fabiocaccamo/python-benedict/main.svg)](https://results.pre-commit.ci/latest/github/fabiocaccamo/python-benedict/main)
