@@ -1,6 +1,7 @@
 from configparser import DEFAULTSECT as default_section
 from configparser import ConfigParser
 from io import StringIO
+from typing import Any
 
 from benedict.serializers.abstract import AbstractSerializer
 from benedict.utils import type_util
@@ -30,7 +31,7 @@ class INISerializer(AbstractSerializer):
                 continue
         return value
 
-    def decode(self, s, **kwargs):
+    def decode(self, s: str, **kwargs: Any):
         parser = ConfigParser(**kwargs)
         parser.read_string(s)
         data = {}
@@ -46,7 +47,7 @@ class INISerializer(AbstractSerializer):
                 )
         return data
 
-    def encode(self, d, **kwargs):
+    def encode(self, d, **kwargs: Any) -> str:
         parser = ConfigParser(**kwargs)
         for key, value in d.items():
             if not type_util.is_dict(value):

@@ -1,6 +1,7 @@
 import re
 from datetime import datetime
 from decimal import Decimal, DecimalException
+from typing import Any
 
 import ftfy
 import phonenumbers
@@ -13,7 +14,7 @@ from benedict.serializers import JSONSerializer
 from benedict.utils import type_util
 
 
-def _parse_with(val, type_checker, parser, **kwargs):
+def _parse_with(val, type_checker, parser, **kwargs: Any):
     if val is None:
         return None
     if callable(type_checker) and type_checker(val):
@@ -44,7 +45,7 @@ def parse_date(val, format=None):
     return None
 
 
-def _parse_datetime_with_format(val, format):
+def _parse_datetime_with_format(val, format: str):
     try:
         return datetime.strptime(val, format)
     except Exception:

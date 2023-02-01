@@ -1,5 +1,6 @@
 import csv
 from io import StringIO
+from typing import Any
 
 from benedict.serializers.abstract import AbstractSerializer
 from benedict.utils import type_util
@@ -17,7 +18,7 @@ class CSVSerializer(AbstractSerializer):
             ],
         )
 
-    def decode(self, s, **kwargs):
+    def decode(self, s: str, **kwargs: Any):
         # kwargs.setdefault('delimiter', ',')
         if kwargs.pop("quote", False):
             # TODO: add tests coverage
@@ -39,7 +40,7 @@ class CSVSerializer(AbstractSerializer):
             ln += 1
         return data
 
-    def encode(self, d, **kwargs):
+    def encode(self, d, **kwargs: Any) -> str:
         ls = d
         # kwargs.setdefault('delimiter', ',')
         if kwargs.pop("quote", False):

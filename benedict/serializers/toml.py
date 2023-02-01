@@ -1,3 +1,5 @@
+from typing import Any
+
 import toml
 
 try:
@@ -23,13 +25,13 @@ class TOMLSerializer(AbstractSerializer):
             ],
         )
 
-    def decode(self, s, **kwargs):
+    def decode(self, s: str, **kwargs: Any):
         if tomllib_available:
             data = tomllib.loads(s, **kwargs)
         else:
             data = toml.loads(s, **kwargs)
         return data
 
-    def encode(self, d, **kwargs):
+    def encode(self, d, **kwargs: Any) -> str:
         data = toml.dumps(dict(d), **kwargs)
         return data

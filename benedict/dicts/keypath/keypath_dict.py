@@ -1,3 +1,5 @@
+from typing import Any, Optional
+
 from benedict.dicts import KeylistDict
 from benedict.dicts.keypath import keypath_util
 
@@ -6,7 +8,7 @@ class KeypathDict(KeylistDict):
 
     _keypath_separator = None
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs: Any):
         self._keypath_separator = kwargs.pop("keypath_separator", ".")
         check_keys = kwargs.pop("check_keys", True)
         super().__init__(*args, **kwargs)
@@ -14,24 +16,24 @@ class KeypathDict(KeylistDict):
             keypath_util.check_keys(self, self._keypath_separator)
 
     @property
-    def keypath_separator(self):
+    def keypath_separator(self) -> Optional[str]:
         return self._keypath_separator
 
     @keypath_separator.setter
-    def keypath_separator(self, value):
+    def keypath_separator(self, value: str) -> None:
         keypath_util.check_keys(self, value)
         self._keypath_separator = value
 
-    def __contains__(self, key):
+    def __contains__(self, key) -> bool:
         return super().__contains__(self._parse_key(key))
 
-    def __delitem__(self, key):
+    def __delitem__(self, key) -> None:
         super().__delitem__(self._parse_key(key))
 
     def __getitem__(self, key):
         return super().__getitem__(self._parse_key(key))
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key, value) -> None:
         keypath_util.check_keys(value, self._keypath_separator)
         super().__setitem__(self._parse_key(key), value)
 
@@ -57,6 +59,6 @@ class KeypathDict(KeylistDict):
     def pop(self, key, *args):
         return super().pop(self._parse_key(key), *args)
 
-    def update(self, other):
+    def update(self, other) -> None:  # type: ignore # TODO: remove this ignore
         keypath_util.check_keys(other, self._keypath_separator)
         super().update(other)

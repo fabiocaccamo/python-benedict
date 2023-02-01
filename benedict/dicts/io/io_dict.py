@@ -1,10 +1,12 @@
+from typing import Any
+
 from benedict.dicts.base import BaseDict
 from benedict.dicts.io import io_util
 from benedict.utils import type_util
 
 
 class IODict(BaseDict):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs: Any):
         """
         Constructs a new instance.
         """
@@ -19,7 +21,7 @@ class IODict(BaseDict):
         super().__init__(*args, **kwargs)
 
     @staticmethod
-    def _decode_init(s, **kwargs):
+    def _decode_init(s, **kwargs: Any):
         autodetected_format = io_util.autodetect_format(s)
         default_format = autodetected_format or "json"
         format = kwargs.pop("format", default_format).lower()
@@ -27,7 +29,7 @@ class IODict(BaseDict):
         return IODict._decode(s, format, **kwargs)
 
     @staticmethod
-    def _decode(s, format, **kwargs):
+    def _decode(s, format, **kwargs: Any):
         data = None
         try:
             data = io_util.decode(s, format, **kwargs)
@@ -43,12 +45,12 @@ class IODict(BaseDict):
             raise ValueError(f"Invalid data type: {type(data)}, expected dict or list.")
 
     @staticmethod
-    def _encode(d, format, **kwargs):
+    def _encode(d, format, **kwargs: Any) -> str:
         s = io_util.encode(d, format, **kwargs)
         return s
 
     @classmethod
-    def from_base64(cls, s, subformat="json", encoding="utf-8", **kwargs):
+    def from_base64(cls, s: str, subformat="json", encoding="utf-8", **kwargs: Any):
         """
         Load and decode Base64 data from url, filepath or data-string.
         Data is decoded according to subformat and encoding.
@@ -60,7 +62,7 @@ class IODict(BaseDict):
         return cls(s, format="base64", **kwargs)
 
     @classmethod
-    def from_csv(cls, s, columns=None, columns_row=True, **kwargs):
+    def from_csv(cls, s: str, columns=None, columns_row=True, **kwargs: Any):
         """
         Load and decode CSV data from url, filepath or data-string.
         Decoder specific options can be passed using kwargs:
@@ -72,7 +74,7 @@ class IODict(BaseDict):
         return cls(s, format="csv", **kwargs)
 
     @classmethod
-    def from_ini(cls, s, **kwargs):
+    def from_ini(cls, s: str, **kwargs: Any):
         """
         Load and decode INI data from url, filepath or data-string.
         Decoder specific options can be passed using kwargs:
@@ -82,7 +84,7 @@ class IODict(BaseDict):
         return cls(s, format="ini", **kwargs)
 
     @classmethod
-    def from_json(cls, s, **kwargs):
+    def from_json(cls, s: str, **kwargs: Any):
         """
         Load and decode JSON data from url, filepath or data-string.
         Decoder specific options can be passed using kwargs:
@@ -92,7 +94,7 @@ class IODict(BaseDict):
         return cls(s, format="json", **kwargs)
 
     @classmethod
-    def from_pickle(cls, s, **kwargs):
+    def from_pickle(cls, s: str, **kwargs: Any):
         """
         Load and decode a pickle encoded in Base64 format data from url, filepath or data-string.
         Decoder specific options can be passed using kwargs:
@@ -102,7 +104,7 @@ class IODict(BaseDict):
         return cls(s, format="pickle", **kwargs)
 
     @classmethod
-    def from_plist(cls, s, **kwargs):
+    def from_plist(cls, s: str, **kwargs: Any):
         """
         Load and decode p-list data from url, filepath or data-string.
         Decoder specific options can be passed using kwargs:
@@ -112,7 +114,7 @@ class IODict(BaseDict):
         return cls(s, format="plist", **kwargs)
 
     @classmethod
-    def from_query_string(cls, s, **kwargs):
+    def from_query_string(cls, s: str, **kwargs: Any):
         """
         Load and decode query-string from url, filepath or data-string.
         Return a new dict instance. A ValueError is raised in case of failure.
@@ -120,7 +122,7 @@ class IODict(BaseDict):
         return cls(s, format="query_string", **kwargs)
 
     @classmethod
-    def from_toml(cls, s, **kwargs):
+    def from_toml(cls, s: str, **kwargs: Any):
         """
         Load and decode TOML data from url, filepath or data-string.
         Decoder specific options can be passed using kwargs:
@@ -130,7 +132,7 @@ class IODict(BaseDict):
         return cls(s, format="toml", **kwargs)
 
     @classmethod
-    def from_xls(cls, s, sheet=0, columns=None, columns_row=True, **kwargs):
+    def from_xls(cls, s: str, sheet=0, columns=None, columns_row=True, **kwargs: Any):
         """
         Load and decode XLS files (".xls", ".xlsx", ".xlsm") from url, filepath or data-string.
         Decoder specific options can be passed using kwargs:
@@ -144,7 +146,7 @@ class IODict(BaseDict):
         return cls(s, format="xls", **kwargs)
 
     @classmethod
-    def from_xml(cls, s, **kwargs):
+    def from_xml(cls, s: str, **kwargs: Any):
         """
         Load and decode XML data from url, filepath or data-string.
         Decoder specific options can be passed using kwargs:
@@ -154,7 +156,7 @@ class IODict(BaseDict):
         return cls(s, format="xml", **kwargs)
 
     @classmethod
-    def from_yaml(cls, s, **kwargs):
+    def from_yaml(cls, s: str, **kwargs: Any):
         """
         Load and decode YAML data from url, filepath or data-string.
         Decoder specific options can be passed using kwargs:
@@ -163,7 +165,7 @@ class IODict(BaseDict):
         """
         return cls(s, format="yaml", **kwargs)
 
-    def to_base64(self, subformat="json", encoding="utf-8", **kwargs):
+    def to_base64(self, subformat="json", encoding="utf-8", **kwargs: Any):
         """
         Encode the current dict instance in Base64 format
         using the given subformat and encoding.
@@ -175,7 +177,7 @@ class IODict(BaseDict):
         kwargs["encoding"] = encoding
         return self._encode(self.dict(), "base64", **kwargs)
 
-    def to_csv(self, key="values", columns=None, columns_row=True, **kwargs):
+    def to_csv(self, key="values", columns=None, columns_row=True, **kwargs: Any):
         """
         Encode a list of dicts in the current dict instance in CSV format.
         Encoder specific options can be passed using kwargs:
@@ -187,7 +189,7 @@ class IODict(BaseDict):
         kwargs["columns_row"] = columns_row
         return self._encode(self.dict()[key], "csv", **kwargs)
 
-    def to_ini(self, **kwargs):
+    def to_ini(self, **kwargs: Any):
         """
         Encode the current dict instance in INI format.
         Encoder specific options can be passed using kwargs:
@@ -197,7 +199,7 @@ class IODict(BaseDict):
         """
         return self._encode(self.dict(), "ini", **kwargs)
 
-    def to_json(self, **kwargs):
+    def to_json(self, **kwargs: Any):
         """
         Encode the current dict instance in JSON format.
         Encoder specific options can be passed using kwargs:
@@ -207,7 +209,7 @@ class IODict(BaseDict):
         """
         return self._encode(self.dict(), "json", **kwargs)
 
-    def to_pickle(self, **kwargs):
+    def to_pickle(self, **kwargs: Any):
         """
         Encode the current dict instance as pickle (encoded in Base64).
         The pickle protocol used by default is 2.
@@ -218,7 +220,7 @@ class IODict(BaseDict):
         """
         return self._encode(self.dict(), "pickle", **kwargs)
 
-    def to_plist(self, **kwargs):
+    def to_plist(self, **kwargs: Any):
         """
         Encode the current dict instance as p-list.
         Encoder specific options can be passed using kwargs:
@@ -228,7 +230,7 @@ class IODict(BaseDict):
         """
         return self._encode(self.dict(), "plist", **kwargs)
 
-    def to_query_string(self, **kwargs):
+    def to_query_string(self, **kwargs: Any):
         """
         Encode the current dict instance in query-string format.
         Return the encoded string and optionally save it at 'filepath'.
@@ -236,7 +238,7 @@ class IODict(BaseDict):
         """
         return self._encode(self.dict(), "query_string", **kwargs)
 
-    def to_toml(self, **kwargs):
+    def to_toml(self, **kwargs: Any):
         """
         Encode the current dict instance in TOML format.
         Encoder specific options can be passed using kwargs:
@@ -246,7 +248,7 @@ class IODict(BaseDict):
         """
         return self._encode(self.dict(), "toml", **kwargs)
 
-    def to_xml(self, **kwargs):
+    def to_xml(self, **kwargs: Any):
         """
         Encode the current dict instance in XML format.
         Encoder specific options can be passed using kwargs:
@@ -280,7 +282,7 @@ class IODict(BaseDict):
         # return self._encode(self.dict()[key], "xls", **kwargs)
         raise NotImplementedError
 
-    def to_yaml(self, **kwargs):
+    def to_yaml(self, **kwargs: Any):
         """
         Encode the current dict instance in YAML format.
         Encoder specific options can be passed using kwargs:

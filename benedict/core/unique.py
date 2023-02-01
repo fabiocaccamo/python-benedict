@@ -1,4 +1,4 @@
-def unique(d):
+def unique(d) -> None:
     values = []
     keys = list(d.keys())
     for key in keys:

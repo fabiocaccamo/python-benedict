@@ -28,5 +28,5 @@ def _get_keylist_for_value(value, parent_keys, indexes):
     return []
 
 
-def keylists(d, indexes=False):
+def keylists(d, indexes: bool = False):
     return _get_keylist_for_value(d, [], indexes)

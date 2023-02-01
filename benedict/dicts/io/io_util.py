@@ -1,4 +1,5 @@
 import tempfile
+from typing import Any, Dict, Optional
 
 # from botocore.exceptions import ClientError
 from urllib.parse import urlparse
@@ -16,7 +17,7 @@ def autodetect_format(s):
     return None
 
 
-def decode(s, format, **kwargs):
+def decode(s: str, format: str, **kwargs: Any) -> Any:
     s = str(s)
     serializer = get_serializer_by_format(format)
     if not serializer:
@@ -29,7 +30,7 @@ def decode(s, format, **kwargs):
     return data
 
 
-def encode(d, format, filepath=None, **kwargs):
+def encode(d, format: str, filepath: Optional[str] = None, **kwargs: Any) -> str:
     serializer = get_serializer_by_format(format)
     if not serializer:
         raise ValueError(f"Invalid format: {format}.")
@@ -41,7 +42,7 @@ def encode(d, format, filepath=None, **kwargs):
     return content
 
 
-def is_binary_format(format):
+def is_binary_format(format: Optional[str]) -> bool:
     return format in [
         "xls",
         "xlsx",
@@ -49,23 +50,23 @@ def is_binary_format(format):
     ]
 
 
-def is_data(s):
+def is_data(s: str) -> bool:
     return len(s.splitlines()) > 1
 
 
-def is_filepath(s):
+def is_filepath(s: str) -> bool:
     return fsutil.is_file(s) or get_format_by_path(s)
 
 
-def is_s3(s):
+def is_s3(s: str) -> bool:
     return s.startswith("s3://") and get_format_by_path(s)
 
 
-def is_url(s):
+def is_url(s: str) -> bool:
     return any([s.startswith(protocol) for protocol in ["http://", "https://"]])
 
 
-def parse_s3_url(url):
+def parse_s3_url(url: str) -> Dict[str, str]:
     parsed = urlparse(url, allow_fragments=False)
     bucket = parsed.netloc
     key = parsed.path.lstrip("/")
@@ -79,7 +80,9 @@ def parse_s3_url(url):
     }
 
 
-def read_content(s, format=None, options=None):
+def read_content(
+    s: str, format: Optional[str] = None, options: Optional[Dict[str, Any]] = None
+) -> str:
     # s -> filepath or url or data
     # options.setdefault("format", format)
     options = options or {}
@@ -98,14 +101,16 @@ def read_content(s, format=None, options=None):
     return s
 
 
-def read_content_from_file(filepath, format=None):
+def read_content_from_file(filepath: str, format: Optional[str] = None) -> str:
     binary_format = is_binary_format(format)
     if binary_format:
         return filepath
     return fsutil.read_file(filepath)
 
 
-def read_content_from_s3(url, s3_options, format=None):
+def read_content_from_s3(
+    url: str, s3_options=Dict[str, Any], format: Optional[str] = None
+) -> str:
     s3_url = parse_s3_url(url)
     dirpath = tempfile.gettempdir()
     filename = fsutil.get_filename(s3_url["key"])
@@ -117,7 +122,9 @@ def read_content_from_s3(url, s3_options, format=None):
     return content
 
 
-def read_content_from_url(url, requests_options, format=None):
+def read_content_from_url(
+    url: str, requests_options: Dict[str, Any], format: Optional[str] = None
+) -> str:
     binary_format = is_binary_format(format)
     if binary_format:
         dirpath = tempfile.gettempdir()
@@ -126,18 +133,18 @@ def read_content_from_url(url, requests_options, format=None):
     return fsutil.read_file_from_url(url, **requests_options)
 
 
-def write_content(filepath, content, **options):
+def write_content(filepath: str, content: str, **options: Any) -> None:
     if is_s3(filepath):
         write_content_to_s3(filepath, content, **options)
     else:
         write_content_to_file(filepath, content, **options)
 
 
-def write_content_to_file(filepath, content, **options):
+def write_content_to_file(filepath: str, content: str, **options: Any) -> None:
     fsutil.write_file(filepath, content)
 
 
-def write_content_to_s3(url, content, s3_options, **options):
+def write_content_to_s3(url: str, content: str, s3_options, **options: Any) -> None:
     s3_url = parse_s3_url(url)
     dirpath = tempfile.gettempdir()
     filename = fsutil.get_filename(s3_url["key"])

@@ -1,7 +1,7 @@
 from benedict.utils import type_util
 
 
-def _clean_item(d, key, strings, collections):
+def _clean_item(d, key, strings: bool, collections: bool):
     value = d.get(key, None)
     if not value:
         del_none = value is None
@@ -12,7 +12,7 @@ def _clean_item(d, key, strings, collections):
     return False
 
 
-def clean(d, strings=True, collections=True):
+def clean(d, strings: bool = True, collections: bool = True):
     keys = list(d.keys())
     for key in keys:
         if _clean_item(d, key, strings, collections):

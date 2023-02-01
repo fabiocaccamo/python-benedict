@@ -1,7 +1,7 @@
 from benedict.utils import type_util
 
 
-def remove(d, keys, *args):
+def remove(d, keys, *args) -> None:
     if type_util.is_string(keys):
         keys = [keys]
     keys += args

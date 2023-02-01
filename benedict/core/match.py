@@ -4,7 +4,7 @@ from benedict.core.keypaths import keypaths
 from benedict.utils import type_util
 
 
-def match(d, pattern, separator=".", indexes=True):
+def match(d, pattern, separator: str = ".", indexes: bool = True):
     if type_util.is_regex(pattern):
         regex = pattern
     elif type_util.is_string(pattern):

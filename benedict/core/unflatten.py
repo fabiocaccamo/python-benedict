@@ -1,4 +1,4 @@
-from benedict.core import clone
+from benedict.core.clone import clone
 from benedict.dicts.keylist import keylist_util
 from benedict.utils import type_util
 
@@ -10,7 +10,7 @@ def _unflatten_item(key, value, separator):
     return (keys, value)
 
 
-def unflatten(d, separator="_"):
+def unflatten(d, separator: str = "_"):
     new_dict = clone(d, empty=True)
     keys = list(d.keys())
     for key in keys:

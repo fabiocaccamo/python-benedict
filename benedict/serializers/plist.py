@@ -1,4 +1,5 @@
 import plistlib
+from typing import Any
 
 from benedict.serializers.abstract import AbstractSerializer
 
@@ -16,11 +17,11 @@ class PListSerializer(AbstractSerializer):
             ],
         )
 
-    def decode(self, s, **kwargs):
+    def decode(self, s: str, **kwargs: Any):
         kwargs.setdefault("fmt", plistlib.FMT_XML)
         encoding = kwargs.pop("encoding", "utf-8")
         return plistlib.loads(s.encode(encoding), **kwargs)
 
-    def encode(self, d, **kwargs):
+    def encode(self, d, **kwargs: Any) -> str:
         encoding = kwargs.pop("encoding", "utf-8")
         return plistlib.dumps(d, **kwargs).decode(encoding)

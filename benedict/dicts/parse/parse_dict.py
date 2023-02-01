@@ -1,4 +1,5 @@
 from decimal import Decimal
+from typing import Any
 
 from benedict.dicts.base import BaseDict
 from benedict.dicts.parse import parse_util
@@ -6,7 +7,7 @@ from benedict.utils import type_util
 
 
 class ParseDict(BaseDict):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs: Any):
         """
         Constructs a new instance.
         """
@@ -52,7 +53,7 @@ class ParseDict(BaseDict):
         values_list = self.get_list(key, [], separator)
         return [parser_func(value, **(parser_kwargs or {})) for value in values_list]
 
-    def get_bool(self, key, default=False):
+    def get_bool(self, key, default: bool = False) -> bool:
         """
         Get value by key or keypath trying to return it as bool.
         Values like `1`, `true`, `yes`, `on` will be returned as `True`.
@@ -76,7 +77,7 @@ class ParseDict(BaseDict):
             key, default, choices, parse_util.parse_date, {"format": format}
         )
 
-    def get_date_list(self, key, default=None, format=None, separator=","):
+    def get_date_list(self, key, default=None, format=None, separator: str = ","):
         """
         Get value by key or keypath trying to return it as list of date values.
         If separator is specified and value is a string it will be splitted.
@@ -95,7 +96,7 @@ class ParseDict(BaseDict):
             key, default, choices, parse_util.parse_datetime, {"format": format}
         )
 
-    def get_datetime_list(self, key, default=None, format=None, separator=","):
+    def get_datetime_list(self, key, default=None, format=None, separator: str = ","):
         """
         Get value by key or keypath trying to return it as list of datetime values.
         If separator is specified and value is a string it will be splitted.
@@ -111,7 +112,7 @@ class ParseDict(BaseDict):
         """
         return self._get_value(key, default, choices, parse_util.parse_decimal)
 
-    def get_decimal_list(self, key, default=None, separator=","):
+    def get_decimal_list(self, key, default=None, separator: str = ","):
         """
         Get value by key or keypath trying to return it as list of Decimal values.
         If separator is specified and value is a string it will be splitted.
@@ -146,7 +147,7 @@ class ParseDict(BaseDict):
         """
         return self._get_value(key, default, choices, parse_util.parse_float)
 
-    def get_float_list(self, key, default=None, separator=","):
+    def get_float_list(self, key, default=None, separator: str = ","):
         """
         Get value by key or keypath trying to return it as list of float values.
         If separator is specified and value is a string it will be splitted.
@@ -176,7 +177,7 @@ class ParseDict(BaseDict):
             key, default or [], None, parse_util.parse_list, {"separator": separator}
         )
 
-    def get_list_item(self, key, index=0, default=None, separator=","):
+    def get_list_item(self, key, index: int = 0, default=None, separator: str = ","):
         """
         Get list by key or keypath and return value at the specified index.
         If separator is specified and list value is a string it will be splitted.
@@ -206,21 +207,21 @@ class ParseDict(BaseDict):
             {"country_code": country_code},
         )
 
-    def get_slug(self, key, default="", choices=None):
+    def get_slug(self, key, default: str = "", choices=None) -> str:
         """
         Get value by key or keypath trying to return it as slug.
         If choices and value is in choices return value otherwise default.
         """
         return self._get_value(key, default, choices, parse_util.parse_slug)
 
-    def get_slug_list(self, key, default=None, separator=","):
+    def get_slug_list(self, key, default=None, separator: str = ","):
         """
         Get value by key or keypath trying to return it as list of slug values.
         If separator is specified and value is a string it will be splitted.
         """
         return self._get_values_list(key, default, separator, parse_util.parse_slug)
 
-    def get_str(self, key, default="", choices=None):
+    def get_str(self, key, default: str = "", choices=None) -> str:
         """
         Get value by key or keypath trying to return it as string.
         Encoding issues will be automatically fixed.
@@ -228,21 +229,21 @@ class ParseDict(BaseDict):
         """
         return self._get_value(key, default, choices, parse_util.parse_str)
 
-    def get_str_list(self, key, default=None, separator=","):
+    def get_str_list(self, key, default=None, separator: str = ","):
         """
         Get value by key or keypath trying to return it as list of str values.
         If separator is specified and value is a string it will be splitted.
         """
         return self._get_values_list(key, default, separator, parse_util.parse_str)
 
-    def get_uuid(self, key, default="", choices=None):
+    def get_uuid(self, key, default: str = "", choices=None) -> str:
         """
         Get value by key or keypath trying to return it as valid uuid.
         If choices and value is in choices return value otherwise default.
         """
         return self._get_value(key, default, choices, parse_util.parse_uuid)
 
-    def get_uuid_list(self, key, default=None, separator=","):
+    def get_uuid_list(self, key, default=None, separator: str = ","):
         """
         Get value by key or keypath trying to return it as list of valid uuid values.
         If separator is specified and value is a string it will be splitted.

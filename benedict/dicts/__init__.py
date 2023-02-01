@@ -1,5 +1,6 @@
 # fix benedict json dumps support - #57 #59 #61
 from json import encoder
+from typing import Any
 
 # fix benedict yaml representer - #43
 from yaml import SafeDumper
@@ -38,7 +39,7 @@ __all__ = ["benedict", "IODict", "KeylistDict", "KeypathDict", "ParseDict"]
 
 
 class benedict(KeypathDict, IODict, ParseDict):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs: Any):
         """
         Constructs a new instance.
         """
@@ -188,7 +189,7 @@ class benedict(KeypathDict, IODict, ParseDict):
         """
         return _match(self, pattern, separator=self._keypath_separator, indexes=indexes)
 
-    def merge(self, other, *args, **kwargs):
+    def merge(self, other, *args, **kwargs: Any):
         """
         Merge one or more dict objects into current instance (deepupdate).
         Sub-dictionaries will be merged toghether.
@@ -282,7 +283,7 @@ class benedict(KeypathDict, IODict, ParseDict):
 
 
 # fix benedict json dumps support - #57 #59 #61
-encoder.c_make_encoder = None
+encoder.c_make_encoder = None  # type: ignore
 
 # fix benedict yaml representer - #43
-SafeDumper.yaml_representers[benedict] = SafeRepresenter.represent_dict
+SafeDumper.yaml_representers[benedict] = SafeRepresenter.represent_dict  # type: ignore

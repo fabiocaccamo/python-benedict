@@ -1,3 +1,5 @@
+from typing import Any
+
 from benedict.core import clone as _clone
 
 
@@ -17,7 +19,7 @@ class BaseDict(dict):
                     value[key] = key_val
         return value
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs: Any):
         if len(args) == 1 and isinstance(args[0], dict):
             self._dict = self._get_dict_or_value(args[0])
             self._pointer = True
@@ -134,7 +136,7 @@ class BaseDict(dict):
             return self._dict.setdefault(key, default)
         return super().setdefault(key, default)
 
-    def update(self, other):
+    def update(self, other):  # type: ignore # TODO: remove this ignore
         other = self._get_dict_or_value(other)
         if self._pointer:
             self._dict.update(other)

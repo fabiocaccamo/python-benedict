@@ -1,3 +1,5 @@
+from typing import Any, List
+
 import fsutil
 from openpyxl import load_workbook
 from slugify import slugify
@@ -20,7 +22,7 @@ class XLSSerializer(AbstractSerializer):
             ],
         )
 
-    def _get_sheet_index_and_name_from_options(self, **kwargs):
+    def _get_sheet_index_and_name_from_options(self, **kwargs: Any):
         sheet_index_or_name = kwargs.pop("sheet", 0)
         sheet_index = 0
         sheet_name = ""
@@ -30,7 +32,7 @@ class XLSSerializer(AbstractSerializer):
             sheet_name = sheet_index_or_name
         return (sheet_index, sheet_name)
 
-    def _get_sheet_index_by_name(self, sheet_name, sheet_names):
+    def _get_sheet_index_by_name(self, sheet_name: str, sheet_names: List[str]) -> int:
         sheet_names = list([slugify(name) for name in sheet_names])
         try:
             sheet_index = sheet_names.index(slugify(sheet_name))
@@ -38,10 +40,10 @@ class XLSSerializer(AbstractSerializer):
         except ValueError:
             raise Exception(f"Invalid sheet name '{sheet_name}', sheet not found.")
 
-    def _get_sheet_columns_indexes(self, columns_count):
+    def _get_sheet_columns_indexes(self, columns_count: int) -> List[int]:
         return [column_index for column_index in range(columns_count)]
 
-    def _decode_legacy(self, s, **kwargs):
+    def _decode_legacy(self, s: str, **kwargs: Any):
         filepath = s
 
         # load the worksheet
@@ -69,7 +71,7 @@ class XLSSerializer(AbstractSerializer):
             else:
                 # otherwise use columns indexes as column names
                 # for row in sheet.iter_rows(min_row=1, max_row=1):
-                columns = self._get_sheet_columns_indexes(sheet_columns_range)
+                columns = self._get_sheet_columns_indexes(len(sheet_columns_range))
 
         # standardize column names, eg. "Date Created" -> "date_created"
         if columns_standardized:
@@ -89,7 +91,7 @@ class XLSSerializer(AbstractSerializer):
         # print(items)
         return items
 
-    def _decode(self, s, **kwargs):
+    def _decode(self, s: str, **kwargs: Any):
         filepath = s
 
         # load the worksheet
@@ -135,12 +137,12 @@ class XLSSerializer(AbstractSerializer):
         # print(items)
         return items
 
-    def decode(self, s, **kwargs):
+    def decode(self, s: str, **kwargs: Any):
         extension = fsutil.get_file_extension(s)
         if extension in ["xlsx", "xlsm"]:
             return self._decode(s, **kwargs)
         elif extension in ["xls", "xlt"]:
             return self._decode_legacy(s, **kwargs)
 
-    def encode(self, d, **kwargs):
+    def encode(self, d, **kwargs: Any) -> str:
         raise NotImplementedError

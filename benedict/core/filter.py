@@ -1,7 +1,9 @@
-from benedict.core import clone
+from typing import Any, Callable
+
+from benedict.core.clone import clone
 
 
-def filter(d, predicate):
+def filter(d, predicate: Callable[[Any, Any], bool]):
     if not callable(predicate):
         raise ValueError("predicate argument must be a callable.")
     new_dict = clone(d, empty=True)

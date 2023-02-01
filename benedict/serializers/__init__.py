@@ -73,7 +73,7 @@ def get_format_by_path(path):
     return None
 
 
-def get_serializer_by_format(format):
+def get_serializer_by_format(format: str):
     format_key = (format or "").lower().strip()
     format_key = re.sub(r"[\s\-\_]*", "", format_key)
     serializer = _SERIALIZERS_BY_EXTENSION.get(format_key, None)

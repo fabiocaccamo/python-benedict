@@ -1,3 +1,5 @@
+from typing import Any
+
 import yaml
 
 from benedict.serializers.abstract import AbstractSerializer
@@ -18,11 +20,11 @@ class YAMLSerializer(AbstractSerializer):
         )
         self._json_serializer = JSONSerializer()
 
-    def decode(self, s, **kwargs):
+    def decode(self, s: str, **kwargs: Any):
         data = yaml.safe_load(s, **kwargs)
         return data
 
-    def encode(self, d, **kwargs):
+    def encode(self, d, **kwargs: Any) -> str:
         d = self._json_serializer.decode(self._json_serializer.encode(d))
         data = yaml.dump(d, **kwargs)
         return data

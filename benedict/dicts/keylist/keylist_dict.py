@@ -1,30 +1,32 @@
+from typing import Any
+
 from benedict.dicts.base import BaseDict
 from benedict.dicts.keylist import keylist_util
 from benedict.utils import type_util
 
 
 class KeylistDict(BaseDict):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs: Any):
         super().__init__(*args, **kwargs)
 
-    def __contains__(self, key):
+    def __contains__(self, key) -> bool:
         if type_util.is_list_or_tuple(key):
             return self._contains_by_keys(key)
         return super().__contains__(key)
 
-    def _contains_by_keys(self, keys):
+    def _contains_by_keys(self, keys) -> bool:
         parent, _, _ = keylist_util.get_item(self, keys)
         if type_util.is_dict_or_list_or_tuple(parent):
             return True
         return False
 
-    def __delitem__(self, key):
+    def __delitem__(self, key) -> None:
         if type_util.is_list_or_tuple(key):
             self._delitem_by_keys(key)
             return
         super().__delitem__(key)
 
-    def _delitem_by_keys(self, keys):
+    def _delitem_by_keys(self, keys) -> None:
         parent, key, _ = keylist_util.get_item(self, keys)
         if type_util.is_dict_or_list(parent):
             del parent[key]
@@ -85,7 +87,7 @@ class KeylistDict(BaseDict):
             return args[0]
         raise KeyError(f"Invalid keys: '{keys}'")
 
-    def set(self, key, value):
+    def set(self, key, value) -> None:
         self[key] = value
 
     def setdefault(self, key, default=None):

@@ -1,14 +1,14 @@
-from benedict.core import clone
+from benedict.core.clone import clone
 from benedict.utils import type_util
 
 
-def _flatten_key(base_key, key, separator):
+def _flatten_key(base_key: str, key, separator: str) -> str:
     if base_key and separator:
         return f"{base_key}{separator}{key}"
-    return key
+    return f"{key}"
 
 
-def _flatten_item(d, base_dict, base_key, separator):
+def _flatten_item(d, base_dict, base_key, separator: str):
     new_dict = base_dict
     keys = list(d.keys())
     for key in keys:
@@ -26,6 +26,6 @@ def _flatten_item(d, base_dict, base_key, separator):
     return new_dict
 
 
-def flatten(d, separator="_"):
+def flatten(d, separator: str = "_"):
     new_dict = clone(d, empty=True)
     return _flatten_item(d, base_dict=new_dict, base_key="", separator=separator)

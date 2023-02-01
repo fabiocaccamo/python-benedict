@@ -1,4 +1,4 @@
-def move(d, key_src, key_dest, overwrite=True):
+def move(d, key_src, key_dest, overwrite: bool = True) -> None:
     if key_dest == key_src:
         return
     if key_dest in d and not overwrite:

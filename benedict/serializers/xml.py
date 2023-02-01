@@ -1,3 +1,5 @@
+from typing import Any
+
 import xmltodict
 
 from benedict.serializers.abstract import AbstractSerializer
@@ -15,11 +17,11 @@ class XMLSerializer(AbstractSerializer):
             ],
         )
 
-    def decode(self, s, **kwargs):
+    def decode(self, s: str, **kwargs: Any):
         kwargs.setdefault("dict_constructor", dict)
         data = xmltodict.parse(s, **kwargs)
         return data
 
-    def encode(self, d, **kwargs):
+    def encode(self, d, **kwargs: Any):
         data = xmltodict.unparse(d, **kwargs)
         return data

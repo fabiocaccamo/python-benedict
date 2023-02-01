@@ -7,7 +7,7 @@ from benedict.core.traverse import traverse
 from benedict.utils import type_util
 
 
-def _standardize_item(d, key, value):
+def _standardize_item(d, key, value) -> None:
     if type_util.is_string(key):
         # https://stackoverflow.com/a/12867228/2096218
         norm_key = re.sub(r"((?<=[a-z0-9])[A-Z]|(?!^)[A-Z](?=[a-z]))", r"_\1", key)
@@ -15,5 +15,5 @@ def _standardize_item(d, key, value):
         rename(d, key, norm_key)
 
 
-def standardize(d):
+def standardize(d) -> None:
     traverse(d, _standardize_item)

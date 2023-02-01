@@ -1,7 +1,7 @@
 from benedict.core.groupby import groupby
 
 
-def _nest_items(nested_items, item, id_key, children_key):
+def _nest_items(nested_items, item, id_key, children_key) -> None:
     children_items = nested_items.pop(item[id_key], [])
     item[children_key] = children_items
     for child_item in children_items:

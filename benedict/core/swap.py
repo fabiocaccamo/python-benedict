@@ -1,4 +1,4 @@
-def swap(d, key1, key2):
+def swap(d, key1, key2) -> None:
     if key1 == key2:
         return
     val1 = d[key1]

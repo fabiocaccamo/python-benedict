@@ -1,4 +1,5 @@
 import base64
+from typing import Any
 from urllib.parse import unquote
 
 from benedict.serializers.abstract import AbstractSerializer
@@ -18,7 +19,7 @@ class Base64CoreSerializer(AbstractSerializer):
             ],
         )
 
-    def _fix_url_encoding_and_padding(self, s):
+    def _fix_url_encoding_and_padding(self, s: str) -> str:
         # fix urlencoded chars
         s = unquote(s)
         # fix padding
@@ -27,17 +28,17 @@ class Base64CoreSerializer(AbstractSerializer):
             s += "=" * (4 - m)
         return s
 
-    def decode(self, s, **kwargs):
+    def decode(self, s: str, **kwargs: Any):
         value = self._fix_url_encoding_and_padding(s)
         encoding = kwargs.pop("encoding", "utf-8")
-        if encoding:
-            value = value.encode(encoding)
-        value = base64.b64decode(value)
-        if encoding:
-            return value.decode(encoding)
+        # if encoding:
+        #    value = value.encode(encoding)
+        value = base64.b64decode(value).decode(encoding)
+        # if encoding:
+        #     return value.decode(encoding)
         return value
 
-    def encode(self, d, **kwargs):
+    def encode(self, d, **kwargs: Any) -> str:
         value = d
         encoding = kwargs.pop("encoding", "utf-8")
         if encoding and type_util.is_string(value):
@@ -60,14 +61,14 @@ class Base64Serializer(Base64CoreSerializer):
         serializer = get_serializer_by_format(subformat)
         return (serializer, encoding)
 
-    def decode(self, s, **kwargs):
+    def decode(self, s: str, **kwargs: Any):
         serializer, encoding = self._pop_options(kwargs)
         value = super().decode(s, encoding=encoding)
         if serializer:
             value = serializer.decode(value, **kwargs)
         return value
 
-    def encode(self, d, **kwargs):
+    def encode(self, d, **kwargs: Any) -> str:
         serializer, encoding = self._pop_options(kwargs)
         value = d
         if serializer:
