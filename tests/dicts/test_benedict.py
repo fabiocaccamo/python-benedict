@@ -370,7 +370,7 @@ class benedict_test_case(unittest.TestCase):
         self.assertEqual(f, r)
         self.assertTrue(isinstance(f, benedict))
 
-    def test_filter(self):
+    def test_find(self):
         d = {
             "a": 1,
             "b": 2,
@@ -727,30 +727,9 @@ value:
         with self.assertRaises(ValueError):
             # static method
             d = benedict.from_yaml(j)
-            self.assertTrue(isinstance(d, dict))
-            self.assertEqual(
-                d,
-                {
-                    "a": 1,
-                    "b": {
-                        "c": 3,
-                        "d": 4,
-                    },
-                },
-            )
+        with self.assertRaises(ValueError):
             # constructor
             d = benedict(j, format="yaml")
-            self.assertTrue(isinstance(d, dict))
-            self.assertEqual(
-                d,
-                {
-                    "a": 1,
-                    "b": {
-                        "c": 3,
-                        "d": 4,
-                    },
-                },
-            )
         r = {
             "192.168.0.1": {
                 "test": "value",

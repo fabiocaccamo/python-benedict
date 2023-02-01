@@ -1,8 +1,8 @@
-from decouple import config
+import unittest
 
 from benedict.dicts.io import IODict
-
-from .test_io_dict import io_dict_test_case
+from tests.aws import get_aws_credentials_options, has_aws_credentials
+from tests.dicts.io.test_io_dict import io_dict_test_case
 
 
 class io_dict_xls_test_case(io_dict_test_case):
@@ -119,16 +119,11 @@ class io_dict_xls_test_case(io_dict_test_case):
                 self.assertTrue(isinstance(d, dict))
                 self.assertEqual(d, expected_dict)
 
+    @unittest.skipUnless(
+        has_aws_credentials(), "Skip because aws credentials are not set."
+    )
     def test_from_xls_with_valid_s3_url_valid_content(self):
-        aws_access_key_id = config("AWS_ACCESS_KEY_ID", default=None)
-        aws_secret_access_key = config("AWS_SECRET_ACCESS_KEY", default=None)
-        if not all([aws_access_key_id, aws_secret_access_key]):
-            # don't use s3 on GH CI
-            return
-        s3_options = {
-            "aws_access_key_id": aws_access_key_id,
-            "aws_secret_access_key": aws_secret_access_key,
-        }
+        s3_options = get_aws_credentials_options()
         expected_dict = {
             "values": [
                 {
