@@ -105,7 +105,7 @@ class io_dict_xls_test_case(io_dict_test_case):
                 msg=f"test_from_xls_({extension})_with_valid_url_valid_content"
             ):
                 # url = f"https://github.com/fabiocaccamo/python-benedict/raw/s3/tests/dicts/io/input/valid-content.{extension}"
-                url = f"https://github.com/fabiocaccamo/python-benedict/raw/master/tests/dicts/io/input/valid-content.{extension}"
+                url = f"https://github.com/fabiocaccamo/python-benedict/raw/main/tests/dicts/io/input/valid-content.{extension}"
                 # static method
                 d = IODict.from_xls(url)
                 self.assertTrue(isinstance(d, dict))
