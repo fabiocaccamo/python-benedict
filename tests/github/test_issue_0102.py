@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
+import json
+import unittest
+
+import orjson
 
 from benedict import benedict
-
-import json
-import orjson
-import unittest
 
 
 class github_issue_0102_test_case(unittest.TestCase):

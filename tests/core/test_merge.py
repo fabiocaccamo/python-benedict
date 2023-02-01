@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
+import unittest
 
 from benedict.core import merge as _merge
-
-import unittest
 
 
 class merge_test_case(unittest.TestCase):

@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
+import unittest
 
 from benedict import benedict
 from benedict.serializers.yaml import yaml
-
-import unittest
 
 
 class GetAtt(yaml.YAMLObject):

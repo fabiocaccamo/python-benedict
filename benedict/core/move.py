@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 def move(d, key_src, key_dest, overwrite=True):
     if key_dest == key_src:
         return

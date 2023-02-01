@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
+import unittest
 
 from benedict.core import keylists as _keylists
-
-import unittest
 
 
 class keylists_test_case(unittest.TestCase):

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from itertools import chain
 
 from benedict.utils import type_util

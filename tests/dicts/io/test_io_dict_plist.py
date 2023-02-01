@@ -1,12 +1,9 @@
-# -*- coding: utf-8 -*-
+import datetime as dt
+import plistlib
 
 from benedict.dicts.io import IODict
 
 from .test_io_dict import io_dict_test_case
-
-import datetime as dt
-import plistlib
-import six
 
 
 class io_dict_plist_test_case(io_dict_test_case):
@@ -15,57 +12,30 @@ class io_dict_plist_test_case(io_dict_test_case):
     """
 
     def __init__(self, *args, **kwargs):
-        super(io_dict_plist_test_case, self).__init__(*args, **kwargs)
-        if six.PY2:
-            # fmt: off
-            self._dict = dict(
-                aString=u"Doodah",
-                aList=[
-                    u"A",
-                    u"B",
-                    12,
-                    32.1,
-                    [1, 2, 3],
-                ],
-                aFloat=0.1,
-                anInt=728,
-                aDict=dict(
-                    anotherString=u"<hello & hi there!>",
-                    aThirdString=u"M\xe4ssig, Ma\xdf",
-                    aTrueValue=True,
-                    aFalseValue=False,
-                ),
-                someData=plistlib.Data("<binary gunk>"),
-                someMoreData=plistlib.Data("<lots of binary gunk>" * 10),
-                aDate=dt.datetime(
-                    1985, 4, 3, 23, 55
-                ),  # dt.datetime.fromtimestamp(481413300),
-            )
-            # fmt: on
-        else:
-            self._dict = dict(
-                aString="Doodah",
-                aList=[
-                    "A",
-                    "B",
-                    12,
-                    32.1,
-                    [1, 2, 3],
-                ],
-                aFloat=0.1,
-                anInt=728,
-                aDict=dict(
-                    anotherString="<hello & hi there!>",
-                    aThirdString="M\xe4ssig, Ma\xdf",
-                    aTrueValue=True,
-                    aFalseValue=False,
-                ),
-                someData=bytes("<binary gunk>", encoding="utf-8"),
-                someMoreData=bytes("<lots of binary gunk>" * 10, encoding="utf-8"),
-                aDate=dt.datetime(
-                    1985, 4, 3, 23, 55
-                ),  # dt.datetime.fromtimestamp(481413300),
-            )
+        super().__init__(*args, **kwargs)
+        self._dict = dict(
+            aString="Doodah",
+            aList=[
+                "A",
+                "B",
+                12,
+                32.1,
+                [1, 2, 3],
+            ],
+            aFloat=0.1,
+            anInt=728,
+            aDict=dict(
+                anotherString="<hello & hi there!>",
+                aThirdString="M\xe4ssig, Ma\xdf",
+                aTrueValue=True,
+                aFalseValue=False,
+            ),
+            someData=bytes("<binary gunk>", encoding="utf-8"),
+            someMoreData=bytes("<lots of binary gunk>" * 10, encoding="utf-8"),
+            aDate=dt.datetime(
+                1985, 4, 3, 23, 55
+            ),  # dt.datetime.fromtimestamp(481413300),
+        )
         # self._dict = {
         #     'aString': 'Doodah',
         #     'aList': ['A', 'B', 12, 32.1, [1, 2, 3]],

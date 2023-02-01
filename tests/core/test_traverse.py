@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
+import unittest
 
 from benedict.core import clone as _clone
 from benedict.core import traverse as _traverse
-
-import unittest
 
 
 class traverse_test_case(unittest.TestCase):

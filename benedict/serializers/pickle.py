@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
-
-from benedict.serializers.abstract import AbstractSerializer
-
 import base64
 import pickle
+
+from benedict.serializers.abstract import AbstractSerializer
 
 
 class PickleSerializer(AbstractSerializer):
@@ -12,7 +10,11 @@ class PickleSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(PickleSerializer, self).__init__()
+        super().__init__(
+            extensions=[
+                "pickle",
+            ],
+        )
 
     def decode(self, s, **kwargs):
         encoding = kwargs.pop("encoding", "utf-8")

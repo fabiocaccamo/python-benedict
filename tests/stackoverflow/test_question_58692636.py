@@ -1,10 +1,7 @@
-# -*- coding: utf-8 -*-
-
 import unittest
 
 
 class stackoverflow_question_58692636_test_case(unittest.TestCase):
-
     def test_stackoverflow_question_58692636(self):
         """
         https://stackoverflow.com/questions/58692636/python-script-fails-to-extract-data-from-xml/58695393#58695393
@@ -117,9 +114,9 @@ class stackoverflow_question_58692636_test_case(unittest.TestCase):
 
         data = bdict.from_xml(data_xml)
         # print(data.dump())
-        entries = data['feed.entry']
+        entries = data["feed.entry"]
         for entry in entries:
-            props = bdict(bdict(entry)['content.m:properties'])
+            props = bdict(bdict(entry)["content.m:properties"])
             # print(props.dump())
             for key, value in props.items():
                 # print(key, value['#text'])

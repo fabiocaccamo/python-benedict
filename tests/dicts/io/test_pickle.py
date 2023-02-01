@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
-
-from benedict import benedict
-
 import pickle
 import unittest
+
+from benedict import benedict
 
 
 class pickle_test_case(unittest.TestCase):

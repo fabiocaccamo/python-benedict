@@ -1,11 +1,7 @@
-# -*- coding: utf-8 -*-
+import re
+from urllib.parse import parse_qs, urlencode
 
 from benedict.serializers.abstract import AbstractSerializer
-
-from urllib.parse import urlencode
-from urllib.parse import parse_qs
-
-import re
 
 
 class QueryStringSerializer(AbstractSerializer):
@@ -14,7 +10,12 @@ class QueryStringSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(QueryStringSerializer, self).__init__()
+        super().__init__(
+            extensions=[
+                "qs",
+                "querystring",
+            ],
+        )
 
     def decode(self, s, **kwargs):
         flat = kwargs.pop("flat", True)

@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
+import unittest
 
 from benedict.core import clone as _clone
 from benedict.core import nest as _nest
-
-import unittest
 
 
 class nest_test_case(unittest.TestCase):

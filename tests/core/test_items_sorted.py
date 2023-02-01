@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
+import unittest
 
 from benedict.core import items_sorted_by_keys as _items_sorted_by_keys
 from benedict.core import items_sorted_by_values as _items_sorted_by_values
-
-import unittest
 
 
 class items_sorted_test_case(unittest.TestCase):

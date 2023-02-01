@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
+import unittest
 
 from benedict.core import flatten as _flatten
-
-import unittest
 
 
 class flatten_test_case(unittest.TestCase):

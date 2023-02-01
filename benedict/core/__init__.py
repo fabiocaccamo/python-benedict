@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from benedict.core.clean import clean
 from benedict.core.clone import clone
 from benedict.core.dump import dump
@@ -24,7 +22,6 @@ from benedict.core.swap import swap
 from benedict.core.traverse import traverse
 from benedict.core.unflatten import unflatten
 from benedict.core.unique import unique
-
 
 __all__ = [
     "clean",

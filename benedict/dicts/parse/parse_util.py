@@ -1,18 +1,16 @@
-# -*- coding: utf-8 -*-
-
-from benedict.serializers import JSONSerializer
-from benedict.utils import type_util
-
+import re
 from datetime import datetime
-from dateutil import parser as date_parser
 from decimal import Decimal, DecimalException
-from MailChecker import MailChecker
-from phonenumbers import phonenumberutil, PhoneNumberFormat
-from slugify import slugify
 
 import ftfy
 import phonenumbers
-import re
+from dateutil import parser as date_parser
+from MailChecker import MailChecker
+from phonenumbers import PhoneNumberFormat, phonenumberutil
+from slugify import slugify
+
+from benedict.serializers import JSONSerializer
+from benedict.utils import type_util
 
 
 def _parse_with(val, type_checker, parser, **kwargs):

@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
-
-from benedict.core import dump as _dump
-from decimal import Decimal
-
 import datetime as dt
 import unittest
+from decimal import Decimal
+
+from benedict.core import dump as _dump
 
 
 class dump_test_case(unittest.TestCase):
@@ -46,7 +44,7 @@ class dump_test_case(unittest.TestCase):
 
     def test_dump_with_set(self):
         d = {
-            "set": set([0, 1, 2, 3, 4, 5]),
+            "set": {0, 1, 2, 3, 4, 5},
         }
         r = """{
     "set": [

@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
+import unittest
 
 from benedict.core import filter as _filter
-
-import unittest
 
 
 class filter_test_case(unittest.TestCase):

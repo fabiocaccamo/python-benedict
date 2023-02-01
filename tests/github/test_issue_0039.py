@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
-
-from benedict import benedict
-
 import time
 import unittest
+
+from benedict import benedict
 
 
 class github_issue_0039_test_case(unittest.TestCase):

@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
+import unittest
 
 from benedict.serializers import PListSerializer
-
-import unittest
 
 
 class plist_serializer_test_case(unittest.TestCase):

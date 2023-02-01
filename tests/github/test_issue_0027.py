@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
+import unittest
 
 from benedict import benedict
-
-import unittest
 
 
 class github_issue_0027_test_case(unittest.TestCase):
@@ -28,4 +26,3 @@ class github_issue_0027_test_case(unittest.TestCase):
         self.assertEqual(
             d["results[0].locations"], ["Torino", "Milano", "Napoli", "Roma"]
         )
-        return d

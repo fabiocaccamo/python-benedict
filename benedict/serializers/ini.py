@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
+from configparser import DEFAULTSECT as default_section
+from configparser import ConfigParser
+from io import StringIO
 
 from benedict.serializers.abstract import AbstractSerializer
 from benedict.utils import type_util
-
-from configparser import ConfigParser
-from configparser import DEFAULTSECT as default_section
-from io import StringIO
 
 
 class INISerializer(AbstractSerializer):
@@ -14,7 +12,11 @@ class INISerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(INISerializer, self).__init__()
+        super().__init__(
+            extensions=[
+                "ini",
+            ],
+        )
 
     @staticmethod
     def _get_section_option_value(parser, section, option):

@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
+import unittest
 
 from benedict import benedict
-
-import unittest
 
 
 class benedict_casting_test_case(unittest.TestCase):

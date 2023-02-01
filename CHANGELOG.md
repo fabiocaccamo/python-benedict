@@ -4,6 +4,41 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.28.3](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.28.3) - 2023-01-12
+-  Remove `tests/` from dist.
+-  Bump requirements.
+
+## [0.28.2](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.28.2) - 2023-01-11
+-  Fix `FileNotFoundError` if file is just the filename. #226
+-  Bump requirements.
+
+## [0.28.1](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.28.1) - 2023-01-02
+-  Add `pyupgrade` to `pre-commit` config.
+-  Add `setup.cfg` (`setuptools` declarative syntax) generated using `setuptools-py2cfg`.
+-  Add support for `pathlib.Path`. #144
+-  Bump requirements.
+
+## [0.28.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.28.0) - 2022-12-29
+-   Drop `Python 3.7 support`.
+-   Replace `str.format` with `f-strings`.
+-   Remove `python setup.py test` usage.
+-   Remove encoding pragma.
+-   Fix `s3_options` option forwarded to `json` decoder. #198 (#204)
+-   Bump requirements.
+
+## [0.27.1](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.27.1) - 2022-11-26
+-   Add `Python 3.11` support. #143
+-   Add `pre-commit` with `black`, `isort` and `flake8`.
+-   Read `toml` files using the standard `tomlib` (if available). #143
+-   Bump requirements (`boto3`, `python-slugify`, `orjson`) version.
+
+## [0.27.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.27.0) - 2022-10-12
+-   Add `s3` support to I/O operations. #17 (#126)
+-   Fix subclasses type. #115 (#124)
+
+## [0.26.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.26.0) - 2022-10-09
+-   Add `xls` files (`.xlsx`, `.xlsm`, `.xls`) support (read-only). #70 (#122)
+-   Drop `Python 3.6` support. (#123)
 
 ## [0.25.4](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.25.4) - 2022-09-06
 -   Fix `toml` encoding circular reference error. #110

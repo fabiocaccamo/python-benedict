@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
-
-from benedict.core import match as _match
-
 import re
 import unittest
+
+from benedict.core import match as _match
 
 
 class match_test_case(unittest.TestCase):

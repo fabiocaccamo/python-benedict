@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
+import yaml
 
 from benedict.serializers.abstract import AbstractSerializer
 from benedict.serializers.json import JSONSerializer
-
-import yaml
 
 
 class YAMLSerializer(AbstractSerializer):
@@ -12,7 +10,12 @@ class YAMLSerializer(AbstractSerializer):
     """
 
     def __init__(self):
-        super(YAMLSerializer, self).__init__()
+        super().__init__(
+            extensions=[
+                "yaml",
+                "yml",
+            ],
+        )
         self._json_serializer = JSONSerializer()
 
     def decode(self, s, **kwargs):

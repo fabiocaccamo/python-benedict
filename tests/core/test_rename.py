@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
+import unittest
 
 from benedict.core import rename as _rename
-
-import unittest
 
 
 class rename_test_case(unittest.TestCase):

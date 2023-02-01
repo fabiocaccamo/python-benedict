@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
-
-from benedict.dicts.io import IODict
-
 import os
 import shutil
 import unittest
+
+from benedict.dicts.io import IODict
 
 
 class io_dict_test_case(unittest.TestCase):
@@ -24,7 +22,7 @@ class io_dict_test_case(unittest.TestCase):
 
     @staticmethod
     def input_url(filepath):
-        return f"https://raw.githubusercontent.com/fabiocaccamo/python-benedict/master/tests/dicts/io/input/{filepath}"
+        return f"https://raw.githubusercontent.com/fabiocaccamo/python-benedict/main/tests/dicts/io/input/{filepath}"
 
     @staticmethod
     def output_path(filepath):

@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
+import unittest
 
 from benedict.dicts.parse import parse_util
-
-import unittest
 
 
 class parse_util_test_case(unittest.TestCase):

@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
+import unittest
 
 from benedict.core import keypaths as _keypaths
-
-import unittest
 
 
 class keypaths_test_case(unittest.TestCase):

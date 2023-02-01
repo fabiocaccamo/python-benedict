@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
+import unittest
 
 from benedict.core import remove as _remove
-
-import unittest
 
 
 class remove_test_case(unittest.TestCase):

@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
+import datetime as dt
 
 from benedict.dicts.io import IODict
 
 from .test_io_dict import io_dict_test_case
-
-import datetime as dt
 
 
 class io_dict_pickle_test_case(io_dict_test_case):

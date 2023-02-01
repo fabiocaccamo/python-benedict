@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
+import unittest
+
+import yaml
 
 from benedict import benedict
-
-import unittest
-import yaml
 
 
 class github_issue_0025_test_case(unittest.TestCase):
