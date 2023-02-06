@@ -4,7 +4,6 @@ from benedict.core import clone as _clone
 
 
 class BaseDict(dict):
-
     _dict = None
     _pointer = False
 

@@ -5,7 +5,6 @@ from benedict.dicts.keypath import keypath_util
 
 
 class KeypathDict(KeylistDict):
-
     _keypath_separator = None
 
     def __init__(self, *args, **kwargs: Any):
