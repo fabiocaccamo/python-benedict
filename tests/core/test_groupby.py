@@ -10,7 +10,7 @@ class groupby_test_case(unittest.TestCase):
     """
 
     def test_groupby(self):
-        l = [
+        ls = [
             {"id": 1, "name": "John"},
             {"id": 2, "name": "Frank"},
             {"id": 3, "name": "Tony"},
@@ -21,9 +21,9 @@ class groupby_test_case(unittest.TestCase):
             {"id": 4, "name": "Paul"},
             {"id": 1, "name": "Michael"},
         ]
-        l_clone = _clone(l)
-        d = _groupby(l, "id")
-        self.assertEqual(l, l_clone)
+        ls_clone = _clone(ls)
+        d = _groupby(ls, "id")
+        self.assertEqual(ls, ls_clone)
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(len(d), 4)
         self.assertTrue(
@@ -52,12 +52,12 @@ class groupby_test_case(unittest.TestCase):
         self.assertEqual(len(d[4]), 2)
 
     def test_groupby_with_wrong_input(self):
-        l = {"id": 1, "name": "John"}
+        ls = {"id": 1, "name": "John"}
         with self.assertRaises(ValueError):
-            d = _groupby(l, "id")
-        l = [
+            _ = _groupby(ls, "id")
+        ls = [
             [{"id": 1, "name": "John"}],
             [{"id": 2, "name": "Frank"}],
         ]
         with self.assertRaises(ValueError):
-            d = _groupby(l, "id")
+            _ = _groupby(ls, "id")

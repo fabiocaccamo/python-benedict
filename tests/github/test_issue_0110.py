@@ -23,3 +23,4 @@ class github_issue_0110_test_case(unittest.TestCase):
 
         t = b.to_toml()
         # print(t)
+        self.assertTrue(isinstance(t, str))

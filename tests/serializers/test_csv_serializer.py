@@ -1,6 +1,6 @@
 import unittest
 
-from benedict.serializers import CSVSerializer
+# from benedict.serializers import CSVSerializer
 
 
 class csv_serializer_test_case(unittest.TestCase):

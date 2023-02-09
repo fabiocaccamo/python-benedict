@@ -1,6 +1,6 @@
 import unittest
 
-from benedict.serializers import JSONSerializer
+# from benedict.serializers import JSONSerializer
 
 
 class json_serializer_test_case(unittest.TestCase):

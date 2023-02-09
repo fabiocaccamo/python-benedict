@@ -113,13 +113,6 @@ class io_dict_query_string_test_case(io_dict_test_case):
             IODict(url, format="query_string")
 
     def test_to_query_string(self):
-        data = {
-            "ok": "1",
-            "test": "2",
-            "page": "3",
-            "lib": "python benedict",
-            "author": "Fabio Caccamo",
-        }
         d = IODict(
             {
                 "ok": "1",

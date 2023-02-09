@@ -121,7 +121,7 @@ def read_content_from_url(url, requests_options, format=None):
     binary_format = is_binary_format(format)
     if binary_format:
         dirpath = tempfile.gettempdir()
-        filepath = fsutil.download_file(url, dirpath, **requests_options)
+        filepath = fsutil.download_file(url, dirpath=dirpath, **requests_options)
         return filepath
     return fsutil.read_file_from_url(url, **requests_options)
 

@@ -1,5 +1,4 @@
 import copy
-import sys
 import unittest
 from collections.abc import Iterable
 
@@ -223,17 +222,6 @@ class base_dict_test_case(unittest.TestCase):
         b = BaseDict(d)
         self.assertEqual(str(d), str(b))
         self.assertEqual(b, b.dict())
-
-    @unittest.skipIf(sys.version_info[0] > 2, "No unicode in Python 3")
-    def test__unicode__(self):
-        d = BaseDict()
-        d["name"] = "pythòn-bènèdìçt"
-        # print(unicode(d))
-
-    @unittest.skipIf(sys.version_info[0] > 2, "No unicode in Python > 2")
-    def test__unicode__with_pointer(self):
-        d = BaseDict({"name": "pythòn-bènèdìçt"})
-        # print(unicode(d))
 
     def test_clear(self):
         d = {

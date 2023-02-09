@@ -370,7 +370,7 @@ class benedict_test_case(unittest.TestCase):
         self.assertEqual(f, r)
         self.assertTrue(isinstance(f, benedict))
 
-    def test_filter(self):
+    def test_find(self):
         d = {
             "a": 1,
             "b": 2,
@@ -477,7 +477,7 @@ class benedict_test_case(unittest.TestCase):
         }
         b = benedict(d)
         with self.assertRaises(KeyError):
-            f = b.flatten()
+            _ = b.flatten()
         # r = {
         #     'a': 1,
         #     'b': 2,
@@ -910,16 +910,16 @@ b:
             ]
         }
         b = benedict(d)
-        l = b.get_list("a")
+        ls = b.get_list("a")
         # self.assertTrue(isinstance(l[0], benedict))
         # self.assertTrue(isinstance(l[1], benedict))
         # self.assertTrue(isinstance(l[2], benedict))
         # self.assertEqual(l[0].get('b.c'), 1)
         # self.assertEqual(l[1].get('b.c'), 2)
         # self.assertEqual(l[2].get('b.c'), 3)
-        self.assertEqual(benedict(l[0]).get("b.c"), 1)
-        self.assertEqual(benedict(l[1]).get("b.c"), 2)
-        self.assertEqual(benedict(l[2]).get("b.c"), 3)
+        self.assertEqual(benedict(ls[0]).get("b.c"), 1)
+        self.assertEqual(benedict(ls[1]).get("b.c"), 2)
+        self.assertEqual(benedict(ls[2]).get("b.c"), 3)
 
     def test_get_list_item(self):
         d = {
