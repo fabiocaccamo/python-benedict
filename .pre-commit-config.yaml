@@ -7,6 +7,11 @@ repos:
     hooks:
       - id: pyupgrade
 
+  - repo: https://github.com/frostming/fix-future-annotations
+    rev: 0.5.0
+    hooks:
+      - id: fix-future-annotations
+
   - repo: https://github.com/psf/black
     rev: 23.1.0
     hooks:
