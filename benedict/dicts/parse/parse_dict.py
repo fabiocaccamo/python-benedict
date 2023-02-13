@@ -31,12 +31,18 @@ class ParseDict(BaseDict):
             return default
 
         # If choices and value in choices return value otherwise default.
-        if type_util.is_list_or_tuple(choices) and len(choices) and value not in choices:
+        if (
+            type_util.is_list_or_tuple(choices)
+            and len(choices)
+            and value not in choices
+        ):
             return default
 
         return value
 
-    def _get_values_list(self, key, default, separator, parser_func, parser_kwargs=None):
+    def _get_values_list(
+        self, key, default, separator, parser_func, parser_kwargs=None
+    ):
         """
         Get value by key or keypath trying to return it as list of bool values.
         If separator is specified and value is a string it will be splitted.
