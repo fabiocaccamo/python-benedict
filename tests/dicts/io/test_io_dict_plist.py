@@ -1,5 +1,4 @@
 import datetime as dt
-import plistlib
 
 from benedict.dicts.io import IODict
 

@@ -1,6 +1,5 @@
 import datetime as dt
 import unittest
-from decimal import Decimal
 
 from benedict.core import dump as _dump
 
@@ -69,4 +68,4 @@ class dump_test_case(unittest.TestCase):
         _dump(d)
         d["dt"] = dt
         with self.assertRaises(TypeError):
-            o = _dump(d, sort_keys=False, default=None)
+            _dump(d, sort_keys=False, default=None)

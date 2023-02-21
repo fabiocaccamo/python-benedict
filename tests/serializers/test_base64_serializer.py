@@ -1,6 +1,6 @@
 import unittest
 
-from benedict.serializers import Base64Serializer
+# from benedict.serializers import Base64Serializer
 
 
 class base64_serializer_test_case(unittest.TestCase):

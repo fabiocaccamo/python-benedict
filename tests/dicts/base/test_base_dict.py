@@ -1,5 +1,4 @@
 import copy
-import sys
 import unittest
 from collections.abc import Iterable
 

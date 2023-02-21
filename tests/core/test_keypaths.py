@@ -77,7 +77,7 @@ class keypaths_test_case(unittest.TestCase):
             },
         }
         with self.assertRaises(ValueError):
-            o = _keypaths(i, separator=True)
+            _ = _keypaths(i, separator=True)
 
     def test_keypaths_without_separator(self):
         i = {

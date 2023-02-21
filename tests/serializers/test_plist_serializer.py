@@ -1,6 +1,6 @@
 import unittest
 
-from benedict.serializers import PListSerializer
+# from benedict.serializers import PListSerializer
 
 
 class plist_serializer_test_case(unittest.TestCase):

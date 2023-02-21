@@ -72,7 +72,7 @@ class github_issue_0066_test_case(unittest.TestCase):
     def test_pop_with_tuple(self):
         d = self._get_dict()
         with self.assertRaises(TypeError):
-            loc = d.pop("results[-1].locations[-1]")
+            _ = d.pop("results[-1].locations[-1]")
         # loc = d.pop('results[-1].locations[-1]')
         # self.assertEqual(loc, 12)
         # self.assertEqual(len(d.get('results[-1].locations')), 2)
