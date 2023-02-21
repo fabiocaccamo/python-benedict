@@ -191,9 +191,9 @@ class benedict(KeypathDict, IODict, ParseDict):
     def merge(self, other, *args, **kwargs):
         """
         Merge one or more dict objects into current instance (deepupdate).
-        Sub-dictionaries will be merged toghether.
+        Sub-dictionaries will be merged together.
         If overwrite is False, existing values will not be overwritten.
-        If concat is True, list values will be concatenated toghether.
+        If concat is True, list values will be concatenated together.
         """
         _merge(self, other, *args, **kwargs)
 
