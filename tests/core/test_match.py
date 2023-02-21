@@ -58,4 +58,4 @@ class match_test_case(unittest.TestCase):
     def test_match_with_invalid_pattern(self):
         d = self._get_dict()
         with self.assertRaises(ValueError):
-            values = _match(d, 100)
+            _ = _match(d, 100)

@@ -1,6 +1,6 @@
 import unittest
 
-from benedict.serializers import XLSSerializer
+# from benedict.serializers import XLSSerializer
 
 
 class xls_serializer_test_case(unittest.TestCase):

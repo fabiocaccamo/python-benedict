@@ -146,3 +146,4 @@ class stackoverflow_question_59176476_test_case(unittest.TestCase):
         author = bdict(data[["DetalheMateria", "Materia", "Autoria", "Autor"]][0])
         author_name = author["NomeAutor"]
         # print(author_name)
+        self.assertEqual(author_name, "Câmara dos Deputados")

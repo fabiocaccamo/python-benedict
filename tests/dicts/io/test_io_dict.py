@@ -45,4 +45,4 @@ class io_dict_test_case(unittest.TestCase):
 
     def test_init_with_invalid_data(self):
         with self.assertRaises(ValueError):
-            d = IODict("invalid json data")
+            _ = IODict("invalid json data")

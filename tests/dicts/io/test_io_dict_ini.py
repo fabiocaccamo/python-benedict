@@ -76,7 +76,7 @@ ForwardX11 = no
     def test_from_ini_with_valid_file_valid_content_invalid_format(self):
         filepath = self.input_path("valid-content.base64")
         with self.assertRaises(ValueError):
-            d = IODict.from_ini(filepath)
+            IODict.from_ini(filepath)
         filepath = self.input_path("valid-content.json")
         with self.assertRaises(ValueError):
             IODict.from_ini(filepath)

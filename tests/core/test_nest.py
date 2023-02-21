@@ -10,7 +10,7 @@ class nest_test_case(unittest.TestCase):
     """
 
     def test_nest(self):
-        l = [
+        ls = [
             {"id": 1, "parent_id": None, "name": "John"},
             {"id": 2, "parent_id": 1, "name": "Frank"},
             {"id": 3, "parent_id": 2, "name": "Tony"},
@@ -21,8 +21,8 @@ class nest_test_case(unittest.TestCase):
             {"id": 8, "parent_id": 3, "name": "Paul"},
             {"id": 9, "parent_id": None, "name": "Michael"},
         ]
-        l_clone = _clone(l)
-        n = _nest(l, "id", "parent_id", "children")
+        ls_clone = _clone(ls)
+        n = _nest(ls, "id", "parent_id", "children")
         r = [
             {
                 "id": 1,
@@ -82,11 +82,11 @@ class nest_test_case(unittest.TestCase):
                 "children": [],
             },
         ]
-        self.assertEqual(l, l_clone)
+        self.assertEqual(ls, ls_clone)
         self.assertEqual(n, r)
 
     def test_nest_with_wrong_keys(self):
-        l = [
+        ls = [
             {"id": 1, "parent_id": None, "name": "John"},
             {"id": 2, "parent_id": 1, "name": "Frank"},
             {"id": 3, "parent_id": 2, "name": "Tony"},
@@ -98,19 +98,19 @@ class nest_test_case(unittest.TestCase):
             {"id": 9, "parent_id": None, "name": "Michael"},
         ]
         with self.assertRaises(ValueError):
-            n = _nest(l, "id", "id", "children")
+            _ = _nest(ls, "id", "id", "children")
         with self.assertRaises(ValueError):
-            n = _nest(l, "id", "parent_id", "id")
+            _ = _nest(ls, "id", "parent_id", "id")
         with self.assertRaises(ValueError):
-            n = _nest(l, "id", "parent_id", "parent_id")
+            _ = _nest(ls, "id", "parent_id", "parent_id")
 
     def test_nest_with_wrong_input(self):
-        l = {"id": 1, "parent_id": None, "name": "John"}
+        ls = {"id": 1, "parent_id": None, "name": "John"}
         with self.assertRaises(ValueError):
-            d = _nest(l, "id", "parent_id", "children")
-        l = [
+            _ = _nest(ls, "id", "parent_id", "children")
+        ls = [
             [{"id": 1, "parent_id": None, "name": "John"}],
             [{"id": 2, "parent_id": 1, "name": "Frank"}],
         ]
         with self.assertRaises(ValueError):
-            d = _nest(l, "id", "parent_id", "children")
+            _ = _nest(ls, "id", "parent_id", "children")

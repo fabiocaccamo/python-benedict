@@ -1,6 +1,6 @@
 import unittest
 
-from benedict.serializers import QueryStringSerializer
+# from benedict.serializers import QueryStringSerializer
 
 
 class query_string_serializer_test_case(unittest.TestCase):
