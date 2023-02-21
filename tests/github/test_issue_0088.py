@@ -20,10 +20,10 @@ class github_issue_0088_test_case(unittest.TestCase):
     def test_flatten_with_separator_equal_to_keypath_separator(self):
         d = benedict({"a": {"b": {"c": 1}}}, keypath_separator=".")
         with self.assertRaises(ValueError):
-            f = d.flatten(".")
+            _ = d.flatten(".")
         d = benedict({"a": {"b": {"c": 1}}}, keypath_separator="_")
         with self.assertRaises(ValueError):
-            f = d.flatten("_")
+            _ = d.flatten("_")
 
     def test_flatten_with_separator_different_from_keypath_separator(self):
         d = benedict({"a": {"b": {"c": 1}}}, keypath_separator="_")

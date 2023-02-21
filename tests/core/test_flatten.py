@@ -70,7 +70,7 @@ class flatten_test_case(unittest.TestCase):
             },
         }
         with self.assertRaises(KeyError):
-            o = _flatten(i)
+            _ = _flatten(i)
         # r = {
         #     'a': 1,
         #     'b': 2,

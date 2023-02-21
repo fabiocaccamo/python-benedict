@@ -75,7 +75,9 @@ class github_issue_0046_test_case(unittest.TestCase):
         # import json
         # json.encoder.c_make_encoder = None
         json_encoder = None
-        json_dumps = lambda d: json.dumps(d, sort_keys=True, cls=json_encoder)
+
+        def json_dumps(d):
+            return json.dumps(d, sort_keys=True, cls=json_encoder)
 
         d_new_raw = {
             "id": "37e4f6e876",

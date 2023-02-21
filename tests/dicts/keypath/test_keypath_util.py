@@ -1,6 +1,5 @@
 import unittest
 
-from benedict.dicts.keylist import keylist_util
 from benedict.dicts.keypath import keypath_util
 
 

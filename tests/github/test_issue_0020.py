@@ -39,21 +39,23 @@ Outputs:
     Value: !GetAtt LoremIpsum.Arn
         """
 
-        r = {
-            "AWSTemplateFormatVersion": "2010-09-09",
-            "Transform": "AWS::Serverless-2016-10-31",
-            "Outputs": {
-                "Description": "LoremIpsum Ex nisi incididunt occaecat dolor.",
-                "Value": GetAtt("LoremIpsum.Arn"),
-            },
-        }
+        # r = {
+        #     "AWSTemplateFormatVersion": "2010-09-09",
+        #     "Transform": "AWS::Serverless-2016-10-31",
+        #     "Outputs": {
+        #         "Description": "LoremIpsum Ex nisi incididunt occaecat dolor.",
+        #         "Value": GetAtt("LoremIpsum.Arn"),
+        #     },
+        # }
 
         b = benedict(yaml_str, format="yaml")
         # print(b.dump())
 
-        self.assertTrue(b["AWSTemplateFormatVersion"] == "2010-09-09")
-        self.assertTrue(b["Transform"] == "AWS::Serverless-2016-10-31")
-        self.assertTrue(
-            b["Outputs.Description"] == "LoremIpsum Ex nisi incididunt occaecat dolor."
+        self.assertEqual(b["AWSTemplateFormatVersion"], "2010-09-09")
+        self.assertEqual(b["Transform"], "AWS::Serverless-2016-10-31")
+        self.assertEqual(
+            b["Outputs.Description"], "LoremIpsum Ex nisi incididunt occaecat dolor."
         )
         self.assertTrue(isinstance(b["Outputs.Value"], GetAtt))
+        # self.assertEqual(b["Outputs.Value"], r["Outputs"]["Value"])
+        # self.assertEqual(b, r)

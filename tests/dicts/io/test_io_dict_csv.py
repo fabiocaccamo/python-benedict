@@ -354,7 +354,7 @@ class io_dict_csv_test_case(io_dict_test_case):
             }
         )
         with self.assertRaises(KeyError):
-            s = d.to_csv(
+            _ = d.to_csv(
                 "invalid_values", columns=["id", "name", "age", "height", "weight"]
             )
 

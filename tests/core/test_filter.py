@@ -18,7 +18,7 @@ class filter_test_case(unittest.TestCase):
             "g": 7,
         }
         with self.assertRaises(ValueError):
-            f = _filter(i, True)
+            _filter(i, True)
         o = _filter(i, lambda key, val: isinstance(val, int))
         r = {
             "a": 1,

@@ -1,6 +1,6 @@
 import unittest
 
-from benedict.serializers import TOMLSerializer
+# from benedict.serializers import TOMLSerializer
 
 
 class toml_serializer_test_case(unittest.TestCase):
