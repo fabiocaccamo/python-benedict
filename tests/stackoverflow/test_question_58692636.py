@@ -119,6 +119,7 @@ class stackoverflow_question_58692636_test_case(unittest.TestCase):
             props = bdict(bdict(entry)["content.m:properties"])
             # print(props.dump())
             for key, value in props.items():
-                # print(key, value['#text'])
-                pass
+                # print(key, value["#text"])
+                self.assertTrue(key.startswith("d:"))
+                self.assertTrue(value["#text"] is not None)
             # print('-----')

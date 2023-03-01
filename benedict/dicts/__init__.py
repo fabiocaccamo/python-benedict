@@ -131,7 +131,7 @@ class benedict(KeypathDict, IODict, ParseDict):
         """
         if separator == self._keypath_separator:
             raise ValueError(
-                f"Invalid flatten separator: '{separator}', "
+                f"Invalid flatten separator: {separator!r}, "
                 "flatten separator must be different from keypath separator."
             )
         return _flatten(self, separator)
@@ -182,8 +182,10 @@ class benedict(KeypathDict, IODict, ParseDict):
 
     def match(self, pattern, indexes=True):
         """
-        Return a list of all values whose keypath matches the given pattern (a regex or string).
-        If pattern is string, wildcard can be used (eg. [*] can be used to match all list indexes).
+        Return a list of all values whose keypath
+        matches the given pattern (a regex or string).
+        If pattern is string, wildcard can be used
+        (eg. [*] can be used to match all list indexes).
         If indexes is True, the pattern will be matched also against list values.
         """
         return _match(self, pattern, separator=self._keypath_separator, indexes=indexes)

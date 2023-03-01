@@ -35,8 +35,10 @@ class XLSSerializer(AbstractSerializer):
         try:
             sheet_index = sheet_names.index(slugify(sheet_name))
             return sheet_index
-        except ValueError:
-            raise Exception(f"Invalid sheet name '{sheet_name}', sheet not found.")
+        except ValueError as error:
+            raise Exception(
+                f"Invalid sheet name {sheet_name!r}, sheet not found."
+            ) from error
 
     def _get_sheet_columns_indexes(self, columns_count):
         return [column_index for column_index in range(columns_count)]
@@ -127,7 +129,7 @@ class XLSSerializer(AbstractSerializer):
         items_row_start = 2 if columns_row else 1
         for row in sheet.iter_rows(min_row=items_row_start):
             values = list([cell.value for cell in row])
-            items.append(dict(zip(columns, values)))
+            items.append(dict(zip(columns, values, strict=True)))
 
         # close the worksheet
         workbook.close()

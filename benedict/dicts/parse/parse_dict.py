@@ -104,7 +104,7 @@ class ParseDict(BaseDict):
             key, default, separator, parse_util.parse_datetime, {"format": format}
         )
 
-    def get_decimal(self, key, default=Decimal("0.0"), choices=None):
+    def get_decimal(self, key, default=Decimal("0.0"), choices=None):  # noqa: B008
         """
         Get value by key or keypath trying to return it as Decimal.
         If choices and value is in choices return value otherwise default.

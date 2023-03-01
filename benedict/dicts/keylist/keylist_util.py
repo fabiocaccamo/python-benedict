@@ -14,7 +14,7 @@ def _get_item_key_and_value(item, key):
             return (index, item[index])
     elif type_util.is_dict(item):
         return (key, item[key])
-    raise KeyError(f"Invalid key: '{key}'")
+    raise KeyError(f"Invalid key: {key!r}")
 
 
 def _get_or_new_item_value(item, key, subkey):

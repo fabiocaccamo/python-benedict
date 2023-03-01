@@ -34,7 +34,7 @@ class CSVSerializer(AbstractSerializer):
                     columns = row
                 ln += 1
                 continue
-            d = dict(zip(columns, row))
+            d = dict(zip(columns, row, strict=True))
             data.append(d)
             ln += 1
         return data

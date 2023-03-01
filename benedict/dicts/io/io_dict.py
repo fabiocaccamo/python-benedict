@@ -8,7 +8,8 @@ class IODict(BaseDict):
         """
         Constructs a new instance.
         """
-        # if first argument is data-string, url or filepath (str or pathlib.Path) try to decode it.
+        # if first argument is data-string, url
+        # or filepath (str or pathlib.Path) try to decode it.
         # use 'format' kwarg to specify the decoder to use, default 'json'.
         if len(args) == 1:
             arg = args[0]
@@ -32,7 +33,9 @@ class IODict(BaseDict):
         try:
             data = io_util.decode(s, format, **kwargs)
         except Exception as e:
-            raise ValueError(f"Invalid data or url or filepath argument: {s}\n{e}")
+            raise ValueError(
+                f"Invalid data or url or filepath argument: {s}\n{e}"
+            ) from e
         # if possible return data as dict, otherwise raise exception
         if type_util.is_dict(data):
             return data
@@ -94,7 +97,7 @@ class IODict(BaseDict):
     @classmethod
     def from_pickle(cls, s, **kwargs):
         """
-        Load and decode a pickle encoded in Base64 format data from url, filepath or data-string.
+        Load and decode a pickle encoded in Base64 format from url, filepath or data-string.
         Decoder specific options can be passed using kwargs:
         https://docs.python.org/3/library/pickle.html
         Return a new dict instance. A ValueError is raised in case of failure.

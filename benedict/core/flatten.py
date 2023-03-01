@@ -21,7 +21,7 @@ def _flatten_item(d, base_dict, base_key, separator):
             new_dict.update(new_value)
             continue
         if new_key in new_dict:
-            raise KeyError(f"Invalid key: '{new_key}', key already in flatten dict.")
+            raise KeyError(f"Invalid key: {new_key!r}, key already in flatten dict.")
         new_dict[new_key] = value
     return new_dict
 
