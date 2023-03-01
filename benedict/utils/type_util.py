@@ -93,3 +93,19 @@ def is_tuple(val):
 
 def is_uuid(val):
     return is_string(val) and uuid_re.match(val)
+
+
+def is_wildcard(val):
+    return is_string(val) and val == "*"
+
+
+def is_list_of_dicts(val):
+    return is_list(val) and all(is_dict(_val) for _val in val)
+
+
+def any_wildcard_in_list(val):
+    return is_list(val) and any(is_wildcard(_val) for _val in val)
+
+
+def is_list_of_list(val):
+    return is_list(val) and all(is_list(_val) for _val in val)

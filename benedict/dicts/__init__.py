@@ -209,7 +209,7 @@ class benedict(KeypathDict, IODict, ParseDict):
     ):
         """
         Nest a list of dicts at the given key and return a new nested list
-        using the specified keys to establish the correct items hierarchy.
+        using the specified keys to establish the correct item's hierarchy.
         """
         return _nest(self[key], id_key, parent_id_key, children_key)
 
