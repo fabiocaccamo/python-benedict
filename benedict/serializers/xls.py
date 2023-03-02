@@ -129,7 +129,7 @@ class XLSSerializer(AbstractSerializer):
         items_row_start = 2 if columns_row else 1
         for row in sheet.iter_rows(min_row=items_row_start):
             values = list([cell.value for cell in row])
-            items.append(dict(zip(columns, values, strict=True)))
+            items.append(dict(zip(columns, values)))
 
         # close the worksheet
         workbook.close()
