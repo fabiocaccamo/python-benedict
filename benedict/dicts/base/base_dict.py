@@ -86,6 +86,9 @@ class BaseDict(dict):
             return
         super().__setitem__(key, value)
 
+    def __setstate__(self, state):
+        self.__dict__ = state
+
     def __str__(self):
         if self._pointer:
             return str(self._dict)

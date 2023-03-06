@@ -18,11 +18,12 @@ python-benedict is a dict subclass with **keylist/keypath** support, **I/O** sho
 
 ## Features
 -   100% **backward-compatible**, you can safely wrap existing dictionaries.
+-   `NEW` **Keyattr** support for get/set items using keys as attributes: `my_dict.results[0].name` *(disabled by default)*.
 -   **Keylist** support using **list of keys** as key.
 -   **Keypath** support using **keypath-separator** *(dot syntax by default)*.
 -   Keypath **list-index** support  *(also negative)* using the standard `[n]` suffix.
 -   Normalized **I/O operations** with most common formats: `base64`, `csv`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xls`, `xml`, `yaml`.
--   `NEW` Multiple **I/O operations** backends: `filepath` *(read/write)*, `url` *(read-only)*, `s3` *(read/write)*.
+-   Multiple **I/O operations** backends: `file-system` *(read/write)*, `url` *(read-only)*, `s3` *(read/write)*.
 -   Many **utility** and **parse methods** to retrieve data as needed *(check the [API](#api) section)*.
 -   Well **tested**. ;)
 
@@ -30,6 +31,7 @@ python-benedict is a dict subclass with **keylist/keypath** support, **I/O** sho
 -   [Installation](#installation)
 -   [Usage](#usage)
     -   [Basics](#basics)
+    -   [Keyattr](#keyattr)
     -   [Keylist](#keylist)
     -   [Keypath](#keypath)
         -   [Custom keypath separator](#custom-keypath-separator)
@@ -69,6 +71,20 @@ params = benedict(request.GET.items())
 page = params.get_int('page', 1)
 ```
 
+### Keyattr
+It is possible to get/set items using **keys as attributes** (dotted notation).
+
+**By default this feature is disabled** due to its *implicit* limitations: it works only for string keys and only if the keys don't clash with the supported methods names.
+
+You can enable the keyattr functionality passing the `keyattr_enabled` argument in the constructor and enable/disable it at any time using the `getter/setter` property.
+
+```python
+d = benedict(keyattr_enabled=True)
+d.profile.firstname = "Fabio"
+d.profile.lastname = "Caccamo"
+print(d) # -> { 'profile':{ 'firstname':'Fabio', 'lastname':'Caccamo' } }
+```
+
 ### Keylist
 Wherever a **key** is used, it is possible to use also a **list (or a tuple) of keys**.
 
@@ -78,7 +94,7 @@ d = benedict()
 # set values by keys list
 d['profile', 'firstname'] = 'Fabio'
 d['profile', 'lastname'] = 'Caccamo'
-print(d) # -> { 'profile':{ 'firstname':'Fabio', 'lastname':'Caccamo' } }
+print(d) # -> { 'profile':{ 'firstname':'Fabio', 'lastname':'Caccamo' } }
 print(d['profile']) # -> { 'firstname':'Fabio', 'lastname':'Caccamo' }
 
 # check if keypath exists in dict
@@ -102,7 +118,7 @@ d = benedict()
 # set values by keypath
 d['profile.firstname'] = 'Fabio'
 d['profile.lastname'] = 'Caccamo'
-print(d) # -> { 'profile':{ 'firstname':'Fabio', 'lastname':'Caccamo' } }
+print(d) # -> { 'profile':{ 'firstname':'Fabio', 'lastname':'Caccamo' } }
 print(d['profile']) # -> { 'firstname':'Fabio', 'lastname':'Caccamo' }
 
 # check if keypath exists in dict
