@@ -64,11 +64,11 @@ d = benedict(existing_dict)
 
 # or create from data source (filepath, url or data-string) in a supported format:
 # Base64, CSV, JSON, TOML, XML, YAML, query-string
-d = benedict('https://localhost:8000/data.json', format='json')
+d = benedict("https://localhost:8000/data.json", format="json")
 
 # or in a Django view
 params = benedict(request.GET.items())
-page = params.get_int('page', 1)
+page = params.get_int("page", 1)
 ```
 
 ### Keyattr
@@ -82,7 +82,7 @@ You can enable the keyattr functionality passing the `keyattr_enabled` argument 
 d = benedict(keyattr_enabled=True)
 d.profile.firstname = "Fabio"
 d.profile.lastname = "Caccamo"
-print(d) # -> { 'profile':{ 'firstname':'Fabio', 'lastname':'Caccamo' } }
+print(d) # -> { "profile":{ "firstname":"Fabio", "lastname":"Caccamo" } }
 ```
 
 ### Keylist
@@ -92,17 +92,17 @@ Wherever a **key** is used, it is possible to use also a **list (or a tuple) of 
 d = benedict()
 
 # set values by keys list
-d['profile', 'firstname'] = 'Fabio'
-d['profile', 'lastname'] = 'Caccamo'
-print(d) # -> { 'profile':{ 'firstname':'Fabio', 'lastname':'Caccamo' } }
-print(d['profile']) # -> { 'firstname':'Fabio', 'lastname':'Caccamo' }
+d["profile", "firstname"] = "Fabio"
+d["profile", "lastname"] = "Caccamo"
+print(d) # -> { "profile":{ "firstname":"Fabio", "lastname":"Caccamo" } }
+print(d["profile"]) # -> { "firstname":"Fabio", "lastname":"Caccamo" }
 
 # check if keypath exists in dict
-print(['profile', 'lastname'] in d) # -> True
+print(["profile", "lastname"] in d) # -> True
 
 # delete value by keys list
-del d['profile', 'lastname']
-print(d['profile']) # -> { 'firstname':'Fabio' }
+del d["profile", "lastname"]
+print(d["profile"]) # -> { "firstname":"Fabio" }
 ```
 
 ### Keypath
@@ -116,16 +116,16 @@ In this case you should use a [custom keypath separator](#custom-keypath-separat
 d = benedict()
 
 # set values by keypath
-d['profile.firstname'] = 'Fabio'
-d['profile.lastname'] = 'Caccamo'
-print(d) # -> { 'profile':{ 'firstname':'Fabio', 'lastname':'Caccamo' } }
-print(d['profile']) # -> { 'firstname':'Fabio', 'lastname':'Caccamo' }
+d["profile.firstname"] = "Fabio"
+d["profile.lastname"] = "Caccamo"
+print(d) # -> { "profile":{ "firstname":"Fabio", "lastname":"Caccamo" } }
+print(d["profile"]) # -> { "firstname":"Fabio", "lastname":"Caccamo" }
 
 # check if keypath exists in dict
-print('profile.lastname' in d) # -> True
+print("profile.lastname" in d) # -> True
 
 # delete value by keypath
-del d['profile.lastname']
+del d["profile.lastname"]
 ```
 
 #### Custom keypath separator
@@ -134,7 +134,7 @@ You can customize the keypath separator passing the `keypath_separator` argument
 If you pass an existing dict to the constructor and its keys contain the keypath separator an `Exception` will be raised.
 
 ```python
-d = benedict(existing_dict, keypath_separator='/')
+d = benedict(existing_dict, keypath_separator="/")
 ```
 
 #### Change keypath separator
@@ -143,7 +143,7 @@ You can change the `keypath_separator` at any time using the `getter/setter` pro
 If any existing key contains the new `keypath_separator` an `Exception` will be raised.
 
 ```python
-d.keypath_separator = '/'
+d.keypath_separator = "/"
 ```
 
 #### Disable keypath functionality
@@ -164,9 +164,9 @@ List index are supported, keypaths can include indexes *(also negative)* using `
 
 ```python
 # Eg. get last location cordinates of the first result:
-loc = d['results[0].locations[-1].coordinates']
-lat = loc.get_decimal('latitude')
-lng = loc.get_decimal('longitude')
+loc = d["results[0].locations[-1].coordinates"]
+lat = loc.get_decimal("latitude")
+lng = loc.get_decimal("longitude")
 ```
 
 ### API
@@ -259,7 +259,7 @@ Utilities that return a dictionary always return a new `benedict` instance.
 -   #### clean
 
 ```python
-# Clean the current dict instance removing all empty values: None, '', {}, [], ().
+# Clean the current dict instance removing all empty values: None, "", {}, [], ().
 # If strings or collections (dict, list, set, tuple) flags are False,
 # related empty values will not be deleted.
 d.clean(strings=True, collections=True)
@@ -298,7 +298,7 @@ f = d.filter(predicate)
 ```python
 # Return the first match searching for the given keys/keypaths.
 # If no result found, default value is returned.
-keys = ['a.b.c', 'm.n.o', 'x.y.z']
+keys = ["a.b.c", "m.n.o", "x.y.z"]
 f = d.find(keys, default=0)
 ```
 
@@ -306,14 +306,14 @@ f = d.find(keys, default=0)
 
 ```python
 # Return a new flattened dict using the given separator to join nested dict keys to flatten keypaths.
-f = d.flatten(separator='_')
+f = d.flatten(separator="_")
 ```
 
 -   #### groupby
 
 ```python
 # Group a list of dicts at key by the value of the given by_key and return a new dict.
-g = d.groupby('cities', by_key='country_code')
+g = d.groupby("cities", by_key="country_code")
 ```
 
 -   #### invert
@@ -374,7 +374,7 @@ d.merge(a, b, c, overwrite=True, concat=False)
 # Move an item from key_src to key_dst.
 # It can be used to rename a key.
 # If key_dst exists, its value will be overwritten.
-d.move('a', 'b', overwrite=True)
+d.move("a", "b", overwrite=True)
 ```
 
 -   #### nest
@@ -382,7 +382,7 @@ d.move('a', 'b', overwrite=True)
 ```python
 # Nest a list of dicts at the given key and return a new nested list
 # using the specified keys to establish the correct items hierarchy.
-d.nest('values', id_key='id', parent_id_key='parent_id', children_key='children')
+d.nest("values", id_key="id", parent_id_key="parent_id", children_key="children")
 ```
 
 -   #### remove
@@ -390,22 +390,22 @@ d.nest('values', id_key='id', parent_id_key='parent_id', children_key='children'
 ```python
 # Remove multiple keys from the dict.
 # It is possible to pass a single key or more keys (as list or *args).
-d.remove(['firstname', 'lastname', 'email'])
+d.remove(["firstname", "lastname", "email"])
 ```
 
 -   #### rename
 
 ```python
-# Rename a dict item key from 'key' to 'key_new'.
+# Rename a dict item key from "key" to "key_new".
 # If key_new exists, a KeyError will be raised.
-d.rename('first_name', 'firstname')
+d.rename("first_name", "firstname")
 ```
 
 -   #### search
 
 ```python
 # Search and return a list of items (dict, key, value, ) matching the given query.
-r = d.search('hello', in_keys=True, in_values=True, exact=False, case_sensitive=False)
+r = d.search("hello", in_keys=True, in_values=True, exact=False, case_sensitive=False)
 ```
 
 -   #### standardize
@@ -420,14 +420,14 @@ d.standardize()
 ```python
 # Return a dict subset for the given keys.
 # It is possible to pass a single key or more keys (as list or *args).
-s = d.subset(['firstname', 'lastname', 'email'])
+s = d.subset(["firstname", "lastname", "email"])
 ```
 
 -   #### swap
 
 ```python
 # Swap items values at the given keys.
-d.swap('firstname', 'lastname')
+d.swap("firstname", "lastname")
 ```
 
 -   #### traverse
@@ -435,7 +435,7 @@ d.swap('firstname', 'lastname')
 ```python
 # Traverse a dict passing each item (dict, key, value) to the given callback function.
 def f(d, key, value):
-    print(f'dict: {d} - key: {key} - value: {value}')
+    print(f"dict: {d} - key: {key} - value: {value}")
 d.traverse(f)
 ```
 
@@ -443,7 +443,7 @@ d.traverse(f)
 
 ```python
 # Return a new unflattened dict using the given separator to split dict keys to nested keypaths.
-u = d.unflatten(separator='_')
+u = d.unflatten(separator="_")
 ```
 
 -   #### unique
@@ -455,17 +455,17 @@ d.unique()
 
 ### I/O methods
 
-It is possible to create a `benedict` instance directly from data-source (`filepath`, `url`, `s3` or `data-string`) by passing the data source and the data format (optional, default 'json') in the constructor.
+It is possible to create a `benedict` instance directly from data-source (`filepath`, `url`, `s3` or `data-string`) by passing the data source and the data format (optional, default "json") in the constructor.
 
 ```python
 # filepath
-d = benedict('/root/data.yml', format='yaml')
+d = benedict("/root/data.yml", format="yaml")
 
 # url
-d = benedict('https://localhost:8000/data.xml', format='xml')
+d = benedict("https://localhost:8000/data.xml", format="xml")
 
 # s3
-d = benedict('s3://my-bucket/data.xml', s3_options={"aws_access_key_id": "...", "aws_secret_access_key": "..."})
+d = benedict("s3://my-bucket/data.xml", s3_options={"aws_access_key_id": "...", "aws_secret_access_key": "..."})
 
 # data-string
 d = benedict('{"a": 1, "b": 2, "c": 3, "x": 7, "y": 8, "z": 9}')
@@ -475,7 +475,7 @@ These methods simplify I/O operations with most common formats: `base64`, `csv`,
 
 In all `from_*` methods, the first argument can be: **url**, **filepath** or **data-string**.
 
-In all `to_*` methods, if `filepath='...'` kwarg is specified, the output will be also **saved** at the specified filepath.
+In all `to_*` methods, if `filepath="..."` kwarg is specified, the output will be also **saved** at the specified filepath.
 
 -   #### from_base64
 
@@ -483,10 +483,10 @@ In all `to_*` methods, if `filepath='...'` kwarg is specified, the output will b
 # Try to load/decode a base64 encoded data and return it as benedict instance.
 # Accept as first argument: url, filepath or data-string.
 # It's possible to choose the subformat used under the hood:
-# (`csv`, `json`, `query-string`, `toml`, `xml`, `yaml`), default: 'json'.
+# ('csv', 'json', 'query-string', 'toml', 'xml', 'yaml'), default: 'json'.
 # It's possible to choose the encoding, default 'utf-8'.
 # A ValueError is raised in case of failure.
-d = benedict.from_base64(s, subformat='json', encoding='utf-8', **kwargs)
+d = benedict.from_base64(s, subformat="json", encoding="utf-8", **kwargs)
 ```
 
 -   #### from_csv
@@ -604,11 +604,11 @@ d = benedict.from_yaml(s, **kwargs)
 ```python
 # Return the dict instance encoded in base64 format and optionally save it at the specified 'filepath'.
 # It's possible to choose the subformat used under the hood:
-# ('csv', json', `query-string`, 'toml', 'xml', 'yaml'), default: 'json'.
+# ('csv', json', 'query-string', 'toml', 'xml', 'yaml'), default: 'json'.
 # It's possible to choose the encoding, default 'utf-8'.
 # It's possible to pass decoder specific options using kwargs.
 # A ValueError is raised in case of failure.
-s = d.to_base64(subformat='json', encoding='utf-8', **kwargs)
+s = d.to_base64(subformat="json", encoding="utf-8", **kwargs)
 ```
 
 -   #### to_csv
@@ -618,7 +618,7 @@ s = d.to_base64(subformat='json', encoding='utf-8', **kwargs)
 # It's possible to specify the key of the item (list of dicts) to encode, default: 'values'.
 # It's possible to specify the columns list, default: None (in this case the keys of the first item will be used).
 # A ValueError is raised in case of failure.
-s = d.to_csv(key='values', columns=None, columns_row=True, **kwargs)
+s = d.to_csv(key="values", columns=None, columns_row=True, **kwargs)
 ```
 
 -   #### to_ini
@@ -718,7 +718,7 @@ d.get_bool(key, default=False)
 ```python
 # Get value by key or keypath trying to return it as list of bool values.
 # If separator is specified and value is a string it will be splitted.
-d.get_bool_list(key, default=[], separator=',')
+d.get_bool_list(key, default=[], separator=",")
 ```
 
 -   #### get_date
@@ -735,7 +735,7 @@ d.get_date(key, default=None, format=None, choices=[])
 ```python
 # Get value by key or keypath trying to return it as list of date values.
 # If separator is specified and value is a string it will be splitted.
-d.get_date_list(key, default=[], format=None, separator=',')
+d.get_date_list(key, default=[], format=None, separator=",")
 ```
 
 -   #### get_datetime
@@ -752,7 +752,7 @@ d.get_datetime(key, default=None, format=None, choices=[])
 ```python
 # Get value by key or keypath trying to return it as list of datetime values.
 # If separator is specified and value is a string it will be splitted.
-d.get_datetime_list(key, default=[], format=None, separator=',')
+d.get_datetime_list(key, default=[], format=None, separator=",")
 ```
 
 -   #### get_decimal
@@ -760,7 +760,7 @@ d.get_datetime_list(key, default=[], format=None, separator=',')
 ```python
 # Get value by key or keypath trying to return it as Decimal.
 # If choices and value is in choices return value otherwise default.
-d.get_decimal(key, default=Decimal('0.0'), choices=[])
+d.get_decimal(key, default=Decimal("0.0"), choices=[])
 ```
 
 -   #### get_decimal_list
@@ -768,7 +768,7 @@ d.get_decimal(key, default=Decimal('0.0'), choices=[])
 ```python
 # Get value by key or keypath trying to return it as list of Decimal values.
 # If separator is specified and value is a string it will be splitted.
-d.get_decimal_list(key, default=[], separator=',')
+d.get_decimal_list(key, default=[], separator=",")
 ```
 
 -   #### get_dict
@@ -785,7 +785,7 @@ d.get_dict(key, default={})
 # Get email by key or keypath and return it.
 # If value is blacklisted it will be automatically ignored.
 # If check_blacklist is False, it will be not ignored even if blacklisted.
-d.get_email(key, default='', choices=None, check_blacklist=True)
+d.get_email(key, default="", choices=None, check_blacklist=True)
 ```
 
 -   #### get_float
@@ -801,7 +801,7 @@ d.get_float(key, default=0.0, choices=[])
 ```python
 # Get value by key or keypath trying to return it as list of float values.
 # If separator is specified and value is a string it will be splitted.
-d.get_float_list(key, default=[], separator=',')
+d.get_float_list(key, default=[], separator=",")
 ```
 
 -   #### get_int
@@ -817,7 +817,7 @@ d.get_int(key, default=0, choices=[])
 ```python
 # Get value by key or keypath trying to return it as list of int values.
 # If separator is specified and value is a string it will be splitted.
-d.get_int_list(key, default=[], separator=',')
+d.get_int_list(key, default=[], separator=",")
 ```
 
 -   #### get_list
@@ -825,7 +825,7 @@ d.get_int_list(key, default=[], separator=',')
 ```python
 # Get value by key or keypath trying to return it as list.
 # If separator is specified and value is a string it will be splitted.
-d.get_list(key, default=[], separator=',')
+d.get_list(key, default=[], separator=",")
 ```
 
 -   #### get_list_item
@@ -833,7 +833,7 @@ d.get_list(key, default=[], separator=',')
 ```python
 # Get list by key or keypath and return value at the specified index.
 # If separator is specified and list value is a string it will be splitted.
-d.get_list_item(key, index=0, default=None, separator=',')
+d.get_list_item(key, index=0, default=None, separator=",")
 ```
 
 -   #### get_phonenumber
@@ -849,7 +849,7 @@ d.get_phonenumber(key, country_code=None, default=None)
 ```python
 # Get value by key or keypath trying to return it as slug.
 # If choices and value is in choices return value otherwise default.
-d.get_slug(key, default='', choices=[])
+d.get_slug(key, default="", choices=[])
 ```
 
 -   #### get_slug_list
@@ -857,7 +857,7 @@ d.get_slug(key, default='', choices=[])
 ```python
 # Get value by key or keypath trying to return it as list of slug values.
 # If separator is specified and value is a string it will be splitted.
-d.get_slug_list(key, default=[], separator=',')
+d.get_slug_list(key, default=[], separator=",")
 ```
 
 -   #### get_str
@@ -866,7 +866,7 @@ d.get_slug_list(key, default=[], separator=',')
 # Get value by key or keypath trying to return it as string.
 # Encoding issues will be automatically fixed.
 # If choices and value is in choices return value otherwise default.
-d.get_str(key, default='', choices=[])
+d.get_str(key, default="", choices=[])
 ```
 
 -   #### get_str_list
@@ -874,7 +874,7 @@ d.get_str(key, default='', choices=[])
 ```python
 # Get value by key or keypath trying to return it as list of str values.
 # If separator is specified and value is a string it will be splitted.
-d.get_str_list(key, default=[], separator=',')
+d.get_str_list(key, default=[], separator=",")
 ```
 
 -   #### get_uuid
@@ -882,7 +882,7 @@ d.get_str_list(key, default=[], separator=',')
 ```python
 # Get value by key or keypath trying to return it as valid uuid.
 # If choices and value is in choices return value otherwise default.
-d.get_uuid(key, default='', choices=[])
+d.get_uuid(key, default="", choices=[])
 ```
 
 -   #### get_uuid_list
@@ -890,7 +890,7 @@ d.get_uuid(key, default='', choices=[])
 ```python
 # Get value by key or keypath trying to return it as list of valid uuid values.
 # If separator is specified and value is a string it will be splitted.
-d.get_uuid_list(key, default=[], separator=',')
+d.get_uuid_list(key, default=[], separator=",")
 ```
 
 ## Testing
