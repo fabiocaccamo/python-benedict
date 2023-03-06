@@ -19,6 +19,7 @@ class pickle_test_case(unittest.TestCase):
             "f": "",
             "g": None,
             "h": "0",
+            "i": benedict({"h": True}),
         }
         b = benedict(d, keypath_separator="/")
         b_encoded = pickle.dumps(b)

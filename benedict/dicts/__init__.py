@@ -30,20 +30,29 @@ from benedict.core import traverse as _traverse
 from benedict.core import unflatten as _unflatten
 from benedict.core import unique as _unique
 from benedict.dicts.io import IODict
+from benedict.dicts.keyattr import KeyattrDict
 from benedict.dicts.keylist import KeylistDict
 from benedict.dicts.keypath import KeypathDict
 from benedict.dicts.parse import ParseDict
 
-__all__ = ["benedict", "IODict", "KeylistDict", "KeypathDict", "ParseDict"]
+__all__ = [
+    "benedict",
+    "IODict",
+    "KeyattrDict",
+    "KeylistDict",
+    "KeypathDict",
+    "ParseDict",
+]
 
 
-class benedict(KeypathDict, IODict, ParseDict):
+class benedict(KeyattrDict, KeypathDict, IODict, ParseDict):
     def __init__(self, *args, **kwargs):
         """
         Constructs a new instance.
         """
         if len(args) == 1 and isinstance(args[0], benedict):
             obj = args[0]
+            kwargs.setdefault("keyattr_enabled", obj.keyattr_enabled)
             kwargs.setdefault("keypath_separator", obj.keypath_separator)
             super().__init__(obj.dict(), **kwargs)
             return
@@ -51,13 +60,19 @@ class benedict(KeypathDict, IODict, ParseDict):
 
     def __deepcopy__(self, memo):
         obj_type = type(self)
-        obj = obj_type(keypath_separator=self._keypath_separator)
+        obj = obj_type(
+            keyattr_enabled=self._keyattr_enabled,
+            keypath_separator=self._keypath_separator,
+        )
         for key, value in self.items():
             obj[key] = _clone(value, memo=memo)
         return obj
 
     def __getitem__(self, key):
         return self._cast(super().__getitem__(key))
+
+    def __setitem__(self, key, value):
+        return super().__setitem__(key, self._cast(value))
 
     def _cast(self, value):
         """
@@ -67,8 +82,14 @@ class benedict(KeypathDict, IODict, ParseDict):
         obj_type = type(self)
         if isinstance(value, dict) and not isinstance(value, obj_type):
             return obj_type(
-                value, keypath_separator=self._keypath_separator, check_keys=False
+                value,
+                keyattr_enabled=self._keyattr_enabled,
+                keypath_separator=self._keypath_separator,
+                check_keys=False,
             )
+        elif isinstance(value, list):
+            for index, item in enumerate(value):
+                value[index] = self._cast(item)
         return value
 
     def clean(self, strings=True, collections=True):
