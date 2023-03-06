@@ -18,7 +18,7 @@ python-benedict is a dict subclass with **keylist/keypath** support, **I/O** sho
 
 ## Features
 -   100% **backward-compatible**, you can safely wrap existing dictionaries.
--   `NEW` **Keyattr** support for accessing items using keys as attributes: `my_dict.results[0].name` *(disabled by default)*.
+-   `NEW` **Keyattr** support for get/set items using keys as attributes: `my_dict.results[0].name` *(disabled by default)*.
 -   **Keylist** support using **list of keys** as key.
 -   **Keypath** support using **keypath-separator** *(dot syntax by default)*.
 -   Keypath **list-index** support  *(also negative)* using the standard `[n]` suffix.
