@@ -92,9 +92,11 @@ class benedict_keyattr_test_case(unittest.TestCase):
         with self.assertRaises(AttributeError):
             b.items.append([4, 5, 6])
 
-    def test_keyattr_enabled_from_constructor(self):
+    def test_keyattr_enabled_default(self):
         d = benedict()
-        self.assertFalse(d.keyattr_enabled)
+        self.assertTrue(d.keyattr_enabled)
+
+    def test_keyattr_enabled_from_constructor(self):
         d = benedict(keyattr_enabled=True)
         self.assertTrue(d.keyattr_enabled)
         d = benedict(keyattr_enabled=False)
@@ -102,8 +104,7 @@ class benedict_keyattr_test_case(unittest.TestCase):
 
     def test_keyattr_enabled_getter_setter(self):
         d = benedict()
+        d.keyattr_enabled = False
         self.assertFalse(d.keyattr_enabled)
         d.keyattr_enabled = True
         self.assertTrue(d.keyattr_enabled)
-        d.keyattr_enabled = False
-        self.assertFalse(d.keyattr_enabled)

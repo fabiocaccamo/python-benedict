@@ -18,7 +18,7 @@ python-benedict is a dict subclass with **keylist/keypath** support, **I/O** sho
 
 ## Features
 -   100% **backward-compatible**, you can safely wrap existing dictionaries.
--   `NEW` **Keyattr** support for get/set items using keys as attributes: `my_dict.results[0].name` *(disabled by default)*.
+-   `NEW` **Keyattr** support for get/set items using **keys as attributes**.
 -   **Keylist** support using **list of keys** as key.
 -   **Keypath** support using **keypath-separator** *(dot syntax by default)*.
 -   Keypath **list-index** support  *(also negative)* using the standard `[n]` suffix.
@@ -89,15 +89,24 @@ page = params.get_int("page", 1)
 ### Keyattr
 It is possible to get/set items using **keys as attributes** (dotted notation).
 
-**By default this feature is disabled** due to its *implicit* limitations: it works only for string keys and only if the keys don't clash with the supported methods names.
-
-You can enable the keyattr functionality passing the `keyattr_enabled` argument in the constructor and enable/disable it at any time using the `getter/setter` property.
-
 ```python
 d = benedict(keyattr_enabled=True)
 d.profile.firstname = "Fabio"
 d.profile.lastname = "Caccamo"
 print(d) # -> { "profile":{ "firstname":"Fabio", "lastname":"Caccamo" } }
+```
+
+#### Disable keyattr functionality
+You can disable the keyattr functionality passing `keyattr_enabled=False` in the constructor.
+
+```python
+d = benedict(existing_dict, keyattr_enabled=False)
+```
+
+You can disable the keyattr functionality using the `getter/setter` property.
+
+```python
+d.keyattr_enabled = False
 ```
 
 ### Keylist

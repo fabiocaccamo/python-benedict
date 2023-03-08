@@ -5,7 +5,7 @@ class KeyattrDict(BaseDict):
     _keyattr_enabled = None
 
     def __init__(self, *args, **kwargs):
-        self._keyattr_enabled = kwargs.pop("keyattr_enabled", False)
+        self._keyattr_enabled = kwargs.pop("keyattr_enabled", True)
         super().__init__(*args, **kwargs)
 
     @property
