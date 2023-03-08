@@ -2,19 +2,13 @@ import fsutil
 
 try:
     from openpyxl import load_workbook
-
-    openpyxl_installed = True
-except ModuleNotFoundError:
-    openpyxl_installed = False
-
-from slugify import slugify
-
-try:
     from xlrd import open_workbook
 
-    xlrd_installed = True
+    xls_installed = True
 except ModuleNotFoundError:
-    xlrd_installed = False
+    xls_installed = False
+
+from slugify import slugify
 
 from benedict.extras import require_xls
 from benedict.serializers.abstract import AbstractSerializer
@@ -152,7 +146,7 @@ class XLSSerializer(AbstractSerializer):
         return items
 
     def decode(self, s, **kwargs):
-        require_xls(installed=(openpyxl_installed, xlrd_installed))
+        require_xls(installed=xls_installed)
         extension = fsutil.get_file_extension(s)
         if extension in ["xlsx", "xlsm"]:
             return self._decode(s, **kwargs)
@@ -160,5 +154,5 @@ class XLSSerializer(AbstractSerializer):
             return self._decode_legacy(s, **kwargs)
 
     def encode(self, d, **kwargs):
-        # require_xls(installed=(openpyxl_installed, xlrd_installed))
+        # require_xls(installed=xls_installed)
         raise NotImplementedError

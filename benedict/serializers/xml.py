@@ -1,9 +1,9 @@
 try:
     import xmltodict
 
-    xmltodict_installed = True
+    xml_installed = True
 except ModuleNotFoundError:
-    xmltodict_installed = False
+    xml_installed = False
 
 
 from benedict.extras import require_xml
@@ -23,12 +23,12 @@ class XMLSerializer(AbstractSerializer):
         )
 
     def decode(self, s, **kwargs):
-        require_xml(installed=xmltodict_installed)
+        require_xml(installed=xml_installed)
         kwargs.setdefault("dict_constructor", dict)
         data = xmltodict.parse(s, **kwargs)
         return data
 
     def encode(self, d, **kwargs):
-        require_xml(installed=xmltodict_installed)
+        require_xml(installed=xml_installed)
         data = xmltodict.unparse(d, **kwargs)
         return data

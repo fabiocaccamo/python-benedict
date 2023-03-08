@@ -6,9 +6,9 @@ from urllib.parse import urlparse
 try:
     import boto3
 
-    boto3_installed = True
+    s3_installed = True
 except ModuleNotFoundError:
-    boto3_installed = False
+    s3_installed = False
 
 import fsutil
 
@@ -115,7 +115,7 @@ def read_content_from_file(filepath, format=None):
 
 
 def read_content_from_s3(url, s3_options, format=None):
-    require_s3(installed=boto3_installed)
+    require_s3(installed=s3_installed)
     s3_url = parse_s3_url(url)
     dirpath = tempfile.gettempdir()
     filename = fsutil.get_filename(s3_url["key"])
@@ -148,7 +148,7 @@ def write_content_to_file(filepath, content, **options):
 
 
 def write_content_to_s3(url, content, s3_options, **options):
-    require_s3(installed=boto3_installed)
+    require_s3(installed=s3_installed)
     s3_url = parse_s3_url(url)
     dirpath = tempfile.gettempdir()
     filename = fsutil.get_filename(s3_url["key"])
