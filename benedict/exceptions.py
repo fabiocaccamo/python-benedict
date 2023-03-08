@@ -3,6 +3,6 @@ class ExtrasRequireModuleNotFoundError(ModuleNotFoundError):
         message = (
             f"{package!r} module not found, "
             f"you can install it by running: "
-            'python -m pip install "python-benedict[{target}]"'
+            f"'python -m pip install \"python-benedict[{target}]\"'"
         )
         super().__init__(message)
