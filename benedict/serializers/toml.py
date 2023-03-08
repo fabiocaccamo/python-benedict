@@ -1,4 +1,9 @@
-import toml
+try:
+    import toml
+
+    toml_installed = True
+except ModuleNotFoundError:
+    toml_installed = False
 
 try:
     # python >= 3.11
@@ -8,6 +13,7 @@ try:
 except ImportError:
     tomllib_available = False
 
+from benedict.extras import require_toml
 from benedict.serializers.abstract import AbstractSerializer
 
 
@@ -27,9 +33,11 @@ class TOMLSerializer(AbstractSerializer):
         if tomllib_available:
             data = tomllib.loads(s, **kwargs)
         else:
+            require_toml(installed=toml_installed)
             data = toml.loads(s, **kwargs)
         return data
 
     def encode(self, d, **kwargs):
+        require_toml(installed=toml_installed)
         data = toml.dumps(dict(d), **kwargs)
         return data

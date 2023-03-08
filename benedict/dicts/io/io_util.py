@@ -3,9 +3,16 @@ import tempfile
 # from botocore.exceptions import ClientError
 from urllib.parse import urlparse
 
-import boto3
+try:
+    import boto3
+
+    s3_installed = True
+except ModuleNotFoundError:
+    s3_installed = False
+
 import fsutil
 
+from benedict.extras import require_s3
 from benedict.serializers import get_format_by_path, get_serializer_by_format
 
 
@@ -54,11 +61,13 @@ def is_data(s):
 
 
 def is_filepath(s):
-    return fsutil.is_file(s) or get_format_by_path(s)
+    return fsutil.is_file(s) or (
+        get_format_by_path(s) and not is_data(s) and not is_s3(s) and not is_url(s)
+    )
 
 
 def is_s3(s):
-    return s.startswith("s3://") and get_format_by_path(s)
+    return s.startswith("s3://")
 
 
 def is_url(s):
@@ -106,6 +115,7 @@ def read_content_from_file(filepath, format=None):
 
 
 def read_content_from_s3(url, s3_options, format=None):
+    require_s3(installed=s3_installed)
     s3_url = parse_s3_url(url)
     dirpath = tempfile.gettempdir()
     filename = fsutil.get_filename(s3_url["key"])
@@ -138,6 +148,7 @@ def write_content_to_file(filepath, content, **options):
 
 
 def write_content_to_s3(url, content, s3_options, **options):
+    require_s3(installed=s3_installed)
     s3_url = parse_s3_url(url)
     dirpath = tempfile.gettempdir()
     filename = fsutil.get_filename(s3_url["key"])

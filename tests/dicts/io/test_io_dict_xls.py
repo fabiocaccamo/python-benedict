@@ -1,6 +1,9 @@
+from unittest.mock import patch
+
 from decouple import config
 
 from benedict.dicts.io import IODict
+from benedict.exceptions import ExtrasRequireModuleNotFoundError
 
 from .test_io_dict import io_dict_test_case
 
@@ -67,6 +70,23 @@ class io_dict_xls_test_case(io_dict_test_case):
                 d = IODict(filepath)
                 self.assertTrue(isinstance(d, dict))
                 self.assertEqual(d, expected_dict)
+
+    @patch("benedict.serializers.xls.xls_installed", False)
+    def test_from_xls_with_valid_file_valid_content_but_xls_extra_not_installed(self):
+        for extension in self._extensions:
+            with self.subTest(
+                msg=f"test_from_xls_({extension})_with_valid_file_valid_content_but_xls_extra_not_installed"
+            ):
+                filepath = self.input_path(f"valid-content.{extension}")
+                # static method
+                with self.assertRaises(ExtrasRequireModuleNotFoundError):
+                    _ = IODict.from_xls(filepath)
+                # constructor explicit format
+                with self.assertRaises(ExtrasRequireModuleNotFoundError):
+                    _ = IODict(filepath, format=extension)
+                # constructor implicit format
+                with self.assertRaises(ExtrasRequireModuleNotFoundError):
+                    _ = IODict(filepath)
 
     def test_from_xls_with_valid_url_valid_content(self):
         expected_dict = {
@@ -257,3 +277,18 @@ class io_dict_xls_test_case(io_dict_test_case):
                 # constructor implicit format
                 with self.assertRaises(ValueError):
                     IODict(url)
+
+    def test_to_xls(self):
+        d = IODict(
+            {
+                "values": [
+                    {"x": "1"},
+                    {"x": "2"},
+                    {"x": "3"},
+                    {"x": "4"},
+                    {"x": "5"},
+                ],
+            }
+        )
+        with self.assertRaises(NotImplementedError):
+            _ = d.to_xls()
