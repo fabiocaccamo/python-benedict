@@ -1,5 +1,13 @@
 from benedict.exceptions import ExtrasRequireModuleNotFoundError
 
+__all__ = [
+    "require_s3",
+    "require_toml",
+    "require_xls",
+    "require_xml",
+    "require_yaml",
+]
+
 
 def _require_optional_module(*, installed, package, target):
     if not installed:
