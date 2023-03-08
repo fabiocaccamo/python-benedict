@@ -29,6 +29,7 @@ python-benedict is a dict subclass with **keylist/keypath** support, **I/O** sho
 
 ## Index
 -   [Installation](#installation)
+    -   [Optional Requirements](#optional-requirements)
 -   [Usage](#usage)
     -   [Basics](#basics)
     -   [Keyattr](#keyattr)
@@ -46,7 +47,21 @@ python-benedict is a dict subclass with **keylist/keypath** support, **I/O** sho
 -   [License](#license)
 
 ## Installation
--   Run `pip install python-benedict`
+If you want to install **everything**:
+-   Run `pip install "python-benedict[all]"`
+
+alternatively you can install the main package:
+-   Run `pip install python-benedict`, then install only the [optional requirements](#optional-requirements) you need.
+
+### Optional Requirements
+Here the hierarchy of possible installation targets available when running `pip install "python-benedict[...]"`:
+- `[all]`
+    - `[io]`
+        - `[toml]`
+        - `[xls]`
+        - `[xml]`
+        - `[yaml]`
+    - `[s3]`
 
 ## Usage
 
