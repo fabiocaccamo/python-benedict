@@ -1,8 +1,8 @@
 class ExtrasRequireModuleNotFoundError(ModuleNotFoundError):
     def __init__(self, *, package, target):
         message = (
-            f"Required optional module {package!r} not found, "
-            f"consider to install it by running: "
-            'python -m pip install "python-benedict[{target}]'
+            f"{package!r} module not found, "
+            f"you can install it by running: "
+            'python -m pip install "python-benedict[{target}]"'
         )
         super().__init__(message)
