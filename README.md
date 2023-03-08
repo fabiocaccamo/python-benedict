@@ -90,7 +90,7 @@ page = params.get_int("page", 1)
 It is possible to get/set items using **keys as attributes** (dotted notation).
 
 ```python
-d = benedict(keyattr_enabled=True)
+d = benedict()
 d.profile.firstname = "Fabio"
 d.profile.lastname = "Caccamo"
 print(d) # -> { "profile":{ "firstname":"Fabio", "lastname":"Caccamo" } }
