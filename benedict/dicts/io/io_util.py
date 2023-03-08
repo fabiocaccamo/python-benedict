@@ -61,7 +61,9 @@ def is_data(s):
 
 
 def is_filepath(s):
-    return fsutil.is_file(s) or get_format_by_path(s)
+    return fsutil.is_file(s) or (
+        get_format_by_path(s) and not is_data(s) and not is_s3(s) and not is_url(s)
+    )
 
 
 def is_s3(s):
