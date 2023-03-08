@@ -1,7 +1,20 @@
 import fsutil
-from openpyxl import load_workbook
+
+try:
+    from openpyxl import load_workbook
+
+    openpyxl_installed = True
+except ModuleNotFoundError:
+    openpyxl_installed = False
+
 from slugify import slugify
-from xlrd import open_workbook
+
+try:
+    from xlrd import open_workbook
+
+    xlrd_installed = True
+except ModuleNotFoundError:
+    xlrd_installed = False
 
 from benedict.serializers.abstract import AbstractSerializer
 

@@ -1,4 +1,9 @@
-import toml
+try:
+    import toml
+
+    toml_installed = True
+except ModuleNotFoundError:
+    toml_installed = False
 
 try:
     # python >= 3.11

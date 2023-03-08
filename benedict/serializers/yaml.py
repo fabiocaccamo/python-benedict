@@ -1,4 +1,10 @@
-import yaml
+try:
+    import yaml
+
+    yaml_installed = True
+except ModuleNotFoundError:
+    yaml_installed = False
+
 
 from benedict.serializers.abstract import AbstractSerializer
 from benedict.serializers.json import JSONSerializer

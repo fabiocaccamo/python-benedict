@@ -1,4 +1,10 @@
-import xmltodict
+try:
+    import xmltodict
+
+    xmltodict_installed = True
+except ModuleNotFoundError:
+    xmltodict_installed = False
+
 
 from benedict.serializers.abstract import AbstractSerializer
 

@@ -3,7 +3,13 @@ import tempfile
 # from botocore.exceptions import ClientError
 from urllib.parse import urlparse
 
-import boto3
+try:
+    import boto3
+
+    boto3_installed = True
+except ModuleNotFoundError:
+    boto3_installed = False
+
 import fsutil
 
 from benedict.serializers import get_format_by_path, get_serializer_by_format
