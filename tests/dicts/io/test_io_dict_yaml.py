@@ -1,4 +1,7 @@
+from unittest.mock import patch
+
 from benedict.dicts.io import IODict
+from benedict.exceptions import ExtrasRequireModuleNotFoundError
 
 from .test_io_dict import io_dict_test_case
 
@@ -41,6 +44,21 @@ b:
                 },
             },
         )
+
+    @patch("benedict.serializers.yaml.yaml_installed", False)
+    def test_from_yaml_with_extra_not_installed(self):
+        j = """
+a: 1
+b:
+  c: 3
+  d: 4
+"""
+        # static method
+        with self.assertRaises(ExtrasRequireModuleNotFoundError):
+            _ = IODict.from_yaml(j)
+        # constructor
+        with self.assertRaises(ExtrasRequireModuleNotFoundError):
+            _ = IODict(j, format="yaml")
 
     def test_from_yaml_with_invalid_data(self):
         j = "Lorem ipsum est in ea occaecat nisi officia."
@@ -157,3 +175,15 @@ b:
         d.to_yaml(filepath=filepath)
         self.assertFileExists(filepath)
         self.assertEqual(d, IODict.from_yaml(filepath))
+
+    @patch("benedict.serializers.yaml.yaml_installed", False)
+    def test_to_yaml_with_extra_not_installed(self):
+        d = IODict(
+            {
+                "a": 1,
+                "b": 2,
+                "c": 3,
+            }
+        )
+        with self.assertRaises(ExtrasRequireModuleNotFoundError):
+            _ = d.to_yaml()

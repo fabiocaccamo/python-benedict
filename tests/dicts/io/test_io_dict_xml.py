@@ -1,4 +1,7 @@
+from unittest.mock import patch
+
 from benedict.dicts.io import IODict
+from benedict.exceptions import ExtrasRequireModuleNotFoundError
 
 from .test_io_dict import io_dict_test_case
 
@@ -39,6 +42,25 @@ class io_dict_xml_test_case(io_dict_test_case):
                 "b": {"c": "3", "d": "4"},
             },
         )
+
+    @patch("benedict.serializers.xml.xml_installed", False)
+    def test_from_xml_with_extra_not_installed(self):
+        j = """
+<?xml version="1.0" ?>
+<root>
+    <a>1</a>
+    <b>
+        <c>3</c>
+        <d>4</d>
+    </b>
+</root>
+"""
+        # static method
+        with self.assertRaises(ExtrasRequireModuleNotFoundError):
+            _ = IODict.from_xml(j)
+        # constructor
+        with self.assertRaises(ExtrasRequireModuleNotFoundError):
+            _ = IODict(j, format="xml")
 
     def test_from_xml_with_invalid_data(self):
         j = "Lorem ipsum est in ea occaecat nisi officia."
@@ -159,3 +181,17 @@ class io_dict_xml_test_case(io_dict_test_case):
         d.to_xml(filepath=filepath)
         self.assertFileExists(filepath)
         self.assertEqual(d, IODict.from_xml(filepath))
+
+    @patch("benedict.serializers.xml.xml_installed", False)
+    def test_to_xml_with_extra_not_installed(self):
+        d = IODict(
+            {
+                "root": {
+                    "a": "1",
+                    "b": "2",
+                    "c": "3",
+                },
+            }
+        )
+        with self.assertRaises(ExtrasRequireModuleNotFoundError):
+            _ = d.to_xml()

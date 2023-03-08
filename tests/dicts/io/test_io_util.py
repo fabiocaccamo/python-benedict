@@ -1,8 +1,10 @@
 import unittest
+from unittest.mock import patch
 
 from decouple import config
 
 from benedict.dicts.io import io_util
+from benedict.exceptions import ExtrasRequireModuleNotFoundError
 
 
 class io_util_test_case(unittest.TestCase):
@@ -105,3 +107,33 @@ class io_util_test_case(unittest.TestCase):
         io_util.write_content_to_s3(filepath, "ok", s3_options=s3_options)
         content = io_util.read_content_from_s3(filepath, s3_options=s3_options)
         self.assertEqual(content, "ok")
+
+    def test_write_and_read_content_s3_with_s3_url_autodetection(self):
+        aws_access_key_id = config("AWS_ACCESS_KEY_ID", default=None)
+        aws_secret_access_key = config("AWS_SECRET_ACCESS_KEY", default=None)
+        if not all([aws_access_key_id, aws_secret_access_key]):
+            # skip s3 on GH CI
+            return
+        s3_options = {
+            "aws_access_key_id": aws_access_key_id,
+            "aws_secret_access_key": aws_secret_access_key,
+        }
+        filepath = "s3://python-benedict/test-io.txt"
+        io_util.write_content(filepath, "ok", s3_options=s3_options)
+        content = io_util.read_content(filepath, options={"s3_options": s3_options})
+        self.assertEqual(content, "ok")
+
+    @patch("benedict.dicts.io.io_util.s3_installed", False)
+    def test_write_and_read_content_s3_with_s3_extra_not_installed(self):
+        aws_access_key_id = config("AWS_ACCESS_KEY_ID", default=None)
+        aws_secret_access_key = config("AWS_SECRET_ACCESS_KEY", default=None)
+        if not all([aws_access_key_id, aws_secret_access_key]):
+            # skip s3 on GH CI
+            return
+        s3_options = {
+            "aws_access_key_id": aws_access_key_id,
+            "aws_secret_access_key": aws_secret_access_key,
+        }
+        filepath = "s3://python-benedict/test-extras-require-s3.txt"
+        with self.assertRaises(ExtrasRequireModuleNotFoundError):
+            io_util.write_content_to_s3(filepath, "ok", s3_options=s3_options)
