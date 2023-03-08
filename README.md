@@ -54,7 +54,7 @@ alternatively you can install the main package:
 -   Run `pip install python-benedict`, then install only the [optional requirements](#optional-requirements) you need.
 
 ### Optional Requirements
-Here the hierarchy of possible installation targets available when running `pip install "python-benedict[...]"`:
+Here the hierarchy of possible installation targets available when running `pip install "python-benedict[...]"` *(each target installs all its sub-targets)*:
 - `[all]`
     - `[io]`
         - `[toml]`
