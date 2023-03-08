@@ -1,5 +1,6 @@
 from benedict.dicts.base import BaseDict
 from benedict.dicts.io import io_util
+from benedict.exceptions import ExtrasRequireModuleNotFoundError
 from benedict.utils import type_util
 
 
@@ -32,6 +33,8 @@ class IODict(BaseDict):
         data = None
         try:
             data = io_util.decode(s, format, **kwargs)
+        except ExtrasRequireModuleNotFoundError as e:
+            raise e
         except Exception as e:
             raise ValueError(
                 f"Invalid data or url or filepath argument: {s}\n{e}"
