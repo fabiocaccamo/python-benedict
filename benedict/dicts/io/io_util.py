@@ -12,6 +12,7 @@ except ModuleNotFoundError:
 
 import fsutil
 
+from benedict.extras import require_s3
 from benedict.serializers import get_format_by_path, get_serializer_by_format
 
 
@@ -112,6 +113,7 @@ def read_content_from_file(filepath, format=None):
 
 
 def read_content_from_s3(url, s3_options, format=None):
+    require_s3(installed=boto3_installed)
     s3_url = parse_s3_url(url)
     dirpath = tempfile.gettempdir()
     filename = fsutil.get_filename(s3_url["key"])
@@ -144,6 +146,7 @@ def write_content_to_file(filepath, content, **options):
 
 
 def write_content_to_s3(url, content, s3_options, **options):
+    require_s3(installed=boto3_installed)
     s3_url = parse_s3_url(url)
     dirpath = tempfile.gettempdir()
     filename = fsutil.get_filename(s3_url["key"])

@@ -16,6 +16,7 @@ try:
 except ModuleNotFoundError:
     xlrd_installed = False
 
+from benedict.extras import require_xls
 from benedict.serializers.abstract import AbstractSerializer
 
 
@@ -151,6 +152,7 @@ class XLSSerializer(AbstractSerializer):
         return items
 
     def decode(self, s, **kwargs):
+        require_xls(installed=(openpyxl_installed, xlrd_installed))
         extension = fsutil.get_file_extension(s)
         if extension in ["xlsx", "xlsm"]:
             return self._decode(s, **kwargs)
@@ -158,4 +160,5 @@ class XLSSerializer(AbstractSerializer):
             return self._decode_legacy(s, **kwargs)
 
     def encode(self, d, **kwargs):
+        # require_xls(installed=(openpyxl_installed, xlrd_installed))
         raise NotImplementedError
