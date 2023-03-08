@@ -65,7 +65,7 @@ def is_filepath(s):
 
 
 def is_s3(s):
-    return s.startswith("s3://") and get_format_by_path(s)
+    return s.startswith("s3://")
 
 
 def is_url(s):

@@ -58,6 +58,10 @@ class io_util_test_case(unittest.TestCase):
         path = "s3://my-folder/my-file.json"
         self.assertTrue(io_util.is_s3(path))
 
+    def test_is_s3_with_txt_document(self):
+        path = "s3://my-folder/my-file.txt"
+        self.assertTrue(io_util.is_s3(path))
+
     def test_is_url(self):
         path = "https://my-site.com/my-folder/my-file.json"
         self.assertTrue(io_util.is_url(path))
