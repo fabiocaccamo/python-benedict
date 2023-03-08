@@ -257,3 +257,18 @@ class io_dict_xls_test_case(io_dict_test_case):
                 # constructor implicit format
                 with self.assertRaises(ValueError):
                     IODict(url)
+
+    def test_to_xls(self):
+        d = IODict(
+            {
+                "values": [
+                    {"x": "1"},
+                    {"x": "2"},
+                    {"x": "3"},
+                    {"x": "4"},
+                    {"x": "5"},
+                ],
+            }
+        )
+        with self.assertRaises(NotImplementedError):
+            _ = d.to_xls()
