@@ -27,6 +27,21 @@ class benedict_keyattr_test_case(unittest.TestCase):
         b = benedict(d, keyattr_enabled=True)
         self.assertEqual(b.b, {})
 
+    def test_getitem_with_non_existing_protected_item(self):
+        d = {
+            "a": {
+                "b": {
+                    "c": "ok",
+                },
+            },
+        }
+        b = benedict(d, keyattr_enabled=True)
+        self.assertEqual(b.a.b.c, "ok")
+        with self.assertRaises(AttributeError):
+            b.__test__()
+        with self.assertRaises(AttributeError):
+            b.a.b.__test__()
+
     def test_getitem_with_keyattr_disabled(self):
         d = {
             "a": "ok",

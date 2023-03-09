@@ -23,6 +23,10 @@ class KeyattrDict(BaseDict):
         try:
             return self.__getitem__(attr)
         except KeyError:
+            if attr.startswith("_"):
+                raise AttributeError(
+                    f"{self.__class__.__name__!r} object has no attribute {attr!r}"
+                ) from None
             self.__setitem__(attr, {})
             return self.__getitem__(attr)
 
