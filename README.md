@@ -32,9 +32,9 @@ python-benedict is a dict subclass with **keylist/keypath** support, **I/O** sho
     -   [Optional Requirements](#optional-requirements)
 -   [Usage](#usage)
     -   [Basics](#basics)
-    -   [Keyattr](#keyattr)
-    -   [Keylist](#keylist)
-    -   [Keypath](#keypath)
+    -   [Keyattr](#keyattr) `my_dict.x.y.z`
+    -   [Keylist](#keylist) `my_dict["x", "y", "z"]`
+    -   [Keypath](#keypath) `my_dict["x.y.z"]`
         -   [Custom keypath separator](#custom-keypath-separator)
         -   [Change keypath separator](#change-keypath-separator)
         -   [Disable keypath functionality](#disable-keypath-functionality)
