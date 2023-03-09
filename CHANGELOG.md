@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.29.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.29.0) - 2023-03-09
+-  `NEW` Add `keyattr` *(keys as attributes)* support. (#257)
+-  `NEW` Separate installation targets (extras requires). #200 (#258)
+-  Fix set state when loading from pickle.
+-  Improve tests coverage.
+-  Upgrade syntax for `Python >= 3.8`.
+-  Reformat and cleanup code.
+-  Move `flake8` config to `setup.cfg`.
+-  Increase `flake8` checks.
+-  Add `flake8-bugbear` to `pre-commit`.
+-  Run `flake8` also on tests files.
+-  Run `pre-commit` also with `tox`.
+-  Rename default branch from `master` to `main`.
+-  Bump requirements.
+
 ## [0.28.3](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.28.3) - 2023-01-12
 -  Remove `tests/` from dist.
 -  Bump requirements.
