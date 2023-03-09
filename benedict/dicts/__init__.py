@@ -24,18 +24,12 @@ from benedict.core import unflatten as _unflatten
 from benedict.core import unique as _unique
 from benedict.dicts.io import IODict
 from benedict.dicts.keyattr import KeyattrDict
-from benedict.dicts.keylist import KeylistDict
 from benedict.dicts.keypath import KeypathDict
 from benedict.dicts.parse import ParseDict
 from benedict.serializers import JSONSerializer, YAMLSerializer
 
 __all__ = [
     "benedict",
-    "IODict",
-    "KeyattrDict",
-    "KeylistDict",
-    "KeypathDict",
-    "ParseDict",
 ]
 
 
