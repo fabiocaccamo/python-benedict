@@ -34,6 +34,10 @@ class KeypathDict(KeylistDict):
         keypath_util.check_keys(value, self._keypath_separator)
         super().__setitem__(self._parse_key(key), value)
 
+    def __setstate__(self, state):
+        super().__setstate__(state)
+        self._keypath_separator = state["_keypath_separator"]
+
     def _parse_key(self, key):
         keys = keypath_util.parse_keys(key, self._keypath_separator)
         keys_count = len(keys)

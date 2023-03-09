@@ -40,3 +40,7 @@ class KeyattrDict(BaseDict):
             if not self._keyattr_enabled:
                 raise AttributeError
             self.__setitem__(attr, value)
+
+    def __setstate__(self, state):
+        super().__setstate__(state)
+        self._keyattr_enabled = state["_keyattr_enabled"]

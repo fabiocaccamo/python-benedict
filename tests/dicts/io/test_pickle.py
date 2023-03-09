@@ -21,12 +21,17 @@ class pickle_test_case(unittest.TestCase):
             "h": "0",
             "i": benedict({"h": True}),
         }
-        b = benedict(d, keypath_separator="/")
+        b = benedict(
+            d,
+            keyattr_enabled=False,
+            keypath_separator="/",
+        )
         b_encoded = pickle.dumps(b)
         # print(b_encoded)
         b_decoded = pickle.loads(b_encoded)
         # print(b_decoded)
         # print(b_decoded.keypath_separator)
         self.assertTrue(isinstance(b_decoded, benedict))
+        self.assertEqual(b_decoded.keyattr_enabled, b.keyattr_enabled)
         self.assertEqual(b_decoded.keypath_separator, b.keypath_separator)
         self.assertEqual(b_decoded, b)
