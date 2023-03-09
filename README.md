@@ -109,6 +109,8 @@ You can disable the keyattr functionality using the `getter/setter` property.
 d.keyattr_enabled = False
 ```
 
+> **Warning** - even if this feature is very useful, it has some obvious limitations: it works only for string keys that are *unprotected* (not starting with an `_`) and that don't clash with the currently supported methods names.
+
 ### Keylist
 Wherever a **key** is used, it is possible to use also a **list (or a tuple) of keys**.
 
