@@ -1,10 +1,3 @@
-# fix benedict json dumps support - #57 #59 #61
-from json import encoder
-
-# fix benedict yaml representer - #43
-from yaml import SafeDumper
-from yaml.representer import SafeRepresenter
-
 from benedict.core import clean as _clean
 from benedict.core import clone as _clone
 from benedict.core import dump as _dump
@@ -34,6 +27,7 @@ from benedict.dicts.keyattr import KeyattrDict
 from benedict.dicts.keylist import KeylistDict
 from benedict.dicts.keypath import KeypathDict
 from benedict.dicts.parse import ParseDict
+from benedict.serializers import JSONSerializer, YAMLSerializer
 
 __all__ = [
     "benedict",
@@ -305,7 +299,7 @@ class benedict(KeyattrDict, KeypathDict, IODict, ParseDict):
 
 
 # fix benedict json dumps support - #57 #59 #61
-encoder.c_make_encoder = None
+JSONSerializer.disable_c_make_encoder()
 
 # fix benedict yaml representer - #43
-SafeDumper.yaml_representers[benedict] = SafeRepresenter.represent_dict
+YAMLSerializer.represent_dict_for_class(benedict)

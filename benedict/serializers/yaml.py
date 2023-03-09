@@ -1,6 +1,10 @@
 try:
     import yaml
 
+    # fix benedict yaml representer - #43
+    from yaml import SafeDumper
+    from yaml.representer import SafeRepresenter
+
     yaml_installed = True
 except ModuleNotFoundError:
     yaml_installed = False
@@ -15,6 +19,12 @@ class YAMLSerializer(AbstractSerializer):
     """
     This class describes an yaml serializer.
     """
+
+    @staticmethod
+    def represent_dict_for_class(cls):
+        if yaml_installed:
+            # fix benedict yaml representer - #43
+            SafeDumper.yaml_representers[cls] = SafeRepresenter.represent_dict
 
     def __init__(self):
         super().__init__(

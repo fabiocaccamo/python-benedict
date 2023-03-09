@@ -1,5 +1,8 @@
 import json
 
+# fix benedict json dumps support - #57 #59 #61
+from json import encoder
+
 from benedict.serializers.abstract import AbstractSerializer
 from benedict.utils import type_util
 
@@ -8,6 +11,10 @@ class JSONSerializer(AbstractSerializer):
     """
     This class describes a json serializer.
     """
+
+    @staticmethod
+    def disable_c_make_encoder():
+        encoder.c_make_encoder = None
 
     def __init__(self):
         super().__init__(
