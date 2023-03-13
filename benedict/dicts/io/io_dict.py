@@ -1,3 +1,5 @@
+import traceback
+
 from benedict.dicts.base import BaseDict
 from benedict.dicts.io import io_util
 from benedict.exceptions import ExtrasRequireModuleNotFoundError
@@ -35,10 +37,12 @@ class IODict(BaseDict):
             data = io_util.decode(s, format, **kwargs)
         except ExtrasRequireModuleNotFoundError as e:
             raise e
-        except Exception as e:
+        except Exception as error:
+            error_traceback = traceback.format_exc()
             raise ValueError(
-                f"Invalid data or url or filepath argument: {s}\n{e}"
-            ) from e
+                f"{error_traceback}\n"
+                f"Unexpected error / Invalid data or url or filepath argument: {s}\n{error}"
+            ) from None
         # if possible return data as dict, otherwise raise exception
         if type_util.is_dict(data):
             return data
