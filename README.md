@@ -933,6 +933,9 @@ python -m pip install --upgrade pip
 # install requirements
 pip install -r requirements.txt -r requirements-test.txt
 
+# install pre-commit to run formatters and linters
+pre-commit install --install-hooks
+
 # run tests using tox
 tox
 
