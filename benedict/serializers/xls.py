@@ -83,7 +83,7 @@ class XLSSerializer(AbstractSerializer):
 
         # standardize column names, eg. "Date Created" -> "date_created"
         if columns_standardized:
-            columns = [slugify(column, separator="_") for column in columns]
+            columns = [slugify(column or "", separator="_") for column in columns]
 
         # build list of dicts, one for each row
         items = []
