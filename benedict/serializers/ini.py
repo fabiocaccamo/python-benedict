@@ -1,5 +1,5 @@
 from configparser import DEFAULTSECT as default_section
-from configparser import ConfigParser
+from configparser import RawConfigParser
 from io import StringIO
 
 from benedict.serializers.abstract import AbstractSerializer
@@ -19,6 +19,14 @@ class INISerializer(AbstractSerializer):
         )
 
     @staticmethod
+    def _get_parser(options):
+        optionxform = options.pop("optionxform", lambda key: key)
+        parser = RawConfigParser(**options)
+        if optionxform and callable(optionxform):
+            parser.optionxform = optionxform
+        return parser
+
+    @staticmethod
     def _get_section_option_value(parser, section, option):
         value = None
         funcs = [parser.getint, parser.getfloat, parser.getboolean, parser.get]
@@ -31,7 +39,7 @@ class INISerializer(AbstractSerializer):
         return value
 
     def decode(self, s, **kwargs):
-        parser = ConfigParser(**kwargs)
+        parser = self._get_parser(options=kwargs)
         parser.read_string(s)
         data = {}
         for option, _ in parser.defaults().items():
@@ -47,7 +55,7 @@ class INISerializer(AbstractSerializer):
         return data
 
     def encode(self, d, **kwargs):
-        parser = ConfigParser(**kwargs)
+        parser = self._get_parser(options=kwargs)
         for key, value in d.items():
             if not type_util.is_dict(value):
                 parser.set(default_section, key, f"{value}")
