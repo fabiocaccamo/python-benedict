@@ -47,6 +47,7 @@ class benedict(KeyattrDict, KeypathDict, IODict, ParseDict):
         if len(args) == 1 and isinstance(args[0], benedict):
             obj = args[0]
             kwargs.setdefault("keyattr_enabled", obj.keyattr_enabled)
+            kwargs.setdefault("keyattr_dynamic", obj.keyattr_dynamic)
             kwargs.setdefault("keypath_separator", obj.keypath_separator)
             super().__init__(obj.dict(), **kwargs)
             return
@@ -56,6 +57,7 @@ class benedict(KeyattrDict, KeypathDict, IODict, ParseDict):
         obj_type = type(self)
         obj = obj_type(
             keyattr_enabled=self._keyattr_enabled,
+            keyattr_dynamic=self._keyattr_dynamic,
             keypath_separator=self._keypath_separator,
         )
         for key, value in self.items():
@@ -78,6 +80,7 @@ class benedict(KeyattrDict, KeypathDict, IODict, ParseDict):
             return obj_type(
                 value,
                 keyattr_enabled=self._keyattr_enabled,
+                keyattr_dynamic=self._keyattr_dynamic,
                 keypath_separator=self._keypath_separator,
                 check_keys=False,
             )
