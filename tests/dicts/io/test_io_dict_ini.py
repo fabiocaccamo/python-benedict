@@ -52,6 +52,54 @@ ForwardX11 = no
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, r)
 
+    def test_from_ini_with_valid_data_and_custom_optionxform(self):
+        s = """
+[DEFAULT]
+ServerAliveInterval = 45
+Compression = yes
+CompressionLevel = 9
+ForwardX11 = yes
+
+[bitbucket.org]
+User = hg
+
+[topsecret.server.com]
+Port = 50022
+ForwardX11 = no
+"""
+        # static method
+        r = {
+            "ServerAliveInterval": 45,
+            "Compression": True,
+            "CompressionLevel": 9,
+            "ForwardX11": True,
+            "bitbucket.org": {
+                "User": "hg",
+                "ServerAliveInterval": 45,
+                "Compression": True,
+                "CompressionLevel": 9,
+                "ForwardX11": True,
+            },
+            "topsecret.server.com": {
+                "Port": 50022,
+                "ForwardX11": False,
+                "ServerAliveInterval": 45,
+                "Compression": True,
+                "CompressionLevel": 9,
+            },
+        }
+
+        def optionxform(option):
+            return option
+
+        d = IODict.from_ini(s, optionxform=optionxform)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, r)
+        # constructor
+        d = IODict(s, format="ini", optionxform=optionxform)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, r)
+
     def test_from_ini_with_invalid_data(self):
         s = "Lorem ipsum est in ea occaecat nisi officia."
         # static method
