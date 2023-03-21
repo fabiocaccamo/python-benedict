@@ -25,50 +25,6 @@ ForwardX11 = no
 """
         # static method
         r = {
-            "serveraliveinterval": 45,
-            "compression": True,
-            "compressionlevel": 9,
-            "forwardx11": True,
-            "bitbucket.org": {
-                "user": "hg",
-                "serveraliveinterval": 45,
-                "compression": True,
-                "compressionlevel": 9,
-                "forwardx11": True,
-            },
-            "topsecret.server.com": {
-                "port": 50022,
-                "forwardx11": False,
-                "serveraliveinterval": 45,
-                "compression": True,
-                "compressionlevel": 9,
-            },
-        }
-        d = IODict.from_ini(s)
-        self.assertTrue(isinstance(d, dict))
-        self.assertEqual(d, r)
-        # constructor
-        d = IODict(s, format="ini")
-        self.assertTrue(isinstance(d, dict))
-        self.assertEqual(d, r)
-
-    def test_from_ini_with_valid_data_and_custom_optionxform(self):
-        s = """
-[DEFAULT]
-ServerAliveInterval = 45
-Compression = yes
-CompressionLevel = 9
-ForwardX11 = yes
-
-[bitbucket.org]
-User = hg
-
-[topsecret.server.com]
-Port = 50022
-ForwardX11 = no
-"""
-        # static method
-        r = {
             "ServerAliveInterval": 45,
             "Compression": True,
             "CompressionLevel": 9,
@@ -89,14 +45,104 @@ ForwardX11 = no
             },
         }
 
-        def optionxform(option):
-            return option
+        d = IODict.from_ini(s)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, r)
+        # constructor
+        d = IODict(s, format="ini")
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, r)
+
+    def test_from_ini_with_valid_data_and_optionxform_custom(self):
+        s = """
+[DEFAULT]
+ServerAliveInterval = 45
+Compression = yes
+CompressionLevel = 9
+ForwardX11 = yes
+
+[bitbucket.org]
+User = hg
+
+[topsecret.server.com]
+Port = 50022
+ForwardX11 = no
+"""
+        # static method
+        r = {
+            "SERVERALIVEINTERVAL": 45,
+            "COMPRESSION": True,
+            "COMPRESSIONLEVEL": 9,
+            "FORWARDX11": True,
+            "bitbucket.org": {
+                "USER": "hg",
+                "SERVERALIVEINTERVAL": 45,
+                "COMPRESSION": True,
+                "COMPRESSIONLEVEL": 9,
+                "FORWARDX11": True,
+            },
+            "topsecret.server.com": {
+                "PORT": 50022,
+                "FORWARDX11": False,
+                "SERVERALIVEINTERVAL": 45,
+                "COMPRESSION": True,
+                "COMPRESSIONLEVEL": 9,
+            },
+        }
+
+        def optionxform(key):
+            return key.upper()
 
         d = IODict.from_ini(s, optionxform=optionxform)
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, r)
         # constructor
         d = IODict(s, format="ini", optionxform=optionxform)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, r)
+
+    def test_from_ini_with_valid_data_and_optionxform_none(self):
+        s = """
+[DEFAULT]
+ServerAliveInterval = 45
+Compression = yes
+CompressionLevel = 9
+ForwardX11 = yes
+
+[bitbucket.org]
+User = hg
+
+[topsecret.server.com]
+Port = 50022
+ForwardX11 = no
+"""
+        # static method
+        r = {
+            "serveraliveinterval": 45,
+            "compression": True,
+            "compressionlevel": 9,
+            "forwardx11": True,
+            "bitbucket.org": {
+                "user": "hg",
+                "serveraliveinterval": 45,
+                "compression": True,
+                "compressionlevel": 9,
+                "forwardx11": True,
+            },
+            "topsecret.server.com": {
+                "port": 50022,
+                "forwardx11": False,
+                "serveraliveinterval": 45,
+                "compression": True,
+                "compressionlevel": 9,
+            },
+        }
+
+        d = IODict.from_ini(s, optionxform=None)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, r)
+        # constructor
+        d = IODict(s, format="ini", optionxform=None)
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, r)
 

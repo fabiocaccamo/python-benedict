@@ -20,7 +20,11 @@ class INISerializer(AbstractSerializer):
 
     @staticmethod
     def _get_parser(options):
-        optionxform = options.pop("optionxform", None)
+        optionxform = (
+            options.pop("optionxform", None)
+            if "optionxform" in options
+            else (lambda key: key)
+        )
         parser = RawConfigParser(**options)
         if optionxform and callable(optionxform):
             parser.optionxform = optionxform
