@@ -17,24 +17,23 @@ class KeyattrDict(BaseDict):
         self._keyattr_enabled = value
 
     def __getattr__(self, attr):
+        attr_message = f"{self.__class__.__name__!r} object has no attribute {attr!r}"
         if not self._keyattr_enabled:
-            raise AttributeError
-        # return super().__getattr__(attr)
+            raise AttributeError(attr_message)
         try:
             return self.__getitem__(attr)
         except KeyError:
             if attr.startswith("_"):
-                raise AttributeError(
-                    f"{self.__class__.__name__!r} object has no attribute {attr!r}"
-                ) from None
+                raise AttributeError(attr_message) from None
             self.__setitem__(attr, {})
             return self.__getitem__(attr)
 
     def __setattr__(self, attr, value):
+        attr_message = f"{self.__class__.__name__!r} object has no attribute {attr!r}"
         if attr in self:
             # set existing key
             if not self._keyattr_enabled:
-                raise AttributeError
+                raise AttributeError(attr_message)
             self.__setitem__(attr, value)
         elif hasattr(self.__class__, attr):
             # set existing attr
