@@ -90,23 +90,38 @@ page = params.get_int("page", 1)
 It is possible to get/set items using **keys as attributes** (dotted notation).
 
 ```python
-d = benedict()
+d = benedict(keyattr_dynamic=True) # default False
 d.profile.firstname = "Fabio"
 d.profile.lastname = "Caccamo"
 print(d) # -> { "profile":{ "firstname":"Fabio", "lastname":"Caccamo" } }
 ```
 
+By default, if the `keyattr_dynamic` is not explicitly set to `True`, this functionality works for get/set only already existing items.
+
 #### Disable keyattr functionality
-You can disable the keyattr functionality passing `keyattr_enabled=False` in the constructor.
+You can disable the keyattr functionality passing `keyattr_enabled=False` option in the constructor.
 
 ```python
-d = benedict(existing_dict, keyattr_enabled=False)
+d = benedict(existing_dict, keyattr_enabled=False) # default True
 ```
 
-You can disable the keyattr functionality using the `getter/setter` property.
+or using the `getter/setter` property.
 
 ```python
 d.keyattr_enabled = False
+```
+
+#### Dynamic keyattr functionality
+You can enable the dynamic attributes access functionality passing `keyattr_dynamic=True` in the constructor.
+
+```python
+d = benedict(existing_dict, keyattr_dynamic=True) # default False
+```
+
+or using the `getter/setter` property.
+
+```python
+d.keyattr_dynamic = True
 ```
 
 > **Warning** - even if this feature is very useful, it has some obvious limitations: it works only for string keys that are *unprotected* (not starting with an `_`) and that don't clash with the currently supported methods names.
@@ -173,13 +188,13 @@ d.keypath_separator = "/"
 ```
 
 #### Disable keypath functionality
-You can disable the keypath functionality passing `keypath_separator=None` in the constructor.
+You can disable the keypath functionality passing `keypath_separator=None` option in the constructor.
 
 ```python
 d = benedict(existing_dict, keypath_separator=None)
 ```
 
-You can disable the keypath functionality using the `getter/setter` property.
+or using the `getter/setter` property.
 
 ```python
 d.keypath_separator = None
