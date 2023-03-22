@@ -4,38 +4,45 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.30.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.30.0) - 2023-03-22
+-   Add `keyattr_dynamic` property (`False` by default). #261 (#266)
+-   Make `ini` serializer case-sensitive by default and accept `optionxform` option. #263 (#265)
+-   Fix `TypeError` when decoding `.xls` with `None` columns.
+-   Improve decoding errors traceback.
+-   Bump requirements.
+
 ## [0.29.1](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.29.1) - 2023-03-09
--  Fix missing dependency on `pyyaml`. #260
--  Fix protected keys in `json` items preventing automatic keys creation when getting `__protected__` attributes. #259
+-   Fix missing dependency on `pyyaml`. #260
+-   Fix protected keys in `json` items preventing automatic keys creation when getting `__protected__` attributes. #259
 
 ## [0.29.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.29.0) - 2023-03-09
--  `NEW` Add `keyattr` *(keys as attributes)* support. (#257)
--  `NEW` Separate installation targets (extras requires). #200 (#258)
--  Fix set state when loading from pickle.
--  Improve tests coverage.
--  Upgrade syntax for `Python >= 3.8`.
--  Reformat and cleanup code.
--  Move `flake8` config to `setup.cfg`.
--  Increase `flake8` checks.
--  Add `flake8-bugbear` to `pre-commit`.
--  Run `flake8` also on tests files.
--  Run `pre-commit` also with `tox`.
--  Rename default branch from `master` to `main`.
--  Bump requirements.
+-   `NEW` Add `keyattr` *(keys as attributes)* support. (#257)
+-   `NEW` Separate installation targets (extras requires). #200 (#258)
+-   Fix set state when loading from pickle.
+-   Improve tests coverage.
+-   Upgrade syntax for `Python >= 3.8`.
+-   Reformat and cleanup code.
+-   Move `flake8` config to `setup.cfg`.
+-   Increase `flake8` checks.
+-   Add `flake8-bugbear` to `pre-commit`.
+-   Run `flake8` also on tests files.
+-   Run `pre-commit` also with `tox`.
+-   Rename default branch from `master` to `main`.
+-   Bump requirements.
 
 ## [0.28.3](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.28.3) - 2023-01-12
--  Remove `tests/` from dist.
--  Bump requirements.
+-   Remove `tests/` from dist.
+-   Bump requirements.
 
 ## [0.28.2](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.28.2) - 2023-01-11
--  Fix `FileNotFoundError` if file is just the filename. #226
--  Bump requirements.
+-   Fix `FileNotFoundError` if file is just the filename. #226
+-   Bump requirements.
 
 ## [0.28.1](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.28.1) - 2023-01-02
--  Add `pyupgrade` to `pre-commit` config.
--  Add `setup.cfg` (`setuptools` declarative syntax) generated using `setuptools-py2cfg`.
--  Add support for `pathlib.Path`. #144
--  Bump requirements.
+-   Add `pyupgrade` to `pre-commit` config.
+-   Add `setup.cfg` (`setuptools` declarative syntax) generated using `setuptools-py2cfg`.
+-   Add support for `pathlib.Path`. #144
+-   Bump requirements.
 
 ## [0.28.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.28.0) - 2022-12-29
 -   Drop `Python 3.7 support`.
