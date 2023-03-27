@@ -36,6 +36,7 @@ jobs:
     - name: Run tests
       run: |
         coverage run --append --source=benedict -m unittest
+        coverage report --show-missing
         coverage xml -o ./coverage.xml
 
     - name: Upload coverage to Codecov
