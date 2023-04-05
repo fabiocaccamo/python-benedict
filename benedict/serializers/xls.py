@@ -39,7 +39,7 @@ class XLSSerializer(AbstractSerializer):
         return (sheet_index, sheet_name)
 
     def _get_sheet_index_by_name(self, sheet_name, sheet_names):
-        sheet_names = list([slugify(name) for name in sheet_names])
+        sheet_names = [slugify(name) for name in sheet_names]
         try:
             sheet_index = sheet_names.index(slugify(sheet_name))
             return sheet_index
@@ -49,7 +49,7 @@ class XLSSerializer(AbstractSerializer):
             ) from error
 
     def _get_sheet_columns_indexes(self, columns_count):
-        return [column_index for column_index in range(columns_count)]
+        return list(range(columns_count))
 
     def _decode_legacy(self, s, **kwargs):
         filepath = s
@@ -107,7 +107,7 @@ class XLSSerializer(AbstractSerializer):
 
         # get sheet by index or by name
         sheet_index, sheet_name = self._get_sheet_index_and_name_from_options(**kwargs)
-        sheets = [sheet for sheet in workbook]
+        sheets = list(workbook)
         if sheet_name:
             sheet_names = [sheet.title for sheet in sheets]
             sheet_index = self._get_sheet_index_by_name(sheet_name, sheet_names)
@@ -136,7 +136,7 @@ class XLSSerializer(AbstractSerializer):
         items = []
         items_row_start = 2 if columns_row else 1
         for row in sheet.iter_rows(min_row=items_row_start):
-            values = list([cell.value for cell in row])
+            values = [cell.value for cell in row]
             items.append(dict(zip(columns, values)))
 
         # close the worksheet

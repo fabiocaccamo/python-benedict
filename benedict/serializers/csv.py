@@ -49,7 +49,7 @@ class CSVSerializer(AbstractSerializer):
         columns_row = kwargs.pop("columns_row", True)
         if not columns and len(ls) and type_util.is_dict(ls[0]):
             keys = [str(key) for key in ls[0].keys()]
-            columns = list(sorted(keys))
+            columns = sorted(keys)
         f = StringIO()
         w = csv.writer(f, **kwargs)
         if columns_row and columns:
