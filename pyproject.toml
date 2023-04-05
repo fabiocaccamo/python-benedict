@@ -19,3 +19,21 @@ exclude = '''
   | venv
 )/
 '''
+
+[tool.ruff]
+ignore = [
+    "B905",
+    "E501",
+]
+line-length = 88
+select = [
+    "B",
+    "B9",
+    "C",
+    "E",
+    "F",
+    "W",
+]
+
+[tool.ruff.mccabe]
+max-complexity = 10
