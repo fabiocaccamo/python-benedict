@@ -1,8 +1,5 @@
 [build-system]
-requires = [
-    "setuptools",
-    "setuptools_scm[toml]>=3.4",
-]
+requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -98,9 +95,7 @@ dependencies = [
     "python-slugify >= 6.0.1, < 9.0.0",
     "requests >= 2.26.0, < 3.0.0",
 ]
-dynamic = [
-    "version",
-]
+dynamic = ["version"]
 maintainers = [
     { name = "Fabio Caccamo", email = "fabio.caccamo@gmail.com" },
 ]
@@ -164,36 +159,15 @@ exclude = '''
 '''
 
 [tool.ruff]
-ignore = [
-    "B905",
-    "E501",
-]
+ignore = ["B905", "E501"]
 line-length = 88
-select = [
-    "B",
-    "B9",
-    "C",
-    "E",
-    "F",
-    "W",
-]
+select = ["B", "B9", "C", "E", "F", "W"]
 
 [tool.ruff.mccabe]
 max-complexity = 10
 
-[tool.setuptools]
-include-package-data = true
-
 [tool.setuptools.packages.find]
-exclude = [
-    "docs*",
-    "images*",
-    "scripts*",
-    "tests*",
-]
-namespaces = false
+include = ["benedict*"]
 
 [tool.setuptools.dynamic.version]
 attr = "benedict.metadata.__version__"
-
-[tool.setuptools_scm]
