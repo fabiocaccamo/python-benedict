@@ -1,6 +1,149 @@
 [build-system]
-requires = ["setuptools"]
+requires = [
+    "setuptools",
+    "setuptools_scm[toml]>=3.4",
+]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "python-benedict"
+description = "python-benedict is a dict subclass with keylist/keypath/keyattr support, normalized I/O operations (base64, csv, ini, json, pickle, plist, query-string, toml, xls, xml, yaml) and many utilities... for humans, obviously."
+authors = [
+    { name = "Fabio Caccamo", email = "fabio.caccamo@gmail.com" },
+]
+keywords = [
+    "python",
+    "dictionary",
+    "dictionaries",
+    "dict",
+    "benedict",
+    "subclass",
+    "extended",
+    "keylist",
+    "keypath",
+    "utility",
+    "io",
+    "data",
+    "file",
+    "url",
+    "read",
+    "write",
+    "parse",
+    "configparser",
+    "config",
+    "cfg",
+    "pickle",
+    "plist",
+    "base64",
+    "csv",
+    "ini",
+    "json",
+    "query-string",
+    "toml",
+    "xml",
+    "yaml",
+    "clean",
+    "clone",
+    "deepclone",
+    "deepupdate",
+    "dump",
+    "filter",
+    "flatten",
+    "groupby",
+    "invert",
+    "merge",
+    "move",
+    "nest",
+    "remove",
+    "rename",
+    "search",
+    "standardize",
+    "subset",
+    "swap",
+    "traverse",
+    "unflatten",
+    "unique",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: MacOS X",
+    "Environment :: Other Environment",
+    "Environment :: Web Environment",
+    "Environment :: Win32 (MS Windows)",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Education :: Testing",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: System :: Filesystems",
+    "Topic :: Text Processing :: Markup :: XML",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "ftfy >= 6.0.0, < 7.0.0",
+    "mailchecker >= 4.1.0, < 6.0.0",
+    "phonenumbers >= 8.12.0, < 9.0.0",
+    "python-dateutil >= 2.8.0, < 3.0.0",
+    "python-fsutil >= 0.9.3, < 1.0.0",
+    "python-slugify >= 6.0.1, < 9.0.0",
+    "requests >= 2.26.0, < 3.0.0",
+]
+dynamic = [
+    "version",
+]
+maintainers = [
+    { name = "Fabio Caccamo", email = "fabio.caccamo@gmail.com" },
+]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[project.license]
+file = "LICENSE.txt"
+content-type = "text/plain"
+
+[project.urls]
+Homepage = "https://github.com/fabiocaccamo/python-benedict"
+Download = "https://github.com/fabiocaccamo/python-benedict/releases"
+Documentation = "https://github.com/fabiocaccamo/python-benedict#readme"
+Issues = "https://github.com/fabiocaccamo/python-benedict/issues"
+Funding = "https://github.com/sponsors/fabiocaccamo/"
+Twitter = "https://twitter.com/fabiocaccamo"
+
+[project.optional-dependencies]
+all = [
+    "python-benedict[io,s3]",
+]
+io = [
+    "python-benedict[toml,xls,xml,yaml]",
+]
+s3 = [
+    "boto3 >= 1.24.89, < 2.0.0",
+]
+toml = [
+    "toml >= 0.10.2, < 1.0.0",
+]
+xls = [
+    "openpyxl >= 3.0.0, < 4.0.0",
+    "xlrd >= 2.0.0, < 3.0.0",
+]
+xml = [
+    "xmltodict >= 0.12.0, < 1.0.0",
+]
+yaml = [
+    "pyyaml >= 6.0, < 7.0",
+]
 
 [tool.black]
 line-length = 88
@@ -37,3 +180,20 @@ select = [
 
 [tool.ruff.mccabe]
 max-complexity = 10
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+exclude = [
+    "docs*",
+    "images*",
+    "scripts*",
+    "tests*",
+]
+namespaces = false
+
+[tool.setuptools.dynamic.version]
+attr = "benedict.metadata.__version__"
+
+[tool.setuptools_scm]
