@@ -14,7 +14,7 @@
 
 
 # python-benedict
-python-benedict is a dict subclass with **keylist/keypath** support, **I/O** shortcuts (`base64`, `csv`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xls`, `xml`, `yaml`) and many **utilities**... for humans, obviously.
+python-benedict is a dict subclass with **keylist/keypath/keyattr** support, **I/O** shortcuts (`base64`, `csv`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xls`, `xml`, `yaml`) and many **utilities**... for humans, obviously.
 
 ## Features
 -   100% **backward-compatible**, you can safely wrap existing dictionaries.
