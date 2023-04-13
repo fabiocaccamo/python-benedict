@@ -158,6 +158,9 @@ exclude = '''
 )/
 '''
 
+[tool.isort]
+profile = "black"
+
 [tool.ruff]
 ignore = ["B905", "E501"]
 line-length = 88
