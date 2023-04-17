@@ -297,7 +297,7 @@ Utilities that accept key argument(s) also support keypath(s).
 
 Utilities that return a dictionary always return a new `benedict` instance.
 
--   #### clean
+#### `clean`
 
 ```python
 # Clean the current dict instance removing all empty values: None, "", {}, [], ().
@@ -306,14 +306,14 @@ Utilities that return a dictionary always return a new `benedict` instance.
 d.clean(strings=True, collections=True)
 ```
 
--   #### clone
+#### `clone`
 
 ```python
 # Return a clone (deepcopy) of the dict.
 c = d.clone()
 ```
 
--   #### dump
+#### `dump`
 
 ```python
 # Return a readable representation of any dict/list.
@@ -325,7 +325,7 @@ d = benedict()
 print(d.dump())
 ```
 
--   #### filter
+#### `filter`
 
 ```python
 # Return a filtered dict using the given predicate function.
@@ -334,7 +334,7 @@ predicate = lambda k, v: v is not None
 f = d.filter(predicate)
 ```
 
--   #### find
+#### `find`
 
 ```python
 # Return the first match searching for the given keys/keypaths.
@@ -343,21 +343,21 @@ keys = ["a.b.c", "m.n.o", "x.y.z"]
 f = d.find(keys, default=0)
 ```
 
--   #### flatten
+#### `flatten`
 
 ```python
 # Return a new flattened dict using the given separator to join nested dict keys to flatten keypaths.
 f = d.flatten(separator="_")
 ```
 
--   #### groupby
+#### `groupby`
 
 ```python
 # Group a list of dicts at key by the value of the given by_key and return a new dict.
 g = d.groupby("cities", by_key="country_code")
 ```
 
--   #### invert
+#### `invert`
 
 ```python
 # Return an inverted dict where values become keys and keys become values.
@@ -366,7 +366,7 @@ g = d.groupby("cities", by_key="country_code")
 i = d.invert(flat=False)
 ```
 
--   #### items_sorted_by_keys
+#### `items_sorted_by_keys`
 
 ```python
 # Return items (key/value list) sorted by keys.
@@ -374,7 +374,7 @@ i = d.invert(flat=False)
 items = d.items_sorted_by_keys(reverse=False)
 ```
 
--   #### items_sorted_by_values
+#### `items_sorted_by_values`
 
 ```python
 # Return items (key/value list) sorted by values.
@@ -382,7 +382,7 @@ items = d.items_sorted_by_keys(reverse=False)
 items = d.items_sorted_by_values(reverse=False)
 ```
 
--   #### keypaths
+#### `keypaths`
 
 ```python
 # Return a list of all keypaths in the dict.
@@ -390,7 +390,7 @@ items = d.items_sorted_by_values(reverse=False)
 k = d.keypaths(indexes=False)
 ```
 
--   #### match
+#### `match`
 
 ```python
 # Return a list of all values whose keypath matches the given pattern (a regex or string).
@@ -399,7 +399,7 @@ k = d.keypaths(indexes=False)
 m = d.match(pattern, indexes=True)
 ```
 
--   #### merge
+#### `merge`
 
 ```python
 # Merge one or more dictionary objects into current instance (deepupdate).
@@ -409,7 +409,7 @@ m = d.match(pattern, indexes=True)
 d.merge(a, b, c, overwrite=True, concat=False)
 ```
 
--   #### move
+#### `move`
 
 ```python
 # Move an item from key_src to key_dst.
@@ -418,7 +418,7 @@ d.merge(a, b, c, overwrite=True, concat=False)
 d.move("a", "b", overwrite=True)
 ```
 
--   #### nest
+#### `nest`
 
 ```python
 # Nest a list of dicts at the given key and return a new nested list
@@ -426,7 +426,7 @@ d.move("a", "b", overwrite=True)
 d.nest("values", id_key="id", parent_id_key="parent_id", children_key="children")
 ```
 
--   #### remove
+#### `remove`
 
 ```python
 # Remove multiple keys from the dict.
@@ -434,7 +434,7 @@ d.nest("values", id_key="id", parent_id_key="parent_id", children_key="children"
 d.remove(["firstname", "lastname", "email"])
 ```
 
--   #### rename
+#### `rename`
 
 ```python
 # Rename a dict item key from "key" to "key_new".
@@ -442,21 +442,21 @@ d.remove(["firstname", "lastname", "email"])
 d.rename("first_name", "firstname")
 ```
 
--   #### search
+#### `search`
 
 ```python
 # Search and return a list of items (dict, key, value, ) matching the given query.
 r = d.search("hello", in_keys=True, in_values=True, exact=False, case_sensitive=False)
 ```
 
--   #### standardize
+#### `standardize`
 
 ```python
 # Standardize all dict keys, e.g. "Location Latitude" -> "location_latitude".
 d.standardize()
 ```
 
--   #### subset
+#### `subset`
 
 ```python
 # Return a dict subset for the given keys.
@@ -464,14 +464,14 @@ d.standardize()
 s = d.subset(["firstname", "lastname", "email"])
 ```
 
--   #### swap
+#### `swap`
 
 ```python
 # Swap items values at the given keys.
 d.swap("firstname", "lastname")
 ```
 
--   #### traverse
+#### `traverse`
 
 ```python
 # Traverse a dict passing each item (dict, key, value) to the given callback function.
@@ -480,14 +480,14 @@ def f(d, key, value):
 d.traverse(f)
 ```
 
--   #### unflatten
+#### `unflatten`
 
 ```python
 # Return a new unflattened dict using the given separator to split dict keys to nested keypaths.
 u = d.unflatten(separator="_")
 ```
 
--   #### unique
+#### `unique`
 
 ```python
 # Remove duplicated values from the dict.
@@ -518,7 +518,7 @@ In all `from_*` methods, the first argument can be: **url**, **filepath** or **d
 
 In all `to_*` methods, if `filepath="..."` kwarg is specified, the output will be also **saved** at the specified filepath.
 
--   #### from_base64
+#### `from_base64`
 
 ```python
 # Try to load/decode a base64 encoded data and return it as benedict instance.
@@ -530,7 +530,7 @@ In all `to_*` methods, if `filepath="..."` kwarg is specified, the output will b
 d = benedict.from_base64(s, subformat="json", encoding="utf-8", **kwargs)
 ```
 
--   #### from_csv
+#### `from_csv`
 
 ```python
 # Try to load/decode a csv encoded data and return it as benedict instance.
@@ -542,7 +542,7 @@ d = benedict.from_base64(s, subformat="json", encoding="utf-8", **kwargs)
 d = benedict.from_csv(s, columns=None, columns_row=True, **kwargs)
 ```
 
--   #### from_ini
+#### `from_ini`
 
 ```python
 # Try to load/decode a ini encoded data and return it as benedict instance.
@@ -553,7 +553,7 @@ d = benedict.from_csv(s, columns=None, columns_row=True, **kwargs)
 d = benedict.from_ini(s, **kwargs)
 ```
 
--   #### from_json
+#### `from_json`
 
 ```python
 # Try to load/decode a json encoded data and return it as benedict instance.
@@ -564,7 +564,7 @@ d = benedict.from_ini(s, **kwargs)
 d = benedict.from_json(s, **kwargs)
 ```
 
--   #### from_pickle
+#### `from_pickle`
 
 ```python
 # Try to load/decode a pickle encoded in Base64 format and return it as benedict instance.
@@ -575,7 +575,7 @@ d = benedict.from_json(s, **kwargs)
 d = benedict.from_pickle(s, **kwargs)
 ```
 
--   #### from_plist
+#### `from_plist`
 
 ```python
 # Try to load/decode a p-list encoded data and return it as benedict instance.
@@ -586,7 +586,7 @@ d = benedict.from_pickle(s, **kwargs)
 d = benedict.from_plist(s, **kwargs)
 ```
 
--   #### from_query_string
+#### `from_query_string`
 
 ```python
 # Try to load/decode a query-string and return it as benedict instance.
@@ -595,7 +595,7 @@ d = benedict.from_plist(s, **kwargs)
 d = benedict.from_query_string(s, **kwargs)
 ```
 
--   #### from_toml
+#### `from_toml`
 
 ```python
 # Try to load/decode a toml encoded data and return it as benedict instance.
@@ -606,7 +606,7 @@ d = benedict.from_query_string(s, **kwargs)
 d = benedict.from_toml(s, **kwargs)
 ```
 
--   #### from_xls
+#### `from_xls`
 
 ```python
 # Try to load/decode a xls file (".xls", ".xlsx", ".xlsm") from url, filepath or data-string.
@@ -618,7 +618,7 @@ d = benedict.from_toml(s, **kwargs)
 d = benedict.from_xls(s, sheet=0, columns=None, columns_row=True, **kwargs)
 ```
 
--   #### from_xml
+#### `from_xml`
 
 ```python
 # Try to load/decode a xml encoded data and return it as benedict instance.
@@ -629,7 +629,7 @@ d = benedict.from_xls(s, sheet=0, columns=None, columns_row=True, **kwargs)
 d = benedict.from_xml(s, **kwargs)
 ```
 
--   #### from_yaml
+#### `from_yaml`
 
 ```python
 # Try to load/decode a yaml encoded data and return it as benedict instance.
@@ -640,7 +640,7 @@ d = benedict.from_xml(s, **kwargs)
 d = benedict.from_yaml(s, **kwargs)
 ```
 
--   #### to_base64
+#### `to_base64`
 
 ```python
 # Return the dict instance encoded in base64 format and optionally save it at the specified 'filepath'.
@@ -652,7 +652,7 @@ d = benedict.from_yaml(s, **kwargs)
 s = d.to_base64(subformat="json", encoding="utf-8", **kwargs)
 ```
 
--   #### to_csv
+#### `to_csv`
 
 ```python
 # Return a list of dicts in the current dict encoded in csv format and optionally save it at the specified filepath.
@@ -662,7 +662,7 @@ s = d.to_base64(subformat="json", encoding="utf-8", **kwargs)
 s = d.to_csv(key="values", columns=None, columns_row=True, **kwargs)
 ```
 
--   #### to_ini
+#### `to_ini`
 
 ```python
 # Return the dict instance encoded in ini format and optionally save it at the specified filepath.
@@ -672,7 +672,7 @@ s = d.to_csv(key="values", columns=None, columns_row=True, **kwargs)
 s = d.to_ini(**kwargs)
 ```
 
--   #### to_json
+#### `to_json`
 
 ```python
 # Return the dict instance encoded in json format and optionally save it at the specified filepath.
@@ -682,7 +682,7 @@ s = d.to_ini(**kwargs)
 s = d.to_json(**kwargs)
 ```
 
--   #### to_pickle
+#### `to_pickle`
 
 ```python
 # Return the dict instance as pickle encoded in Base64 format and optionally save it at the specified filepath.
@@ -693,7 +693,7 @@ s = d.to_json(**kwargs)
 s = d.to_pickle(**kwargs)
 ```
 
--   #### to_plist
+#### `to_plist`
 
 ```python
 # Return the dict instance encoded in p-list format and optionally save it at the specified filepath.
@@ -703,7 +703,7 @@ s = d.to_pickle(**kwargs)
 s = d.to_plist(**kwargs)
 ```
 
--   #### to_query_string
+#### `to_query_string`
 
 ```python
 # Return the dict instance as query-string and optionally save it at the specified filepath.
@@ -711,7 +711,7 @@ s = d.to_plist(**kwargs)
 s = d.to_query_string(**kwargs)
 ```
 
--   #### to_toml
+#### `to_toml`
 
 ```python
 # Return the dict instance encoded in toml format and optionally save it at the specified filepath.
@@ -721,7 +721,7 @@ s = d.to_query_string(**kwargs)
 s = d.to_toml(**kwargs)
 ```
 
--   #### to_xml
+#### `to_xml`
 
 ```python
 # Return the dict instance encoded in xml format and optionally save it at the specified filepath.
@@ -731,7 +731,7 @@ s = d.to_toml(**kwargs)
 s = d.to_xml(**kwargs)
 ```
 
--   #### to_yaml
+#### `to_yaml`
 
 ```python
 # Return the dict instance encoded in yaml format.
@@ -746,7 +746,7 @@ s = d.to_yaml(**kwargs)
 
 These methods are wrappers of the `get` method, they parse data trying to return it in the expected type.
 
--   #### get_bool
+#### `get_bool`
 
 ```python
 # Get value by key or keypath trying to return it as bool.
@@ -754,7 +754,7 @@ These methods are wrappers of the `get` method, they parse data trying to return
 d.get_bool(key, default=False)
 ```
 
--   #### get_bool_list
+#### `get_bool_list`
 
 ```python
 # Get value by key or keypath trying to return it as list of bool values.
@@ -762,7 +762,7 @@ d.get_bool(key, default=False)
 d.get_bool_list(key, default=[], separator=",")
 ```
 
--   #### get_date
+#### `get_date`
 
 ```python
 # Get value by key or keypath trying to return it as date.
@@ -771,7 +771,7 @@ d.get_bool_list(key, default=[], separator=",")
 d.get_date(key, default=None, format=None, choices=[])
 ```
 
--   #### get_date_list
+#### `get_date_list`
 
 ```python
 # Get value by key or keypath trying to return it as list of date values.
@@ -779,7 +779,7 @@ d.get_date(key, default=None, format=None, choices=[])
 d.get_date_list(key, default=[], format=None, separator=",")
 ```
 
--   #### get_datetime
+#### `get_datetime`
 
 ```python
 # Get value by key or keypath trying to return it as datetime.
@@ -788,7 +788,7 @@ d.get_date_list(key, default=[], format=None, separator=",")
 d.get_datetime(key, default=None, format=None, choices=[])
 ```
 
--   #### get_datetime_list
+#### `get_datetime_list`
 
 ```python
 # Get value by key or keypath trying to return it as list of datetime values.
@@ -796,7 +796,7 @@ d.get_datetime(key, default=None, format=None, choices=[])
 d.get_datetime_list(key, default=[], format=None, separator=",")
 ```
 
--   #### get_decimal
+#### `get_decimal`
 
 ```python
 # Get value by key or keypath trying to return it as Decimal.
@@ -804,7 +804,7 @@ d.get_datetime_list(key, default=[], format=None, separator=",")
 d.get_decimal(key, default=Decimal("0.0"), choices=[])
 ```
 
--   #### get_decimal_list
+#### `get_decimal_list`
 
 ```python
 # Get value by key or keypath trying to return it as list of Decimal values.
@@ -812,7 +812,7 @@ d.get_decimal(key, default=Decimal("0.0"), choices=[])
 d.get_decimal_list(key, default=[], separator=",")
 ```
 
--   #### get_dict
+#### `get_dict`
 
 ```python
 # Get value by key or keypath trying to return it as dict.
@@ -820,7 +820,7 @@ d.get_decimal_list(key, default=[], separator=",")
 d.get_dict(key, default={})
 ```
 
--   #### get_email
+#### `get_email`
 
 ```python
 # Get email by key or keypath and return it.
@@ -829,7 +829,7 @@ d.get_dict(key, default={})
 d.get_email(key, default="", choices=None, check_blacklist=True)
 ```
 
--   #### get_float
+#### `get_float`
 
 ```python
 # Get value by key or keypath trying to return it as float.
@@ -837,7 +837,7 @@ d.get_email(key, default="", choices=None, check_blacklist=True)
 d.get_float(key, default=0.0, choices=[])
 ```
 
--   #### get_float_list
+#### `get_float_list`
 
 ```python
 # Get value by key or keypath trying to return it as list of float values.
@@ -845,7 +845,7 @@ d.get_float(key, default=0.0, choices=[])
 d.get_float_list(key, default=[], separator=",")
 ```
 
--   #### get_int
+#### `get_int`
 
 ```python
 # Get value by key or keypath trying to return it as int.
@@ -853,7 +853,7 @@ d.get_float_list(key, default=[], separator=",")
 d.get_int(key, default=0, choices=[])
 ```
 
--   #### get_int_list
+#### `get_int_list`
 
 ```python
 # Get value by key or keypath trying to return it as list of int values.
@@ -861,7 +861,7 @@ d.get_int(key, default=0, choices=[])
 d.get_int_list(key, default=[], separator=",")
 ```
 
--   #### get_list
+#### `get_list`
 
 ```python
 # Get value by key or keypath trying to return it as list.
@@ -869,7 +869,7 @@ d.get_int_list(key, default=[], separator=",")
 d.get_list(key, default=[], separator=",")
 ```
 
--   #### get_list_item
+#### `get_list_item`
 
 ```python
 # Get list by key or keypath and return value at the specified index.
@@ -877,7 +877,7 @@ d.get_list(key, default=[], separator=",")
 d.get_list_item(key, index=0, default=None, separator=",")
 ```
 
--   #### get_phonenumber
+#### `get_phonenumber`
 
 ```python
 # Get phone number by key or keypath and return a dict with different formats (e164, international, national).
@@ -885,7 +885,7 @@ d.get_list_item(key, index=0, default=None, separator=",")
 d.get_phonenumber(key, country_code=None, default=None)
 ```
 
--   #### get_slug
+#### `get_slug`
 
 ```python
 # Get value by key or keypath trying to return it as slug.
@@ -893,7 +893,7 @@ d.get_phonenumber(key, country_code=None, default=None)
 d.get_slug(key, default="", choices=[])
 ```
 
--   #### get_slug_list
+#### `get_slug_list`
 
 ```python
 # Get value by key or keypath trying to return it as list of slug values.
@@ -901,7 +901,7 @@ d.get_slug(key, default="", choices=[])
 d.get_slug_list(key, default=[], separator=",")
 ```
 
--   #### get_str
+#### `get_str`
 
 ```python
 # Get value by key or keypath trying to return it as string.
@@ -910,7 +910,7 @@ d.get_slug_list(key, default=[], separator=",")
 d.get_str(key, default="", choices=[])
 ```
 
--   #### get_str_list
+#### `get_str_list`
 
 ```python
 # Get value by key or keypath trying to return it as list of str values.
@@ -918,7 +918,7 @@ d.get_str(key, default="", choices=[])
 d.get_str_list(key, default=[], separator=",")
 ```
 
--   #### get_uuid
+#### `get_uuid`
 
 ```python
 # Get value by key or keypath trying to return it as valid uuid.
@@ -926,7 +926,7 @@ d.get_str_list(key, default=[], separator=",")
 d.get_uuid(key, default="", choices=[])
 ```
 
--   #### get_uuid_list
+#### `get_uuid_list`
 
 ```python
 # Get value by key or keypath trying to return it as list of valid uuid values.
