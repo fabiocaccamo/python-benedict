@@ -2242,4 +2242,4 @@ b:
             },
         ]
         self.assertEqual(len(b.keys()), len(rv))
-        self.assertTrue(all([value in rv for value in b.values()]))
+        self.assertTrue(all(value in rv for value in b.values()))

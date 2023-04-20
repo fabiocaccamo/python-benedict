@@ -55,4 +55,4 @@ class unique_test_case(unittest.TestCase):
             },
         ]
         self.assertEqual(len(d.keys()), len(rv))
-        self.assertTrue(all([value in rv for value in d.values()]))
+        self.assertTrue(all(value in rv for value in d.values()))

@@ -71,7 +71,7 @@ def is_s3(s):
 
 
 def is_url(s):
-    return any([s.startswith(protocol) for protocol in ["http://", "https://"]])
+    return any(s.startswith(protocol) for protocol in ["http://", "https://"])
 
 
 def parse_s3_url(url):
