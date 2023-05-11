@@ -1,10 +1,11 @@
 import json
 
 from benedict.dicts import benedict as _benedict
+from benedict.serializers import YAMLSerializer
 
 
 class benedict(_benedict):
-    def to_ini(self, *args, **kwargs):
+    def to_ini(self, **kwargs):
         def super_class(*vargs):
             return self.__class__.__bases__[0](*vargs)
 
@@ -15,7 +16,7 @@ class benedict(_benedict):
             for key, value in keys.items():
                 data[section][key] = json.dumps(value)
 
-        return super_class(data).to_ini(*args, **kwargs)
+        return super_class(data).to_ini(**kwargs)
 
     @classmethod
     def from_ini(cls, s, **kwargs):
@@ -29,3 +30,6 @@ class benedict(_benedict):
                 data[section][key] = json.loads(value)
 
         return cls(data)
+
+
+YAMLSerializer.represent_dict_for_class(benedict)
