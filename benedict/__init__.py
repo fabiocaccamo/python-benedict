@@ -1,4 +1,4 @@
-from benedict.dicts import benedict
+from benedict.__future__ import benedict
 from benedict.metadata import (
     __author__,
     __copyright__,
