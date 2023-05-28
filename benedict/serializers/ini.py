@@ -71,7 +71,7 @@ class INISerializer(AbstractSerializer):
             section = key
             parser.add_section(section)
             for option_key, option_value in value.items():
-                if type_util.is_collection(option_value):
+                if type_util.is_dict(option_value):
                     parser.set(section, option_key, self._json.encode(option_value))
                 else:
                     parser.set(section, option_key, option_value)
