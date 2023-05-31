@@ -79,6 +79,9 @@ class BaseDict(dict):
             is_dict_item = key in self._dict and isinstance(self._dict[key], dict)
             is_dict_value = isinstance(value, dict)
             if is_dict_item and is_dict_value:
+                if self._dict[key] is value:
+                    # prevent clearing dict instance when assigning value to itself. fix #294
+                    return
                 self._dict[key].clear()
                 self._dict[key].update(value)
                 return
