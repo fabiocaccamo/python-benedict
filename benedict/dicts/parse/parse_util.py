@@ -2,13 +2,21 @@ import re
 from datetime import datetime
 from decimal import Decimal, DecimalException
 
-import ftfy
-import phonenumbers
-from dateutil import parser as date_parser
-from MailChecker import MailChecker
-from phonenumbers import PhoneNumberFormat, phonenumberutil
+try:
+    import ftfy
+    import phonenumbers
+    from dateutil import parser as date_parser
+    from MailChecker import MailChecker
+    from phonenumbers import PhoneNumberFormat, phonenumberutil
+
+    parse_installed = True
+except ModuleNotFoundError:
+    parse_installed = False
+
+
 from slugify import slugify
 
+from benedict.extras import require_parse
 from benedict.serializers import JSONSerializer
 from benedict.utils import type_util
 
@@ -66,6 +74,7 @@ def _parse_datetime_from_timestamp(val):
 
 
 def parse_datetime(val, format=None):
+    require_parse(installed=parse_installed)
     if type_util.is_datetime(val):
         return val
     s = str(val)
@@ -124,6 +133,7 @@ def _parse_email(val, check_blacklist=True):
 
 
 def parse_email(val, check_blacklist=True):
+    require_parse(installed=parse_installed)
     return _parse_with(val, None, _parse_email, check_blacklist=check_blacklist)
 
 
@@ -183,6 +193,7 @@ def _parse_phonenumber(val, country_code=None):
 
 
 def parse_phonenumber(val, country_code=None):
+    require_parse(installed=parse_installed)
     s = parse_str(val)
     if not s:
         return None
@@ -205,6 +216,7 @@ def parse_slug(val):
 
 
 def parse_str(val):
+    require_parse(installed=parse_installed)
     if type_util.is_string(val):
         val = ftfy.fix_text(val)
     else:

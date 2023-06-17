@@ -34,6 +34,10 @@ class parse_util_test_case(unittest.TestCase):
         # TODO
         pass
 
+    def test_parse_datetime_with_extra_not_installed(self):
+        # TODO
+        pass
+
     def test_parse_decimal(self):
         # TODO
         pass
@@ -47,6 +51,10 @@ class parse_util_test_case(unittest.TestCase):
         pass
 
     def test_parse_email(self):
+        # TODO
+        pass
+
+    def test_parse_email_with_extra_not_installed(self):
         # TODO
         pass
 
@@ -90,11 +98,19 @@ class parse_util_test_case(unittest.TestCase):
         # TODO
         pass
 
+    def test_parse_phonenumber_with_extra_not_installed(self):
+        # TODO
+        pass
+
     def test_parse_slug(self):
         # TODO
         pass
 
     def test_parse_str(self):
+        # TODO
+        pass
+
+    def test_parse_str_with_extra_not_installed(self):
         # TODO
         pass
 

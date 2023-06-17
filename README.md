@@ -61,6 +61,7 @@ Here the hierarchy of possible installation targets available when running `pip 
         - `[xls]`
         - `[xml]`
         - `[yaml]`
+    - `[parse]`
     - `[s3]`
 
 ## Usage

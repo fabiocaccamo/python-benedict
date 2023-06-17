@@ -1,8 +1,10 @@
 import unittest
 from datetime import datetime
 from decimal import Decimal
+from unittest.mock import patch
 
 from benedict.dicts.parse import ParseDict
+from benedict.exceptions import ExtrasRequireModuleNotFoundError
 
 
 class parse_dict_test_case(unittest.TestCase):
@@ -185,6 +187,16 @@ class parse_dict_test_case(unittest.TestCase):
         r = datetime(2019, 5, 1, 0, 0)
         self.assertEqual(b.get_datetime("a"), r)
 
+    @patch("benedict.dicts.parse.parse_util.parse_installed", False)
+    def test_get_datetime_with_with_extra_not_installed(self):
+        with self.assertRaises(ExtrasRequireModuleNotFoundError):
+            d = {
+                "a": "2019-05-01",
+            }
+            b = ParseDict(d)
+            r = datetime(2019, 5, 1, 0, 0)
+            self.assertEqual(b.get_datetime("a", format="%Y-%m-%d"), r)
+
     def test_get_datetime_list(self):
         d = {
             "a": ["2019-05-01", "2018-12-31", "Hello World"],
@@ -334,6 +346,15 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_email("d"), "")
         # invalid key
         self.assertEqual(b.get_email("e"), "")
+
+    @patch("benedict.dicts.parse.parse_util.parse_installed", False)
+    def test_get_email_with_extra_not_installed(self):
+        with self.assertRaises(ExtrasRequireModuleNotFoundError):
+            d = {
+                "a": "fabio@caccamo.com",
+            }
+            b = ParseDict(d)
+            b.get_email("a")
 
     def test_get_int(self):
         d = {
@@ -504,6 +525,15 @@ class parse_dict_test_case(unittest.TestCase):
         p = b.get_phonenumber("z")
         self.assertEqual(p, {})
 
+    @patch("benedict.dicts.parse.parse_util.parse_installed", False)
+    def test_get_phonenumber_with_extra_not_installed(self):
+        with self.assertRaises(ExtrasRequireModuleNotFoundError):
+            d = {
+                "a": "3334445566",
+            }
+            b = ParseDict(d)
+            b.get_phonenumber("a")
+
     def test_get_slug(self):
         d = {
             "a": " Hello World ",
@@ -549,6 +579,15 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_str("a"), "Hello World")
         self.assertEqual(b.get_str("b"), "Hello World")
         self.assertEqual(b.get_str("c"), "1")
+
+    @patch("benedict.dicts.parse.parse_util.parse_installed", False)
+    def test_get_str_with_extra_not_installed(self):
+        with self.assertRaises(ExtrasRequireModuleNotFoundError):
+            d = {
+                "a": "Hello World",
+            }
+            b = ParseDict(d)
+            b.get_str("a")
 
     def test_get_str_fix_encoding(self):
         d = {
