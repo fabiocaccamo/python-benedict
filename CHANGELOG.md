@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.31.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.31.0) - 2023-06-17
+-   Add `parse` extra ([optional dependencies](https://github.com/fabiocaccamo/python-benedict#optional-requirements)). #300 (#303)
+-   Bump requirements.
+
 ## [0.30.2](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.30.2) - 2023-06-02
 -   Allow `ini` format to support nested structures (encode to json only dicts). #284
 -   Prevent clearing dict instance when assigning value to itself. #294
