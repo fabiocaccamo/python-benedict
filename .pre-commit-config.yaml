@@ -3,13 +3,13 @@
 repos:
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.6.0
+    rev: v3.7.0
     hooks:
       - id: pyupgrade
         args: ["--py38-plus"]
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.272
+    rev: v0.0.273
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
