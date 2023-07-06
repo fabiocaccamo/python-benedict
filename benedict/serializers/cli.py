@@ -27,7 +27,7 @@ class CLISerializer(AbstractSerializer):
 
     @staticmethod
     def _get_parser(options):
-        parser = ArgumentParser(exit_on_error=False, **options)
+        parser = ArgumentParser(**options)
         return parser
 
     def decode(self, s=None, **kwargs):
