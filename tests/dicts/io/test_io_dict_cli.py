@@ -27,6 +27,16 @@ class io_dict_cli_test_case(io_dict_test_case):
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, r)
 
+    def test_from_cli_with_invalid_arguments(self):
+        s = """--help -h"""
+
+        # static method
+        with self.assertRaises(ValueError):
+            IODict.from_cli(s)
+        # constructor
+        with self.assertRaises(ValueError):
+            IODict(s, format="cli")
+
     def test_from_cli_with_invalid_data(self):
         s = "Lorem ipsum est in ea occaecat nisi officia."
         # static method
