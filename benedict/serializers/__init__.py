@@ -2,6 +2,7 @@ import re
 
 from benedict.serializers.abstract import AbstractSerializer
 from benedict.serializers.base64 import Base64Serializer
+from benedict.serializers.cli import CLISerializer
 from benedict.serializers.csv import CSVSerializer
 from benedict.serializers.ini import INISerializer
 from benedict.serializers.json import JSONSerializer
@@ -16,6 +17,7 @@ from benedict.serializers.yaml import YAMLSerializer
 __all__ = [
     "AbstractSerializer",
     "Base64Serializer",
+    "CLISerializer",
     "CSVSerializer",
     "INISerializer",
     "JSONSerializer",
@@ -29,6 +31,7 @@ __all__ = [
 ]
 
 _BASE64_SERIALIZER = Base64Serializer()
+_CLI_SERIALIZER = CLISerializer()
 _CSV_SERIALIZER = CSVSerializer()
 _INI_SERIALIZER = INISerializer()
 _JSON_SERIALIZER = JSONSerializer()
@@ -42,6 +45,7 @@ _YAML_SERIALIZER = YAMLSerializer()
 
 _SERIALIZERS_LIST = [
     _BASE64_SERIALIZER,
+    _CLI_SERIALIZER,
     _CSV_SERIALIZER,
     _INI_SERIALIZER,
     _JSON_SERIALIZER,

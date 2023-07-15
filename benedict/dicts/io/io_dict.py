@@ -173,6 +173,16 @@ class IODict(BaseDict):
         """
         return cls(s, format="yaml", **kwargs)
 
+    @classmethod
+    def from_cli(cls, s, **kwargs):
+        """
+        Load and decode data from a string of CLI arguments.
+        ArgumentParser specific options can be passed using kwargs:
+        https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser
+        Return a new dict instance. A ValueError is raised in case of failure.
+        """
+        return cls(s, format="cli", **kwargs)
+
     def to_base64(self, subformat="json", encoding="utf-8", **kwargs):
         """
         Encode the current dict instance in Base64 format
