@@ -70,6 +70,16 @@ class IODict(BaseDict):
         return cls(s, format="base64", **kwargs)
 
     @classmethod
+    def from_cli(cls, s, **kwargs):
+        """
+        Load and decode data from a string of CLI arguments.
+        ArgumentParser specific options can be passed using kwargs:
+        https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser
+        Return a new dict instance. A ValueError is raised in case of failure.
+        """
+        return cls(s, format="cli", **kwargs)
+
+    @classmethod
     def from_csv(cls, s, columns=None, columns_row=True, **kwargs):
         """
         Load and decode CSV data from url, filepath or data-string.
@@ -172,16 +182,6 @@ class IODict(BaseDict):
         Return a new dict instance. A ValueError is raised in case of failure.
         """
         return cls(s, format="yaml", **kwargs)
-
-    @classmethod
-    def from_cli(cls, s, **kwargs):
-        """
-        Load and decode data from a string of CLI arguments.
-        ArgumentParser specific options can be passed using kwargs:
-        https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser
-        Return a new dict instance. A ValueError is raised in case of failure.
-        """
-        return cls(s, format="cli", **kwargs)
 
     def to_base64(self, subformat="json", encoding="utf-8", **kwargs):
         """
