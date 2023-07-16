@@ -102,3 +102,6 @@ class CLISerializer(AbstractSerializer):
                 dict[key] = value[0]
 
         return dict
+
+    def encode(self, d, **kwargs):
+        raise NotImplementedError
