@@ -243,6 +243,7 @@ lng = loc.get_decimal("longitude")
 -   **I/O methods**
 
     -   [`from_base64`](#from_base64)
+    -   [`from_cli`](#from_cli)
     -   [`from_csv`](#from_csv)
     -   [`from_ini`](#from_ini)
     -   [`from_json`](#from_json)
@@ -529,6 +530,16 @@ In all `to_*` methods, if `filepath="..."` kwarg is specified, the output will b
 # It's possible to choose the encoding, default 'utf-8'.
 # A ValueError is raised in case of failure.
 d = benedict.from_base64(s, subformat="json", encoding="utf-8", **kwargs)
+```
+
+#### `from_cli`
+
+```python
+# Load and decode data from a string of CLI arguments.
+# ArgumentParser specific options can be passed using kwargs:
+# https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser
+# Return a new dict instance. A ValueError is raised in case of failure.
+d = benedict.from_cli(s, **kwargs)
 ```
 
 #### `from_csv`
