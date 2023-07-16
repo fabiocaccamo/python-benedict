@@ -45,3 +45,18 @@ class io_dict_cli_test_case(io_dict_test_case):
         # constructor
         with self.assertRaises(ValueError):
             IODict(s, format="cli")
+
+    def test_to_cli(self):
+        d = IODict(
+            {
+                "values": [
+                    {"x": "1"},
+                    {"x": "2"},
+                    {"x": "3"},
+                    {"x": "4"},
+                    {"x": "5"},
+                ],
+            }
+        )
+        with self.assertRaises(NotImplementedError):
+            _ = d.to_cli()

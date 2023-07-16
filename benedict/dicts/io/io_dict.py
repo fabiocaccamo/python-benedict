@@ -195,6 +195,9 @@ class IODict(BaseDict):
         kwargs["encoding"] = encoding
         return self._encode(self.dict(), "base64", **kwargs)
 
+    def to_cli(self, **kwargs):
+        raise NotImplementedError
+
     def to_csv(self, key="values", columns=None, columns_row=True, **kwargs):
         """
         Encode a list of dicts in the current dict instance in CSV format.
