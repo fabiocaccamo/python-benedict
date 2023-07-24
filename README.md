@@ -14,7 +14,7 @@
 
 
 # python-benedict
-python-benedict is a dict subclass with **keylist/keypath/keyattr** support, **I/O** shortcuts (`base64`, `csv`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xls`, `xml`, `yaml`) and many **utilities**... for humans, obviously.
+python-benedict is a dict subclass with **keylist/keypath/keyattr** support, **I/O** shortcuts (`base64`, `cli`, `csv`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xls`, `xml`, `yaml`) and many **utilities**... for humans, obviously.
 
 ## Features
 -   100% **backward-compatible**, you can safely wrap existing dictionaries.
@@ -22,7 +22,7 @@ python-benedict is a dict subclass with **keylist/keypath/keyattr** support, **I
 -   **Keylist** support using **list of keys** as key.
 -   **Keypath** support using **keypath-separator** *(dot syntax by default)*.
 -   Keypath **list-index** support  *(also negative)* using the standard `[n]` suffix.
--   Normalized **I/O operations** with most common formats: `base64`, `csv`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xls`, `xml`, `yaml`.
+-   Normalized **I/O operations** with most common formats: `base64`, `cli`, `csv`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xls`, `xml`, `yaml`.
 -   Multiple **I/O operations** backends: `file-system` *(read/write)*, `url` *(read-only)*, `s3` *(read/write)*.
 -   Many **utility** and **parse methods** to retrieve data as needed *(check the [API](#api) section)*.
 -   Well **tested**. ;)
@@ -39,6 +39,7 @@ python-benedict is a dict subclass with **keylist/keypath/keyattr** support, **I
         -   [Change keypath separator](#change-keypath-separator)
         -   [Disable keypath functionality](#disable-keypath-functionality)
         -   [List index support](#list-index-support)
+    -   [I/O](#io)
     -   [API](#api)
         -   [Utility methods](#utility-methods)
         -   [I/O methods](#io-methods)
@@ -210,6 +211,57 @@ loc = d["results[0].locations[-1].coordinates"]
 lat = loc.get_decimal("latitude")
 lng = loc.get_decimal("longitude")
 ```
+
+### I/O
+
+For simplifying I/O operations, `benedict` supports a variety of input/output methods with most common formats: `base64`, `cli`, `csv`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xls`, `xml`, `yaml`.
+
+#### Input via constructor
+
+It is possible to create a `benedict` instance directly from data-source (`filepath`, `url`, `s3` or `data-string`) by passing the data source and the data format (optional, default "json") in the constructor.
+
+```python
+# filepath
+d = benedict("/root/data.yml", format="yaml")
+
+# url
+d = benedict("https://localhost:8000/data.xml", format="xml")
+
+# s3
+d = benedict("s3://my-bucket/data.xml", s3_options={"aws_access_key_id": "...", "aws_secret_access_key": "..."})
+
+# data-string
+d = benedict('{"a": 1, "b": 2, "c": 3, "x": 7, "y": 8, "z": 9}')
+```
+
+#### Input methods
+
+- All *input* methods can be accessed as class methods and are prefixed by `from_*` followed by the format name.
+- In all *input* methods, the first argument can represent: **url**, **filepath** or **data-string**.
+
+#### Output methods
+
+- All *output* methods can be accessed as instance methods and are prefixed by `to_*` followed by the format name.
+- In all *output* methods, if `filepath="..."` kwarg is specified, the output will be also **saved** at the specified filepath.
+
+#### Supported formats
+
+Here are the details of the supported formats, operations and extra options docs.
+
+| **format**     | **input**          | **output**         | **options**                                                             |
+|----------------|--------------------|--------------------|-------------------------------------------------------------------------|
+| `base64`       | :white_check_mark: | :white_check_mark: | -                                                                       |
+| `cli`          | :white_check_mark: | :x:                | https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser |
+| `csv`          | :white_check_mark: | :white_check_mark: | https://docs.python.org/3/library/csv.html                              |
+| `ini`          | :white_check_mark: | :white_check_mark: | https://docs.python.org/3/library/configparser.html                     |
+| `json`         | :white_check_mark: | :white_check_mark: | https://docs.python.org/3/library/json.html                             |
+| `pickle`       | :white_check_mark: | :white_check_mark: | https://docs.python.org/3/library/pickle.html                           |
+| `plist`        | :white_check_mark: | :white_check_mark: | https://docs.python.org/3/library/plistlib.html                         |
+| `query-string` | :white_check_mark: | :white_check_mark: | -                                                                       |
+| `toml`         | :white_check_mark: | :white_check_mark: | https://pypi.org/project/toml/                                          |
+| `xls`          | :white_check_mark: | :x:                | https://openpyxl.readthedocs.io/ - https://pypi.org/project/xlrd/       |
+| `xml`          | :white_check_mark: | :white_check_mark: | https://github.com/martinblech/xmltodict                                |
+| `yaml`         | :white_check_mark: | :white_check_mark: | https://pyyaml.org/wiki/PyYAMLDocumentation                             |
 
 ### API
 
@@ -498,27 +550,7 @@ d.unique()
 
 ### I/O methods
 
-It is possible to create a `benedict` instance directly from data-source (`filepath`, `url`, `s3` or `data-string`) by passing the data source and the data format (optional, default "json") in the constructor.
-
-```python
-# filepath
-d = benedict("/root/data.yml", format="yaml")
-
-# url
-d = benedict("https://localhost:8000/data.xml", format="xml")
-
-# s3
-d = benedict("s3://my-bucket/data.xml", s3_options={"aws_access_key_id": "...", "aws_secret_access_key": "..."})
-
-# data-string
-d = benedict('{"a": 1, "b": 2, "c": 3, "x": 7, "y": 8, "z": 9}')
-```
-
-These methods simplify I/O operations with most common formats: `base64`, `csv`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xls`, `xml`, `yaml`.
-
-In all `from_*` methods, the first argument can be: **url**, **filepath** or **data-string**.
-
-In all `to_*` methods, if `filepath="..."` kwarg is specified, the output will be also **saved** at the specified filepath.
+These methods are available for input/output operations.
 
 #### `from_base64`
 
