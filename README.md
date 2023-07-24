@@ -248,20 +248,20 @@ d = benedict('{"a": 1, "b": 2, "c": 3, "x": 7, "y": 8, "z": 9}')
 
 Here are the details of the supported formats, operations and extra options docs.
 
-| **format**     | **input**          | **output**         | **options**                                                             |
-|----------------|--------------------|--------------------|-------------------------------------------------------------------------|
-| `base64`       | :white_check_mark: | :white_check_mark: | -                                                                       |
-| `cli`          | :white_check_mark: | :x:                | https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser |
-| `csv`          | :white_check_mark: | :white_check_mark: | https://docs.python.org/3/library/csv.html                              |
-| `ini`          | :white_check_mark: | :white_check_mark: | https://docs.python.org/3/library/configparser.html                     |
-| `json`         | :white_check_mark: | :white_check_mark: | https://docs.python.org/3/library/json.html                             |
-| `pickle`       | :white_check_mark: | :white_check_mark: | https://docs.python.org/3/library/pickle.html                           |
-| `plist`        | :white_check_mark: | :white_check_mark: | https://docs.python.org/3/library/plistlib.html                         |
-| `query-string` | :white_check_mark: | :white_check_mark: | -                                                                       |
-| `toml`         | :white_check_mark: | :white_check_mark: | https://pypi.org/project/toml/                                          |
-| `xls`          | :white_check_mark: | :x:                | https://openpyxl.readthedocs.io/ - https://pypi.org/project/xlrd/       |
-| `xml`          | :white_check_mark: | :white_check_mark: | https://github.com/martinblech/xmltodict                                |
-| `yaml`         | :white_check_mark: | :white_check_mark: | https://pyyaml.org/wiki/PyYAMLDocumentation                             |
+| **format**     | **input**          | **output**         | **extra options docs**                                                                |
+|----------------|--------------------|--------------------|---------------------------------------------------------------------------------------|
+| `base64`       | :white_check_mark: | :white_check_mark: | -                                                                                     |
+| `cli`          | :white_check_mark: | :x:                | [argparse](https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser)   |
+| `csv`          | :white_check_mark: | :white_check_mark: | [csv](https://docs.python.org/3/library/csv.html)                                     |
+| `ini`          | :white_check_mark: | :white_check_mark: | [configparser](https://docs.python.org/3/library/configparser.html)                   |
+| `json`         | :white_check_mark: | :white_check_mark: | [json](https://docs.python.org/3/library/json.html)                                   |
+| `pickle`       | :white_check_mark: | :white_check_mark: | [pickle](https://docs.python.org/3/library/pickle.html)                               |
+| `plist`        | :white_check_mark: | :white_check_mark: | [plistlib](https://docs.python.org/3/library/plistlib.html)                           |
+| `query-string` | :white_check_mark: | :white_check_mark: | -                                                                                     |
+| `toml`         | :white_check_mark: | :white_check_mark: | [toml](https://pypi.org/project/toml/)                                                |
+| `xls`          | :white_check_mark: | :x:                | [openpyxl](https://openpyxl.readthedocs.io/) - [xlrd](https://pypi.org/project/xlrd/) |
+| `xml`          | :white_check_mark: | :white_check_mark: | [xmltodict](https://github.com/martinblech/xmltodict)                                 |
+| `yaml`         | :white_check_mark: | :white_check_mark: | [PyYAML](https://pyyaml.org/wiki/PyYAMLDocumentation)                                 |
 
 ### API
 
