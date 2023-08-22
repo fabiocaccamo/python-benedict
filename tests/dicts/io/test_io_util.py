@@ -1,9 +1,12 @@
+import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
+import fsutil
 from decouple import config
 
 from benedict.dicts.io import io_util
+from benedict.dicts.io.io_util import parse_s3_url
 from benedict.exceptions import ExtrasRequireModuleNotFoundError
 
 
@@ -92,6 +95,120 @@ class io_util_test_case(unittest.TestCase):
         # TODO:
         # io_util.write_file_to_s3("s3://test-bucket/my-file.txt", "ok", anon=True)
         pass
+
+    def test_parse_s3_url_valid(self):
+        url = "s3://my-bucket/path/to/key"
+        result = io_util.parse_s3_url(url)
+        expected_result = {
+            "url": url,
+            "bucket": "my-bucket",
+            "key": "path/to/key",
+        }
+        self.assertEqual(result, expected_result)
+
+    def test_parse_s3_url_with_query(self):
+        url = "s3://my-bucket/path/to/key?versionId=123"
+        result = io_util.parse_s3_url(url)
+        expected_result = {
+            "url": url,
+            "bucket": "my-bucket",
+            "key": "path/to/key?versionId=123",
+        }
+        self.assertEqual(result, expected_result)
+
+    def test_parse_s3_url_with_multiple_query_parameters(self):
+        url = "s3://my-bucket/path/to/key?versionId=123&foo=bar"
+        result = io_util.parse_s3_url(url)
+        expected_result = {
+            "url": url,
+            "bucket": "my-bucket",
+            "key": "path/to/key?versionId=123&foo=bar",
+        }
+        self.assertEqual(result, expected_result)
+
+    def test_parse_s3_url_with_special_characters(self):
+        url = "s3://my-bucket/path/to/key with spaces?foo=bar&baz=qux"
+        result = io_util.parse_s3_url(url)
+        expected_result = {
+            "url": url,
+            "bucket": "my-bucket",
+            "key": "path/to/key with spaces?foo=bar&baz=qux",
+        }
+        self.assertEqual(result, expected_result)
+
+    @patch("benedict.dicts.io.io_util.s3_installed", False)
+    def test_read_content_from_s3_with_s3_extra_not_installed(self):
+        s3_options = {
+            "aws_access_key_id": "",
+            "aws_secret_access_key": "",
+        }
+        s3_url = "s3://my-bucket/my-key.txt"
+        with self.assertRaises(ExtrasRequireModuleNotFoundError):
+            io_util.read_content_from_s3(s3_url, s3_options)
+
+    @patch("benedict.dicts.io.io_util.s3_installed", True)
+    @patch("benedict.dicts.io.io_util.boto3.client")
+    @patch("benedict.dicts.io.io_util.read_content_from_file")
+    def test_read_content_from_s3(self, mock_read_content_from_file, mock_boto3_client):
+        aws_access_key_id = config("AWS_ACCESS_KEY_ID", default=None)
+        aws_secret_access_key = config("AWS_SECRET_ACCESS_KEY", default=None)
+        s3_options = {
+            "aws_access_key_id": aws_access_key_id,
+            "aws_secret_access_key": aws_secret_access_key,
+        }
+        s3_url = "s3://my-bucket/my-key.txt"
+        mock_s3 = MagicMock()
+        mock_boto3_client.return_value = mock_s3
+        mock_read_content_from_file.return_value = "s3 content"
+
+        content = io_util.read_content_from_s3(s3_url, s3_options, format="txt")
+
+        mock_boto3_client.assert_called_with("s3", **s3_options)
+        s3_url_parsed = parse_s3_url(s3_url)
+        temporary_filepath = fsutil.join_path(
+            tempfile.gettempdir(), fsutil.get_filename(s3_url_parsed["key"])
+        )
+        mock_s3.download_file.assert_called_with(
+            s3_url_parsed["bucket"], s3_url_parsed["key"], temporary_filepath
+        )
+        mock_s3.close.assert_called()
+        mock_read_content_from_file.assert_called_with(temporary_filepath, "txt")
+        self.assertEqual(content, "s3 content")
+
+    @patch("benedict.dicts.io.io_util.s3_installed", True)
+    @patch("benedict.dicts.io.io_util.boto3.client")
+    @patch("benedict.dicts.io.io_util.fsutil.remove_file")
+    @patch("benedict.dicts.io.io_util.fsutil.write_file")
+    def test_write_content_to_s3(
+        self, mock_write_file, mock_remove_file, mock_boto3_client
+    ):
+        aws_access_key_id = config("AWS_ACCESS_KEY_ID", default=None)
+        aws_secret_access_key = config("AWS_SECRET_ACCESS_KEY", default=None)
+        s3_options = {
+            "aws_access_key_id": aws_access_key_id,
+            "aws_secret_access_key": aws_secret_access_key,
+        }
+        s3_url = "s3://my-bucket/my-key.txt"
+        content = "s3 content"
+
+        mock_s3 = MagicMock()
+        mock_boto3_client.return_value = mock_s3
+        mock_write_file.return_value = None
+        mock_remove_file.return_value = None
+
+        io_util.write_content_to_s3(s3_url, content, s3_options=s3_options)
+
+        mock_boto3_client.assert_called_with("s3", **s3_options)
+        s3_url_parsed = parse_s3_url(s3_url)
+        temporary_filepath = fsutil.join_path(
+            tempfile.gettempdir(), fsutil.get_filename(s3_url_parsed["key"])
+        )
+        mock_write_file.assert_called_with(temporary_filepath, content)
+        mock_s3.upload_file.assert_called_with(
+            temporary_filepath, s3_url_parsed["bucket"], s3_url_parsed["key"]
+        )
+        mock_s3.close.assert_called()
+        mock_remove_file.assert_called_with(temporary_filepath)
 
     def test_write_and_read_content_s3(self):
         aws_access_key_id = config("AWS_ACCESS_KEY_ID", default=None)
