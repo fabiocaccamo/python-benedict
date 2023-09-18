@@ -1,3 +1,4 @@
+import sys
 import unittest
 
 from benedict import benedict
@@ -12,6 +13,10 @@ class github_issue_0334_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0334
     """
 
+    @unittest.skipIf(
+        sys.version_info < (3, 9),
+        "The | operator supported since Pythopn 3.9",
+    )
     def test_union_with_assignement_operator(self):
         a = {"a": "a", "b": "b"}
         b = {"b": "b", "c": "c"}
