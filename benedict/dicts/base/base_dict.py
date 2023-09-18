@@ -58,6 +58,11 @@ class BaseDict(dict):
             return self._dict[key]
         return super().__getitem__(key)
 
+    def __ior__(self, other):
+        if self._pointer:
+            return self._dict.__ior__(other)
+        return super().__ior__(other)
+
     def __iter__(self):
         if self._pointer:
             return iter(self._dict)
@@ -67,6 +72,11 @@ class BaseDict(dict):
         if self._pointer:
             return len(self._dict)
         return super().__len__()
+
+    def __or__(self, other):
+        if self._pointer:
+            return self._dict.__or__(other)
+        return super().__or__(other)
 
     def __repr__(self):
         if self._pointer:
