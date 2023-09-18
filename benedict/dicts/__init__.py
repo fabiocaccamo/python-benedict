@@ -177,6 +177,10 @@ class benedict(KeyattrDict, KeypathDict, IODict, ParseDict):
         """
         return _invert(self, flat)
 
+    def items(self):
+        for key, value in super().items():
+            yield (key, self._cast(value))
+
     def items_sorted_by_keys(self, reverse=False):
         """
         Return items (key/value list) sorted by keys.
@@ -299,6 +303,10 @@ class benedict(KeyattrDict, KeypathDict, IODict, ParseDict):
         Remove duplicated values from the current dict instance.
         """
         _unique(self)
+
+    def values(self):
+        for value in super().values():
+            yield self._cast(value)
 
 
 # fix benedict json dumps support - #57 #59 #61
