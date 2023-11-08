@@ -14,7 +14,7 @@
 [![](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 # python-benedict
-python-benedict is a dict subclass with **keylist/keypath/keyattr** support, **I/O** shortcuts (`base64`, `cli`, `csv`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xls`, `xml`, `yaml`) and many **utilities**... for humans, obviously.
+python-benedict is a dict subclass with **keylist/keypath/keyattr** support, **I/O** shortcuts (`base64`, `cli`, `csv`, `html`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xls`, `xml`, `yaml`) and many **utilities**... for humans, obviously.
 
 ## Features
 -   100% **backward-compatible**, you can safely wrap existing dictionaries.
@@ -22,7 +22,7 @@ python-benedict is a dict subclass with **keylist/keypath/keyattr** support, **I
 -   **Keylist** support using **list of keys** as key.
 -   **Keypath** support using **keypath-separator** *(dot syntax by default)*.
 -   Keypath **list-index** support  *(also negative)* using the standard `[n]` suffix.
--   Normalized **I/O operations** with most common formats: `base64`, `cli`, `csv`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xls`, `xml`, `yaml`.
+-   Normalized **I/O operations** with most common formats: `base64`, `cli`, `csv`, `html`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xls`, `xml`, `yaml`.
 -   Multiple **I/O operations** backends: `file-system` *(read/write)*, `url` *(read-only)*, `s3` *(read/write)*.
 -   Many **utility** and **parse methods** to retrieve data as needed *(check the [API](#api) section)*.
 -   Well **tested**. ;)
@@ -58,6 +58,7 @@ alternatively you can install the main package:
 Here the hierarchy of possible installation targets available when running `pip install "python-benedict[...]"` *(each target installs all its sub-targets)*:
 - `[all]`
     - `[io]`
+        - `[html]`
         - `[toml]`
         - `[xls]`
         - `[xml]`
@@ -214,7 +215,7 @@ lng = loc.get_decimal("longitude")
 
 ### I/O
 
-For simplifying I/O operations, `benedict` supports a variety of input/output methods with most common formats: `base64`, `cli`, `csv`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xls`, `xml`, `yaml`.
+For simplifying I/O operations, `benedict` supports a variety of input/output methods with most common formats: `base64`, `cli`, `csv`, `html`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xls`, `xml`, `yaml`.
 
 #### Input via constructor
 
@@ -267,6 +268,7 @@ Here are the details of the supported formats, operations and extra options docs
 | `base64`       | :white_check_mark: | :white_check_mark: | -                                                                                     |
 | `cli`          | :white_check_mark: | :x:                | [argparse](https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser)   |
 | `csv`          | :white_check_mark: | :white_check_mark: | [csv](https://docs.python.org/3/library/csv.html)                                     |
+| `html`         | :white_check_mark: | :x:                | [bs4](https://beautiful-soup-4.readthedocs.io) *(Beautiful Soup 4)*                   |
 | `ini`          | :white_check_mark: | :white_check_mark: | [configparser](https://docs.python.org/3/library/configparser.html)                   |
 | `json`         | :white_check_mark: | :white_check_mark: | [json](https://docs.python.org/3/library/json.html)                                   |
 | `pickle`       | :white_check_mark: | :white_check_mark: | [pickle](https://docs.python.org/3/library/pickle.html)                               |
@@ -312,6 +314,7 @@ Here are the details of the supported formats, operations and extra options docs
     -   [`from_cli`](#from_cli)
     -   [`from_csv`](#from_csv)
     -   [`from_ini`](#from_ini)
+    -   [`from_html`](#from_html)
     -   [`from_json`](#from_json)
     -   [`from_pickle`](#from_pickle)
     -   [`from_plist`](#from_plist)
@@ -598,6 +601,17 @@ d = benedict.from_cli(s, **kwargs)
 # https://docs.python.org/3/library/csv.html
 # A ValueError is raised in case of failure.
 d = benedict.from_csv(s, columns=None, columns_row=True, **kwargs)
+```
+
+#### `from_html`
+
+```python
+# Try to load/decode a html data and return it as benedict instance.
+# Accept as first argument: url, filepath or data-string.
+# It's possible to pass decoder specific options using kwargs:
+# https://beautiful-soup-4.readthedocs.io/
+# A ValueError is raised in case of failure.
+d = benedict.from_html(s, **kwargs)
 ```
 
 #### `from_ini`
@@ -1030,6 +1044,6 @@ Released under [MIT License](LICENSE.txt).
 
 ## See also
 
-- [`python-fontbro`](https://github.com/fabiocaccamo/python-fontbro) - friendly font operations. 🧢
+- [`python-fontbro`](https://github.com/fabiocaccamo/python-fontbro) - 🧢 friendly font operations on top of `fontTools`.
 
-- [`python-fsutil`](https://github.com/fabiocaccamo/python-fsutil) - file-system utilities for lazy devs. 🧟‍♂️
+- [`python-fsutil`](https://github.com/fabiocaccamo/python-fsutil) - 🧟‍♂️ high-level file-system operations for lazy devs.

@@ -33,6 +33,7 @@ keywords = [
     "plist",
     "base64",
     "csv",
+    "html",
     "ini",
     "json",
     "query-string",
@@ -117,8 +118,11 @@ Twitter = "https://twitter.com/fabiocaccamo"
 all = [
     "python-benedict[io,parse,s3]",
 ]
+html = [
+    "beautifulsoup4 >= 4.12.0, < 5.0.0",
+]
 io = [
-    "python-benedict[toml,xls,xml,yaml]",
+    "python-benedict[html,toml,xls,xml,yaml]",
 ]
 parse = [
     "ftfy >= 6.0.0, < 7.0.0",

@@ -1,6 +1,7 @@
 from benedict.exceptions import ExtrasRequireModuleNotFoundError
 
 __all__ = [
+    "require_html",
     "require_parse",
     "require_s3",
     "require_toml",
@@ -13,6 +14,10 @@ __all__ = [
 def _require_optional_dependencies(*, target, installed):
     if not installed:
         raise ExtrasRequireModuleNotFoundError(target=target)
+
+
+def require_html(*, installed):
+    _require_optional_dependencies(target="html", installed=installed)
 
 
 def require_parse(*, installed):

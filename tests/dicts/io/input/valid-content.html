@@ -1,0 +1,953 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <!-- for Google -->
+    <title>Fabio Caccamo - Python/Django full-stack developer - Torino, Italy</title>
+    <meta name="google-site-verification" content="j8Ns-ENSiNZzWwBMpM8WA9DmCYGn4eBsdtrjS7cv89E">
+    <meta name="description" content="Python/Django full-stack developer based in Torino, Italy">
+    <meta name="keywords" content="Fabio Caccamo, frontend, backend, django, python, web, javascript, js, vue.js, jquery, gulp, node, sass, foundation, bootstrap, sviluppatore, programmatore, developer, development, frontend, backend, interactive, interaction, Torino, Turin, Italy">
+    <meta name="copyright" content="2004-2023 Fabio Caccamo">
+    <meta name="author" content="Fabio Caccamo">
+    <meta name="robots" content="index, follow">
+    <!-- for Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fabiocaccamo.com/">
+    <meta property="og:title" content="Fabio Caccamo - Python/Django full-stack developer - Torino, Italy">
+    <meta property="og:description" content="Python/Django Full-Stack Developer based in Torino, Italy">
+    <meta property="og:image" content="https://fabiocaccamo.com/static/img/fabiocaccamo-share.f754443daddc.png">
+    <!-- for Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:url" content="https://fabiocaccamo.com/">
+    <meta name="twitter:title" content="Python/Django full-stack developer - Torino, Italy">
+    <meta name="twitter:description" content="Python/Django Full-Stack Developer based in Torino, Italy">
+    <meta name="twitter:image" content="https://fabiocaccamo.com/static/img/fabiocaccamo-share.f754443daddc.png">
+    <!-- favicon -->
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/static/favicon/apple-touch-icon-57x57.f9bc8b632241.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/favicon/apple-touch-icon-114x114.5c0c6332ecde.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/favicon/apple-touch-icon-72x72.8d5e020c0cd6.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/favicon/apple-touch-icon-144x144.38074c8420c6.png">
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/static/favicon/apple-touch-icon-60x60.6e09444472fb.png">
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/static/favicon/apple-touch-icon-120x120.baeb7e7045d5.png">
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/static/favicon/apple-touch-icon-76x76.7368b5cc8f3a.png">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/static/favicon/apple-touch-icon-152x152.a6f83d06a155.png">
+    <link rel="icon" type="image/png" href="/static/favicon/favicon-196x196.14f209cfe8d7.png" sizes="196x196">
+    <link rel="icon" type="image/png" href="/static/favicon/favicon-96x96.81ec0c4ee09d.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/static/favicon/favicon-32x32.cdc7a044ca37.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/static/favicon/favicon-16x16.5f454a2ed5e6.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/static/favicon/favicon-128.da40cb88630e.png" sizes="128x128">
+    <meta name="application-name" content="Fabio Caccamo">
+    <meta name="msapplication-TileColor" content="#F8F8F8">
+    <meta name="msapplication-TileImage" content="/static/favicon/mstile-144x144.38074c8420c6.png">
+    <meta name="msapplication-square70x70logo" content="/static/favicon/mstile-70x70.da40cb88630e.png">
+    <meta name="msapplication-square150x150logo" content="/static/favicon/mstile-150x150.9baefcbaf169.png">
+    <meta name="msapplication-wide310x150logo" content="/static/favicon/mstile-310x150.4ae15e53bf45.png">
+    <meta name="msapplication-square310x310logo" content="/static/favicon/mstile-310x310.3329c06e83ca.png">
+    <!-- css and js -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/index.2311e56c9456.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.10.1/devicon.min.css">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.0/lazysizes.min.js" integrity="sha256-RhEtvO7XOPdZ0D8EsRXVJWp9c2YLd5Wss4IZKthNn5g=" crossorigin="anonymous"></script>
+    <script async src="https://kit.fontawesome.com/32570dc1d1.js" crossorigin="anonymous"></script>
+    <script async defer data-domain="fabiocaccamo.com" src="https://plausible.io/js/plausible.js"></script>
+</head>
+
+<body class="_fc-theme-dark-aqua">
+    <header class="pt-3 pb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-8">
+                    <h1 class="h2 mb-1"><span class="fw-normal">Fabio </span><span class="fw-bold">Caccamo</span></h1>
+                    <h2 class="text-secondary small fw-normal mb-4"><small><strong>Python/Django</strong> Full-Stack Developer</small></h2>
+                    <nav class="main-menu">
+                        <ul class="main-menu__items list-inline">
+                            <li class="list-inline-item"><a class="text-reset" href="#about">About</a></li>
+                            <li class="list-inline-item ms-2 ms-md-3"><a class="text-reset" href="#open-source">Open Source</a></li>
+                            <li class="list-inline-item ms-2 ms-md-3"><a class="text-reset" href="#works">Works</a></li>
+                            <li class="list-inline-item ms-2 ms-md-3"><a class="text-reset" href="#contacts">Contacts</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-12 col-lg-4 d-none d-lg-block">
+                    <ul class="list list-inline text-end fs-5 mt-2">
+                        <li class="list-inline-item text-truncate"><a class="text-reset" title="Email" href="mailto:fabio.caccamo@gmail.com"><i class="fas fa-envelope me-3"></i></a></li>
+                        <li class="list-inline-item text-truncate"><a class="text-reset" rel="noopener" target="_blank" title="Fabio Caccamo on GitHub" href="https://github.com/fabiocaccamo?tab=repositories&q=&type=source&language=&sort=stargazers"><i class="fab fa-github me-3"></i></a></li>
+                        <li class="list-inline-item text-truncate"><a class="text-reset" rel="noopener" target="_blank" title="Fabio Caccamo on Twitter" href="https://twitter.com/fabiocaccamo"><i class="fab fa-twitter me-3"></i></a></li>
+                        <li class="list-inline-item text-truncate"><a class="text-reset" rel="noopener" target="_blank" title="Fabio Caccamo on Stack Overflow" href="https://stackoverflow.com/users/2096218/fabio-caccamo?tab=profile"><i class="fab fa-stack-overflow me-3"></i></a></li>
+                        <li class="list-inline-item text-truncate"><a class="text-reset" rel="noopener" target="_blank" title="Fabio Caccamo on LinkedIn" href="https://www.linkedin.com/in/fabiocaccamo/"><i class="fab fa-linkedin me-3"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="mt-4 mb-5 about" id="about">
+        <div class="container">
+            <div class="row mb-2">
+                <div class="col">
+                    <h3 class="text-primary h5 mb-4"><span class="fw-light me-2">&mdash;</span> About</h3>
+                    <p class="text-secondary mb-sm-0">
+                        I'm a passionate, self-taught <strong>full-stack developer</strong> based in <strong>Torino, Italy</strong>. 🇮🇹 🤌
+                    </p>
+                    <p class="text-secondary mb-4">
+                        I'm a perfectionist and I have a keen eye for details. 🧐
+                    </p>
+                    <p class="text-secondary mb-3">
+                        I work mainly with <strong><a class="text-reset" href="https://github.com/fabiocaccamo?tab=repositories&q=python-&type=source&language=&sort=stargazers" target="_blank" title="My Python open-source libraries" rel="noopener">Python</a></strong>, <strong><a class="text-reset" href="https://github.com/fabiocaccamo?tab=repositories&q=django-&type=source&language=&sort=stargazers" target="_blank" title="My Django open-source packages" rel="noopener">Django</a></strong> and <strong>Vue.js</strong>. My skills include:
+                    </p>
+                </div>
+            </div>
+            <div class="row text-center text-sm-start technical-skills-container">
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="technical-skill" title="Python"><i class="devicon-python-plain-wordmark _colored"></i></div>
+                </div>
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="technical-skill" title="Django"><i class="devicon-django-plain _colored"></i></div>
+                </div>
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="technical-skill" title="MySQL"><i class="devicon-mysql-plain-wordmark _colored"></i></div>
+                </div>
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="technical-skill" title="PostgreSQL"><i class="devicon-postgresql-plain-wordmark _colored"></i></div>
+                </div>
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="technical-skill" title="NGINX"><i class="devicon-nginx-original-wordmark _colored"></i></div>
+                </div>
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="technical-skill" title="Objective-C"><i class="devicon-objectivec-plain _colored"></i></div>
+                </div>
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="technical-skill" title="Bash"><i class="devicon-bash-plain _colored"></i></div>
+                </div>
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="technical-skill" title="Git"><i class="devicon-git-plain-wordmark _colored"></i></div>
+                </div>
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="technical-skill" title="NodeJS"><i class="devicon-nodejs-plain-wordmark _colored"></i></div>
+                </div>
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="technical-skill" title="Gulp"><i class="devicon-gulp-plain _colored"></i></div>
+                </div>
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="technical-skill" title="Sass"><i class="devicon-sass-original _colored"></i></div>
+                </div>
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="technical-skill" title="JavaScript"><i class="devicon-javascript-plain _colored"></i></div>
+                </div>
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="technical-skill" title="Vue.js"><i class="devicon-vuejs-plain-wordmark _colored"></i></div>
+                </div>
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="technical-skill" title="jQuery"><i class="devicon-jquery-plain-wordmark _colored"></i></div>
+                </div>
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="technical-skill" title="Handlebars"><i class="devicon-handlebars-plain-wordmark _colored"></i></div>
+                </div>
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="technical-skill" title="Mocha"><i class="devicon-mocha-plain _colored"></i></div>
+                </div>
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="technical-skill" title="HTML5"><i class="devicon-html5-plain-wordmark _colored"></i></div>
+                </div>
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="technical-skill" title="CSS3"><i class="devicon-css3-plain-wordmark _colored"></i></div>
+                </div>
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="technical-skill" title="Bootstrap"><i class="devicon-bootstrap-plain-wordmark _colored"></i></div>
+                </div>
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="technical-skill" title="Foundation"><i class="devicon-foundation-plain-wordmark _colored"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container">
+        <hr>
+    </div>
+    <section class="mt-4 mb-5 open-source" id="open-source">
+        <div class="container">
+            <div class="row mb-2">
+                <div class="col">
+                    <h3 class="text-primary h5 mb-4"><span class="fw-light me-2">&mdash;</span> Open Source</h3>
+                    <p class="text-secondary mb-4">
+                        I like to write <strong>reusable code</strong>, I published and actively maintain many <strong>open-source</strong> libraries. 📦
+                    </p>
+                    <!-- <p class="text-secondary mb-0"><a class="btn btn-sm btn-sponsor _border rounded-3 px-3" href="https://github.com/sponsors/fabiocaccamo" target="_blank" rel="noopener"><i class="far fa-heart me-2"></i>Sponsor</a></p> -->
+                </div>
+            </div>
+            <div class="row g-3 g-lg-4">
+                <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                    <div class="open-source-project _card _shadow-sm">
+                        <div class="open-source-project__body _card-body">
+                            <div>
+                                <h4 class="h6 text-primary"><a href="https://github.com/fabiocaccamo/FCUUID" target="_blank" rel="noopener" class="text-reset text-decoration-none" title="FCUUID">FCUUID</a></h4>
+                                <p class="small text-secondary">📱 🆔 iOS UUID / Universally Unique Identifiers library as alternative to UDID and identifierForVendor.</p>
+                            </div>
+                            <div>
+                                <p class="small text-primary mb-0 float-start"><i class="fas fa-star me-2"></i>1,574<span class="d-none"> stars</span></p>
+                                <p class="small text-primary mb-0 float-end"><a href="https://github.com/fabiocaccamo/FCUUID" target="_blank" rel="noopener" class="text-reset" title="view FCUUID on GitHub">view</a> &nearr;</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                    <div class="open-source-project _card _shadow-sm">
+                        <div class="open-source-project__body _card-body">
+                            <div>
+                                <h4 class="h6 text-primary"><a href="https://github.com/fabiocaccamo/django-admin-interface" target="_blank" rel="noopener" class="text-reset text-decoration-none" title="django-admin-interface">django-admin-interface</a></h4>
+                                <p class="small text-secondary">🦸 ⚡ django's default admin interface with superpowers - customizable themes, popup windows replaced by modals and many other features.</p>
+                            </div>
+                            <div>
+                                <p class="small text-primary mb-0 float-start"><i class="fas fa-star me-2"></i>1,546<span class="d-none"> stars</span></p>
+                                <p class="small text-primary mb-0 float-end"><a href="https://github.com/fabiocaccamo/django-admin-interface" target="_blank" rel="noopener" class="text-reset" title="view django-admin-interface on GitHub">view</a> &nearr;</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                    <div class="open-source-project _card _shadow-sm">
+                        <div class="open-source-project__body _card-body">
+                            <div>
+                                <h4 class="h6 text-primary"><a href="https://github.com/fabiocaccamo/python-benedict" target="_blank" rel="noopener" class="text-reset text-decoration-none" title="python-benedict">python-benedict</a></h4>
+                                <p class="small text-secondary">📘 dict subclass with keylist/keypath support, built-in I/O operations (base64, csv, html, ini, json, pickle, plist, query-string, toml, xls, xml, yaml), s3 support and many utilities.</p>
+                            </div>
+                            <div>
+                                <p class="small text-primary mb-0 float-start"><i class="fas fa-star me-2"></i>1,265<span class="d-none"> stars</span></p>
+                                <p class="small text-primary mb-0 float-end"><a href="https://github.com/fabiocaccamo/python-benedict" target="_blank" rel="noopener" class="text-reset" title="view python-benedict on GitHub">view</a> &nearr;</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                    <div class="open-source-project _card _shadow-sm">
+                        <div class="open-source-project__body _card-body">
+                            <div>
+                                <h4 class="h6 text-primary"><a href="https://github.com/fabiocaccamo/FCFileManager" target="_blank" rel="noopener" class="text-reset text-decoration-none" title="FCFileManager">FCFileManager</a></h4>
+                                <p class="small text-secondary">📱 📂 iOS file manager on top of NSFileManager for simplifying files management.</p>
+                            </div>
+                            <div>
+                                <p class="small text-primary mb-0 float-start"><i class="fas fa-star me-2"></i>899<span class="d-none"> stars</span></p>
+                                <p class="small text-primary mb-0 float-end"><a href="https://github.com/fabiocaccamo/FCFileManager" target="_blank" rel="noopener" class="text-reset" title="view FCFileManager on GitHub">view</a> &nearr;</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                    <div class="open-source-project _card _shadow-sm">
+                        <div class="open-source-project__body _card-body">
+                            <div>
+                                <h4 class="h6 text-primary"><a href="https://github.com/fabiocaccamo/django-colorfield" target="_blank" rel="noopener" class="text-reset text-decoration-none" title="django-colorfield">django-colorfield</a></h4>
+                                <p class="small text-secondary">🎨 color field for django models with a nice color-picker in the admin.</p>
+                            </div>
+                            <div>
+                                <p class="small text-primary mb-0 float-start"><i class="fas fa-star me-2"></i>519<span class="d-none"> stars</span></p>
+                                <p class="small text-primary mb-0 float-end"><a href="https://github.com/fabiocaccamo/django-colorfield" target="_blank" rel="noopener" class="text-reset" title="view django-colorfield on GitHub">view</a> &nearr;</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                    <div class="open-source-project _card _shadow-sm">
+                        <div class="open-source-project__body _card-body">
+                            <div>
+                                <h4 class="h6 text-primary"><a href="https://github.com/fabiocaccamo/django-treenode" target="_blank" rel="noopener" class="text-reset text-decoration-none" title="django-treenode">django-treenode</a></h4>
+                                <p class="small text-secondary">🌳 probably the best abstract model/admin for your tree based stuff.</p>
+                            </div>
+                            <div>
+                                <p class="small text-primary mb-0 float-start"><i class="fas fa-star me-2"></i>505<span class="d-none"> stars</span></p>
+                                <p class="small text-primary mb-0 float-end"><a href="https://github.com/fabiocaccamo/django-treenode" target="_blank" rel="noopener" class="text-reset" title="view django-treenode on GitHub">view</a> &nearr;</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                    <div class="open-source-project _card _shadow-sm">
+                        <div class="open-source-project__body _card-body">
+                            <div>
+                                <h4 class="h6 text-primary"><a href="https://github.com/fabiocaccamo/django-maintenance-mode" target="_blank" rel="noopener" class="text-reset text-decoration-none" title="django-maintenance-mode">django-maintenance-mode</a></h4>
+                                <p class="small text-secondary">🚧 🛠️ shows a 503 error page when maintenance-mode is on.</p>
+                            </div>
+                            <div>
+                                <p class="small text-primary mb-0 float-start"><i class="fas fa-star me-2"></i>408<span class="d-none"> stars</span></p>
+                                <p class="small text-primary mb-0 float-end"><a href="https://github.com/fabiocaccamo/django-maintenance-mode" target="_blank" rel="noopener" class="text-reset" title="view django-maintenance-mode on GitHub">view</a> &nearr;</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                    <div class="open-source-project _card _shadow-sm">
+                        <div class="open-source-project__body _card-body">
+                            <div>
+                                <h4 class="h6 text-primary"><a href="https://github.com/fabiocaccamo/django-extra-settings" target="_blank" rel="noopener" class="text-reset text-decoration-none" title="django-extra-settings">django-extra-settings</a></h4>
+                                <p class="small text-secondary">⚙️ config and manage typed extra settings using just the django admin.</p>
+                            </div>
+                            <div>
+                                <p class="small text-primary mb-0 float-start"><i class="fas fa-star me-2"></i>398<span class="d-none"> stars</span></p>
+                                <p class="small text-primary mb-0 float-end"><a href="https://github.com/fabiocaccamo/django-extra-settings" target="_blank" rel="noopener" class="text-reset" title="view django-extra-settings on GitHub">view</a> &nearr;</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                    <div class="open-source-project _card _shadow-sm">
+                        <div class="open-source-project__body _card-body">
+                            <div>
+                                <h4 class="h6 text-primary"><a href="https://github.com/fabiocaccamo/FCCurrentLocationGeocoder" target="_blank" rel="noopener" class="text-reset text-decoration-none" title="FCCurrentLocationGeocoder">FCCurrentLocationGeocoder</a></h4>
+                                <p class="small text-secondary">📱 📍 iOS geocoder for forward / reverse geocode user's current location using a block-based syntax.</p>
+                            </div>
+                            <div>
+                                <p class="small text-primary mb-0 float-start"><i class="fas fa-star me-2"></i>262<span class="d-none"> stars</span></p>
+                                <p class="small text-primary mb-0 float-end"><a href="https://github.com/fabiocaccamo/FCCurrentLocationGeocoder" target="_blank" rel="noopener" class="text-reset" title="view FCCurrentLocationGeocoder on GitHub">view</a> &nearr;</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                    <div class="open-source-project _card _shadow-sm">
+                        <div class="open-source-project__body _card-body">
+                            <div>
+                                <h4 class="h6 text-primary"><a href="https://github.com/fabiocaccamo/python-fsutil" target="_blank" rel="noopener" class="text-reset text-decoration-none" title="python-fsutil">python-fsutil</a></h4>
+                                <p class="small text-secondary">💻 🔧 high-level file-system operations for lazy devs.</p>
+                            </div>
+                            <div>
+                                <p class="small text-primary mb-0 float-start"><i class="fas fa-star me-2"></i>160<span class="d-none"> stars</span></p>
+                                <p class="small text-primary mb-0 float-end"><a href="https://github.com/fabiocaccamo/python-fsutil" target="_blank" rel="noopener" class="text-reset" title="view python-fsutil on GitHub">view</a> &nearr;</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                    <div class="open-source-project _card _shadow-sm">
+                        <div class="open-source-project__body _card-body">
+                            <div>
+                                <h4 class="h6 text-primary"><a href="https://github.com/fabiocaccamo/FCIPAddressGeocoder" target="_blank" rel="noopener" class="text-reset text-decoration-none" title="FCIPAddressGeocoder">FCIPAddressGeocoder</a></h4>
+                                <p class="small text-secondary">📱 🌍 iOS geocoder for geocode device IP Address location using GeoIP service(s) and a block-based syntax.</p>
+                            </div>
+                            <div>
+                                <p class="small text-primary mb-0 float-start"><i class="fas fa-star me-2"></i>114<span class="d-none"> stars</span></p>
+                                <p class="small text-primary mb-0 float-end"><a href="https://github.com/fabiocaccamo/FCIPAddressGeocoder" target="_blank" rel="noopener" class="text-reset" title="view FCIPAddressGeocoder on GitHub">view</a> &nearr;</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                    <div class="open-source-project _card _shadow-sm">
+                        <div class="open-source-project__body _card-body">
+                            <div>
+                                <h4 class="h6 text-primary"><a href="https://github.com/fabiocaccamo/django-freeze" target="_blank" rel="noopener" class="text-reset text-decoration-none" title="django-freeze">django-freeze</a></h4>
+                                <p class="small text-secondary">🧊 convert your dynamic django site to a static one with one line of code.</p>
+                            </div>
+                            <div>
+                                <p class="small text-primary mb-0 float-start"><i class="fas fa-star me-2"></i>89<span class="d-none"> stars</span></p>
+                                <p class="small text-primary mb-0 float-end"><a href="https://github.com/fabiocaccamo/django-freeze" target="_blank" rel="noopener" class="text-reset" title="view django-freeze on GitHub">view</a> &nearr;</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                    <div class="open-source-project _card _shadow-sm">
+                        <div class="open-source-project__body _card-body">
+                            <div>
+                                <h4 class="h6 text-primary"><a href="https://github.com/fabiocaccamo/python-codicefiscale" target="_blank" rel="noopener" class="text-reset text-decoration-none" title="python-codicefiscale">python-codicefiscale</a></h4>
+                                <p class="small text-secondary">💳 italian fiscal codes encoding, decoding and validation - codifica, decodifica e validazione del Codice Fiscale italiano.</p>
+                            </div>
+                            <div>
+                                <p class="small text-primary mb-0 float-start"><i class="fas fa-star me-2"></i>64<span class="d-none"> stars</span></p>
+                                <p class="small text-primary mb-0 float-end"><a href="https://github.com/fabiocaccamo/python-codicefiscale" target="_blank" rel="noopener" class="text-reset" title="view python-codicefiscale on GitHub">view</a> &nearr;</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                    <div class="open-source-project _card _shadow-sm">
+                        <div class="open-source-project__body _card-body">
+                            <div>
+                                <h4 class="h6 text-primary"><a href="https://github.com/fabiocaccamo/django-redirects" target="_blank" rel="noopener" class="text-reset text-decoration-none" title="django-redirects">django-redirects</a></h4>
+                                <p class="small text-secondary">↪️ ✅ redirects as they should be, with full control.</p>
+                            </div>
+                            <div>
+                                <p class="small text-primary mb-0 float-start"><i class="fas fa-star me-2"></i>59<span class="d-none"> stars</span></p>
+                                <p class="small text-primary mb-0 float-end"><a href="https://github.com/fabiocaccamo/django-redirects" target="_blank" rel="noopener" class="text-reset" title="view django-redirects on GitHub">view</a> &nearr;</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                    <div class="open-source-project _card _shadow-sm">
+                        <div class="open-source-project__body _card-body">
+                            <div>
+                                <h4 class="h6 text-primary"><a href="https://github.com/fabiocaccamo/python-fontbro" target="_blank" rel="noopener" class="text-reset text-decoration-none" title="python-fontbro">python-fontbro</a></h4>
+                                <p class="small text-secondary">🧢 friendly font operations on top of fontTools.</p>
+                            </div>
+                            <div>
+                                <p class="small text-primary mb-0 float-start"><i class="fas fa-star me-2"></i>51<span class="d-none"> stars</span></p>
+                                <p class="small text-primary mb-0 float-end"><a href="https://github.com/fabiocaccamo/python-fontbro" target="_blank" rel="noopener" class="text-reset" title="view python-fontbro on GitHub">view</a> &nearr;</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                    <div class="open-source-project _card _shadow-sm">
+                        <div class="open-source-project__body _card-body">
+                            <div>
+                                <h4 class="h6 text-primary"><a href="https://github.com/fabiocaccamo/utils.js" target="_blank" rel="noopener" class="text-reset text-decoration-none" title="utils.js">utils.js</a></h4>
+                                <p class="small text-secondary">👷 🔧 zero dependencies vanilla JavaScript utils.</p>
+                            </div>
+                            <div>
+                                <p class="small text-primary mb-0 float-start"><i class="fas fa-star me-2"></i>19<span class="d-none"> stars</span></p>
+                                <p class="small text-primary mb-0 float-end"><a href="https://github.com/fabiocaccamo/utils.js" target="_blank" rel="noopener" class="text-reset" title="view utils.js on GitHub">view</a> &nearr;</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                    <div class="open-source-project _card _shadow-sm">
+                        <div class="open-source-project__body _card-body">
+                            <div>
+                                <h4 class="h6 text-primary"><a href="https://github.com/fabiocaccamo/create-matrix-action" target="_blank" rel="noopener" class="text-reset text-decoration-none" title="create-matrix-action">create-matrix-action</a></h4>
+                                <p class="small text-secondary">🧪 💥 GitHub action that creates a non-square matrix parsing a readable config.</p>
+                            </div>
+                            <div>
+                                <p class="small text-primary mb-0 float-start"><i class="fas fa-star me-2"></i>9<span class="d-none"> stars</span></p>
+                                <p class="small text-primary mb-0 float-end"><a href="https://github.com/fabiocaccamo/create-matrix-action" target="_blank" rel="noopener" class="text-reset" title="view create-matrix-action on GitHub">view</a> &nearr;</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container">
+        <hr>
+    </div>
+    <section class="mt-4 mb-5 works" id="works">
+        <div class="container">
+            <div class="row mb-2">
+                <div class="col">
+                    <h3 class="text-primary h5 mb-4"><span class="fw-light me-2">&mdash;</span> Works</h3>
+                    <p class="text-secondary mb-4">
+                        A selection of projects I'm proud of, some recent, some very old&hellip;
+                    </p>
+                </div>
+            </div>
+            <div class="row g-3 g-lg-4">
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/black-foundry.png" class="lazyload" alt="Black Foundry"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Black Foundry</h4>
+                                <p class="small text-secondary">Type Foundry E-Commerce website</p>
+                                <p class="small fst-italic text-secondary"><small>Frontend / Backend developer<br>made in 2022 @ Black Foundry</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#python #django #mysql #vuejs #bootstrap</code></span></p>
+                            </div>
+                            <div>
+                                <hr>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item border-0 p-0 mb-1"><span class="me-2">&rarr;</span><a href="https://black-foundry.com" class="text-reset" target="_blank" rel="noopener">https://black-foundry.com</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/arexons.png" class="lazyload" alt="Arexons"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Arexons</h4>
+                                <p class="small text-secondary">Corporate website</p>
+                                <p class="small fst-italic text-secondary"><small>Backend developer<br>made in 2019 @ IO S.r.l.</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#python #django #mysql</code></span></p>
+                            </div>
+                            <div>
+                                <hr>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item border-0 p-0 mb-1"><span class="me-2">&rarr;</span><a href="https://arexons.it" class="text-reset" target="_blank" rel="noopener">https://arexons.it</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/comunicazione-facile.png" class="lazyload" alt="Comunicazione Facile"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Comunicazione Facile</h4>
+                                <p class="small text-secondary">Web application</p>
+                                <p class="small fst-italic text-secondary"><small>Frontend / Backend developer<br>made in 2019</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#python #django #mysql #jquery #bootstrap</code></span></p>
+                            </div>
+                            <div>
+                                <hr>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item border-0 p-0 mb-1"><span class="me-2">&rarr;</span><a href="https://comunicazione-facile.it" class="text-reset" target="_blank" rel="noopener">https://comunicazione-facile.it</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/chiara-zavattaro.png" class="lazyload" alt="Chiara Zavattaro"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Chiara Zavattaro</h4>
+                                <p class="small text-secondary">Art director portfolio</p>
+                                <p class="small fst-italic text-secondary"><small>Backend developer<br>made in 2018</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#python #django #mysql</code></span></p>
+                            </div>
+                            <div>
+                                <hr>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item border-0 p-0 mb-1"><span class="me-2">&rarr;</span><a href="https://chiarazavattaro.com" class="text-reset" target="_blank" rel="noopener">https://chiarazavattaro.com</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/io-2016.jpg" class="lazyload" alt="IO Adv"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">IO Adv</h4>
+                                <p class="small text-secondary">Agency website</p>
+                                <p class="small fst-italic text-secondary"><small>Backend developer<br>made in 2016 @ IO S.r.l.</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#python #django #mysql</code></span></p>
+                            </div>
+                            <div>
+                                <hr>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item border-0 p-0 mb-1"><span class="me-2">&rarr;</span><a href="https://ioadv.it" class="text-reset" target="_blank" rel="noopener">https://ioadv.it</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/ilaria-urbinati.jpg" class="lazyload" alt="Ilaria Urbinati"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Ilaria Urbinati</h4>
+                                <p class="small text-secondary">Illustrator portfolio</p>
+                                <p class="small fst-italic text-secondary"><small>Frontend / Backend developer<br>made in 2016</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#python #django #mysql #foundation</code></span></p>
+                            </div>
+                            <div>
+                                <hr>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item border-0 p-0 mb-1"><span class="me-2">&rarr;</span><a href="https://ilariaurbinati.com" class="text-reset" target="_blank" rel="noopener">https://ilariaurbinati.com</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/breda-lorett.jpg" class="lazyload" alt="Breda Lorett"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Breda Lorett</h4>
+                                <p class="small text-secondary">Corporate website</p>
+                                <p class="small fst-italic text-secondary"><small>Backend developer<br>made in 2015 @ IO S.r.l.</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#python #django #mysql</code></span></p>
+                            </div>
+                            <div>
+                                <hr>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item border-0 p-0 mb-1"><span class="me-2">&rarr;</span><a href="https://lorett.com" class="text-reset" target="_blank" rel="noopener">https://lorett.com</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/fiat_nuova_500_interactive_event.jpg" class="lazyload" alt="Fiat Nuova 500"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Fiat Nuova 500</h4>
+                                <p class="small text-secondary">Interactive ledwall application</p>
+                                <p class="small fst-italic text-secondary"><small>Backend developer<br>made in 2015 @ IO S.r.l.</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#python #django #mysql</code></span></p>
+                            </div>
+                            <div>
+                                <hr>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item border-0 p-0 mb-1"><span class="me-2">&rarr;</span><a href="https://ioadv.it/progetti/fiat-nuova-500-interactive-event/" class="text-reset" target="_blank" rel="noopener">Read more</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/fiat_mirafiori_outlet.png" class="lazyload" alt="FCA Mirafiori Outlet App"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">FCA Mirafiori Outlet App</h4>
+                                <p class="small text-secondary">Mobile application (iOS, Android)</p>
+                                <p class="small fst-italic text-secondary"><small>JavaScript developer<br>made in 2015 @ IO S.r.l.</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#phonegap #javascript #handlebars</code></span></p>
+                            </div>
+                            <div>
+                                <hr>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item border-0 p-0 mb-1"><small><s class="pe-none _text-black-50"><a href="https://itunes.apple.com/it/app/mirafiori-outlet/id486880292?mt=8" class="text-reset" target="_blank" rel="noopener">Download iOS App</a></s></small></li>
+                                    <li class="list-group-item border-0 p-0 mb-1"><small><s class="pe-none _text-black-50"><a href="https://play.google.com/store/apps/details?id=com.fca.mirafioriOutlet" class="text-reset" target="_blank" rel="noopener">Download Android App</a></s></small></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/rai_inrim.jpg" class="lazyload" alt="Rai - INRiM"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Rai - INRiM</h4>
+                                <p class="small text-secondary">Desktop application</p>
+                                <p class="small fst-italic text-secondary"><small>Interaction director / Flash developer<br>made in 2014</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#as3 #flashdevelop</code></span></p>
+                            </div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/mario-daniele.png" class="lazyload" alt="Mario Daniele"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Mario Daniele</h4>
+                                <p class="small text-secondary">Photographer portfolio</p>
+                                <p class="small fst-italic text-secondary"><small>Frontend / Backend developer<br>made in 2014 @ IO S.r.l.</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#python #django #mysql #foundation</code></span></p>
+                            </div>
+                            <div>
+                                <hr>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item border-0 p-0 mb-1"><span class="me-2">&rarr;</span><a href="https://mariodaniele.it" class="text-reset" target="_blank" rel="noopener">https://mariodaniele.it</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/filtra.png" class="lazyload" alt="Filtra"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Filtra</h4>
+                                <p class="small text-secondary">Corporate website</p>
+                                <p class="small fst-italic text-secondary"><small>Backend developer<br>made in 2014 @ IO S.r.l.</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#python #django #mysql</code></span></p>
+                            </div>
+                            <div>
+                                <hr>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item border-0 p-0 mb-1"><span class="me-2">&rarr;</span><a href="https://www.filtra.it" class="text-reset" target="_blank" rel="noopener">https://www.filtra.it</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/graffiti_shops.png" class="lazyload" alt="Graffiti Shops"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Graffiti Shops</h4>
+                                <p class="small text-secondary">iPhone application</p>
+                                <p class="small fst-italic text-secondary"><small>iOS developer / Backend developer<br>made in 2013</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#ios #objective-c #python #django</code></span></p>
+                            </div>
+                            <div>
+                                <hr>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item border-0 p-0 mb-1"><small><s class="pe-none _text-black-50"><a href="http://graffitishops.info" class="text-reset" target="_blank" rel="noopener">http://graffitishops.info</a></s></small></li>
+                                    <li class="list-group-item border-0 p-0 mb-1"><small><s class="pe-none _text-black-50"><a href="https://itunes.apple.com/us/app/graffitishops/id587442276?ls=1&amp;mt=8" class="text-reset" target="_blank" rel="noopener">Download iPhone App</a></s></small></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/bombardier.png" class="lazyload" alt="Bombardier"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Bombardier</h4>
+                                <p class="small text-secondary">iPad application (Ad Hoc distribution)</p>
+                                <p class="small fst-italic text-secondary"><small>iOS developer<br>made in 2013 @ Easybit S.r.l.</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#ios #objective-c #vr #ipad</code></span></p>
+                            </div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/italdesign_giugiaro_timeline.png" class="lazyload" alt="Giugiaro Timeline"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Giugiaro Timeline</h4>
+                                <p class="small text-secondary">iPhone / iPad application</p>
+                                <p class="small fst-italic text-secondary"><small>iOS developer<br>made in 2012 @ Easybit S.r.l.</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#ios #objective-c #iphone #ipad</code></span></p>
+                            </div>
+                            <div>
+                                <hr>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item border-0 p-0 mb-1"><small><s class="pe-none _text-black-50"><a href="https://itunes.apple.com/it/app/giugiaro-timeline/id421117974?mt=8" class="text-reset" target="_blank" rel="noopener">Download iPhone/iPad App</a></s></small></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/unilever_food_solutions.png" class="lazyload" alt="Unilever Food Solutions"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Unilever Food Solutions</h4>
+                                <p class="small text-secondary">Desktop application</p>
+                                <p class="small fst-italic text-secondary"><small>Interaction director / Flash developer<br>made in 2012 @ Easybit S.r.l.</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#adobe-air #flashdevelop #as3 #away3d #alivepdf</code></span></p>
+                            </div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/parco_orsiera_rocciavre.png" class="lazyload" alt="Parco Orsiera Rocciavrè"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Parco Orsiera Rocciavrè</h4>
+                                <p class="small text-secondary">Touchscreen application</p>
+                                <p class="small fst-italic text-secondary"><small>Interaction director / Flash developer<br>made in 2011</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#adobe-air #flashdevelop #as3</code></span></p>
+                            </div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/italdesign_giugiaro_geneva_2011.png" class="lazyload" alt="Italdesign - Geneva 2011"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Italdesign - Geneva 2011</h4>
+                                <p class="small text-secondary">Event Website - 81st Motor Show</p>
+                                <p class="small fst-italic text-secondary"><small>Interaction director / Flash developer<br>made in 2011 @ Easybit S.r.l.</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#flash #as3 #javascript</code></span></p>
+                            </div>
+                            <div>
+                                <hr>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item border-0 p-0 mb-1"><small><s class="pe-none _text-black-50"><a href="http://ginevra2011.italdesign.it" class="text-reset" target="_blank" rel="noopener">http://ginevra2011.italdesign.it</a></s></small></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/gughi_fassino.png" class="lazyload" alt="Gughi Fassino"><span class="award-ribbon award-ribbon--fwa-sotd"></span></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Gughi Fassino</h4>
+                                <p class="small text-secondary">Portfolio website - Photojournalism</p>
+                                <p class="small fst-italic text-secondary"><small>Interaction director / Flash developer<br>made in 2010 @ Easybit S.r.l.</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#flash #as3 #papervision3d #fwa #dopeaward</code></span></p>
+                            </div>
+                            <div>
+                                <hr>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item border-0 p-0 mb-1"><small><s class="pe-none _text-black-50"><a href="http://gughifassino.it" class="text-reset" target="_blank" rel="noopener">http://gughifassino.it</a></s></small></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/italdesign_giugiaro_corporate.png" class="lazyload" alt="Italdesign Giugiaro"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Italdesign Giugiaro</h4>
+                                <p class="small text-secondary">Corporate website</p>
+                                <p class="small fst-italic text-secondary"><small>Interaction director / Flash developer<br>made in 2010 @ Easybit S.r.l.</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#flash #as3</code></span></p>
+                            </div>
+                            <div>
+                                <hr>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item border-0 p-0 mb-1"><small><s class="pe-none _text-black-50"><a href="http://italdesign.it/timeline/" class="text-reset" target="_blank" rel="noopener">http://italdesign.it/timeline/</a></s></small></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/italdesign_giugiaro_geneva_2010.png" class="lazyload" alt="Italdesign - Geneva 2010"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Italdesign - Geneva 2010</h4>
+                                <p class="small text-secondary">Event website - 80st Motor Show</p>
+                                <p class="small fst-italic text-secondary"><small>Interaction director / Flash developer<br>made in 2010 @ Easybit S.r.l.</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#flash #as3 #javascript</code></span></p>
+                            </div>
+                            <div>
+                                <hr>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item border-0 p-0 mb-1"><small><s class="pe-none _text-black-50"><a href="http://ginevra2010.italdesign.it" class="text-reset" target="_blank" rel="noopener">http://ginevra2010.italdesign.it</a></s></small></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/cristian_girotto.png" class="lazyload" alt="Cristian Girotto"><span class="award-ribbon award-ribbon--dope-award"></span></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Cristian Girotto</h4>
+                                <p class="small text-secondary">Portfolio website - Photo Retouching</p>
+                                <p class="small fst-italic text-secondary"><small>Interaction director / Flash developer<br>made in 2010</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#flash #as3 #dopeaward</code></span></p>
+                            </div>
+                            <div>
+                                <hr>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item border-0 p-0 mb-1"><small><s class="pe-none _text-black-50"><a href="http://cristiangirotto.com" class="text-reset" target="_blank" rel="noopener">http://cristiangirotto.com</a></s></small></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/guido_gobino.png" class="lazyload" alt="Guido Gobino"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Guido Gobino</h4>
+                                <p class="small text-secondary">Brand website</p>
+                                <p class="small fst-italic text-secondary"><small>Interaction director / Flash developer<br>made in 2009</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#flash #as3</code></span></p>
+                            </div>
+                            <div>
+                                <hr>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item border-0 p-0 mb-1"><small><s class="pe-none _text-black-50"><a href="http://guidogobino.it" class="text-reset" target="_blank" rel="noopener">http://guidogobino.it</a></s></small></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/intesa_san_paolo.png" class="lazyload" alt="Intesa San Paolo"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Intesa San Paolo</h4>
+                                <p class="small text-secondary">Touchscreen application</p>
+                                <p class="small fst-italic text-secondary"><small>Interaction director / Flash developer<br>made in 2009 @ Easybit S.r.l.</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#flash #as3 #papervision3d</code></span></p>
+                            </div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/chin8_neri.png" class="lazyload" alt="Chin8 Neri"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Chin8 Neri</h4>
+                                <p class="small text-secondary">Brand website</p>
+                                <p class="small fst-italic text-secondary"><small>Interaction director / Flash developer<br>made in 2008 @ Easybit S.r.l.</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#flexsdk #as3 #papervision3d</code></span></p>
+                            </div>
+                            <div>
+                                <hr>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item border-0 p-0 mb-1"><small><s class="pe-none _text-black-50"><a href="http://chin8neri.it/" class="text-reset" target="_blank" rel="noopener">http://chin8neri.it/</a></s></small></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/bottega_verde.png" class="lazyload" alt="Bottega Verde - Puzzle"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Bottega Verde - Puzzle</h4>
+                                <p class="small text-secondary">Flash game / Puzzle game</p>
+                                <p class="small fst-italic text-secondary"><small>Designer / Flash developer<br>made in 2007</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#flash #as2</code></span></p>
+                            </div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                    <div class="commercial-project _card _shadow-sm">
+                        <div class="commercial-project__header _card-img-top"><img src="" data-src="/media/portfolio/projects/peg_solitaire.png" class="lazyload" alt="Peg Solitaire"></div>
+                        <div class="commercial-project__body _card-body">
+                            <div>
+                                <h4 class="h5 _card-title mb-1">Peg Solitaire</h4>
+                                <p class="small text-secondary">Flash game / Puzzle game</p>
+                                <p class="small fst-italic text-secondary"><small>Designer / Flash developer<br>made in 2006</small></p>
+                                <p class="small mb-2"><span class="small"><code class="text-secondary small">#flash #as2</code></span></p>
+                            </div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container">
+        <hr>
+    </div>
+    <section class="mt-4 mb-5 contacts" id="contacts">
+        <div class="container">
+            <div class="row mb-2">
+                <div class="col">
+                    <h3 class="text-primary h5 mb-4"><span class="fw-light me-2">&mdash;</span> Contacts</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <ul class="list list-unstyled">
+                        <li class="list-item mb-2 text-truncate"><a class="text-reset" title="Email" href="mailto:fabio.caccamo@gmail.com"><i class="fas fa-envelope me-3"></i>Email</a></li>
+                        <li class="list-item mb-2 text-truncate"><a class="text-reset" rel="noopener" target="_blank" title="Fabio Caccamo on GitHub" href="https://github.com/fabiocaccamo?tab=repositories&q=&type=source&language=&sort=stargazers"><i class="fab fa-github me-3"></i>GitHub</a></li>
+                        <li class="list-item mb-2 text-truncate"><a class="text-reset" rel="noopener" target="_blank" title="Fabio Caccamo on Twitter" href="https://twitter.com/fabiocaccamo"><i class="fab fa-twitter me-3"></i>Twitter</a></li>
+                        <li class="list-item mb-2 text-truncate"><a class="text-reset" rel="noopener" target="_blank" title="Fabio Caccamo on Stack Overflow" href="https://stackoverflow.com/users/2096218/fabio-caccamo?tab=profile"><i class="fab fa-stack-overflow me-3"></i>Stack Overflow</a></li>
+                        <li class="list-item mb-2 text-truncate"><a class="text-reset" rel="noopener" target="_blank" title="Fabio Caccamo on LinkedIn" href="https://www.linkedin.com/in/fabiocaccamo/"><i class="fab fa-linkedin me-3"></i>LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container">
+        <hr>
+    </div>
+    <footer class="small">
+        <div class="container">
+            <p class="small text-secondary"><span class="text-nowrap">&copy; 2004-2023 Fabio Caccamo</span> &bull; <span class="text-nowrap">&lt;<a class="text-reset" href="mailto:fabio.caccamo@gmail.com">fabio.caccamo@gmail.com</a>&gt;</span> &bull; <span class="text-nowrap">P.IVA/VAT IT12329840016</span></p>
+        </div>
+    </footer>
+</body>
+
+</html>

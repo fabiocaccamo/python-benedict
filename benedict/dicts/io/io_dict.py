@@ -92,6 +92,16 @@ class IODict(BaseDict):
         return cls(s, format="csv", **kwargs)
 
     @classmethod
+    def from_html(cls, s, **kwargs):
+        """
+        Load and decode html data from url, filepath or data-string.
+        Decoder specific options can be passed using kwargs:
+        https://beautiful-soup-4.readthedocs.io/
+        Return a new dict instance. A ValueError is raised in case of failure.
+        """
+        return cls(s, format="html", **kwargs)
+
+    @classmethod
     def from_ini(cls, s, **kwargs):
         """
         Load and decode INI data from url, filepath or data-string.
@@ -198,17 +208,8 @@ class IODict(BaseDict):
     def to_cli(self, **kwargs):
         raise NotImplementedError
 
-    def to_csv(self, key="values", columns=None, columns_row=True, **kwargs):
-        """
-        Encode a list of dicts in the current dict instance in CSV format.
-        Encoder specific options can be passed using kwargs:
-        https://docs.python.org/3/library/csv.html
-        Return the encoded string and optionally save it at 'filepath'.
-        A ValueError is raised in case of failure.
-        """
-        kwargs["columns"] = columns
-        kwargs["columns_row"] = columns_row
-        return self._encode(self.dict()[key], "csv", **kwargs)
+    def to_html(self, **kwargs):
+        raise NotImplementedError
 
     def to_ini(self, **kwargs):
         """
