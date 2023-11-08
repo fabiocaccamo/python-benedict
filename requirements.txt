@@ -5,7 +5,7 @@ mailchecker == 5.0.*
 openpyxl == 3.1.*
 phonenumbers == 8.13.*
 python-dateutil == 2.8.*
-python-fsutil == 0.10.*
+python-fsutil == 0.11.*
 python-slugify == 8.0.*
 pyyaml == 6.0.*
 requests == 2.31.*
