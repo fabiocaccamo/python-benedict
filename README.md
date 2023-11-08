@@ -218,7 +218,7 @@ For simplifying I/O operations, `benedict` supports a variety of input/output me
 
 #### Input via constructor
 
-It is possible to create a `benedict` instance directly from data-source (`filepath`, `url`, `s3` or `data-string`) by passing the data source and the data format (optional, default "json") in the constructor.
+It is possible to create a `benedict` instance directly from data-source (`filepath`, `url`, `s3` or `data` string) by passing the data source and the data format (optional, default "json") in the constructor.
 
 ```python
 # filepath
@@ -230,14 +230,28 @@ d = benedict("https://localhost:8000/data.xml", format="xml")
 # s3
 d = benedict("s3://my-bucket/data.xml", s3_options={"aws_access_key_id": "...", "aws_secret_access_key": "..."})
 
-# data-string
+# data
 d = benedict('{"a": 1, "b": 2, "c": 3, "x": 7, "y": 8, "z": 9}')
 ```
 
 #### Input methods
 
 - All *input* methods can be accessed as class methods and are prefixed by `from_*` followed by the format name.
-- In all *input* methods, the first argument can represent: **url**, **filepath** or **data-string**.
+- In all *input* methods, the first argument can represent a source: **file** path, **url**, **s3** url, or **data** string.
+
+#### Input sources
+
+All supported sources (**file**, **url**, **s3**, **data**) are allowed by default, but in certains situations when the input data comes from **untrusted sources** it may be useful to restrict the allowed sources using the `sources` argument:
+
+```python
+# url
+d = benedict("https://localhost:8000/data.json", sources=["url"]) # -> ok
+d = benedict.from_json("https://localhost:8000/data.json", sources=["url"]) # -> ok
+
+# s3
+d = benedict("s3://my-bucket/data.json", sources=["url"]) # -> raise ValueError
+d = benedict.from_json("s3://my-bucket/data.json", sources=["url"]) # -> raise ValueError
+```
 
 #### Output methods
 
