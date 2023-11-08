@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.33.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.33.0) - 2023-11-08
+-   Add `Python 3.12` support. (#342)
+-   Add possibility to restrict input data sources with `sources` argument (more info [here](https://github.com/fabiocaccamo/python-benedict#input-sources)). #287
+-   Add `from_html` method (available by installing the optional `[html]` dependency, more info [here](https://github.com/fabiocaccamo/python-benedict#optional-requirements)). #317
+-   Bump requirements.
+
 ## [0.32.1](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.32.1) - 2023-09-18
 -   Fix `items` and `values` methods returned values type (cast to `benedict`). #333
 -   Fix union with assignment operator inconsistent results (compared to `dict`). #334
