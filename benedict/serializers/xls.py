@@ -52,10 +52,15 @@ class XLSSerializer(AbstractSerializer):
         return list(range(columns_count))
 
     def _decode_legacy(self, s, **kwargs):
-        filepath = s
+        options = {}
+        options["filename"] = s
+        options["logfile"] = kwargs.pop("logfile", None)
+        options["verbosity"] = kwargs.pop("verbosity", 0) or 0
+        options["use_mmap"] = kwargs.pop("use_mmap", False) or False
+        options["file_contents"] = kwargs.pop("file_contents", None)
 
         # load the worksheet
-        workbook = open_workbook(filename=filepath)
+        workbook = open_workbook(**options)
 
         # get sheet by index or by name
         sheet_index, sheet_name = self._get_sheet_index_and_name_from_options(**kwargs)
@@ -100,10 +105,15 @@ class XLSSerializer(AbstractSerializer):
         return items
 
     def _decode(self, s, **kwargs):
-        filepath = s
+        options = {}
+        options["filename"] = s
+        options["read_only"] = True
+        options["data_only"] = kwargs.pop("data_only", False)
+        options["keep_links"] = kwargs.pop("keep_links", True)
+        options["keep_vba"] = kwargs.pop("keep_vba", True)
 
         # load the worksheet
-        workbook = load_workbook(filename=filepath, read_only=True)
+        workbook = load_workbook(**options)
 
         # get sheet by index or by name
         sheet_index, sheet_name = self._get_sheet_index_and_name_from_options(**kwargs)
