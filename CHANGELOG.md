@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.33.1](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.33.1) - 2023-12-27
+-   Fix calling `from_xls` passing custom options. #355
+-   Replace `Black` and `isort` with `Ruff-format`.
+-   Bump requirements and `pre-commit` hooks.
+
 ## [0.33.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.33.0) - 2023-11-08
 -   Add `Python 3.12` support. (#342)
 -   Add possibility to restrict input data sources with `sources` argument (more info [here](https://github.com/fabiocaccamo/python-benedict#input-sources)). #287
