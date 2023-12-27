@@ -1,11 +1,11 @@
 beautifulsoup4 == 4.12.2
-boto3 == 1.33.10
+boto3 == 1.34.8
 ftfy == 6.1.3
 mailchecker == 6.0.1
 openpyxl == 3.1.2
-phonenumbers == 8.13.26
+phonenumbers == 8.13.27
 python-dateutil == 2.8.2
-python-fsutil == 0.11.0
+python-fsutil == 0.13.0
 python-slugify == 8.0.1
 pyyaml == 6.0.1
 requests == 2.31.0
