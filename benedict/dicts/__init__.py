@@ -26,6 +26,7 @@ from benedict.dicts.io import IODict
 from benedict.dicts.keyattr import KeyattrDict
 from benedict.dicts.keylist import KeylistDict
 from benedict.dicts.keypath import KeypathDict
+from benedict.dicts.keypath import keypath_util
 from benedict.dicts.parse import ParseDict
 from benedict.serializers import JSONSerializer, YAMLSerializer
 
@@ -219,7 +220,10 @@ class benedict(KeyattrDict, KeypathDict, IODict, ParseDict):
         If overwrite is False, existing values will not be overwritten.
         If concat is True, list values will be concatenated together.
         """
-        _merge(self, other, *args, **kwargs)
+        others = [other] + list(args)
+        for other in others:
+            keypath_util.check_keys(other, self._keypath_separator)
+        _merge(self, *others, **kwargs)
 
     def move(self, key_src, key_dest):
         """
