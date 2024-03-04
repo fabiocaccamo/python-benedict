@@ -1,19 +1,55 @@
-from benedict.utils import type_util
+def _clean_dict(d, strings, collections):
+    keys = list(d.keys())
+    for key in keys:
+        d[key] = _clean_value(d[key], strings=strings, collections=collections)
+        if d[key] is None:
+            del d[key]
+    return d
 
 
-def _clean_item(d, key, strings, collections):
-    value = d.get(key, None)
-    if not value:
-        del_none = value is None
-        del_string = strings and type_util.is_string(value)
-        del_collection = collections and type_util.is_collection(value)
-        return any([del_none, del_string, del_collection])
+def _clean_list(ls, strings, collections):
+    for i in range(len(ls) - 1, -1, -1):
+        ls[i] = _clean_value(ls[i], strings=strings, collections=collections)
+        if ls[i] is None:
+            ls.pop(i)
+    return ls
 
-    return False
+
+def _clean_set(values, strings, collections):
+    return {
+        value
+        for value in values
+        if _clean_value(value, strings=strings, collections=collections) is not None
+    }
+
+
+def _clean_str(s, strings, collections):
+    return s if s and s.strip() else None
+
+
+def _clean_tuple(values, strings, collections):
+    return tuple(
+        value
+        for value in values
+        if _clean_value(value, strings=strings, collections=collections) is not None
+    )
+
+
+def _clean_value(value, strings, collections):
+    if value is None:
+        return value
+    elif isinstance(value, list) and collections:
+        value = _clean_list(value, strings=strings, collections=collections) or None
+    elif isinstance(value, dict) and collections:
+        value = _clean_dict(value, strings=strings, collections=collections) or None
+    elif isinstance(value, set) and collections:
+        value = _clean_set(value, strings=strings, collections=collections) or None
+    elif isinstance(value, str) and strings:
+        value = _clean_str(value, strings=strings, collections=collections) or None
+    elif isinstance(value, tuple) and collections:
+        value = _clean_tuple(value, strings=strings, collections=collections) or None
+    return value
 
 
 def clean(d, strings=True, collections=True):
-    keys = list(d.keys())
-    for key in keys:
-        if _clean_item(d, key, strings, collections):
-            del d[key]
+    return _clean_dict(d, strings=strings, collections=collections)
