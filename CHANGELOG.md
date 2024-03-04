@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.33.2](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.33.2) - 2024-03-05
+-   Fix `clean` method not working on nested dicts. #383
+-   Enforce top level keys check in `merge` method. #367
+-   Bump requirements and `pre-commit` hooks.
+
 ## [0.33.1](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.33.1) - 2023-12-27
 -   Fix calling `from_xls` passing custom options. #355
 -   Replace `Black` and `isort` with `Ruff-format`.
