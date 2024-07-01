@@ -8,7 +8,7 @@ python-dateutil == 2.9.0
 python-fsutil == 0.14.1
 python-slugify == 8.0.4
 pyyaml == 6.0.1
-requests == 2.32.0
+requests == 2.32.3
 toml == 0.10.2
 xlrd == 2.0.1
 xmltodict == 0.13.0
