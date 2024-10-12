@@ -1,5 +1,5 @@
-coverage == 7.5.*
+coverage == 7.6.*
 orjson == 3.10.*
-pre-commit == 3.5.*
+pre-commit == 4.0.*
 python-decouple == 3.8
-tox == 4.15.*
+tox == 4.21.*
