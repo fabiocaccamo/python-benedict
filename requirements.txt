@@ -1,5 +1,5 @@
 beautifulsoup4 == 4.12.3
-boto3 == 1.35.30
+boto3 == 1.35.39
 ftfy == 6.2.3
 mailchecker == 6.0.10
 openpyxl == 3.1.5
