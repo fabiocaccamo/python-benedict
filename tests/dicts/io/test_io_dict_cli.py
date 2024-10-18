@@ -1,3 +1,6 @@
+from unittest.mock import patch
+from io import StringIO
+
 from benedict.dicts.io import IODict
 
 from .test_io_dict import io_dict_test_case
@@ -29,7 +32,6 @@ class io_dict_cli_test_case(io_dict_test_case):
 
     def test_from_cli_with_invalid_arguments(self):
         s = """--help -h"""
-
         # static method
         with self.assertRaises(ValueError):
             IODict.from_cli(s)
@@ -38,13 +40,20 @@ class io_dict_cli_test_case(io_dict_test_case):
             IODict(s, format="cli")
 
     def test_from_cli_with_invalid_data(self):
-        s = "Lorem ipsum est in ea occaecat nisi officia."
-        # static method
-        with self.assertRaises(ValueError):
-            IODict.from_cli(s)
-        # constructor
-        with self.assertRaises(ValueError):
-            IODict(s, format="cli")
+        with patch(
+            "sys.stdout",
+            new_callable=StringIO,
+        ), patch(
+            "sys.stderr",
+            new_callable=StringIO,
+        ):
+            s = "Lorem ipsum est in ea occaecat nisi officia."
+            # static method
+            with self.assertRaises(ValueError):
+                IODict.from_cli(s)
+            # constructor
+            with self.assertRaises(ValueError):
+                IODict(s, format="cli")
 
     def test_to_cli(self):
         d = IODict(

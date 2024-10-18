@@ -19,16 +19,16 @@ class github_issue_0314_test_case(unittest.TestCase):
         b["hello.world"] = "hello world"
 
         # output as custom object using yaml manually
-        print(yaml.dump({"world": dict(b)}))
+        # print(yaml.dump({"world": dict(b)}))
 
         # output as custom object using yaml manually
-        print(yaml.dump({"world": b}))
+        # print(yaml.dump({"world": b}))
 
         # output as normal dict using yaml manually
-        print(yaml.dump({"world": b.dict()}))
+        # print(yaml.dump({"world": b.dict()}))
 
         # output as normal dict using benedict yaml serializer
-        print(benedict({"world": b}).to_yaml())
+        # print(benedict({"world": b}).to_yaml())
 
         self.assertEqual(
             yaml.dump({"world": b.dict()}),
