@@ -8,4 +8,4 @@ __description__ = (
 __email__ = "fabio.caccamo@gmail.com"
 __license__ = "MIT"
 __title__ = "benedict"
-__version__ = "0.33.2"
+__version__ = "0.34.0"
