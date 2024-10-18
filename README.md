@@ -33,7 +33,7 @@ python-benedict is a dict subclass with **keylist/keypath/keyattr** support, **I
 -   [Usage](#usage)
     -   [Basics](#basics)
     -   [Keyattr](#keyattr) `my_dict.x.y.z`
-    -   [Keylist](#keylist) `my_dict["x", "y", "z"]`
+    -   [Keylist](#keylist) `my_dict[["x", "y", "z"]]`
     -   [Keypath](#keypath) `my_dict["x.y.z"]`
         -   [Custom keypath separator](#custom-keypath-separator)
         -   [Change keypath separator](#change-keypath-separator)
@@ -136,16 +136,16 @@ Wherever a **key** is used, it is possible to use also a **list (or a tuple) of 
 d = benedict()
 
 # set values by keys list
-d["profile", "firstname"] = "Fabio"
-d["profile", "lastname"] = "Caccamo"
+d[["profile", "firstname"]] = "Fabio"
+d[["profile", "lastname"]] = "Caccamo"
 print(d) # -> { "profile":{ "firstname":"Fabio", "lastname":"Caccamo" } }
 print(d["profile"]) # -> { "firstname":"Fabio", "lastname":"Caccamo" }
 
 # check if keypath exists in dict
-print(["profile", "lastname"] in d) # -> True
+print([["profile", "lastname"]] in d) # -> True
 
 # delete value by keys list
-del d["profile", "lastname"]
+del d[["profile", "lastname"]]
 print(d["profile"]) # -> { "firstname":"Fabio" }
 ```
 

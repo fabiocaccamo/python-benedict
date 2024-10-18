@@ -334,17 +334,11 @@ class keypath_dict_test_case(unittest.TestCase):
             },
         }
         b = KeypathDict(d)
-        self.assertEqual(b["a", "b.c"], 1)
         self.assertEqual(b[["a", "b.c"]], 1)
-        self.assertEqual(b[("a", "b.c")], 1)
-        self.assertEqual(b["a", "b", "c"], 1)
         self.assertEqual(b[["a", "b", "c"]], 1)
-        self.assertEqual(b[("a", "b", "c")], 1)
-        self.assertEqual(b["a", "b", "d"], 2)
         self.assertEqual(b[["a", "b", "d"]], 2)
-        self.assertEqual(b[("a", "b", "d")], 2)
         with self.assertRaises(KeyError):
-            _ = b["a", "b", "e"]
+            _ = b[["a", "b", "e"]]
 
     def test_get_item_with_keys_list_and_no_keypath_separator(self):
         d = {
@@ -357,16 +351,12 @@ class keypath_dict_test_case(unittest.TestCase):
         }
         b = KeypathDict(d, keypath_separator=None)
         with self.assertRaises(KeyError):
-            _ = b["a", "b.c"]
+            _ = b[["a", "b.c"]]
 
-        self.assertEqual(b["a", "b", "c"], 1)
         self.assertEqual(b[["a", "b", "c"]], 1)
-        self.assertEqual(b[("a", "b", "c")], 1)
-        self.assertEqual(b["a", "b", "d"], 2)
         self.assertEqual(b[["a", "b", "d"]], 2)
-        self.assertEqual(b[("a", "b", "d")], 2)
         with self.assertRaises(KeyError):
-            _ = b["a", "b", "e"]
+            _ = b[["a", "b", "e"]]
 
     def test_has_with_1_key(self):
         d = {
@@ -516,13 +506,13 @@ class keypath_dict_test_case(unittest.TestCase):
             },
         }
         b = KeypathDict(d)
-        b["a", "b.c"] = 2
+        b[["a", "b.c"]] = 2
         self.assertEqual(b["a.b.c"], 2)
-        b["a", "b", "c"] = 3
+        b[["a", "b", "c"]] = 3
         self.assertEqual(b["a.b.c"], 3)
-        b["a", "b", "d"] = 4
+        b[["a", "b", "d"]] = 4
         self.assertEqual(b["a.b.d"], 4)
-        b["a", "b", "e"] = 5
+        b[["a", "b", "e"]] = 5
         self.assertEqual(b["a.b.e"], 5)
 
     def test_setitem_with_keys_list_and_no_keypath_separator(self):
@@ -535,20 +525,20 @@ class keypath_dict_test_case(unittest.TestCase):
             },
         }
         b = KeypathDict(d, keypath_separator=None)
-        b["a", "b", "c"] = 3
+        b[["a", "b", "c"]] = 3
         with self.assertRaises(KeyError):
             _ = b["a.b.c"]
-        self.assertEqual(b["a", "b", "c"], 3)
+        self.assertEqual(b[["a", "b", "c"]], 3)
 
-        b["a", "b", "d"] = 4
+        b[["a", "b", "d"]] = 4
         with self.assertRaises(KeyError):
             _ = b["a.b.d"]
-        self.assertEqual(b["a", "b", "d"], 4)
+        self.assertEqual(b[["a", "b", "d"]], 4)
 
-        b["a", "b", "e"] = 5
+        b[["a", "b", "e"]] = 5
         with self.assertRaises(KeyError):
             _ = b["a.b.e"]
-        self.assertEqual(b["a", "b", "e"], 5)
+        self.assertEqual(b[["a", "b", "e"]], 5)
 
     def test_setitem_with_dict_value_with_separator_in_keys(self):
         d = {
@@ -668,8 +658,8 @@ class keypath_dict_test_case(unittest.TestCase):
         }
         b = KeypathDict(d)
         with self.assertRaises(KeyError):
-            del b["a", "b", "c", "d"]
-        del b["a", "b", "c"]
+            del b[["a", "b", "c", "d"]]
+        del b[["a", "b", "c"]]
         self.assertEqual(b.get("a.b.c", 3), 3)
 
     def test_delitem_with_keys_list_and_no_keypath_separator(self):
@@ -683,8 +673,8 @@ class keypath_dict_test_case(unittest.TestCase):
         }
         b = KeypathDict(d, keypath_separator=None)
         with self.assertRaises(KeyError):
-            del b["a", "b", "c", "d"]
-        del b["a", "b", "c"]
+            del b[["a", "b", "c", "d"]]
+        del b[["a", "b", "c"]]
         self.assertEqual(b.get("a.b.c", 3), 3)
 
     def test_pop_default(self):

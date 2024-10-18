@@ -26,7 +26,7 @@ def parse_keys(keypath, separator):
     """
     Parse keys from keylist or keypath using the given separator.
     """
-    if type_util.is_list_or_tuple(keypath):
+    if type_util.is_list(keypath):
         keys = []
         for key in keypath:
             keys += parse_keys(key, separator)

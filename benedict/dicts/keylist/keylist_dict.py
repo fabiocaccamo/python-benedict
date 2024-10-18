@@ -8,7 +8,7 @@ class KeylistDict(BaseDict):
         super().__init__(*args, **kwargs)
 
     def __contains__(self, key):
-        if type_util.is_list_or_tuple(key):
+        if type_util.is_list(key):
             return self._contains_by_keys(key)
         return super().__contains__(key)
 
@@ -19,7 +19,7 @@ class KeylistDict(BaseDict):
         return False
 
     def __delitem__(self, key):
-        if type_util.is_list_or_tuple(key):
+        if type_util.is_list(key):
             self._delitem_by_keys(key)
             return
         super().__delitem__(key)
@@ -35,7 +35,7 @@ class KeylistDict(BaseDict):
         raise KeyError(f"Invalid keys: {keys!r}")
 
     def __getitem__(self, key):
-        if type_util.is_list_or_tuple(key):
+        if type_util.is_list(key):
             return self._getitem_by_keys(key)
         return super().__getitem__(key)
 
@@ -46,7 +46,7 @@ class KeylistDict(BaseDict):
         raise KeyError(f"Invalid keys: {keys!r}")
 
     def __setitem__(self, key, value):
-        if type_util.is_list_or_tuple(key):
+        if type_util.is_list(key):
             self._setitem_by_keys(key, value)
             return
         super().__setitem__(key, value)
@@ -55,7 +55,7 @@ class KeylistDict(BaseDict):
         keylist_util.set_item(self, keys, value)
 
     def get(self, key, default=None):
-        if type_util.is_list_or_tuple(key):
+        if type_util.is_list(key):
             return self._get_by_keys(key, default)
         return super().get(key, default)
 
@@ -68,7 +68,7 @@ class KeylistDict(BaseDict):
         return default
 
     def pop(self, key, *args):
-        if type_util.is_list_or_tuple(key):
+        if type_util.is_list(key):
             return self._pop_by_keys(key, *args)
         return super().pop(key, *args)
 
