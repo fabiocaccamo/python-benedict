@@ -166,11 +166,13 @@ exclude = '''
 '''
 
 [tool.ruff]
-ignore = ["B905", "E501"]
 line-length = 88
+
+[tool.ruff.lint]
+ignore = ["B905", "E501"]
 select = ["B", "B9", "C", "E", "F", "W"]
 
-[tool.ruff.mccabe]
+[tool.ruff.lint.mccabe]
 max-complexity = 10
 
 [tool.setuptools.packages.find]
