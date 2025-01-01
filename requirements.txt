@@ -1,7 +1,7 @@
 beautifulsoup4 == 4.12.3
 boto3 == 1.35.39
 ftfy == 6.3.0
-mailchecker == 6.0.11
+mailchecker == 6.0.14
 openpyxl == 3.1.5
 phonenumbers == 8.13.47
 python-dateutil == 2.9.0.post0
