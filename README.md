@@ -458,7 +458,8 @@ items = d.items_sorted_by_values(reverse=False)
 ```python
 # Return a list of all keypaths in the dict.
 # If indexes is True, the output will include list values indexes.
-k = d.keypaths(indexes=False)
+# If sort is True, the resulting list will be sorted
+k = d.keypaths(indexes=False, sort=True)
 ```
 
 #### `match`

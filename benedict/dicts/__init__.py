@@ -196,12 +196,14 @@ class benedict(KeyattrDict, KeypathDict, IODict, ParseDict):
         """
         return _items_sorted_by_values(self, reverse=reverse)
 
-    def keypaths(self, indexes=False):
+    def keypaths(self, indexes=False, sort=True):
         """
         Return a list of all keypaths in the dict.
         If indexes is True, the output will include list values indexes.
         """
-        return _keypaths(self, separator=self._keypath_separator, indexes=indexes)
+        return _keypaths(
+            self, separator=self._keypath_separator, indexes=indexes, sort=sort
+        )
 
     def match(self, pattern, indexes=True):
         """

@@ -35,6 +35,33 @@ class keypaths_test_case(unittest.TestCase):
         ]
         self.assertEqual(o, r)
 
+    def test_keypaths_unsorted(self):
+        i = {
+            "b": {
+                "c": {
+                    "y": 3,
+                    "x": 2,
+                },
+                "d": {
+                    "x": 4,
+                    "y": 5,
+                },
+            },
+            "a": 1,
+        }
+        o = _keypaths(i, sort=False)
+        r = [
+            "b",
+            "b.c",
+            "b.c.y",
+            "b.c.x",
+            "b.d",
+            "b.d.x",
+            "b.d.y",
+            "a",
+        ]
+        self.assertEqual(o, r)
+
     def test_keypaths_with_custom_separator(self):
         i = {
             "a": 1,
