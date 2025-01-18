@@ -40,12 +40,15 @@ class io_dict_cli_test_case(io_dict_test_case):
             IODict(s, format="cli")
 
     def test_from_cli_with_invalid_data(self):
-        with patch(
-            "sys.stdout",
-            new_callable=StringIO,
-        ), patch(
-            "sys.stderr",
-            new_callable=StringIO,
+        with (
+            patch(
+                "sys.stdout",
+                new_callable=StringIO,
+            ),
+            patch(
+                "sys.stderr",
+                new_callable=StringIO,
+            ),
         ):
             s = "Lorem ipsum est in ea occaecat nisi officia."
             # static method
