@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.34.1](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.34.1) - 2025-01-18
+-   Add `sort` parameter to `keypaths` method. #404 (by [@kotfu](https://github.com/kotfu) in #467)
+-   Bump requirements and `pre-commit` hooks.
+
 ## [0.34.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.34.0) - 2024-10-18
 -   Add `Python 3.13` support.
 -   Drop `Python 3.8` and `Python 3.9` support.
