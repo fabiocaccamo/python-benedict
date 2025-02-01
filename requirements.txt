@@ -3,7 +3,7 @@ boto3 == 1.35.90
 ftfy == 6.3.1
 mailchecker == 6.0.14
 openpyxl == 3.1.5
-phonenumbers == 8.13.52
+phonenumbers == 8.13.54
 python-dateutil == 2.9.0.post0
 python-fsutil == 0.14.1
 python-slugify == 8.0.4
