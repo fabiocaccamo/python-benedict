@@ -1,5 +1,5 @@
-from unittest.mock import patch
 from io import StringIO
+from unittest.mock import patch
 
 from benedict.dicts.io import IODict
 
