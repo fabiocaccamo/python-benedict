@@ -9,7 +9,7 @@ repos:
         args: ["--py310-plus"]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.9.6
+    rev: v0.9.7
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
@@ -18,8 +18,6 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
-      - id: fix-encoding-pragma
-        args: [--remove]
       - id: trailing-whitespace
       - id: end-of-file-fixer
         exclude: "tests/dicts/io/input/"
