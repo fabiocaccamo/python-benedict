@@ -65,6 +65,7 @@ Here the hierarchy of possible installation targets available when running `pip 
         - `[yaml]`
     - `[parse]`
     - `[s3]`
+    - `[validate]`
 
 ## Usage
 
@@ -279,6 +280,36 @@ Here are the details of the supported formats, operations and extra options docs
 | `xml`          | :white_check_mark: | :white_check_mark: | [xmltodict](https://github.com/martinblech/xmltodict)                                 |
 | `yaml`         | :white_check_mark: | :white_check_mark: | [PyYAML](https://pyyaml.org/wiki/PyYAMLDocumentation)                                 |
 
+#### Data validation
+
+`benedict` supports data validation using `Pydantic` models.
+
+This feature **requires** the `validate` extra to be installed:
+
+```bash
+pip install "python-benedict[validate]"
+```
+
+You can validate data in different ways:
+
+##### Using the `validate` method directly
+```python
+d = benedict(my_data)
+d.validate(schema=MySchema)
+```
+
+##### Using the `schema` parameter during initialization
+```python
+d = benedict(my_data, schema=MySchema)
+```
+
+##### Using the `schema` parameter with any `from_{format}` method
+```python
+d = benedict.from_json(my_data, schema=MySchema)
+```
+
+If validation fails, a `ValidationError` will be raised with details about what went wrong.
+
 ### API
 
 -   **Utility methods**
@@ -333,6 +364,7 @@ Here are the details of the supported formats, operations and extra options docs
     -   [`to_toml`](#to_toml)
     -   [`to_xml`](#to_xml)
     -   [`to_yaml`](#to_yaml)
+    -   [`validate`](#validate)
 
 -   **Parse methods**
 
@@ -813,6 +845,14 @@ s = d.to_xml(**kwargs)
 # https://pyyaml.org/wiki/PyYAMLDocumentation
 # A ValueError is raised in case of failure.
 s = d.to_yaml(**kwargs)
+```
+
+#### `validate`
+
+```python
+# Validate the dict and update it using a Pydantic schema.
+# A ValidationError is raised in case of failure.
+d.validate(schema=MySchema)
 ```
 
 ### Parse methods

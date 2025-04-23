@@ -5,6 +5,7 @@ __all__ = [
     "require_parse",
     "require_s3",
     "require_toml",
+    "require_validate",
     "require_xls",
     "require_xml",
     "require_yaml",
@@ -30,6 +31,10 @@ def require_s3(*, installed):
 
 def require_toml(*, installed):
     _require_optional_dependencies(target="toml", installed=installed)
+
+
+def require_validate(*, installed):
+    _require_optional_dependencies(target="validate", installed=installed)
 
 
 def require_xls(*, installed):
