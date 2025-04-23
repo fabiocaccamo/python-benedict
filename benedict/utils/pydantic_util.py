@@ -3,23 +3,14 @@ from typing import Any
 from benedict.extras import require_validate
 
 try:
-    from pydantic.v2 import BaseModel
-    from pydantic.v2.json import pydantic_encoder
+    from pydantic import BaseModel
 
     pydantic_installed = True
 except ImportError:
     pydantic_installed = False
     BaseModel = None
-    pydantic_encoder = None
 
 PydanticModel = type["BaseModel"]
-
-
-def is_pydantic_model(obj: Any) -> bool:
-    """
-    Check if an object is a Pydantic model.
-    """
-    return pydantic_installed and isinstance(obj, BaseModel)
 
 
 def is_pydantic_model_class(obj: Any) -> bool:

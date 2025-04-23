@@ -1,19 +1,10 @@
 import unittest
 
+from pydantic import BaseModel, ValidationError
+
 from benedict.dicts.io import IODict
 
-try:
-    from pydantic.v2 import BaseModel
-    from pydantic.v2.errors import ValidationError
 
-    pydantic_installed = True
-except ImportError:
-    pydantic_installed = False
-    BaseModel = None
-    ValidationError = None
-
-
-@unittest.skipIf(not pydantic_installed, "pydantic not installed")
 class TestIODictValidate(unittest.TestCase):
     def setUp(self):
         class User(BaseModel):
