@@ -129,7 +129,8 @@ or using the `getter/setter` property.
 d.keyattr_dynamic = True
 ```
 
-> **Warning** - even if this feature is very useful, it has some obvious limitations: it works only for string keys that are *unprotected* (not starting with an `_`) and that don't clash with the currently supported methods names.
+> [!WARNING]
+> Even if this feature is very useful, it has some obvious limitations: it works only for string keys that are *unprotected* (not starting with an `_`) and that don't clash with the currently supported methods names.
 
 ### Keylist
 Wherever a **key** is used, it is possible to use also a **list of keys**.
@@ -281,13 +282,10 @@ Here are the details of the supported formats, operations and extra options docs
 | `xml`          | :white_check_mark: | :white_check_mark: | [xmltodict](https://github.com/martinblech/xmltodict)                                 |
 | `yaml`         | :white_check_mark: | :white_check_mark: | [PyYAML](https://pyyaml.org/wiki/PyYAMLDocumentation)                                 |
 
-#### Data validation using Pydantic models
+### Data validation using Pydantic models
 
-This feature **requires** the `validate` extra to be installed:
-
-```bash
-pip install "python-benedict[validate]"
-```
+> [!IMPORTANT]
+> This feature **requires** the `validate` extra to be installed: `pip install "python-benedict[validate]`
 
 You can validate data in different ways:
 
