@@ -40,6 +40,7 @@ python-benedict is a dict subclass with **keylist/keypath/keyattr** support, **I
         -   [Disable keypath functionality](#disable-keypath-functionality)
         -   [List index support](#list-index-support)
     -   [I/O](#io)
+        -   [Data validation using Pydantic models](#data-validation-using-pydantic-models)
     -   [API](#api)
         -   [Utility methods](#utility-methods)
         -   [I/O methods](#io-methods)
@@ -280,9 +281,7 @@ Here are the details of the supported formats, operations and extra options docs
 | `xml`          | :white_check_mark: | :white_check_mark: | [xmltodict](https://github.com/martinblech/xmltodict)                                 |
 | `yaml`         | :white_check_mark: | :white_check_mark: | [PyYAML](https://pyyaml.org/wiki/PyYAMLDocumentation)                                 |
 
-#### Data validation
-
-`benedict` supports data validation using `Pydantic` models.
+#### Data validation using Pydantic models
 
 This feature **requires** the `validate` extra to be installed:
 
@@ -292,18 +291,18 @@ pip install "python-benedict[validate]"
 
 You can validate data in different ways:
 
-##### Using the `validate` method directly
+1. Using the `validate` method directly
 ```python
 d = benedict(my_data)
 d.validate(schema=MySchema)
 ```
 
-##### Using the `schema` parameter during initialization
+2. Using the `schema` parameter during initialization
 ```python
 d = benedict(my_data, schema=MySchema)
 ```
 
-##### Using the `schema` parameter with any `from_{format}` method
+3. Using the `schema` parameter with any `from_{format}` method
 ```python
 d = benedict.from_json(my_data, schema=MySchema)
 ```
