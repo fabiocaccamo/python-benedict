@@ -13,7 +13,7 @@ except ImportError:
 PydanticModel = type["BaseModel"]
 
 
-def is_pydantic_model_class(obj: Any) -> bool:
+def _is_pydantic_model(obj: Any) -> bool:
     """
     Check if an object is a Pydantic model class.
     """
@@ -34,7 +34,7 @@ def validate_data(data: Any, *, schema: PydanticModel | None = None) -> Any:
 
     require_validate(installed=pydantic_installed)
 
-    if not is_pydantic_model_class(schema):
+    if not _is_pydantic_model(schema):
         raise ValueError("Invalid schema. Schema must be a Pydantic model class.")
 
     validated = schema.model_validate(data)
