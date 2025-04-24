@@ -6,7 +6,7 @@ try:
     from pydantic import BaseModel
 
     pydantic_installed = True
-except ImportError:
+except ModuleNotFoundError:
     pydantic_installed = False
     BaseModel = None
 
