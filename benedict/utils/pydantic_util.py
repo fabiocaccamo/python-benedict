@@ -17,12 +17,7 @@ def _is_pydantic_model(obj: Any) -> bool:
     """
     Check if an object is a Pydantic model class.
     """
-    return (
-        pydantic_installed
-        and BaseModel is not None
-        and isinstance(obj, type)
-        and issubclass(obj, BaseModel)
-    )
+    return pydantic_installed and isinstance(obj, type) and issubclass(obj, BaseModel)
 
 
 def validate_data(data: Any, *, schema: PydanticModel | None = None) -> Any:
