@@ -1,5 +1,6 @@
 import json
 import unittest
+from typing import Any
 
 from benedict import benedict
 
@@ -14,7 +15,7 @@ class github_issue_0034_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0034
     """
 
-    def test_json_dumps(self):
+    def test_json_dumps(self) -> None:
         b = benedict(
             {
                 "a": 1,
@@ -28,8 +29,8 @@ class github_issue_0034_test_case(unittest.TestCase):
         dumped = json.dumps(b, sort_keys=True)
         self.assertEqual(dumped, '{"a": 1, "b": {"c": {"d": 2}}}')
 
-    def test_json_dumps_after_pointer_update(self):
-        d = {
+    def test_json_dumps_after_pointer_update(self) -> None:
+        d: dict[str, Any] = {
             "a": 1,
             "b": {
                 "c": {
@@ -45,7 +46,7 @@ class github_issue_0034_test_case(unittest.TestCase):
         dumped = json.dumps(b, sort_keys=True)
         self.assertEqual(dumped, '{"a": 2, "b": {"c": {"d": 3}}}')
 
-    def test_json_dumps_after_instance_update(self):
+    def test_json_dumps_after_instance_update(self) -> None:
         d = {
             "a": 1,
             "b": {

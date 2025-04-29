@@ -11,7 +11,7 @@ class io_dict_xml_test_case(io_dict_test_case):
     This class describes an IODict / xml test case.
     """
 
-    def test_from_xml_with_valid_data(self):
+    def test_from_xml_with_valid_data(self) -> None:
         j = """
 <?xml version="1.0" ?>
 <root>
@@ -44,7 +44,7 @@ class io_dict_xml_test_case(io_dict_test_case):
         )
 
     @patch("benedict.serializers.xml.xml_installed", False)
-    def test_from_xml_with_extra_not_installed(self):
+    def test_from_xml_with_extra_not_installed(self) -> None:
         j = """
 <?xml version="1.0" ?>
 <root>
@@ -62,7 +62,7 @@ class io_dict_xml_test_case(io_dict_test_case):
         with self.assertRaises(ExtrasRequireModuleNotFoundError):
             _ = IODict(j, format="xml")
 
-    def test_from_xml_with_invalid_data(self):
+    def test_from_xml_with_invalid_data(self) -> None:
         j = "Lorem ipsum est in ea occaecat nisi officia."
         # static method
         with self.assertRaises(ValueError):
@@ -71,7 +71,7 @@ class io_dict_xml_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(j, format="xml")
 
-    def test_from_xml_with_valid_file_valid_content(self):
+    def test_from_xml_with_valid_file_valid_content(self) -> None:
         filepath = self.input_path("valid-content.xml")
         # static method
         d = IODict.from_xml(filepath)
@@ -83,7 +83,7 @@ class io_dict_xml_test_case(io_dict_test_case):
         d = IODict(filepath)
         self.assertTrue(isinstance(d, dict))
 
-    def test_from_xml_with_valid_file_valid_content_invalid_format(self):
+    def test_from_xml_with_valid_file_valid_content_invalid_format(self) -> None:
         filepath = self.input_path("valid-content.base64")
         with self.assertRaises(ValueError):
             IODict.from_xml(filepath)
@@ -100,7 +100,7 @@ class io_dict_xml_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict.from_xml(filepath)
 
-    def test_from_xml_with_valid_file_invalid_content(self):
+    def test_from_xml_with_valid_file_invalid_content(self) -> None:
         filepath = self.input_path("invalid-content.xml")
         # static method
         with self.assertRaises(ValueError):
@@ -109,7 +109,7 @@ class io_dict_xml_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(filepath, format="xml")
 
-    def test_from_xml_with_invalid_file(self):
+    def test_from_xml_with_invalid_file(self) -> None:
         filepath = self.input_path("invalid-file.xml")
         # static method
         with self.assertRaises(ValueError):
@@ -118,7 +118,7 @@ class io_dict_xml_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(filepath, format="xml")
 
-    def test_from_xml_with_valid_url_valid_content(self):
+    def test_from_xml_with_valid_url_valid_content(self) -> None:
         url = self.input_url("valid-content.xml")
         # static method
         d = IODict.from_xml(url)
@@ -130,7 +130,7 @@ class io_dict_xml_test_case(io_dict_test_case):
         d = IODict(url)
         self.assertTrue(isinstance(d, dict))
 
-    def test_from_xml_with_valid_url_invalid_content(self):
+    def test_from_xml_with_valid_url_invalid_content(self) -> None:
         url = "https://github.com/fabiocaccamo/python-benedict"
         # static method
         with self.assertRaises(ValueError):
@@ -139,7 +139,7 @@ class io_dict_xml_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(url, format="xml")
 
-    def test_from_xml_with_invalid_url(self):
+    def test_from_xml_with_invalid_url(self) -> None:
         url = "https://github.com/fabiocaccamo/python-benedict-invalid"
         # static method
         with self.assertRaises(ValueError):
@@ -148,7 +148,7 @@ class io_dict_xml_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(url, format="xml")
 
-    def test_to_xml(self):
+    def test_to_xml(self) -> None:
         d = IODict(
             {
                 "root": {
@@ -164,7 +164,7 @@ class io_dict_xml_test_case(io_dict_test_case):
         s = d.to_xml()
         self.assertEqual(d, IODict.from_xml(s))
 
-    def test_to_xml_file(self):
+    def test_to_xml_file(self) -> None:
         d = IODict(
             {
                 "root": {
@@ -183,7 +183,7 @@ class io_dict_xml_test_case(io_dict_test_case):
         self.assertEqual(d, IODict.from_xml(filepath))
 
     @patch("benedict.serializers.xml.xml_installed", False)
-    def test_to_xml_with_extra_not_installed(self):
+    def test_to_xml_with_extra_not_installed(self) -> None:
         d = IODict(
             {
                 "root": {

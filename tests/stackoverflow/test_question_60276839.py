@@ -2,7 +2,7 @@ import unittest
 
 
 class stackoverflow_question_60276839_test_case(unittest.TestCase):
-    def test_stackoverflow_question_60276839(self):
+    def test_stackoverflow_question_60276839(self) -> None:
         """
         https://stackoverflow.com/questions/60276839/merge-list-of-nested-dictionaries
         """
@@ -26,7 +26,7 @@ class stackoverflow_question_60276839_test_case(unittest.TestCase):
             {"12160150": {"Media Fee": "549173.00"}},
             {"12160150": {"Platform Fee": "17573.00"}},
         ]
-        data_output = bdict()
+        data_output: bdict[dict[str, str]] = bdict()
         data_output.merge(*data_input)
         # print(data_output.dump())
 

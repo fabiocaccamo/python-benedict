@@ -1,19 +1,21 @@
+from collections.abc import Callable
 from configparser import DEFAULTSECT as default_section
 from configparser import RawConfigParser
 from io import StringIO
 from json.decoder import JSONDecodeError
+from typing import Any
 
 from benedict.serializers.abstract import AbstractSerializer
 from benedict.serializers.json import JSONSerializer
 from benedict.utils import type_util
 
 
-class INISerializer(AbstractSerializer):
+class INISerializer(AbstractSerializer[str, dict[str, Any]]):
     """
     This class describes an ini serializer.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(
             extensions=[
                 "ini",
@@ -22,17 +24,24 @@ class INISerializer(AbstractSerializer):
         self._json = JSONSerializer()
 
     @staticmethod
-    def _get_parser(options):
+    def _get_parser(options: dict[str, Any]) -> RawConfigParser:
         optionxform = options.pop("optionxform", lambda key: key)
         parser = RawConfigParser(**options)
         if optionxform and callable(optionxform):
-            parser.optionxform = optionxform
+            parser.optionxform = optionxform  # type: ignore[method-assign]
         return parser
 
     @staticmethod
-    def _get_section_option_value(parser, section, option):
+    def _get_section_option_value(
+        parser: RawConfigParser, section: str, option: str
+    ) -> str | int | float | bool | None:
         value = None
-        funcs = [parser.getint, parser.getfloat, parser.getboolean, parser.get]
+        funcs: list[Callable[[str, str], Any]] = [
+            parser.getint,
+            parser.getfloat,
+            parser.getboolean,
+            parser.get,
+        ]
         for func in funcs:
             try:
                 value = func(section, option)
@@ -41,10 +50,10 @@ class INISerializer(AbstractSerializer):
                 continue
         return value
 
-    def decode(self, s, **kwargs):
+    def decode(self, s: str, **kwargs: Any) -> dict[str, Any]:
         parser = self._get_parser(options=kwargs)
         parser.read_string(s)
-        data = {}
+        data: dict[str, Any] = {}
         for option, _ in parser.defaults().items():
             data[option] = self._get_section_option_value(
                 parser, default_section, option
@@ -62,7 +71,7 @@ class INISerializer(AbstractSerializer):
                 data[section][option] = value
         return data
 
-    def encode(self, d, **kwargs):
+    def encode(self, d: dict[str, Any], **kwargs: Any) -> str:
         parser = self._get_parser(options=kwargs)
         for key, value in d.items():
             if not type_util.is_dict(value):

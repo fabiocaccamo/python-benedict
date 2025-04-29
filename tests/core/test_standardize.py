@@ -8,7 +8,7 @@ class standardize_test_case(unittest.TestCase):
     This class describes a standardize test case.
     """
 
-    def test_standardize(self):
+    def test_standardize(self) -> None:
         d = {
             "CamelCase": 1,
             "CamelCamelCase": 1,

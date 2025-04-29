@@ -86,11 +86,14 @@ classifiers = [
     "Topic :: System :: Filesystems",
     "Topic :: Text Processing :: Markup :: XML",
     "Topic :: Utilities",
+    "Typing :: Typed",
 ]
 dependencies = [
     "python-fsutil >= 0.9.3, < 1.0.0",
     "python-slugify >= 7.0.0, < 9.0.0",
     "requests >= 2.26.0, < 3.0.0",
+    "typing_extensions >= 4.13.2, < 4.14.0",
+    "useful-types >= 0.2.1, < 0.3.0"
 ]
 dynamic = ["version"]
 maintainers = [
@@ -164,6 +167,16 @@ exclude = '''
   | venv
 )/
 '''
+
+[tool.mypy]
+cache_dir = "~/.cache/mypy"
+explicit_package_bases = true
+platform = "linux"
+python_version = "3.10"
+show_column_numbers = true
+strict = true
+strict_optional = true
+warn_unreachable = true
 
 [tool.ruff]
 line-length = 88

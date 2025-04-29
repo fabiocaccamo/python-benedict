@@ -1,8 +1,16 @@
 import copy
+from collections.abc import MutableMapping
+from typing import Any, TypeVar
+
+_T = TypeVar("_T")
 
 
-def clone(obj, empty=False, memo=None):
+def clone(
+    obj: _T,
+    empty: bool = False,
+    memo: dict[int, Any] | None = None,
+) -> _T:
     d = copy.deepcopy(obj, memo)
-    if empty:
+    if empty and isinstance(d, MutableMapping):
         d.clear()
     return d

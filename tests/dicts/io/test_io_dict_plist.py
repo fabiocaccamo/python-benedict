@@ -1,4 +1,5 @@
 import datetime as dt
+from typing import Any
 
 from benedict.dicts.io import IODict
 
@@ -10,7 +11,7 @@ class io_dict_plist_test_case(io_dict_test_case):
     This class describes an IODict / plist test case.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self._dict = {
             "aString": "Doodah",
@@ -101,7 +102,7 @@ class io_dict_plist_test_case(io_dict_test_case):
 </plist>
 """
 
-    def test_from_plist_with_valid_data(self):
+    def test_from_plist_with_valid_data(self) -> None:
         j = self._plist
         # static method
         d = IODict.from_plist(j)
@@ -113,7 +114,7 @@ class io_dict_plist_test_case(io_dict_test_case):
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, self._dict)
 
-    def test_from_plist_with_invalid_data(self):
+    def test_from_plist_with_invalid_data(self) -> None:
         j = "Lorem ipsum est in ea occaecat nisi officia."
         # static method
         with self.assertRaises(ValueError):
@@ -122,7 +123,7 @@ class io_dict_plist_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(j, format="plist")
 
-    def test_from_plist_with_valid_file_valid_content(self):
+    def test_from_plist_with_valid_file_valid_content(self) -> None:
         filepath = self.input_path("valid-content.plist")
         # static method
         d = IODict.from_plist(filepath)
@@ -134,7 +135,7 @@ class io_dict_plist_test_case(io_dict_test_case):
         d = IODict(filepath)
         self.assertTrue(isinstance(d, dict))
 
-    def test_from_plist_with_valid_file_valid_content_invalid_format(self):
+    def test_from_plist_with_valid_file_valid_content_invalid_format(self) -> None:
         filepath = self.input_path("valid-content.base64")
         with self.assertRaises(ValueError):
             IODict.from_plist(filepath)
@@ -160,7 +161,7 @@ class io_dict_plist_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict.from_plist(filepath)
 
-    def test_from_plist_with_valid_file_invalid_content(self):
+    def test_from_plist_with_valid_file_invalid_content(self) -> None:
         filepath = self.input_path("invalid-content.plist")
         # static method
         with self.assertRaises(ValueError):
@@ -169,7 +170,7 @@ class io_dict_plist_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(filepath, format="plist")
 
-    def test_from_plist_with_invalid_file(self):
+    def test_from_plist_with_invalid_file(self) -> None:
         filepath = self.input_path("invalid-file.plist")
         # static method
         with self.assertRaises(ValueError):
@@ -178,7 +179,7 @@ class io_dict_plist_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(filepath, format="plist")
 
-    def test_from_plist_with_valid_url_valid_content(self):
+    def test_from_plist_with_valid_url_valid_content(self) -> None:
         url = self.input_url("valid-content.plist")
         # static method
         d = IODict.from_plist(url)
@@ -190,7 +191,7 @@ class io_dict_plist_test_case(io_dict_test_case):
         d = IODict(url)
         self.assertTrue(isinstance(d, dict))
 
-    def test_from_plist_with_valid_url_invalid_content(self):
+    def test_from_plist_with_valid_url_invalid_content(self) -> None:
         url = "https://github.com/fabiocaccamo/python-benedict"
         # static method
         with self.assertRaises(ValueError):
@@ -199,7 +200,7 @@ class io_dict_plist_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(url, format="plist")
 
-    def test_from_plist_with_invalid_url(self):
+    def test_from_plist_with_invalid_url(self) -> None:
         url = "https://github.com/fabiocaccamo/python-benedict-invalid"
         # static method
         with self.assertRaises(ValueError):
@@ -208,7 +209,7 @@ class io_dict_plist_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(url, format="plist")
 
-    def test_to_plist(self):
+    def test_to_plist(self) -> None:
         # example data taken from:
         # https://docs.python.org/3/library/plistlib.html#examples
         d = IODict(self._dict)
@@ -216,7 +217,7 @@ class io_dict_plist_test_case(io_dict_test_case):
         # print(s)
         self.assertEqual(d, IODict.from_plist(s))
 
-    def test_to_plist_file(self):
+    def test_to_plist_file(self) -> None:
         d = IODict(self._dict)
         filepath = self.output_path("test_to_plist_file.plist")
         d.to_plist(filepath=filepath)

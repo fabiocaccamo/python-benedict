@@ -1,4 +1,5 @@
 import unittest
+from typing import Any
 
 from benedict import benedict
 
@@ -12,7 +13,7 @@ class github_issue_0066_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0066
     """
 
-    def _get_dict(self):
+    def _get_dict(self) -> benedict[str, Any]:
         d = benedict(
             {
                 "results": [
@@ -33,22 +34,22 @@ class github_issue_0066_test_case(unittest.TestCase):
         )
         return d
 
-    def test_contains_with_tuple(self):
+    def test_contains_with_tuple(self) -> None:
         d = self._get_dict()
         self.assertTrue("results[-1].locations[-1]" in d)
         self.assertFalse("results[-1].locations[3]" in d)
 
-    def test_get_item_with_tuple(self):
+    def test_get_item_with_tuple(self) -> None:
         d = self._get_dict()
         loc = d["results[-1].locations[-1]"]
         self.assertEqual(loc, 12)
 
-    def test_get_with_tuple(self):
+    def test_get_with_tuple(self) -> None:
         d = self._get_dict()
         loc = d.get("results[-1].locations[-1]")
         self.assertEqual(loc, 12)
 
-    def test_delete_item_with_tuple(self):
+    def test_delete_item_with_tuple(self) -> None:
         d = self._get_dict()
         with self.assertRaises(TypeError):
             del d["results[-1].locations[-1]"]
@@ -56,7 +57,7 @@ class github_issue_0066_test_case(unittest.TestCase):
         # loc = d.get('results[-1].locations[-1]')
         # self.assertEqual(loc, 11)
 
-    def test_delete_item_with_tuple_at_root_level(self):
+    def test_delete_item_with_tuple_at_root_level(self) -> None:
         d = benedict(
             {
                 "locations": (10, 11, 12),
@@ -69,7 +70,7 @@ class github_issue_0066_test_case(unittest.TestCase):
         # self.assertEqual(loc, 11)
         # self.assertEqual(len(d.get('locations')), 2)
 
-    def test_pop_with_tuple(self):
+    def test_pop_with_tuple(self) -> None:
         d = self._get_dict()
         with self.assertRaises(TypeError):
             _ = d.pop("results[-1].locations[-1]")
@@ -79,7 +80,7 @@ class github_issue_0066_test_case(unittest.TestCase):
         # loc = d.get('results[-1].locations[-1]')
         # self.assertEqual(loc, 11)
 
-    def test_set_item_with_tuple(self):
+    def test_set_item_with_tuple(self) -> None:
         d = self._get_dict()
         with self.assertRaises(TypeError):
             d["results[-1].locations[-1]"] = 13

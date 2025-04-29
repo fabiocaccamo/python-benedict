@@ -26,7 +26,7 @@ class pickle_serializer_test_case(unittest.TestCase):
     #     r = 'gAJ9cQBYBAAAAGRhdGVxAWNkYXRldGltZQpkYXRldGltZQpxAmNfY29kZWNzCmVuY29kZQpxA1gLAAAAB8OBBAMAAAAAAABxBFgGAAAAbGF0aW4xcQWGcQZScQeFcQhScQlzLg=='
     #     self.assertEqual(s, r)
 
-    def test_encode_decode_pickle(self):
+    def test_encode_decode_pickle(self) -> None:
         d = {
             "date": dt.datetime(year=1985, month=4, day=3),
         }

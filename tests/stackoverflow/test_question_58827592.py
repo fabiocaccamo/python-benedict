@@ -1,8 +1,10 @@
 import unittest
+from collections.abc import Mapping, Sequence
+from typing import Any
 
 
 class stackoverflow_question_58827592_test_case(unittest.TestCase):
-    def test_stackoverflow_question_58827592(self):
+    def test_stackoverflow_question_58827592(self) -> None:
         """
         https://stackoverflow.com/questions/58827592/is-there-a-way-to-convert-csv-columns-into-hierarchical-relationships
         """
@@ -39,7 +41,9 @@ RecordID,kingdom,phylum,class,order,family,genus,species
 
         data_output["children"] = []
 
-        def transform_data(d, key, value):
+        def transform_data(
+            d: Mapping[str, Any] | Sequence[Any] | None, key: int | str, value: Any
+        ) -> None:
             if isinstance(value, dict):
                 value.update({"name": key, "children": []})
 

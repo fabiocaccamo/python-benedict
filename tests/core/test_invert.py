@@ -8,7 +8,7 @@ class invert_test_case(unittest.TestCase):
     This class describes an invert test case.
     """
 
-    def test_invert_with_unique_values(self):
+    def test_invert_with_unique_values(self) -> None:
         i = {
             "a": 1,
             "b": 2,
@@ -26,7 +26,7 @@ class invert_test_case(unittest.TestCase):
         }
         self.assertEqual(o, r)
 
-    def test_invert_with_flat_unique_values(self):
+    def test_invert_with_flat_unique_values(self) -> None:
         i = {
             "a": 1,
             "b": 2,
@@ -44,7 +44,7 @@ class invert_test_case(unittest.TestCase):
         }
         self.assertEqual(o, r)
 
-    def test_invert_with_multiple_values(self):
+    def test_invert_with_multiple_values(self) -> None:
         i = {
             "a": 1,
             "b": 2,
@@ -58,7 +58,7 @@ class invert_test_case(unittest.TestCase):
         self.assertTrue("b" and "e" in o[2])
         self.assertTrue("c" and "f" in o[3])
 
-    def test_invert_with_list_values(self):
+    def test_invert_with_list_values(self) -> None:
         i = {
             "a": [
                 "x",
@@ -95,7 +95,7 @@ class invert_test_case(unittest.TestCase):
         self.assertTrue("e" in ii["b"])
         self.assertEqual(len(ii["b"]), 3)
 
-    def test_invert_with_tuple_values(self):
+    def test_invert_with_tuple_values(self) -> None:
         i = {
             "a": (
                 "x",

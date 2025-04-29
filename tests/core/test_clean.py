@@ -1,4 +1,5 @@
 import unittest
+from typing import Any
 
 from benedict.core import clean as _clean
 
@@ -8,7 +9,7 @@ class clean_test_case(unittest.TestCase):
     This class describes a clean test case.
     """
 
-    def test_clean(self):
+    def test_clean(self) -> None:
         i = {
             "a": {},
             "b": {"x": 1},
@@ -61,9 +62,9 @@ class clean_test_case(unittest.TestCase):
         }
         self.assertEqual(o, r)
 
-    def test_clean_nested_dicts(self):
+    def test_clean_nested_dicts(self) -> None:
         # https://github.com/fabiocaccamo/python-benedict/issues/383
-        d = {
+        d: dict[str, Any] = {
             "a": {
                 "b": {
                     "c": {},
@@ -71,7 +72,7 @@ class clean_test_case(unittest.TestCase):
             },
         }
         _clean(d, collections=True)
-        r = {}
+        r: dict[str, Any] = {}
         self.assertEqual(d, r)
 
         d = {

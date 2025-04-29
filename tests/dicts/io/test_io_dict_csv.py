@@ -8,7 +8,7 @@ class io_dict_csv_test_case(io_dict_test_case):
     This class describes an IODict / csv test case.
     """
 
-    def test_from_csv_with_valid_data(self):
+    def test_from_csv_with_valid_data(self) -> None:
         s = """id,name,age,height,weight
 1,Alice,20,62,120.6
 2,Freddie,21,74,190.6
@@ -65,7 +65,7 @@ class io_dict_csv_test_case(io_dict_test_case):
     #     with self.assertRaises(ValueError):
     #         IODict(s, format='csv')
 
-    def test_from_csv_with_valid_file_valid_content(self):
+    def test_from_csv_with_valid_file_valid_content(self) -> None:
         filepath = self.input_path("valid-content.csv")
         # static method
         d = IODict.from_csv(filepath)
@@ -100,7 +100,7 @@ class io_dict_csv_test_case(io_dict_test_case):
     #     with self.assertRaises(ValueError):
     #         IODict(filepath, format='csv')
 
-    def test_from_csv_with_invalid_file(self):
+    def test_from_csv_with_invalid_file(self) -> None:
         filepath = self.input_path("invalid-file.csv")
         # static method
         with self.assertRaises(ValueError):
@@ -128,7 +128,7 @@ class io_dict_csv_test_case(io_dict_test_case):
     #     with self.assertRaises(ValueError):
     #         IODict(url, format='csv')
 
-    def test_from_csv_with_invalid_url(self):
+    def test_from_csv_with_invalid_url(self) -> None:
         url = "https://github.com/fabiocaccamo/python-benedict-invalid"
         # static method
         with self.assertRaises(ValueError):
@@ -137,7 +137,7 @@ class io_dict_csv_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(url, format="csv")
 
-    def test_to_csv(self):
+    def test_to_csv(self) -> None:
         d = IODict(
             {
                 "values": [
@@ -181,7 +181,7 @@ class io_dict_csv_test_case(io_dict_test_case):
 """
         self.assertEqual(s, r)
 
-    def test_to_csv_with_custom_columns(self):
+    def test_to_csv_with_custom_columns(self) -> None:
         d = IODict(
             {
                 "values": [
@@ -228,7 +228,7 @@ class io_dict_csv_test_case(io_dict_test_case):
 """
         self.assertEqual(s, r)
 
-    def test_to_csv_with_custom_delimiter_and_quotes(self):
+    def test_to_csv_with_custom_delimiter_and_quotes(self) -> None:
         d = IODict(
             {
                 "values": [
@@ -274,7 +274,7 @@ class io_dict_csv_test_case(io_dict_test_case):
 """
         self.assertEqual(s, r)
 
-    def test_to_csv_with_custom_key_valid(self):
+    def test_to_csv_with_custom_key_valid(self) -> None:
         d = IODict(
             {
                 "results": [
@@ -318,7 +318,7 @@ class io_dict_csv_test_case(io_dict_test_case):
 """
         self.assertEqual(s, r)
 
-    def test_to_csv_with_custom_key_invalid(self):
+    def test_to_csv_with_custom_key_invalid(self) -> None:
         d = IODict(
             {
                 "values": [
@@ -358,7 +358,7 @@ class io_dict_csv_test_case(io_dict_test_case):
                 "invalid_values", columns=["id", "name", "age", "height", "weight"]
             )
 
-    def test_to_csv_file(self):
+    def test_to_csv_file(self) -> None:
         d = IODict(
             {
                 "values": [

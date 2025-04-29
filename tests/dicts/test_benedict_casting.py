@@ -1,4 +1,5 @@
 import unittest
+from typing import Any
 
 from benedict import benedict
 
@@ -8,7 +9,7 @@ class benedict_casting_test_case(unittest.TestCase):
     This class describes a benedict casting test case.
     """
 
-    def test__getitem__(self):
+    def test__getitem__(self) -> None:
         d = {
             "a": 1,
             "b": {
@@ -21,10 +22,10 @@ class benedict_casting_test_case(unittest.TestCase):
         c = b["b.c"]
         self.assertTrue(isinstance(c, benedict))
         self.assertEqual(type(c), benedict)
-        self.assertTrue(c == d["b"]["c"])
-        self.assertFalse(c is d["b"]["c"])
+        self.assertTrue(c == d["b"]["c"])  # type: ignore[index]
+        self.assertFalse(c is d["b"]["c"])  # type: ignore[index]
 
-    def test_cast_dict_to_benedict(self):
+    def test_cast_dict_to_benedict(self) -> None:
         d = {
             "a": 1,
             "b": {
@@ -41,7 +42,7 @@ class benedict_casting_test_case(unittest.TestCase):
         self.assertEqual(d, bbd)
         self.assertTrue(d is bbd)
 
-    def test_cast_benedict_to_dict(self):
+    def test_cast_benedict_to_dict(self) -> None:
         b = benedict(
             {
                 "a": 1,
@@ -65,7 +66,7 @@ class benedict_casting_test_case(unittest.TestCase):
         self.assertEqual(b, d)
         self.assertFalse(b is d)
 
-    def test_cast_benedict_kwargs_to_dict(self):
+    def test_cast_benedict_kwargs_to_dict(self) -> None:
         b = benedict(
             {
                 "a": 1,
@@ -82,7 +83,7 @@ class benedict_casting_test_case(unittest.TestCase):
         self.assertEqual(b, d)
         self.assertFalse(b is d)
 
-    def test_dict(self):
+    def test_dict(self) -> None:
         d = {
             "a": 1,
             "b": {
@@ -98,8 +99,8 @@ class benedict_casting_test_case(unittest.TestCase):
         self.assertTrue(d == bd)
         self.assertTrue(d is bd)
 
-    def test_get(self):
-        d = {
+    def test_get(self) -> None:
+        d: dict[str, Any] = {
             "a": 1,
             "b": {
                 "c": {
@@ -114,8 +115,8 @@ class benedict_casting_test_case(unittest.TestCase):
         self.assertTrue(c == d["b"]["c"])
         self.assertFalse(c is d["b"]["c"])
 
-    def test_get_dict(self):
-        d = {
+    def test_get_dict(self) -> None:
+        d: dict[str, Any] = {
             "a": 1,
             "b": {
                 "c": {
@@ -130,8 +131,8 @@ class benedict_casting_test_case(unittest.TestCase):
         self.assertTrue(c == d["b"]["c"])
         self.assertFalse(c is d["b"]["c"])
 
-    def test_get_list_item(self):
-        d = {
+    def test_get_list_item(self) -> None:
+        d: dict[str, Any] = {
             "a": 1,
             "b": {
                 "c": [
@@ -154,8 +155,8 @@ class benedict_casting_test_case(unittest.TestCase):
         self.assertTrue(c == d["b"]["c"][1])
         # self.assertFalse(c is d["b"]["c"][1])
 
-    def test_pop(self):
-        d = {
+    def test_pop(self) -> None:
+        d: dict[str, Any] = {
             "a": 1,
             "b": {
                 "c": {

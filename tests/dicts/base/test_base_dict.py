@@ -1,6 +1,7 @@
 import copy
 import unittest
 from collections.abc import Iterable
+from typing import Any
 
 from benedict.dicts.base import BaseDict
 
@@ -10,7 +11,7 @@ class base_dict_test_case(unittest.TestCase):
     This class describes a BaseDict test case.
     """
 
-    def test__bool__(self):
+    def test__bool__(self) -> None:
         b = BaseDict()
         self.assertFalse(b)
         self.assertFalse(bool(b))
@@ -21,7 +22,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertTrue(bool(b))
         self.assertEqual(b, b.dict())
 
-    def test__bool__with_pointer(self):
+    def test__bool__with_pointer(self) -> None:
         d = {"a": 1}
         b = BaseDict(d)
         self.assertTrue(b)
@@ -32,14 +33,14 @@ class base_dict_test_case(unittest.TestCase):
         self.assertFalse(bool(b))
         self.assertEqual(b, b.dict())
 
-    def test__contains__(self):
+    def test__contains__(self) -> None:
         b = BaseDict()
         b["a"] = 1
         self.assertTrue("a" in b)
         self.assertFalse("b" in b)
         self.assertEqual(b, b.dict())
 
-    def test__contains__with_pointer(self):
+    def test__contains__with_pointer(self) -> None:
         d = {"a": 1}
         b = BaseDict(d)
         self.assertTrue("a" in b)
@@ -48,7 +49,7 @@ class base_dict_test_case(unittest.TestCase):
         del d["a"]
         self.assertFalse("a" in b)
 
-    def test__deepcopy__(self):
+    def test__deepcopy__(self) -> None:
         b1 = BaseDict()
         b1["a"] = {}
         b1["a"]["b"] = {}
@@ -58,8 +59,8 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(type(b1), type(b2))
         self.assertFalse(b1 is b2)
 
-    def test__deepcopy__with_pointer(self):
-        d = {}
+    def test__deepcopy__with_pointer(self) -> None:
+        d: dict[str, Any] = {}
         d["a"] = {}
         d["a"]["b"] = {}
         d["a"]["b"]["c"] = True
@@ -69,14 +70,14 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(type(b1), type(b2))
         self.assertFalse(b1 is b2)
 
-    def test__delitem__(self):
+    def test__delitem__(self) -> None:
         b = BaseDict()
         with self.assertRaises(KeyError):
             del b["a"]
         self.assertEqual(b, b.dict())
 
-    def test__delitem__with_pointer(self):
-        d = {
+    def test__delitem__with_pointer(self) -> None:
+        d: dict[str, Any] = {
             "a": 1,
         }
         b = BaseDict(d)
@@ -87,9 +88,9 @@ class base_dict_test_case(unittest.TestCase):
             del b["a"]
         self.assertEqual(b, b.dict())
 
-    def test__equal__(self):
+    def test__equal__(self) -> None:
         b = BaseDict()
-        o1 = {}
+        o1: dict[str, Any] = {}
         o2 = {
             "a": 2,
         }
@@ -97,7 +98,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertFalse(b == o2)
         self.assertEqual(b, b.dict())
 
-    def test__equal__with_pointer(self):
+    def test__equal__with_pointer(self) -> None:
         d = {
             "a": 1,
         }
@@ -112,13 +113,13 @@ class base_dict_test_case(unittest.TestCase):
         self.assertFalse(b == o2)
         self.assertEqual(b, b.dict())
 
-    def test__getitem__(self):
+    def test__getitem__(self) -> None:
         b = BaseDict()
         with self.assertRaises(KeyError):
             b["a"]
         self.assertEqual(b, b.dict())
 
-    def test__getitem__with_pointer(self):
+    def test__getitem__with_pointer(self) -> None:
         d = {
             "a": 1,
         }
@@ -126,13 +127,13 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(b["a"], 1)
         self.assertEqual(b, b.dict())
 
-    def test__iter__(self):
+    def test__iter__(self) -> None:
         b = BaseDict()
         i = iter(b)
         self.assertTrue(isinstance(i, Iterable))
         self.assertEqual(b, b.dict())
 
-    def test__iter__with_pointer(self):
+    def test__iter__with_pointer(self) -> None:
         d = {
             "a": 1,
             "b": 2,
@@ -142,14 +143,14 @@ class base_dict_test_case(unittest.TestCase):
         self.assertTrue(isinstance(i, Iterable))
         self.assertEqual(b, b.dict())
 
-    def test__len__(self):
+    def test__len__(self) -> None:
         b = BaseDict()
         self.assertEqual(len(b), 0)
         b["a"] = 1
         self.assertEqual(len(b), 1)
         self.assertEqual(b, b.dict())
 
-    def test__len__with_pointer(self):
+    def test__len__with_pointer(self) -> None:
         d = {
             "a": 1,
             "b": 2,
@@ -163,13 +164,13 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(len(d), 4)
         self.assertEqual(b, b.dict())
 
-    def test__repr__(self):
-        d = {}
+    def test__repr__(self) -> None:
+        d: dict[str, Any] = {}
         b = BaseDict()
         self.assertEqual(repr(d), repr(b))
         self.assertEqual(b, b.dict())
 
-    def test__repr__with_pointer(self):
+    def test__repr__with_pointer(self) -> None:
         d = {
             "a": 1,
             "b": 2,
@@ -179,13 +180,13 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(repr(d), repr(b))
         self.assertEqual(b, b.dict())
 
-    def test__setitem__(self):
+    def test__setitem__(self) -> None:
         b = BaseDict()
         b["a"] = 1
         self.assertEqual(b["a"], 1)
         self.assertEqual(b, b.dict())
 
-    def test__setitem__with_pointer(self):
+    def test__setitem__with_pointer(self) -> None:
         d = {
             "a": 1,
             "b": 2,
@@ -197,7 +198,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(d["a"], 2)
         self.assertEqual(b, b.dict())
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         d = {
             "a": 1,
             "b": 2,
@@ -213,7 +214,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(str(d), str(b))
         self.assertEqual(b, b.dict())
 
-    def test__str__with_pointer(self):
+    def test__str__with_pointer(self) -> None:
         d = {
             "a": 1,
             "b": 2,
@@ -223,7 +224,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(str(d), str(b))
         self.assertEqual(b, b.dict())
 
-    def test_clear(self):
+    def test_clear(self) -> None:
         d = {
             "a": 1,
             "b": 2,
@@ -238,7 +239,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertTrue(b == {})
         self.assertTrue(d != {})
 
-    def test_clear_with_pointer(self):
+    def test_clear_with_pointer(self) -> None:
         d = {
             "a": 1,
             "b": 2,
@@ -251,7 +252,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertTrue(b == d)
         self.assertEqual(b, b.dict())
 
-    def test_copy(self):
+    def test_copy(self) -> None:
         b = BaseDict()
         b["a"] = 1
         b["b"] = 2
@@ -264,7 +265,7 @@ class base_dict_test_case(unittest.TestCase):
         # self.assertTrue(type(b) == type(c))
         self.assertEqual(b, b.dict())
 
-    def test_copy_with_pointer(self):
+    def test_copy_with_pointer(self) -> None:
         d = {
             "a": 1,
             "b": 2,
@@ -280,7 +281,7 @@ class base_dict_test_case(unittest.TestCase):
         # self.assertTrue(type(b) == type(c))
         self.assertEqual(b, b.dict())
 
-    def test_dict(self):
+    def test_dict(self) -> None:
         d = {
             "a": 1,
             "b": 2,
@@ -291,7 +292,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertTrue(b.dict() is d)
         self.assertEqual(b, b.dict())
 
-    def test_dict_pointer(self):
+    def test_dict_pointer(self) -> None:
         d = {
             "a": 1,
             "b": 2,
@@ -310,7 +311,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(d, b)
         self.assertEqual(b, b.dict())
 
-    def test_get(self):
+    def test_get(self) -> None:
         b = BaseDict()
         b["a"] = 1
         self.assertEqual(b.get("a"), 1)
@@ -318,7 +319,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get("b", 2), 2)
         self.assertEqual(b, b.dict())
 
-    def test_get_with_pointer(self):
+    def test_get_with_pointer(self) -> None:
         d = {
             "a": 1,
         }
@@ -330,7 +331,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get("b", 2), 2)
         self.assertEqual(b, b.dict())
 
-    def test_items(self):
+    def test_items(self) -> None:
         b = BaseDict()
         b["a"] = 1
         b["b"] = 2
@@ -340,7 +341,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertTrue(i, [("a", 1), ("b", 2), ("c", 3)])
         self.assertEqual(b, b.dict())
 
-    def test_items_with_pointer(self):
+    def test_items_with_pointer(self) -> None:
         d = {"a": 1, "b": 2, "c": 3}
         b = BaseDict(d)
         i = list(b.items())
@@ -348,7 +349,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertTrue(i, [("a", 1), ("b", 2), ("c", 3)])
         self.assertEqual(b, b.dict())
 
-    def test_keys(self):
+    def test_keys(self) -> None:
         b = BaseDict()
         b["a"] = 1
         b["b"] = 2
@@ -358,7 +359,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertTrue(k, ["a", "b", "c"])
         self.assertEqual(b, b.dict())
 
-    def test_keys_with_pointer(self):
+    def test_keys_with_pointer(self) -> None:
         d = {
             "a": 1,
             "b": 2,
@@ -370,7 +371,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertTrue(k, ["a", "b", "c"])
         self.assertEqual(b, b.dict())
 
-    def test_pop(self):
+    def test_pop(self) -> None:
         b = BaseDict()
         b["a"] = 1
         b["b"] = 2
@@ -383,7 +384,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(v, 5)
         self.assertEqual(b, b.dict())
 
-    def test_pop_with_pointer(self):
+    def test_pop_with_pointer(self) -> None:
         d = {
             "a": 1,
             "b": 2,
@@ -406,7 +407,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertTrue(b == d)
         self.assertEqual(b, b.dict())
 
-    def test_setdefault(self):
+    def test_setdefault(self) -> None:
         b = BaseDict()
         b["a"] = 1
         b["b"] = 2
@@ -417,7 +418,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(v, 4)
         self.assertEqual(b, b.dict())
 
-    def test_setdefault_with_pointer(self):
+    def test_setdefault_with_pointer(self) -> None:
         d = {
             "a": 1,
             "b": 2,
@@ -441,7 +442,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertTrue(b == d)
         self.assertEqual(b, b.dict())
 
-    def test_update(self):
+    def test_update(self) -> None:
         b = BaseDict()
         b["a"] = 1
         b["b"] = 2
@@ -455,7 +456,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(b, {"a": 1, "b": 2, "c": 3, "d": 4, "e": 5})
         self.assertEqual(b, b.dict())
 
-    def test_update_with_pointer(self):
+    def test_update_with_pointer(self) -> None:
         d = {
             "a": 1,
             "b": 2,
@@ -482,7 +483,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertTrue(b == d)
         self.assertEqual(b, b.dict())
 
-    def test_values(self):
+    def test_values(self) -> None:
         b = BaseDict()
         b["a"] = 1
         b["b"] = 2
@@ -492,7 +493,7 @@ class base_dict_test_case(unittest.TestCase):
         self.assertTrue(v, [1, 2, 3])
         self.assertEqual(b, b.dict())
 
-    def test_values_with_pointer(self):
+    def test_values_with_pointer(self) -> None:
         d = {
             "a": 1,
             "b": 2,

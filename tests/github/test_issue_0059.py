@@ -12,8 +12,10 @@ class github_issue_0059_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0059
     """
 
-    def test_init_with_empty_dict_then_merge_with_dict_should_affect_both_dicts(self):
-        initial_empty_dict = {}
+    def test_init_with_empty_dict_then_merge_with_dict_should_affect_both_dicts(
+        self,
+    ) -> None:
+        initial_empty_dict: dict[str, str] = {}
         the_benedict = benedict(initial_empty_dict)
         the_benedict.merge({"foo": "bar"})
         self.assertEqual(initial_empty_dict, {"foo": "bar"})
@@ -21,7 +23,7 @@ class github_issue_0059_test_case(unittest.TestCase):
 
     def test_init_empty_dict_then_assign_another_empty_dict_as_first_key_should_work(
         self,
-    ):
+    ) -> None:
         d = benedict()
         # these two lines are inefficient
         # d["a"] = {"b": {}} is better. Regardless, will test both

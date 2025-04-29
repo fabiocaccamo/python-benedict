@@ -1,10 +1,17 @@
 import re
+from collections.abc import Mapping
+from typing import Any
 
 from benedict.core.keypaths import keypaths
 from benedict.utils import type_util
 
 
-def match(d, pattern, separator=".", indexes=True):
+def match(
+    d: Mapping[Any, Any],
+    pattern: str | re.Pattern[str],
+    separator: str | None = ".",
+    indexes: bool = True,
+) -> list[Any]:
     if type_util.is_regex(pattern):
         regex = pattern
     elif type_util.is_string(pattern):
