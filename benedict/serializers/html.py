@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 try:
     from bs4 import BeautifulSoup
 

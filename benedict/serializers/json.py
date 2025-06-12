@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 
 # fix benedict json dumps support - #57 #59 #61

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import csv
 from io import StringIO
 from typing import Any

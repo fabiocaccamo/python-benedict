@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from argparse import ArgumentError, ArgumentParser
 from collections import Counter
 from re import Pattern, finditer

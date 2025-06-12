@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import pathlib
 import re
 from collections.abc import Callable, Collection, Sequence

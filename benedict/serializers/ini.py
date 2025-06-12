@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections.abc import Callable
 from configparser import DEFAULTSECT as default_section
 from configparser import RawConfigParser
