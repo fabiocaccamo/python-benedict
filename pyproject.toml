@@ -169,7 +169,6 @@ exclude = '''
 '''
 
 [tool.mypy]
-cache_dir = "~/.cache/mypy"
 explicit_package_bases = true
 platform = "linux"
 python_version = "3.10"
