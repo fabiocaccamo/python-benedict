@@ -14,7 +14,7 @@ class github_issue_0102_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0102
     """
 
-    def test_orjson_benedict_reference_with_setitem(self):
+    def test_orjson_benedict_reference_with_setitem(self) -> None:
         d = benedict(
             {
                 "internal": {"mykey": "OLD"},
@@ -29,7 +29,7 @@ class github_issue_0102_test_case(unittest.TestCase):
 
         self.assertEqual(d, {"internal": {"mykey": "NEW"}})
 
-    def test_orjson_benedict_reference_with_contructor_and_setitem(self):
+    def test_orjson_benedict_reference_with_contructor_and_setitem(self) -> None:
         d = benedict(
             {
                 "internal": benedict({"mykey": "OLD"}),
@@ -46,7 +46,7 @@ class github_issue_0102_test_case(unittest.TestCase):
 
     def test_orjson_benedict_reference_with_contructor_and_nested_benedict_instances(
         self,
-    ):
+    ) -> None:
         d = benedict(
             {
                 "a": benedict(

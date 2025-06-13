@@ -11,7 +11,7 @@ class io_dict_cli_test_case(io_dict_test_case):
     This class describes an IODict / cli test case.
     """
 
-    def test_from_cli_with_valid_data(self):
+    def test_from_cli_with_valid_data(self) -> None:
         s = """--url "https://github.com" --usernames another handle --languages Python --languages JavaScript -v --count --count --count"""
         # static method
         r = {
@@ -30,7 +30,7 @@ class io_dict_cli_test_case(io_dict_test_case):
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, r)
 
-    def test_from_cli_with_invalid_arguments(self):
+    def test_from_cli_with_invalid_arguments(self) -> None:
         s = """--help -h"""
         # static method
         with self.assertRaises(ValueError):
@@ -39,7 +39,7 @@ class io_dict_cli_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(s, format="cli")
 
-    def test_from_cli_with_invalid_data(self):
+    def test_from_cli_with_invalid_data(self) -> None:
         with (
             patch(
                 "sys.stdout",
@@ -58,7 +58,7 @@ class io_dict_cli_test_case(io_dict_test_case):
             with self.assertRaises(ValueError):
                 IODict(s, format="cli")
 
-    def test_to_cli(self):
+    def test_to_cli(self) -> None:
         d = IODict(
             {
                 "values": [

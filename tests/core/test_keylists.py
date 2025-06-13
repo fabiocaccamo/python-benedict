@@ -8,7 +8,7 @@ class keylists_test_case(unittest.TestCase):
     This class describes a keylists test case.
     """
 
-    def test_keylists(self):
+    def test_keylists(self) -> None:
         i = {
             "a": 1,
             "b": {
@@ -36,7 +36,7 @@ class keylists_test_case(unittest.TestCase):
         for k in r:
             self.assertTrue(k in o)
 
-    def test_keylists_with_non_string_keys(self):
+    def test_keylists_with_non_string_keys(self) -> None:
         i = {
             True: {
                 True: 1,
@@ -60,7 +60,7 @@ class keylists_test_case(unittest.TestCase):
         for k in r:
             self.assertTrue(k in o)
 
-    def test_keylists_with_lists_and_indexes_included(self):
+    def test_keylists_with_lists_and_indexes_included(self) -> None:
         i = {
             "a": 1,
             "b": {
@@ -127,7 +127,7 @@ class keylists_test_case(unittest.TestCase):
         ]
         self.assertEqual(o, r)
 
-    def test_keylists_with_nested_lists_and_indexes_included(self):
+    def test_keylists_with_nested_lists_and_indexes_included(self) -> None:
         i = {
             "a": {
                 "b": [
@@ -161,7 +161,7 @@ class keylists_test_case(unittest.TestCase):
         ]
         self.assertEqual(o, r)
 
-    def test_keylists_with_lists_and_indexes_not_included(self):
+    def test_keylists_with_lists_and_indexes_not_included(self) -> None:
         i = {
             "a": 1,
             "b": {

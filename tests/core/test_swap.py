@@ -8,7 +8,7 @@ class swap_test_case(unittest.TestCase):
     This class describes a swap test case.
     """
 
-    def test_swap(self):
+    def test_swap(self) -> None:
         d = {
             "a": 1,
             "b": 2,
@@ -22,7 +22,7 @@ class swap_test_case(unittest.TestCase):
         }
         self.assertEqual(d, r)
 
-    def test_swap_with_same_key(self):
+    def test_swap_with_same_key(self) -> None:
         d = {
             "a": 1,
             "b": 2,
@@ -34,7 +34,7 @@ class swap_test_case(unittest.TestCase):
         }
         self.assertEqual(d, r)
 
-    def test_swap_with_invalid_key(self):
+    def test_swap_with_invalid_key(self) -> None:
         d = {
             "a": 1,
             "b": 2,

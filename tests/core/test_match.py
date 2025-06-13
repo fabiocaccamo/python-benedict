@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import re
 import unittest
 
@@ -10,7 +12,7 @@ class match_test_case(unittest.TestCase):
     """
 
     @staticmethod
-    def _get_dict():
+    def _get_dict() -> dict[str, str]:
         return {
             "DOC_0001.pdf": "DOC_0001.pdf",
             "IMG_0001.jpg": "IMG_0001.jpg",
@@ -29,7 +31,7 @@ class match_test_case(unittest.TestCase):
             "IMG_0005.raw": "IMG_0005.raw",
         }
 
-    def test_match_with_string_pattern(self):
+    def test_match_with_string_pattern(self) -> None:
         d = self._get_dict()
         values = _match(d, "IMG_*.jpg")
         values.sort()
@@ -42,7 +44,7 @@ class match_test_case(unittest.TestCase):
         ]
         self.assertEqual(values, expected_values)
 
-    def test_match_with_regex_pattern(self):
+    def test_match_with_regex_pattern(self) -> None:
         d = self._get_dict()
         values = _match(d, re.compile(r"^DOC\_"))
         values.sort()
@@ -55,7 +57,7 @@ class match_test_case(unittest.TestCase):
         ]
         self.assertEqual(values, expected_values)
 
-    def test_match_with_invalid_pattern(self):
+    def test_match_with_invalid_pattern(self) -> None:
         d = self._get_dict()
         with self.assertRaises(ValueError):
-            _ = _match(d, 100)
+            _ = _match(d, 100)  # type: ignore[arg-type]

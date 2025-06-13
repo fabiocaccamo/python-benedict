@@ -8,7 +8,7 @@ class unique_test_case(unittest.TestCase):
     This class describes an unique test case.
     """
 
-    def test_unique(self):
+    def test_unique(self) -> None:
         d = {
             "a": {
                 "x": 1,

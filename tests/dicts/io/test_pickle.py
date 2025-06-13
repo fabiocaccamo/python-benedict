@@ -9,7 +9,7 @@ class pickle_test_case(unittest.TestCase):
     This class describes a pickle test case.
     """
 
-    def test_pickle(self):
+    def test_pickle(self) -> None:
         d = {
             "a": {},
             "b": {"x": 1},

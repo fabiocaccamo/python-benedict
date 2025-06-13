@@ -12,7 +12,7 @@ class github_issue_0089_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0089
     """
 
-    def test_broken_serialization_with_benedict_attributes(self):
+    def test_broken_serialization_with_benedict_attributes(self) -> None:
         d1 = benedict()
         d1["a"] = benedict({"b": 2})
         yaml_str = d1.to_yaml()

@@ -8,7 +8,7 @@ class keypath_util_test_case(unittest.TestCase):
     This class describes a keypath utility test case.
     """
 
-    def test_split_key_indexes_with_valid_indexes(self):
+    def test_split_key_indexes_with_valid_indexes(self) -> None:
         f = keypath_util._split_key_indexes
         self.assertEqual(f("item[0]"), ["item", 0])
         self.assertEqual(f("item[1]"), ["item", 1])
@@ -24,7 +24,7 @@ class keypath_util_test_case(unittest.TestCase):
         self.assertEqual(f('item["0"]["-1"]'), ["item", 0, -1])
         self.assertEqual(f('item["0"]["-1"]'), ["item", 0, -1])
 
-    def test_split_key_indexes_with_invalid_indexes(self):
+    def test_split_key_indexes_with_invalid_indexes(self) -> None:
         f = keypath_util._split_key_indexes
         self.assertEqual(f("item[]"), ["item[]"])
         self.assertEqual(f("item[*]"), ["item[*]"])

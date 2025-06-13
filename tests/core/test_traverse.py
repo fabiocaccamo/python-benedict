@@ -1,4 +1,5 @@
 import unittest
+from typing import Any
 
 from benedict.core import clone as _clone
 from benedict.core import traverse as _traverse
@@ -9,7 +10,7 @@ class traverse_test_case(unittest.TestCase):
     This class describes a traverse test case.
     """
 
-    def test_traverse(self):
+    def test_traverse(self) -> None:
         i = {
             "a": {
                 "x": 2,
@@ -35,9 +36,9 @@ class traverse_test_case(unittest.TestCase):
         }
         o = _clone(i)
         with self.assertRaises(ValueError):
-            _traverse(o, True)
+            _traverse(o, True)  # type: ignore[arg-type]
 
-        def f(parent, key, value):
+        def f(parent: Any, key: Any, value: Any) -> None:
             if not isinstance(value, dict):
                 parent[key] = value + 1
 

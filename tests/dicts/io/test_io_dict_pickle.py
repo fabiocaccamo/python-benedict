@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import datetime as dt
 
 from benedict.dicts.io import IODict
@@ -11,16 +13,16 @@ class io_dict_pickle_test_case(io_dict_test_case):
     """
 
     @staticmethod
-    def _get_pickle_decoded():
+    def _get_pickle_decoded() -> dict[str, dt.datetime]:
         return {
             "date": dt.datetime(year=1985, month=4, day=3),
         }
 
     @staticmethod
-    def _get_pickle_encoded():
+    def _get_pickle_encoded() -> str:
         return "gAJ9cQBYBAAAAGRhdGVxAWNkYXRldGltZQpkYXRldGltZQpxAmNfY29kZWNzCmVuY29kZQpxA1gLAAAAB8OBBAMAAAAAAABxBFgGAAAAbGF0aW4xcQWGcQZScQeFcQhScQlzLg=="
 
-    def test_from_pickle_with_valid_data(self):
+    def test_from_pickle_with_valid_data(self) -> None:
         j = self._get_pickle_encoded()
         r = self._get_pickle_decoded()
         # static method
@@ -32,7 +34,7 @@ class io_dict_pickle_test_case(io_dict_test_case):
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, r)
 
-    def test_from_pickle_with_invalid_data(self):
+    def test_from_pickle_with_invalid_data(self) -> None:
         j = "Lorem ipsum est in ea occaecat nisi officia."
         # static method
         with self.assertRaises(ValueError):
@@ -41,7 +43,7 @@ class io_dict_pickle_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(j, format="pickle")
 
-    def test_from_pickle_with_valid_file_valid_content(self):
+    def test_from_pickle_with_valid_file_valid_content(self) -> None:
         filepath = self.input_path("valid-content.pickle")
         # static method
         d = IODict.from_pickle(filepath)
@@ -53,7 +55,7 @@ class io_dict_pickle_test_case(io_dict_test_case):
         d = IODict(filepath)
         self.assertTrue(isinstance(d, dict))
 
-    def test_from_pickle_with_valid_file_valid_content_invalid_format(self):
+    def test_from_pickle_with_valid_file_valid_content_invalid_format(self) -> None:
         filepath = self.input_path("valid-content.json")
         with self.assertRaises(ValueError):
             IODict.from_pickle(filepath)
@@ -70,7 +72,7 @@ class io_dict_pickle_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict.from_pickle(filepath)
 
-    def test_from_pickle_with_valid_file_invalid_content(self):
+    def test_from_pickle_with_valid_file_invalid_content(self) -> None:
         filepath = self.input_path("invalid-content.pickle")
         # static method
         with self.assertRaises(ValueError):
@@ -79,7 +81,7 @@ class io_dict_pickle_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(filepath, format="pickle")
 
-    def test_from_pickle_with_invalid_file(self):
+    def test_from_pickle_with_invalid_file(self) -> None:
         filepath = self.input_path("invalid-file.pickle")
         # static method
         with self.assertRaises(ValueError):
@@ -88,7 +90,7 @@ class io_dict_pickle_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(filepath, format="pickle")
 
-    def test_from_pickle_with_valid_url_valid_content(self):
+    def test_from_pickle_with_valid_url_valid_content(self) -> None:
         url = self.input_url("valid-content.pickle")
         # static method
         d = IODict.from_pickle(url)
@@ -100,7 +102,7 @@ class io_dict_pickle_test_case(io_dict_test_case):
         d = IODict(url)
         self.assertTrue(isinstance(d, dict))
 
-    def test_from_pickle_with_valid_url_invalid_content(self):
+    def test_from_pickle_with_valid_url_invalid_content(self) -> None:
         url = "https://github.com/fabiocaccamo/python-benedict"
         # static method
         with self.assertRaises(ValueError):
@@ -109,7 +111,7 @@ class io_dict_pickle_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(url, format="pickle")
 
-    def test_from_pickle_with_invalid_url(self):
+    def test_from_pickle_with_invalid_url(self) -> None:
         url = "https://github.com/fabiocaccamo/python-benedict-invalid"
         # static method
         with self.assertRaises(ValueError):
@@ -118,12 +120,12 @@ class io_dict_pickle_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(url, format="pickle")
 
-    def test_to_pickle(self):
+    def test_to_pickle(self) -> None:
         d = IODict(self._get_pickle_decoded())
         s = d.to_pickle()
         self.assertEqual(IODict.from_pickle(s), self._get_pickle_decoded())
 
-    def test_to_pickle_file(self):
+    def test_to_pickle_file(self) -> None:
         d = IODict({"date": self._get_pickle_decoded()})
         filepath = self.output_path("test_to_pickle_file.pickle")
         d.to_pickle(filepath=filepath)

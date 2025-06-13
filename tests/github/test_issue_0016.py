@@ -8,7 +8,7 @@ class github_issue_0016_test_case(unittest.TestCase):
     This class describes a github issue 0016 test case.
     """
 
-    def test_github_issue_0016(self):
+    def test_github_issue_0016(self) -> None:
         """
         https://github.com/fabiocaccamo/python-benedict/issues/16
         """

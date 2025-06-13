@@ -12,7 +12,7 @@ class github_issue_0284_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0284
     """
 
-    def test_from_ini_returns_str_instead_of_dict(self):
+    def test_from_ini_returns_str_instead_of_dict(self) -> None:
         original = benedict(
             {
                 "section1": {

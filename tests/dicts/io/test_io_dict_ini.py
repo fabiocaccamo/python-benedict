@@ -8,7 +8,7 @@ class io_dict_ini_test_case(io_dict_test_case):
     This class describes an IODict / ini test case.
     """
 
-    def test_from_ini_with_valid_data(self):
+    def test_from_ini_with_valid_data(self) -> None:
         s = """
 [DEFAULT]
 ServerAliveInterval = 45
@@ -53,7 +53,7 @@ ForwardX11 = no
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, r)
 
-    def test_from_ini_with_valid_data_and_optionxform_custom(self):
+    def test_from_ini_with_valid_data_and_optionxform_custom(self) -> None:
         s = """
 [DEFAULT]
 ServerAliveInterval = 45
@@ -90,7 +90,7 @@ ForwardX11 = no
             },
         }
 
-        def optionxform(key):
+        def optionxform(key: str) -> str:
             return key.upper()
 
         d = IODict.from_ini(s, optionxform=optionxform)
@@ -101,7 +101,7 @@ ForwardX11 = no
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, r)
 
-    def test_from_ini_with_valid_data_and_optionxform_none(self):
+    def test_from_ini_with_valid_data_and_optionxform_none(self) -> None:
         s = """
 [DEFAULT]
 ServerAliveInterval = 45
@@ -146,7 +146,7 @@ ForwardX11 = no
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, r)
 
-    def test_from_ini_with_invalid_data(self):
+    def test_from_ini_with_invalid_data(self) -> None:
         s = "Lorem ipsum est in ea occaecat nisi officia."
         # static method
         with self.assertRaises(ValueError):
@@ -155,7 +155,7 @@ ForwardX11 = no
         with self.assertRaises(ValueError):
             IODict(s, format="ini")
 
-    def test_from_ini_with_valid_file_valid_content(self):
+    def test_from_ini_with_valid_file_valid_content(self) -> None:
         filepath = self.input_path("valid-content.ini")
         # static method
         d = IODict.from_ini(filepath)
@@ -167,7 +167,7 @@ ForwardX11 = no
         d = IODict(filepath)
         self.assertTrue(isinstance(d, dict))
 
-    def test_from_ini_with_valid_file_valid_content_invalid_format(self):
+    def test_from_ini_with_valid_file_valid_content_invalid_format(self) -> None:
         filepath = self.input_path("valid-content.base64")
         with self.assertRaises(ValueError):
             IODict.from_ini(filepath)
@@ -190,7 +190,7 @@ ForwardX11 = no
         with self.assertRaises(ValueError):
             IODict.from_ini(filepath)
 
-    def test_from_ini_with_valid_file_invalid_content(self):
+    def test_from_ini_with_valid_file_invalid_content(self) -> None:
         filepath = self.input_path("invalid-content.ini")
         # static method
         with self.assertRaises(ValueError):
@@ -199,7 +199,7 @@ ForwardX11 = no
         with self.assertRaises(ValueError):
             IODict(filepath, format="ini")
 
-    def test_from_ini_with_invalid_file(self):
+    def test_from_ini_with_invalid_file(self) -> None:
         filepath = self.input_path("invalid-file.ini")
         # static method
         with self.assertRaises(ValueError):
@@ -220,7 +220,7 @@ ForwardX11 = no
     #     d = IODict(url)
     #     self.assertTrue(isinstance(d, dict))
 
-    def test_from_ini_with_valid_url_invalid_content(self):
+    def test_from_ini_with_valid_url_invalid_content(self) -> None:
         url = "https://github.com/fabiocaccamo/python-benedict"
         # static method
         with self.assertRaises(ValueError):
@@ -229,7 +229,7 @@ ForwardX11 = no
         with self.assertRaises(ValueError):
             IODict(url, format="ini")
 
-    def test_from_ini_with_invalid_url(self):
+    def test_from_ini_with_invalid_url(self) -> None:
         url = "https://github.com/fabiocaccamo/python-benedict-invalid"
         # static method
         with self.assertRaises(ValueError):
@@ -238,7 +238,7 @@ ForwardX11 = no
         with self.assertRaises(ValueError):
             IODict(url, format="ini")
 
-    def test_to_ini(self):
+    def test_to_ini(self) -> None:
         d = IODict(
             {
                 "serveraliveinterval": 45,
@@ -264,7 +264,7 @@ ForwardX11 = no
         s = d.to_ini()
         self.assertEqual(d, IODict.from_ini(s))
 
-    def test_to_ini_file(self):
+    def test_to_ini_file(self) -> None:
         d = IODict(
             {
                 "serveraliveinterval": 45,

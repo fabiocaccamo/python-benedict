@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import unittest
+from collections.abc import Iterator
 
 from benedict import benedict
 
@@ -13,10 +16,10 @@ class github_issue_0038_test_case(unittest.TestCase):
     """
 
     @staticmethod
-    def get_dict_generator():
+    def get_dict_generator() -> Iterator[tuple[int, str]]:
         yield from enumerate("abcd")
 
-    def test_init_with_generator(self):
+    def test_init_with_generator(self) -> None:
         b = benedict(self.get_dict_generator())
         self.assertEqual(b, {0: "a", 1: "b", 2: "c", 3: "d"})
         self.assertEqual(b.to_json(), '{"0": "a", "1": "b", "2": "c", "3": "d"}')

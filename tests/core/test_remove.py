@@ -8,7 +8,7 @@ class remove_test_case(unittest.TestCase):
     This class describes a remove test case.
     """
 
-    def test_remove_with_single_key(self):
+    def test_remove_with_single_key(self) -> None:
         d = {
             "a": 1,
             "b": 2,
@@ -21,7 +21,7 @@ class remove_test_case(unittest.TestCase):
         }
         self.assertEqual(d, r)
 
-    def test_remove_with_multiple_keys_as_args(self):
+    def test_remove_with_multiple_keys_as_args(self) -> None:
         d = {
             "a": 1,
             "b": 2,
@@ -36,7 +36,7 @@ class remove_test_case(unittest.TestCase):
         }
         self.assertEqual(d, r)
 
-    def test_remove_with_multiple_keys_as_list(self):
+    def test_remove_with_multiple_keys_as_list(self) -> None:
         d = {
             "a": 1,
             "b": 2,

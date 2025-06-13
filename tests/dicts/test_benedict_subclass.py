@@ -12,7 +12,7 @@ class benedict_subclass_test_case(unittest.TestCase):
     This class describes a benedict subclass test case.
     """
 
-    def test_cast(self):
+    def test_cast(self) -> None:
         d = subbenedict(
             {
                 "a": {
@@ -29,7 +29,7 @@ class benedict_subclass_test_case(unittest.TestCase):
         self.assertTrue(isinstance(c, subbenedict))
         self.assertEqual(c, {"d": True})
 
-    def test_clone(self):
+    def test_clone(self) -> None:
         d = subbenedict({"a": True})
         c = d.clone()
         self.assertTrue(issubclass(type(c), benedict))

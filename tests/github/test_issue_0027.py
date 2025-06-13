@@ -12,7 +12,7 @@ class github_issue_0027_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0027
     """
 
-    def test_append_to_list_with_empty_index(self):
+    def test_append_to_list_with_empty_index(self) -> None:
         d = benedict(
             {
                 "results": [

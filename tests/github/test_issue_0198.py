@@ -14,7 +14,7 @@ class github_issue_0198_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0198
     """
 
-    def test_constructor_with_s3_url_and_s3_options_with_file_json(self):
+    def test_constructor_with_s3_url_and_s3_options_with_file_json(self) -> None:
         aws_access_key_id = config("AWS_ACCESS_KEY_ID", default=None)
         aws_secret_access_key = config("AWS_SECRET_ACCESS_KEY", default=None)
         if not all([aws_access_key_id, aws_secret_access_key]):
@@ -31,7 +31,7 @@ class github_issue_0198_test_case(unittest.TestCase):
         expected_dict = {"a": 1, "b": 2, "c": 3, "x": 7, "y": 8, "z": 9}
         self.assertEqual(d, expected_dict)
 
-    def test_constructor_with_s3_url_and_s3_options_with_file_xlsx(self):
+    def test_constructor_with_s3_url_and_s3_options_with_file_xlsx(self) -> None:
         aws_access_key_id = config("AWS_ACCESS_KEY_ID", default=None)
         aws_secret_access_key = config("AWS_SECRET_ACCESS_KEY", default=None)
         if not all([aws_access_key_id, aws_secret_access_key]):

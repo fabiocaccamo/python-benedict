@@ -8,7 +8,7 @@ class keypath_dict_list_indexes_test_case(unittest.TestCase):
     This class describes a KeypathDict list indexes test case.
     """
 
-    def test_contains_with_flat_list(self):
+    def test_contains_with_flat_list(self) -> None:
         d = {
             "a": [1, 2, 3],
         }
@@ -18,7 +18,7 @@ class keypath_dict_list_indexes_test_case(unittest.TestCase):
         self.assertTrue("a[2]" in b)
         self.assertTrue("a[-1]" in b)
 
-    def test_contains_with_wrong_index(self):
+    def test_contains_with_wrong_index(self) -> None:
         d = {
             "a": [1, 2, 3],
         }
@@ -26,7 +26,7 @@ class keypath_dict_list_indexes_test_case(unittest.TestCase):
         self.assertFalse("a[3]" in b)
         self.assertFalse("a[]" in b)
 
-    def test_contains_with_nested_list(self):
+    def test_contains_with_nested_list(self) -> None:
         d = {
             "a": {
                 "b": [
@@ -55,7 +55,7 @@ class keypath_dict_list_indexes_test_case(unittest.TestCase):
         self.assertTrue("a.b[1]" in b)
         self.assertFalse("a.b[2]" in b)
 
-    def test_delitem_with_flat_list(self):
+    def test_delitem_with_flat_list(self) -> None:
         d = {
             "a": [1, 2, 3],
         }
@@ -65,7 +65,7 @@ class keypath_dict_list_indexes_test_case(unittest.TestCase):
         del b["a[0]"]
         self.assertEqual(b, {"a": [2]})
 
-    def test_delitem_with_wrong_index(self):
+    def test_delitem_with_wrong_index(self) -> None:
         d = {
             "a": [1, 2, 3],
         }
@@ -73,7 +73,7 @@ class keypath_dict_list_indexes_test_case(unittest.TestCase):
         with self.assertRaises(KeyError):
             del b["a[5]"]
 
-    def test_delitem_with_nested_list(self):
+    def test_delitem_with_nested_list(self) -> None:
         d = {
             "a": {
                 "b": [
@@ -105,7 +105,7 @@ class keypath_dict_list_indexes_test_case(unittest.TestCase):
             },
         )
 
-    def test_getitem_with_flat_list(self):
+    def test_getitem_with_flat_list(self) -> None:
         d = {
             "a": [1, 2, 3],
         }
@@ -119,7 +119,7 @@ class keypath_dict_list_indexes_test_case(unittest.TestCase):
         self.assertEqual(b["a[-2]"], 2)
         self.assertEqual(b["a[-3]"], 1)
 
-    def test_getitem_with_wrong_index(self):
+    def test_getitem_with_wrong_index(self) -> None:
         d = {
             "a": [1, 2, 3],
         }
@@ -127,7 +127,7 @@ class keypath_dict_list_indexes_test_case(unittest.TestCase):
         with self.assertRaises(KeyError):
             self.assertEqual(b["a[5]"], 1)
 
-    def test_getitem_with_nested_list(self):
+    def test_getitem_with_nested_list(self) -> None:
         d = {
             "a": {
                 "b": [
@@ -181,7 +181,7 @@ class keypath_dict_list_indexes_test_case(unittest.TestCase):
         self.assertEqual(b["a.b[2].d[2]"], 9)
         self.assertEqual(b["a.b[2].d[3][0]"], 0)
 
-    def test_getitem_github_issue_feature_request(self):
+    def test_getitem_github_issue_feature_request(self) -> None:
         d = {
             "products": [
                 {
@@ -199,7 +199,7 @@ class keypath_dict_list_indexes_test_case(unittest.TestCase):
         b = KeypathDict(d)
         self.assertEqual(b['products[""0""].categories[1].name'], "OK 2")
 
-    def test_get_with_flat_list(self):
+    def test_get_with_flat_list(self) -> None:
         d = {
             "a": [1, 2, 3],
         }
@@ -213,14 +213,14 @@ class keypath_dict_list_indexes_test_case(unittest.TestCase):
         self.assertEqual(b.get("a[-2]"), 2)
         self.assertEqual(b.get("a[-3]"), 1)
 
-    def test_get_with_wrong_index(self):
+    def test_get_with_wrong_index(self) -> None:
         d = {
             "a": [1, 2, 3],
         }
         b = KeypathDict(d)
         self.assertEqual(b.get("a[3]", 1), 1)
 
-    def test_get_with_nested_list(self):
+    def test_get_with_nested_list(self) -> None:
         d = {
             "a": {
                 "b": [
@@ -262,7 +262,7 @@ class keypath_dict_list_indexes_test_case(unittest.TestCase):
         self.assertEqual(b.get("a.b[2].d[2]"), 9)
         self.assertEqual(b.get("a.b[2].d[3][0]"), 0)
 
-    def test_list_indexes_with_quotes(self):
+    def test_list_indexes_with_quotes(self) -> None:
         d = {
             "a": [1, 2, 3],
         }
@@ -276,7 +276,7 @@ class keypath_dict_list_indexes_test_case(unittest.TestCase):
         self.assertEqual(b.get('a[""]'), None)
         self.assertEqual(b.get("a['']"), None)
 
-    def test_pop_with_flat_list(self):
+    def test_pop_with_flat_list(self) -> None:
         d = {
             "a": [1, 2, 3],
         }
@@ -286,7 +286,7 @@ class keypath_dict_list_indexes_test_case(unittest.TestCase):
         self.assertEqual(b.pop("a[0]"), 1)
         self.assertEqual(b.pop("a"), [2])
 
-    def test_pop_with_flat_list_and_default(self):
+    def test_pop_with_flat_list_and_default(self) -> None:
         d = {
             "a": [1, 2, 3],
         }
@@ -296,7 +296,7 @@ class keypath_dict_list_indexes_test_case(unittest.TestCase):
             b.pop("a[3]")
         self.assertEqual(b.pop("a[3]", 4), 4)
 
-    def test_pop_with_wrong_index(self):
+    def test_pop_with_wrong_index(self) -> None:
         d = {
             "a": [1, 2, 3],
         }
@@ -304,14 +304,14 @@ class keypath_dict_list_indexes_test_case(unittest.TestCase):
         with self.assertRaises(KeyError):
             b.pop("a[5]")
 
-    def test_pop_with_wrong_index_and_default(self):
+    def test_pop_with_wrong_index_and_default(self) -> None:
         d = {
             "a": [1, 2, 3],
         }
         b = KeypathDict(d)
         self.assertEqual(b.pop("a[5]", 6), 6)
 
-    def test_pop_with_nested_list(self):
+    def test_pop_with_nested_list(self) -> None:
         d = {
             "a": {
                 "b": [

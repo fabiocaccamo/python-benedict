@@ -1,5 +1,6 @@
 import json
 import unittest
+from typing import Any
 
 from benedict import benedict
 
@@ -13,7 +14,7 @@ class github_issue_0046_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0046
     """
 
-    def test_json_dumps_with_cloned_instance(self):
+    def test_json_dumps_with_cloned_instance(self) -> None:
         d = {
             "id": "37e4f6e876",
             "meta": {
@@ -76,7 +77,7 @@ class github_issue_0046_test_case(unittest.TestCase):
         # json.encoder.c_make_encoder = None
         json_encoder = None
 
-        def json_dumps(d):
+        def json_dumps(d: Any) -> str:
             return json.dumps(d, sort_keys=True, cls=json_encoder)
 
         d_new_raw = {

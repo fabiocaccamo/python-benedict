@@ -11,7 +11,7 @@ class io_dict_html_test_case(io_dict_test_case):
     This class describes an IODict / html test case.
     """
 
-    def test_from_html_with_valid_file_valid_content(self):
+    def test_from_html_with_valid_file_valid_content(self) -> None:
         filepath = self.input_path("valid-content.html")
         expected_title = (
             "Fabio Caccamo - Python/Django full-stack developer - Torino, Italy"
@@ -30,7 +30,9 @@ class io_dict_html_test_case(io_dict_test_case):
         self.assertEqual(d["html"]["head"]["title"], expected_title)
 
     @patch("benedict.serializers.html.html_installed", False)
-    def test_from_html_with_valid_file_valid_content_but_xls_extra_not_installed(self):
+    def test_from_html_with_valid_file_valid_content_but_xls_extra_not_installed(
+        self,
+    ) -> None:
         filepath = self.input_path("valid-content.html")
         # static method
         with self.assertRaises(ExtrasRequireModuleNotFoundError):
@@ -42,7 +44,7 @@ class io_dict_html_test_case(io_dict_test_case):
         with self.assertRaises(ExtrasRequireModuleNotFoundError):
             _ = IODict(filepath)
 
-    def test_from_html_with_valid_url_valid_content(self):
+    def test_from_html_with_valid_url_valid_content(self) -> None:
         expected_title = (
             "Fabio Caccamo - Python/Django full-stack developer - Torino, Italy"
         )
@@ -60,7 +62,7 @@ class io_dict_html_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             _ = IODict(url)
 
-    def test_from_html_with_invalid_file(self):
+    def test_from_html_with_invalid_file(self) -> None:
         filepath = self.input_path("invalid-file.html")
         # static method
         with self.assertRaises(ValueError):
@@ -72,7 +74,7 @@ class io_dict_html_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(filepath)
 
-    def test_from_html_with_valid_url_invalid_content(self):
+    def test_from_html_with_valid_url_invalid_content(self) -> None:
         url = "https://raw.githubusercontent.com/fabiocaccamo/python-benedict/main/README.md"
         # static method
         with self.assertRaises(ValueError):
@@ -84,7 +86,7 @@ class io_dict_html_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(url)
 
-    def test_from_html_with_invalid_url(self):
+    def test_from_html_with_invalid_url(self) -> None:
         url = "https://github.com/fabiocaccamo/python-benedict-invalid"
         # static method
         with self.assertRaises(ValueError):
@@ -96,7 +98,7 @@ class io_dict_html_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(url)
 
-    def test_to_html(self):
+    def test_to_html(self) -> None:
         d = IODict(
             {
                 "html": {

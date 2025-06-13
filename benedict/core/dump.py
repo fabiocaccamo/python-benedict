@@ -1,7 +1,9 @@
+from typing import Any
+
 from benedict.serializers import JSONSerializer
 
 
-def dump(obj, **kwargs):
+def dump(obj: Any, **kwargs: Any) -> str:
     serializer = JSONSerializer()
     options = {"indent": 4, "sort_keys": True}
     options.update(**kwargs)

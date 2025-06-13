@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import unittest
+from typing import Any, cast
 
 import yaml
 
@@ -16,7 +19,7 @@ class github_issue_0025_test_case(unittest.TestCase):
     """
 
     @staticmethod
-    def load_dict():
+    def load_dict() -> dict[str, Any]:
         yaml_str = """
 SERVER:
     S01:
@@ -32,9 +35,9 @@ SERVER:
             room: s01_room
         """
         servers = yaml.safe_load(yaml_str)
-        return servers
+        return cast("dict[str, Any]", servers)
 
-    def test_pointers_with_dict(self):
+    def test_pointers_with_dict(self) -> None:
         servers = dict(self.load_dict())
         s01_ptr = servers["SERVER"]["S01"]
         s01_ptr["alias"] = "ptr_alias"
@@ -42,7 +45,7 @@ SERVER:
         s01_ptr["credentials"]["username"] = "ptr_unsername"
         self.assertEqual(s01_ptr, servers["SERVER"]["S01"])
 
-    def test_pointers_with_benedict_casting(self):
+    def test_pointers_with_benedict_casting(self) -> None:
         d = self.load_dict()
         servers = benedict(d)
         s01_ptr = servers["SERVER.S01"]
@@ -53,7 +56,7 @@ SERVER:
         s01_ptr["credentials"]["username"] = "ptr_unsername"
         self.assertEqual(s01_ptr, servers["SERVER.S01"])
 
-    def test_pointers_after_pointer_update(self):
+    def test_pointers_after_pointer_update(self) -> None:
         d = self.load_dict()
         b = benedict(d)
         d["SERVER"]["S01"]["alias"] = "new_alias"
@@ -61,7 +64,7 @@ SERVER:
         self.assertEqual(b, d)
         self.assertEqual(b.dict(), d)
 
-    def test_pointers_after_pointer_clear(self):
+    def test_pointers_after_pointer_clear(self) -> None:
         d = self.load_dict()
         b = benedict(d)
         d.clear()

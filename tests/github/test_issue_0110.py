@@ -13,7 +13,7 @@ class github_issue_0110_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0110
     """
 
-    def test_toml_circular_reference_detected(self):
+    def test_toml_circular_reference_detected(self) -> None:
         d = {"a": {"b": {"c": 1}}}
         d["e"] = benedict({"f": 2})
 

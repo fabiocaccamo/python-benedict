@@ -12,7 +12,7 @@ class github_issue_0048_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0048
     """
 
-    def test_json_dumps_with_cloned_instance(self):
+    def test_json_dumps_with_cloned_instance(self) -> None:
         test = benedict(
             {
                 "foo": {

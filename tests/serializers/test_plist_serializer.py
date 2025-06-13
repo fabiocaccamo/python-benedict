@@ -8,10 +8,10 @@ class plist_serializer_test_case(unittest.TestCase):
     This class describes a plist serializer test case.
     """
 
-    def test_decode_plist(self):
+    def test_decode_plist(self) -> None:
         # TODO
         pass
 
-    def test_encode_plist(self):
+    def test_encode_plist(self) -> None:
         # TODO
         pass

@@ -2,7 +2,7 @@ import unittest
 
 
 class stackoverflow_question_20528081_test_case(unittest.TestCase):
-    def test_stackoverflow_question_20528081(self):
+    def test_stackoverflow_question_20528081(self) -> None:
         """
         https://stackoverflow.com/questions/20528081/performance-of-calculations-on-large-flattened-dictionary-with-implied-hierarchy
         """

@@ -12,7 +12,7 @@ class parse_dict_test_case(unittest.TestCase):
     This class describes a ParseDict test case.
     """
 
-    def test_get_bool_default(self):
+    def test_get_bool_default(self) -> None:
         d = {
             "n": None,
         }
@@ -22,7 +22,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertTrue(b.get_bool("d1", True))
         self.assertFalse(b.get_bool("d2", False))
 
-    def test_get_bool_with_bool_values(self):
+    def test_get_bool_with_bool_values(self) -> None:
         d = {
             "b1": True,
             "b2": False,
@@ -31,7 +31,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertTrue(b.get_bool("b1"))
         self.assertFalse(b.get_bool("b2"))
 
-    def test_get_bool_with_int_values(self):
+    def test_get_bool_with_int_values(self) -> None:
         d = {
             "i0": 0,
             "i1": 1,
@@ -43,7 +43,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertTrue(b.get_bool("i2", True))
         self.assertFalse(b.get_bool("i2", False))
 
-    def test_get_bool_with_str_values(self):
+    def test_get_bool_with_str_values(self) -> None:
         d = {
             "t1": "1",
             "t2": "YES",
@@ -60,7 +60,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertFalse(b.get_bool("f2"))
         self.assertFalse(b.get_bool("f3"))
 
-    def test_get_bool_list(self):
+    def test_get_bool_list(self) -> None:
         d = {
             "a": "1,YES,True,0,NO,False,XXX",
             "b": "1;YES;True;0;NO;False;XXX",
@@ -88,7 +88,7 @@ class parse_dict_test_case(unittest.TestCase):
         )
         self.assertEqual(b.get_bool_list("d", default=[False]), [False])
 
-    def test_get_date_default(self):
+    def test_get_date_default(self) -> None:
         today = datetime.now().date()
         d = {
             "a": None,
@@ -97,7 +97,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_date("a", today), today)
         self.assertEqual(b.get_date("b", today), today)
 
-    def test_get_date_with_date_value(self):
+    def test_get_date_with_date_value(self) -> None:
         today = datetime.now().date()
         d = {
             "a": today,
@@ -105,7 +105,7 @@ class parse_dict_test_case(unittest.TestCase):
         b = ParseDict(d)
         self.assertEqual(b.get_date("a"), today)
 
-    def test_get_date_list(self):
+    def test_get_date_list(self) -> None:
         d = {
             "a": ["2019-05-01", "2018-12-31", "Hello World"],
             "b": "2019-05-01,2018-12-31",
@@ -120,7 +120,7 @@ class parse_dict_test_case(unittest.TestCase):
             [datetime(2019, 5, 1).date(), datetime(2018, 12, 31).date()],
         )
 
-    def test_get_datetime_default(self):
+    def test_get_datetime_default(self) -> None:
         now = datetime.now()
         d = {
             "a": None,
@@ -129,7 +129,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_datetime("a", now), now)
         self.assertEqual(b.get_datetime("b", now), now)
 
-    def test_get_datetime_with_datetime_value(self):
+    def test_get_datetime_with_datetime_value(self) -> None:
         now = datetime.now()
         d = {
             "a": now,
@@ -137,7 +137,7 @@ class parse_dict_test_case(unittest.TestCase):
         b = ParseDict(d)
         self.assertEqual(b.get_datetime("a"), now)
 
-    def test_get_datetime_with_timestamp_int(self):
+    def test_get_datetime_with_timestamp_int(self) -> None:
         now = datetime.now()
         ts = datetime.timestamp(now)
         d = {
@@ -146,7 +146,7 @@ class parse_dict_test_case(unittest.TestCase):
         b = ParseDict(d)
         self.assertEqual(b.get_datetime("a"), datetime.fromtimestamp(ts))
 
-    def test_get_datetime_with_timestamp_string(self):
+    def test_get_datetime_with_timestamp_string(self) -> None:
         now = datetime.now()
         ts = datetime.timestamp(now)
         d = {
@@ -155,7 +155,7 @@ class parse_dict_test_case(unittest.TestCase):
         b = ParseDict(d)
         self.assertEqual(b.get_datetime("a"), datetime.fromtimestamp(ts))
 
-    def test_get_datetime_with_valid_format(self):
+    def test_get_datetime_with_valid_format(self) -> None:
         d = {
             "a": "2019-05-01",
         }
@@ -163,7 +163,7 @@ class parse_dict_test_case(unittest.TestCase):
         r = datetime(2019, 5, 1, 0, 0)
         self.assertEqual(b.get_datetime("a", format="%Y-%m-%d"), r)
 
-    def test_get_datetime_with_invalid_format(self):
+    def test_get_datetime_with_invalid_format(self) -> None:
         now = datetime.now()
         d = {
             "a": "2019-05-01",
@@ -179,7 +179,7 @@ class parse_dict_test_case(unittest.TestCase):
             now,
         )
 
-    def test_get_datetime_without_format(self):
+    def test_get_datetime_without_format(self) -> None:
         d = {
             "a": "2019-05-01",
         }
@@ -188,7 +188,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_datetime("a"), r)
 
     @patch("benedict.dicts.parse.parse_util.parse_installed", False)
-    def test_get_datetime_with_with_extra_not_installed(self):
+    def test_get_datetime_with_with_extra_not_installed(self) -> None:
         with self.assertRaises(ExtrasRequireModuleNotFoundError):
             d = {
                 "a": "2019-05-01",
@@ -197,7 +197,7 @@ class parse_dict_test_case(unittest.TestCase):
             r = datetime(2019, 5, 1, 0, 0)
             self.assertEqual(b.get_datetime("a", format="%Y-%m-%d"), r)
 
-    def test_get_datetime_list(self):
+    def test_get_datetime_list(self) -> None:
         d = {
             "a": ["2019-05-01", "2018-12-31", "Hello World"],
             "b": "2019-05-01,2018-12-31",
@@ -212,7 +212,7 @@ class parse_dict_test_case(unittest.TestCase):
             [datetime(2019, 5, 1, 0, 0), datetime(2018, 12, 31, 0, 0)],
         )
 
-    def test_get_decimal(self):
+    def test_get_decimal(self) -> None:
         d = {
             "a": 1,
             "b": True,
@@ -224,7 +224,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_decimal("b", Decimal("2.5")), Decimal("2.5"))
         self.assertEqual(b.get_decimal("c"), Decimal("4.25"))
 
-    def test_get_decimal_with_choices(self):
+    def test_get_decimal_with_choices(self) -> None:
         d = {
             "a": Decimal("0.25"),
             "b": Decimal("0.35"),
@@ -240,7 +240,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_decimal("a", Decimal("0.5"), choices=o), Decimal("0.25"))
         self.assertEqual(b.get_decimal("b", Decimal("0.5"), choices=o), Decimal("0.5"))
 
-    def test_get_decimal_list(self):
+    def test_get_decimal_list(self) -> None:
         d = {
             "a": ["0.0", "0.5", "1.0", "Hello World"],
             "b": "0.0,0.5,1.0",
@@ -254,7 +254,7 @@ class parse_dict_test_case(unittest.TestCase):
             b.get_decimal_list("b"), [Decimal("0.0"), Decimal("0.5"), Decimal("1.0")]
         )
 
-    def test_get_dict(self):
+    def test_get_dict(self) -> None:
         d = {
             "a": {"x": 1, "y": 2},
             "b": {},
@@ -266,7 +266,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_dict("c"), {})
         self.assertEqual(b.get_dict("c", {"default": True}), {"default": True})
 
-    def test_get_dict_from_json(self):
+    def test_get_dict_from_json(self) -> None:
         d = {
             "a": '{"numbers": ["0", "1", "2", "3", "4"], "letters": ["a", "b", "c", "d", "e"]}',
             "b": '["0", "1", "2", "3", "4"]',
@@ -291,7 +291,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_dict("f"), {})
         self.assertEqual(b.get_dict("g", {"default": True}), {"default": True})
 
-    def test_get_float(self):
+    def test_get_float(self) -> None:
         d = {
             "a": 1.0,
             "b": True,
@@ -303,7 +303,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_float("b", float(2.5)), float(2.5))
         self.assertEqual(b.get_float("c"), float(4.25))
 
-    def test_get_float_with_choices(self):
+    def test_get_float_with_choices(self) -> None:
         d = {
             "a": float(0.25),
             "b": float(0.35),
@@ -313,7 +313,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_float("a", float(0.5), choices=o), float(0.25))
         self.assertEqual(b.get_float("b", float(0.5), choices=o), float(0.5))
 
-    def test_get_float_list(self):
+    def test_get_float_list(self) -> None:
         d = {
             "a": ["0.0", "0.5", "1.0", "Hello World"],
             "b": "0.0,0.5,1.0",
@@ -322,7 +322,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_float_list("a"), [0.0, 0.5, 1.0, None])
         self.assertEqual(b.get_float_list("b"), [0.0, 0.5, 1.0])
 
-    def test_get_email(self):
+    def test_get_email(self) -> None:
         d = {
             "a": "fabio@caccamo.com",
             "b": "fabio@@caccamo.com",
@@ -348,7 +348,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_email("e"), "")
 
     @patch("benedict.dicts.parse.parse_util.parse_installed", False)
-    def test_get_email_with_extra_not_installed(self):
+    def test_get_email_with_extra_not_installed(self) -> None:
         with self.assertRaises(ExtrasRequireModuleNotFoundError):
             d = {
                 "a": "fabio@caccamo.com",
@@ -356,7 +356,7 @@ class parse_dict_test_case(unittest.TestCase):
             b = ParseDict(d)
             b.get_email("a")
 
-    def test_get_int(self):
+    def test_get_int(self) -> None:
         d = {
             "a": 1,
             "b": None,
@@ -376,7 +376,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_int("f", 2), 3)
         self.assertEqual(b.get_int("g", 2), 2)
 
-    def test_get_int_with_choices(self):
+    def test_get_int_with_choices(self) -> None:
         d = {
             "a": 25,
             "b": 35,
@@ -386,7 +386,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_int("a", 50, choices=o), 25)
         self.assertEqual(b.get_int("b", 50, choices=o), 50)
 
-    def test_get_int_list(self):
+    def test_get_int_list(self) -> None:
         d = {
             "a": ["0", "1", "2", "Hello World"],
             "b": "0,1,2",
@@ -403,7 +403,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_int_list("e"), [])
         self.assertEqual(b.get_int_list("f"), [])
 
-    def test_get_list(self):
+    def test_get_list(self) -> None:
         d = {
             "a": (0, 1, 2, 3),
             "b": [0, 1, 2, 3],
@@ -422,7 +422,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_list("f"), [])
         self.assertEqual(b.get_list("g", [0]), [0])
 
-    def test_get_list_from_json(self):
+    def test_get_list_from_json(self) -> None:
         d = {
             "a": '{"numbers": ["0", "1", "2", "3", "4"], "letters": ["a", "b", "c", "d", "e"]}',
             "b": '["0", "1", "2", "3", "4"]',
@@ -435,7 +435,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_list("c", [0]), [])
         self.assertEqual(b.get_list("d", [0]), [0])
 
-    def test_get_list_with_separator(self):
+    def test_get_list_with_separator(self) -> None:
         d = {
             "a": "0,1,2,3,4",
             "b": "5|6|7|8|9",
@@ -449,7 +449,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_list("d", separator=","), [])
         self.assertEqual(b.get_list("e", [0], separator=","), [0])
 
-    def test_get_list_item(self):
+    def test_get_list_item(self) -> None:
         d = {
             "a": (1, 2, 3, 4, 5),
             "b": [6, 7, 8, 9, 0],
@@ -466,7 +466,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_list_item("b", index=10), None)
         self.assertEqual(b.get_list_item("c", index=1), None)
 
-    def test_get_phonenumber(self):
+    def test_get_phonenumber(self) -> None:
         d = {
             "b": " (0039) 3334445566 ",  # valid phone number with 00 prefix
             "c": "+393334445566  ",  # valid phone number with + prefix
@@ -526,7 +526,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(p, {})
 
     @patch("benedict.dicts.parse.parse_util.parse_installed", False)
-    def test_get_phonenumber_with_extra_not_installed(self):
+    def test_get_phonenumber_with_extra_not_installed(self) -> None:
         with self.assertRaises(ExtrasRequireModuleNotFoundError):
             d = {
                 "a": "3334445566",
@@ -534,7 +534,7 @@ class parse_dict_test_case(unittest.TestCase):
             b = ParseDict(d)
             b.get_phonenumber("a")
 
-    def test_get_slug(self):
+    def test_get_slug(self) -> None:
         d = {
             "a": " Hello World ",
             "b": 1,
@@ -544,7 +544,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_slug("b", "none"), "1")
         self.assertEqual(b.get_slug("c", "none"), "none")
 
-    def test_get_slug_with_choices(self):
+    def test_get_slug_with_choices(self) -> None:
         d = {
             "a": "Sunday",
             "b": "Noneday",
@@ -560,7 +560,7 @@ class parse_dict_test_case(unittest.TestCase):
             "saturday",
         )
 
-    def test_get_slug_list(self):
+    def test_get_slug_list(self) -> None:
         d = {
             "a": ["Hello World", " See you later ", 99.9],
             "b": "Hello World, See you later, 99.9",
@@ -569,7 +569,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_slug_list("a"), ["hello-world", "see-you-later", "99-9"])
         self.assertEqual(b.get_slug_list("b"), ["hello-world", "see-you-later", "99-9"])
 
-    def test_get_str(self):
+    def test_get_str(self) -> None:
         d = {
             "a": "Hello World",
             "b": "Hello  World",
@@ -581,7 +581,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_str("c"), "1")
 
     @patch("benedict.dicts.parse.parse_util.parse_installed", False)
-    def test_get_str_with_extra_not_installed(self):
+    def test_get_str_with_extra_not_installed(self) -> None:
         with self.assertRaises(ExtrasRequireModuleNotFoundError):
             d = {
                 "a": "Hello World",
@@ -589,7 +589,7 @@ class parse_dict_test_case(unittest.TestCase):
             b = ParseDict(d)
             b.get_str("a")
 
-    def test_get_str_fix_encoding(self):
+    def test_get_str_fix_encoding(self) -> None:
         d = {
             "a": "Sexâ\x80\x99n Drug",
             "b": "Localit\xe0",
@@ -598,7 +598,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_str("a"), "Sex'n Drug")
         self.assertEqual(b.get_str("b"), "Località")
 
-    def test_get_str_list(self):
+    def test_get_str_list(self) -> None:
         d = {
             "a": ["Hello World", "See you later", 99.9],
             "b": "Hello World,See you later,99.9",
@@ -607,7 +607,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_str_list("a"), ["Hello World", "See you later", "99.9"])
         self.assertEqual(b.get_str_list("b"), ["Hello World", "See you later", "99.9"])
 
-    def test_get_str_with_choices(self):
+    def test_get_str_with_choices(self) -> None:
         d = {
             "a": "Sunday",
             "b": "Noneday",
@@ -623,7 +623,7 @@ class parse_dict_test_case(unittest.TestCase):
             "Saturday",
         )
 
-    def test_get_uuid(self):
+    def test_get_uuid(self) -> None:
         d = {
             "a": "CA761232-ED42-11CE-BACD-00AA0057B223",
             "b": " CA761232-ED42-11CE-BACD-00AA0057B223 ",
@@ -647,7 +647,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_uuid("h"), "")
         self.assertEqual(b.get_uuid("i"), "")
 
-    def test_get_uuid_list(self):
+    def test_get_uuid_list(self) -> None:
         d = {
             "a": [
                 "CA761232-ED42-11CE-BACD-00AA0057B223",

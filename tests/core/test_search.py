@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import unittest
+from typing import Any
 
 from benedict.core import search as _search
 
@@ -8,8 +11,8 @@ class search_test_case(unittest.TestCase):
     This class describes a search test case.
     """
 
-    def test_search_string(self):
-        d = {
+    def test_search_string(self) -> None:
+        d: dict[str, Any] = {
             "a": "Hello world",
             "b": "Hello world!",
             "c": {
@@ -130,8 +133,8 @@ class search_test_case(unittest.TestCase):
             in results
         )
 
-    def test_search_int(self):
-        d = {
+    def test_search_int(self) -> None:
+        d: dict[str | int, Any] = {
             "u": 5,
             "v": {
                 "x": {

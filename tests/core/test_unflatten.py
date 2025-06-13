@@ -8,7 +8,7 @@ class unflatten_test_case(unittest.TestCase):
     This class describes an unflatten test case.
     """
 
-    def test_unflatten(self):
+    def test_unflatten(self) -> None:
         d = {
             "a": 1,
             "b_c": 2,
@@ -26,7 +26,7 @@ class unflatten_test_case(unittest.TestCase):
         }
         self.assertEqual(u, r)
 
-    def test_unflatten_with_custom_separator(self):
+    def test_unflatten_with_custom_separator(self) -> None:
         d = {
             "a": 1,
             "b|c": 2,
@@ -46,7 +46,7 @@ class unflatten_test_case(unittest.TestCase):
         }
         self.assertEqual(u, r)
 
-    def test_unflatten_with_nested_dict(self):
+    def test_unflatten_with_nested_dict(self) -> None:
         d = {
             "a": 1,
             "b_c": {

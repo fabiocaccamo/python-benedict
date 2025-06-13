@@ -1,4 +1,8 @@
-def unique(d):
+from collections.abc import MutableMapping
+from typing import Any
+
+
+def unique(d: MutableMapping[Any, Any]) -> None:
     values = []
     keys = list(d.keys())
     for key in keys:

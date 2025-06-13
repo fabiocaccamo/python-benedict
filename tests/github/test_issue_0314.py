@@ -14,7 +14,7 @@ class github_issue_0314_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0314
     """
 
-    def test_yaml_serializer_produces_inconsistent_results(self):
+    def test_yaml_serializer_produces_inconsistent_results(self) -> None:
         b = benedict({"foo": "foo"})
         b["hello.world"] = "hello world"
 

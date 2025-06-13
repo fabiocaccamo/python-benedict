@@ -8,7 +8,7 @@ class io_dict_base64_test_case(io_dict_test_case):
     This class describes an IODict / base64 test case.
     """
 
-    def test_from_base64_with_valid_data(self):
+    def test_from_base64_with_valid_data(self) -> None:
         j = "eyJhIjogMSwgImIiOiAyLCAiYyI6IDN9"
         # j = '{"a": 1, "b": 2, "c": 3}'
         # static method
@@ -24,7 +24,7 @@ class io_dict_base64_test_case(io_dict_test_case):
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, {"a": 1, "b": 2, "c": 3})
 
-    def test_from_base64_with_valid_data_without_padding(self):
+    def test_from_base64_with_valid_data_without_padding(self) -> None:
         j = "eyJhIjogMSwgImIiOiAyLCAiYyI6IDMsICJkIjogNH0"
         # eyJhIjogMSwgImIiOiAyLCAiYyI6IDMsICJkIjogNH0=
         # j = '{"a": 1, "b": 2, "c": 3, "d": 4}'
@@ -37,7 +37,7 @@ class io_dict_base64_test_case(io_dict_test_case):
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, {"a": 1, "b": 2, "c": 3, "d": 4})
 
-    def test_from_base64_with_invalid_data(self):
+    def test_from_base64_with_invalid_data(self) -> None:
         j = "Lorem ipsum est in ea occaecat nisi officia."
         # static method
         with self.assertRaises(ValueError):
@@ -46,7 +46,7 @@ class io_dict_base64_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(j, format="base64")
 
-    def test_from_base64_with_valid_file_valid_content(self):
+    def test_from_base64_with_valid_file_valid_content(self) -> None:
         filepath = self.input_path("valid-content.base64")
         # static method
         d = IODict.from_base64(filepath)
@@ -58,7 +58,7 @@ class io_dict_base64_test_case(io_dict_test_case):
         d = IODict(filepath)
         self.assertTrue(isinstance(d, dict))
 
-    def test_from_base64_with_valid_file_valid_content_invalid_format(self):
+    def test_from_base64_with_valid_file_valid_content_invalid_format(self) -> None:
         filepath = self.input_path("valid-content.json")
         with self.assertRaises(ValueError):
             IODict.from_base64(filepath)
@@ -75,7 +75,7 @@ class io_dict_base64_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict.from_base64(filepath)
 
-    def test_from_base64_with_valid_file_invalid_content(self):
+    def test_from_base64_with_valid_file_invalid_content(self) -> None:
         filepath = self.input_path("invalid-content.base64")
         # static method
         with self.assertRaises(ValueError):
@@ -84,7 +84,7 @@ class io_dict_base64_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(filepath, format="base64")
 
-    def test_from_base64_with_invalid_file(self):
+    def test_from_base64_with_invalid_file(self) -> None:
         filepath = self.input_path("invalid-file.base64")
         # static method
         with self.assertRaises(ValueError):
@@ -93,7 +93,7 @@ class io_dict_base64_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(filepath, format="base64")
 
-    def test_from_base64_with_valid_url_valid_content(self):
+    def test_from_base64_with_valid_url_valid_content(self) -> None:
         url = self.input_url("valid-content.base64")
         # static method
         d = IODict.from_base64(url)
@@ -105,7 +105,7 @@ class io_dict_base64_test_case(io_dict_test_case):
         d = IODict(url)
         self.assertTrue(isinstance(d, dict))
 
-    def test_from_base64_with_valid_url_invalid_content(self):
+    def test_from_base64_with_valid_url_invalid_content(self) -> None:
         url = "https://github.com/fabiocaccamo/python-benedict"
         # static method
         with self.assertRaises(ValueError):
@@ -114,7 +114,7 @@ class io_dict_base64_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(url, format="base64")
 
-    def test_from_base64_with_invalid_url(self):
+    def test_from_base64_with_invalid_url(self) -> None:
         url = "https://github.com/fabiocaccamo/python-benedict-invalid"
         # static method
         with self.assertRaises(ValueError):
@@ -123,12 +123,12 @@ class io_dict_base64_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(url, format="base64")
 
-    def test_to_base64(self):
+    def test_to_base64(self) -> None:
         d = IODict({"a": 1, "b": 2, "c": 3})
         s = d.to_base64(sort_keys=True)
         self.assertEqual(s, "eyJhIjogMSwgImIiOiAyLCAiYyI6IDN9")
 
-    def test_to_base64_file(self):
+    def test_to_base64_file(self) -> None:
         d = IODict({"a": 1, "b": 2, "c": 3})
         filepath = self.output_path("test_to_base64_file.base64")
         d.to_base64(filepath=filepath, sort_keys=True)

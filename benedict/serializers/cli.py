@@ -1,12 +1,15 @@
+from __future__ import annotations
+
 from argparse import ArgumentError, ArgumentParser
 from collections import Counter
-from re import finditer
+from re import Pattern, finditer
+from typing import Any, NoReturn, cast
 
 from benedict.serializers.abstract import AbstractSerializer
 from benedict.utils import type_util
 
 
-class CLISerializer(AbstractSerializer):
+class CLISerializer(AbstractSerializer[str | None, dict[str, Any]]):
     """
     This class describes a CLI serializer.
     """
@@ -33,13 +36,15 @@ class CLISerializer(AbstractSerializer):
     - Doesn't match: script.py, example, email@example.com
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(
             extensions=["cli"],
         )
 
     @staticmethod
-    def parse_keys(regex, string):
+    def parse_keys(regex: str | Pattern[str], string: str | None) -> list[str]:
+        if not string:
+            return []
         # For some reason findall didn't work
         results = [match.group(0) for match in finditer(regex, string)]
         return results
@@ -47,11 +52,11 @@ class CLISerializer(AbstractSerializer):
     """Helper method, returns a list of --keys based on the regex used"""
 
     @staticmethod
-    def _get_parser(options):
+    def _get_parser(options: dict[str, Any]) -> ArgumentParser:
         parser = ArgumentParser(**options)
         return parser
 
-    def decode(self, s=None, **kwargs):
+    def decode(self, s: str | None = None, **kwargs: Any) -> dict[str, Any]:
         parser = self._get_parser(options=kwargs)
 
         keys_with_values = set(self.parse_keys(self.regex_keys_with_values, s))
@@ -89,7 +94,7 @@ class CLISerializer(AbstractSerializer):
                 raise ValueError from error
 
         try:
-            args = parser.parse_args(s.split())
+            args = parser.parse_args(cast("str", s).split())
         except BaseException as error:
             raise ValueError from error
 
@@ -103,5 +108,5 @@ class CLISerializer(AbstractSerializer):
 
         return dict
 
-    def encode(self, d, **kwargs):
+    def encode(self, d: Any, **kwargs: Any) -> NoReturn:
         raise NotImplementedError

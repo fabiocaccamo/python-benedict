@@ -13,12 +13,12 @@ class github_issue_0144_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0144
     """
 
-    def test_init_with_pathlib_path_object_and_valid_path(self):
+    def test_init_with_pathlib_path_object_and_valid_path(self) -> None:
         # print(pathlib.Path("./test_issue_0144.json"))
         d = benedict(pathlib.Path("tests/github/test_issue_0144.json"), format="json")
         self.assertEqual(d, {"a": 1, "b": 2, "c": 3, "x": 7, "y": 8, "z": 9})
 
-    def test_init_with_pathlib_path_object_and_invalid_path(self):
+    def test_init_with_pathlib_path_object_and_invalid_path(self) -> None:
         with self.assertRaises(ValueError):
             benedict(
                 pathlib.Path("tests/github/test_issue_0144_invalid.json"), format="json"

@@ -1,6 +1,6 @@
 import tempfile
 import unittest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, Mock, patch
 
 import fsutil
 from decouple import config
@@ -15,88 +15,88 @@ class io_util_test_case(unittest.TestCase):
     This class describes an i/o utility test case.
     """
 
-    def test_decode(self):
+    def test_decode(self) -> None:
         # TODO
         pass
 
-    def test_autodetect_format_by_data(self):
+    def test_autodetect_format_by_data(self) -> None:
         s = '{"a": 1, "b": 2, "c": 3}'
         self.assertEqual(io_util.autodetect_format(s), None)
 
-    def test_autodetect_format_by_path(self):
+    def test_autodetect_format_by_path(self) -> None:
         s = "path-to/data.xml"
         self.assertEqual(io_util.autodetect_format(s), "xml")
 
-    def test_autodetect_format_by_path_with_unsupported_format(self):
+    def test_autodetect_format_by_path_with_unsupported_format(self) -> None:
         s = "path-to/data.jpg"
         self.assertEqual(io_util.autodetect_format(s), None)
 
-    def test_autodetect_format_by_url(self):
+    def test_autodetect_format_by_url(self) -> None:
         s = "https://github.com/fabiocaccamo/python-benedict.xml"
         self.assertEqual(io_util.autodetect_format(s), "xml")
 
-    def test_autodetect_format_by_url_with_unsupported_format(self):
+    def test_autodetect_format_by_url_with_unsupported_format(self) -> None:
         s = "https://github.com/fabiocaccamo/python-benedict.jpg"
         self.assertEqual(io_util.autodetect_format(s), None)
 
-    def test_decode_with_invalid_format(self):
-        with self.assertRaises(ValueError):
+    def test_decode_with_invalid_format(self) -> None:
+        with self.assertRaises(KeyError):
             io_util.decode("", format="xxx")
 
-    def test_encode(self):
+    def test_encode(self) -> None:
         # TODO
         pass
 
-    def test_encode_with_invalid_format(self):
-        with self.assertRaises(ValueError):
+    def test_encode_with_invalid_format(self) -> None:
+        with self.assertRaises(KeyError):
             io_util.encode({}, format="xxx")
 
-    def test_is_data(self):
+    def test_is_data(self) -> None:
         # TODO
         pass
 
-    def test_is_filepath(self):
+    def test_is_filepath(self) -> None:
         path = "my-folder/my-file.json"
         self.assertTrue(io_util.is_filepath(path))
 
-    def test_is_s3(self):
+    def test_is_s3(self) -> None:
         path = "s3://my-folder/my-file.json"
         self.assertTrue(io_util.is_s3(path))
 
-    def test_is_s3_with_txt_document(self):
+    def test_is_s3_with_txt_document(self) -> None:
         path = "s3://my-folder/my-file.txt"
         self.assertTrue(io_util.is_s3(path))
 
-    def test_is_url(self):
+    def test_is_url(self) -> None:
         path = "https://my-site.com/my-folder/my-file.json"
         self.assertTrue(io_util.is_url(path))
 
-    def test_read_content(self):
+    def test_read_content(self) -> None:
         # TODO
         pass
 
-    def test_read_file(self):
+    def test_read_file(self) -> None:
         # TODO
         pass
 
-    def test_read_file_from_s3(self):
+    def test_read_file_from_s3(self) -> None:
         # TODO:
         pass
 
-    def test_read_url(self):
+    def test_read_url(self) -> None:
         # TODO
         pass
 
-    def test_write_file(self):
+    def test_write_file(self) -> None:
         # TODO
         pass
 
-    def test_write_file_to_s3(self):
+    def test_write_file_to_s3(self) -> None:
         # TODO:
         # io_util.write_file_to_s3("s3://test-bucket/my-file.txt", "ok", anon=True)
         pass
 
-    def test_parse_s3_url_valid(self):
+    def test_parse_s3_url_valid(self) -> None:
         url = "s3://my-bucket/path/to/key"
         result = io_util.parse_s3_url(url)
         expected_result = {
@@ -106,7 +106,7 @@ class io_util_test_case(unittest.TestCase):
         }
         self.assertEqual(result, expected_result)
 
-    def test_parse_s3_url_with_query(self):
+    def test_parse_s3_url_with_query(self) -> None:
         url = "s3://my-bucket/path/to/key?versionId=123"
         result = io_util.parse_s3_url(url)
         expected_result = {
@@ -116,7 +116,7 @@ class io_util_test_case(unittest.TestCase):
         }
         self.assertEqual(result, expected_result)
 
-    def test_parse_s3_url_with_multiple_query_parameters(self):
+    def test_parse_s3_url_with_multiple_query_parameters(self) -> None:
         url = "s3://my-bucket/path/to/key?versionId=123&foo=bar"
         result = io_util.parse_s3_url(url)
         expected_result = {
@@ -126,7 +126,7 @@ class io_util_test_case(unittest.TestCase):
         }
         self.assertEqual(result, expected_result)
 
-    def test_parse_s3_url_with_special_characters(self):
+    def test_parse_s3_url_with_special_characters(self) -> None:
         url = "s3://my-bucket/path/to/key with spaces?foo=bar&baz=qux"
         result = io_util.parse_s3_url(url)
         expected_result = {
@@ -137,7 +137,7 @@ class io_util_test_case(unittest.TestCase):
         self.assertEqual(result, expected_result)
 
     @patch("benedict.dicts.io.io_util.s3_installed", False)
-    def test_read_content_from_s3_with_s3_extra_not_installed(self):
+    def test_read_content_from_s3_with_s3_extra_not_installed(self) -> None:
         s3_options = {
             "aws_access_key_id": "",
             "aws_secret_access_key": "",
@@ -149,7 +149,9 @@ class io_util_test_case(unittest.TestCase):
     @patch("benedict.dicts.io.io_util.s3_installed", True)
     @patch("benedict.dicts.io.io_util.boto3.client")
     @patch("benedict.dicts.io.io_util.read_content_from_file")
-    def test_read_content_from_s3(self, mock_read_content_from_file, mock_boto3_client):
+    def test_read_content_from_s3(
+        self, mock_read_content_from_file: Mock, mock_boto3_client: Mock
+    ) -> None:
         aws_access_key_id = config("AWS_ACCESS_KEY_ID", default=None)
         aws_secret_access_key = config("AWS_SECRET_ACCESS_KEY", default=None)
         s3_options = {
@@ -180,8 +182,8 @@ class io_util_test_case(unittest.TestCase):
     @patch("benedict.dicts.io.io_util.fsutil.remove_file")
     @patch("benedict.dicts.io.io_util.fsutil.write_file")
     def test_write_content_to_s3(
-        self, mock_write_file, mock_remove_file, mock_boto3_client
-    ):
+        self, mock_write_file: Mock, mock_remove_file: Mock, mock_boto3_client: Mock
+    ) -> None:
         aws_access_key_id = config("AWS_ACCESS_KEY_ID", default=None)
         aws_secret_access_key = config("AWS_SECRET_ACCESS_KEY", default=None)
         s3_options = {
@@ -210,7 +212,7 @@ class io_util_test_case(unittest.TestCase):
         mock_s3.close.assert_called()
         mock_remove_file.assert_called_with(temporary_filepath)
 
-    def test_write_and_read_content_s3(self):
+    def test_write_and_read_content_s3(self) -> None:
         aws_access_key_id = config("AWS_ACCESS_KEY_ID", default=None)
         aws_secret_access_key = config("AWS_SECRET_ACCESS_KEY", default=None)
         if not all([aws_access_key_id, aws_secret_access_key]):
@@ -225,7 +227,7 @@ class io_util_test_case(unittest.TestCase):
         content = io_util.read_content_from_s3(filepath, s3_options=s3_options)
         self.assertEqual(content, "ok")
 
-    def test_write_and_read_content_s3_with_s3_url_autodetection(self):
+    def test_write_and_read_content_s3_with_s3_url_autodetection(self) -> None:
         aws_access_key_id = config("AWS_ACCESS_KEY_ID", default=None)
         aws_secret_access_key = config("AWS_SECRET_ACCESS_KEY", default=None)
         if not all([aws_access_key_id, aws_secret_access_key]):
@@ -241,7 +243,7 @@ class io_util_test_case(unittest.TestCase):
         self.assertEqual(content, "ok")
 
     @patch("benedict.dicts.io.io_util.s3_installed", False)
-    def test_write_and_read_content_s3_with_s3_extra_not_installed(self):
+    def test_write_and_read_content_s3_with_s3_extra_not_installed(self) -> None:
         aws_access_key_id = config("AWS_ACCESS_KEY_ID", default=None)
         aws_secret_access_key = config("AWS_SECRET_ACCESS_KEY", default=None)
         if not all([aws_access_key_id, aws_secret_access_key]):

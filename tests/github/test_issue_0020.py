@@ -1,21 +1,24 @@
 import unittest
+from typing import Any
+
+import yaml
+from yaml import Node
 
 from benedict import benedict
-from benedict.serializers.yaml import yaml
 
 
 class GetAtt(yaml.YAMLObject):
     yaml_loader = yaml.SafeLoader
     yaml_tag = "!GetAtt"
 
-    def __init__(self, val):
+    def __init__(self, val: Any) -> None:
         self.val = val
 
     @classmethod
-    def from_yaml(cls, loader, node):
+    def from_yaml(cls, loader: Any, node: Node) -> Any:
         return cls(node.value)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"GetAtt({self.val})"
 
 
@@ -27,7 +30,7 @@ class github_issue_0020_test_case(unittest.TestCase):
     This class describes a github issue 0020 test case.
     """
 
-    def test_github_issue_0020(self):
+    def test_github_issue_0020(self) -> None:
         """
         https://github.com/fabiocaccamo/python-benedict/issues/20
         """

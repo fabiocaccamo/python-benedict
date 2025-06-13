@@ -12,7 +12,7 @@ class github_issue_0294_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0294
     """
 
-    def test_assigning_benedict_element_to_itself_clears_the_element(self):
+    def test_assigning_benedict_element_to_itself_clears_the_element(self) -> None:
         d = benedict({"a": {"b": 1}})
         d["a"] = d["a"]
         self.assertEqual(d, {"a": {"b": 1}})

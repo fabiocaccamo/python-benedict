@@ -12,7 +12,7 @@ class github_issue_0333_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0333
     """
 
-    def test_items_value_type(self):
+    def test_items_value_type(self) -> None:
         likes = {
             "fruit": {
                 "apple": "green",
@@ -30,7 +30,7 @@ class github_issue_0333_test_case(unittest.TestCase):
         for _, v in likes.items():
             self.assertEqual(type(v), benedict)
 
-    def test_values_value_type(self):
+    def test_values_value_type(self) -> None:
         likes = {
             "fruit": {
                 "apple": "green",

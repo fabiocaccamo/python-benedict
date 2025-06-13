@@ -9,7 +9,7 @@ class items_sorted_test_case(unittest.TestCase):
     This class describes an items sorted test case.
     """
 
-    def test_items_sorted_by_keys(self):
+    def test_items_sorted_by_keys(self) -> None:
         i = {
             "y": 3,
             "a": 6,
@@ -17,7 +17,7 @@ class items_sorted_test_case(unittest.TestCase):
             "z": 4,
             "x": 1,
         }
-        o = _items_sorted_by_keys(i)
+        o = _items_sorted_by_keys(i)  # type: ignore[misc]
         r = [
             ("a", 6),
             ("f", 9),
@@ -27,7 +27,7 @@ class items_sorted_test_case(unittest.TestCase):
         ]
         self.assertEqual(o, r)
 
-    def test_items_sorted_by_keys_reverse(self):
+    def test_items_sorted_by_keys_reverse(self) -> None:
         i = {
             "y": 3,
             "a": 6,
@@ -35,7 +35,7 @@ class items_sorted_test_case(unittest.TestCase):
             "z": 4,
             "x": 1,
         }
-        o = _items_sorted_by_keys(i, reverse=True)
+        o = _items_sorted_by_keys(i, reverse=True)  # type: ignore[misc]
         r = [
             ("z", 4),
             ("y", 3),
@@ -45,7 +45,7 @@ class items_sorted_test_case(unittest.TestCase):
         ]
         self.assertEqual(o, r)
 
-    def test_items_sorted_by_values(self):
+    def test_items_sorted_by_values(self) -> None:
         i = {
             "a": 3,
             "b": 6,
@@ -53,7 +53,7 @@ class items_sorted_test_case(unittest.TestCase):
             "e": 4,
             "d": 1,
         }
-        o = _items_sorted_by_values(i)
+        o = _items_sorted_by_values(i)  # type: ignore[misc]
         r = [
             ("d", 1),
             ("a", 3),
@@ -63,7 +63,7 @@ class items_sorted_test_case(unittest.TestCase):
         ]
         self.assertEqual(o, r)
 
-    def test_items_sorted_by_values_reverse(self):
+    def test_items_sorted_by_values_reverse(self) -> None:
         i = {
             "a": 3,
             "b": 6,
@@ -71,7 +71,7 @@ class items_sorted_test_case(unittest.TestCase):
             "e": 4,
             "d": 1,
         }
-        o = _items_sorted_by_values(i, reverse=True)
+        o = _items_sorted_by_values(i, reverse=True)  # type: ignore[misc]
         r = [
             ("c", 9),
             ("b", 6),

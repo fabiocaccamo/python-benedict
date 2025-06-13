@@ -8,7 +8,7 @@ class move_test_case(unittest.TestCase):
     This class describes a move test case.
     """
 
-    def test_move(self):
+    def test_move(self) -> None:
         d = {
             "a": {
                 "x": 1,
@@ -40,7 +40,7 @@ class move_test_case(unittest.TestCase):
         }
         self.assertEqual(d, r)
 
-    def test_move_with_same_key(self):
+    def test_move_with_same_key(self) -> None:
         d = {
             "a": 1,
             "b": 2,

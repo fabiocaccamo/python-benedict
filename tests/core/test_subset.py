@@ -8,7 +8,7 @@ class subset_test_case(unittest.TestCase):
     This class describes a subset test case.
     """
 
-    def test_subset_with_keys_as_args(self):
+    def test_subset_with_keys_as_args(self) -> None:
         i = {
             "a": 1,
             "b": 2,
@@ -26,7 +26,7 @@ class subset_test_case(unittest.TestCase):
         self.assertFalse(i is o)
         self.assertEqual(o, r)
 
-    def test_subset_with_keys_as_list(self):
+    def test_subset_with_keys_as_list(self) -> None:
         i = {
             "a": 1,
             "b": 2,

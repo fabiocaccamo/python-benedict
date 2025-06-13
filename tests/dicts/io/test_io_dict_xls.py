@@ -1,3 +1,4 @@
+from typing import Any
 from unittest.mock import patch
 
 from decouple import config
@@ -13,7 +14,7 @@ class io_dict_xls_test_case(io_dict_test_case):
     This class describes an IODict / xls test case.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self._extensions = [
             "xlsx",
@@ -21,7 +22,7 @@ class io_dict_xls_test_case(io_dict_test_case):
             "xls",
         ]
 
-    def test_from_xls_with_valid_file_valid_content(self):
+    def test_from_xls_with_valid_file_valid_content(self) -> None:
         expected_dict = {
             "values": [
                 {
@@ -72,7 +73,9 @@ class io_dict_xls_test_case(io_dict_test_case):
                 self.assertEqual(d, expected_dict)
 
     @patch("benedict.serializers.xls.xls_installed", False)
-    def test_from_xls_with_valid_file_valid_content_but_xls_extra_not_installed(self):
+    def test_from_xls_with_valid_file_valid_content_but_xls_extra_not_installed(
+        self,
+    ) -> None:
         for extension in self._extensions:
             with self.subTest(
                 msg=f"test_from_xls_({extension})_with_valid_file_valid_content_but_xls_extra_not_installed"
@@ -88,7 +91,7 @@ class io_dict_xls_test_case(io_dict_test_case):
                 with self.assertRaises(ExtrasRequireModuleNotFoundError):
                     _ = IODict(filepath)
 
-    def test_from_xls_with_valid_url_valid_content(self):
+    def test_from_xls_with_valid_url_valid_content(self) -> None:
         expected_dict = {
             "values": [
                 {
@@ -139,7 +142,7 @@ class io_dict_xls_test_case(io_dict_test_case):
                 self.assertTrue(isinstance(d, dict))
                 self.assertEqual(d, expected_dict)
 
-    def test_from_xls_with_valid_s3_url_valid_content(self):
+    def test_from_xls_with_valid_s3_url_valid_content(self) -> None:
         aws_access_key_id = config("AWS_ACCESS_KEY_ID", default=None)
         aws_secret_access_key = config("AWS_SECRET_ACCESS_KEY", default=None)
         if not all([aws_access_key_id, aws_secret_access_key]):
@@ -200,7 +203,7 @@ class io_dict_xls_test_case(io_dict_test_case):
 
     def test_from_xls_with_valid_file_valid_content_custom_sheet_by_index_and_columns(
         self,
-    ):
+    ) -> None:
         expected_dict = {
             "values": [
                 {
@@ -232,7 +235,7 @@ class io_dict_xls_test_case(io_dict_test_case):
                 self.assertTrue(isinstance(d, dict))
                 self.assertEqual(d, expected_dict)
 
-    def test_from_xls_with_invalid_file(self):
+    def test_from_xls_with_invalid_file(self) -> None:
         for extension in self._extensions:
             with self.subTest(
                 msg=f"test_from_xls_({extension})_with_valid_file_valid_content"
@@ -248,7 +251,7 @@ class io_dict_xls_test_case(io_dict_test_case):
                 with self.assertRaises(ValueError):
                     IODict(filepath)
 
-    def test_from_xls_with_valid_url_invalid_content(self):
+    def test_from_xls_with_valid_url_invalid_content(self) -> None:
         for extension in self._extensions:
             with self.subTest(
                 msg=f"test_from_xls_({extension})_with_valid_url_invalid_content"
@@ -264,7 +267,7 @@ class io_dict_xls_test_case(io_dict_test_case):
                 with self.assertRaises(ValueError):
                     IODict(url)
 
-    def test_from_xls_with_invalid_url(self):
+    def test_from_xls_with_invalid_url(self) -> None:
         for extension in self._extensions:
             with self.subTest(msg=f"test_from_xls_({extension})_with_invalid_url"):
                 url = "https://github.com/fabiocaccamo/python-benedict-invalid"
@@ -278,7 +281,7 @@ class io_dict_xls_test_case(io_dict_test_case):
                 with self.assertRaises(ValueError):
                     IODict(url)
 
-    def test_to_xls(self):
+    def test_to_xls(self) -> None:
         d = IODict(
             {
                 "values": [

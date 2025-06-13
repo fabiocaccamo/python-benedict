@@ -17,7 +17,7 @@ class github_issue_0334_test_case(unittest.TestCase):
         sys.version_info < (3, 9),
         "The | operator supported since Pythopn 3.9",
     )
-    def test_union_with_assignement_operator(self):
+    def test_union_with_assignement_operator(self) -> None:
         a = {"a": "a", "b": "b"}
         b = {"b": "b", "c": "c"}
 

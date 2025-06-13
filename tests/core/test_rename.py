@@ -8,7 +8,7 @@ class rename_test_case(unittest.TestCase):
     This class describes a rename test case.
     """
 
-    def test_rename(self):
+    def test_rename(self) -> None:
         d = {
             "a": {
                 "x": 1,
@@ -40,7 +40,7 @@ class rename_test_case(unittest.TestCase):
         }
         self.assertEqual(d, r)
 
-    def test_rename_with_same_key(self):
+    def test_rename_with_same_key(self) -> None:
         d = {
             "a": 1,
             "b": 2,
@@ -52,7 +52,7 @@ class rename_test_case(unittest.TestCase):
         }
         self.assertEqual(d, r)
 
-    def test_rename_to_existing_name(self):
+    def test_rename_to_existing_name(self) -> None:
         d = {
             "a": 1,
             "b": 2,

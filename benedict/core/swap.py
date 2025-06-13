@@ -1,4 +1,10 @@
-def swap(d, key1, key2):
+from collections.abc import MutableMapping
+from typing import Any, TypeVar
+
+_K = TypeVar("_K")
+
+
+def swap(d: MutableMapping[_K, Any], key1: _K, key2: _K) -> None:
     if key1 == key2:
         return
     val1 = d[key1]

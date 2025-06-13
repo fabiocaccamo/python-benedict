@@ -8,10 +8,10 @@ class yaml_serializer_test_case(unittest.TestCase):
     This class describes an yaml serializer test case.
     """
 
-    def test_decode_yaml(self):
+    def test_decode_yaml(self) -> None:
         # TODO
         pass
 
-    def test_encode_yaml(self):
+    def test_encode_yaml(self) -> None:
         # TODO
         pass

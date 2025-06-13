@@ -1,4 +1,5 @@
 coverage == 7.6.*
+mypy == 1.16.*
 orjson == 3.10.*
 pre-commit == 4.0.*
 python-decouple == 3.8
