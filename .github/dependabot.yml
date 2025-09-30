@@ -6,7 +6,7 @@ updates:
     schedule:
       interval: "monthly"
     groups:
-      all-requirements:
+      python-requirements:
         patterns:
           - "*"
 
@@ -15,6 +15,6 @@ updates:
     schedule:
       interval: "monthly"
     groups:
-      all-github-actions:
+      github-actions:
         patterns:
           - "*"
