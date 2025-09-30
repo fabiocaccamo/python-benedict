@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import fsutil
 
 try:
@@ -8,18 +10,21 @@ try:
 except ModuleNotFoundError:
     xls_installed = False
 
+from collections.abc import Sequence
+from typing import Any, NoReturn
+
 from slugify import slugify
 
 from benedict.extras import require_xls
 from benedict.serializers.abstract import AbstractSerializer
 
 
-class XLSSerializer(AbstractSerializer):
+class XLSSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
     """
     This class describes a xls serializer.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(
             extensions=[
                 "xls",
@@ -28,7 +33,7 @@ class XLSSerializer(AbstractSerializer):
             ],
         )
 
-    def _get_sheet_index_and_name_from_options(self, **kwargs):
+    def _get_sheet_index_and_name_from_options(self, **kwargs: Any) -> tuple[int, str]:
         sheet_index_or_name = kwargs.pop("sheet", 0)
         sheet_index = 0
         sheet_name = ""
@@ -38,7 +43,9 @@ class XLSSerializer(AbstractSerializer):
             sheet_name = sheet_index_or_name
         return (sheet_index, sheet_name)
 
-    def _get_sheet_index_by_name(self, sheet_name, sheet_names):
+    def _get_sheet_index_by_name(
+        self, sheet_name: str, sheet_names: Sequence[str]
+    ) -> int:
         sheet_names = [slugify(name) for name in sheet_names]
         try:
             sheet_index = sheet_names.index(slugify(sheet_name))
@@ -48,15 +55,15 @@ class XLSSerializer(AbstractSerializer):
                 f"Invalid sheet name {sheet_name!r}, sheet not found."
             ) from error
 
-    def _get_sheet_columns_indexes(self, columns_count):
+    def _get_sheet_columns_indexes(self, columns_count: int) -> list[int]:
         return list(range(columns_count))
 
-    def _decode_legacy(self, s, **kwargs):
+    def _decode_legacy(self, s: str, **kwargs: Any) -> list[dict[str, Any]]:
         options = {}
         options["filename"] = s
         options["logfile"] = kwargs.pop("logfile", None)
-        options["verbosity"] = kwargs.pop("verbosity", 0) or 0
-        options["use_mmap"] = kwargs.pop("use_mmap", False) or False
+        options["verbosity"] = kwargs.pop("verbosity", 0)
+        options["use_mmap"] = kwargs.pop("use_mmap", False)
         options["file_contents"] = kwargs.pop("file_contents", None)
 
         # load the worksheet
@@ -84,7 +91,7 @@ class XLSSerializer(AbstractSerializer):
             else:
                 # otherwise use columns indexes as column names
                 # for row in sheet.iter_rows(min_row=1, max_row=1):
-                columns = self._get_sheet_columns_indexes(sheet_columns_range)
+                columns = list(sheet_columns_range)
 
         # standardize column names, eg. "Date Created" -> "date_created"
         if columns_standardized:
@@ -104,8 +111,8 @@ class XLSSerializer(AbstractSerializer):
         # print(items)
         return items
 
-    def _decode(self, s, **kwargs):
-        options = {}
+    def _decode(self, s: str, **kwargs: Any) -> list[dict[str, Any]]:
+        options: dict[str, Any] = {}
         options["filename"] = s
         options["read_only"] = True
         options["data_only"] = kwargs.pop("data_only", False)
@@ -155,14 +162,15 @@ class XLSSerializer(AbstractSerializer):
         # print(items)
         return items
 
-    def decode(self, s, **kwargs):
+    def decode(self, s: str, **kwargs: Any) -> list[dict[str, Any]]:
         require_xls(installed=xls_installed)
         extension = fsutil.get_file_extension(s)
         if extension in ["xlsx", "xlsm"]:
             return self._decode(s, **kwargs)
         elif extension in ["xls", "xlt"]:
             return self._decode_legacy(s, **kwargs)
+        raise ValueError(extension)
 
-    def encode(self, d, **kwargs):
+    def encode(self, d: list[dict[str, Any]], **kwargs: Any) -> NoReturn:
         # require_xls(installed=xls_installed)
         raise NotImplementedError

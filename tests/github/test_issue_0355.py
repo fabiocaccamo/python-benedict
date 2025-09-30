@@ -13,7 +13,7 @@ class github_issue_0355_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0355
     """
 
-    def test_from_xls_with_options(self):
+    def test_from_xls_with_options(self) -> None:
         # print(pathlib.Path("./test_issue_0144.json"))
         filepath = pathlib.Path("tests/github/test_issue_0355.xlsx")
 

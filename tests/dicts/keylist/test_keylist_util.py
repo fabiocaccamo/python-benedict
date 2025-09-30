@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import unittest
+from typing import Any
 
 from benedict.dicts.keylist import keylist_util
 
@@ -8,7 +11,7 @@ class keylist_util_test_case(unittest.TestCase):
     This class describes a keylist utility test case.
     """
 
-    def test_get_item_with_valid_keys(self):
+    def test_get_item_with_valid_keys(self) -> None:
         d = {
             "a": {
                 "b": {
@@ -47,8 +50,8 @@ class keylist_util_test_case(unittest.TestCase):
             ),
         )
 
-    def test_get_item_with_empty_dict(self):
-        d = {}
+    def test_get_item_with_empty_dict(self) -> None:
+        d: dict[str, Any] = {}
 
         item = keylist_util.get_item(d, ["a"])
         self.assertEqual(
@@ -80,8 +83,8 @@ class keylist_util_test_case(unittest.TestCase):
             ),
         )
 
-    def test_get_item_with_empty_keys(self):
-        d = {}
+    def test_get_item_with_empty_keys(self) -> None:
+        d: dict[str, Any] = {}
 
         item = keylist_util.get_item(d, [])
         self.assertEqual(
@@ -93,8 +96,8 @@ class keylist_util_test_case(unittest.TestCase):
             ),
         )
 
-    def test_set_item_with_indexes(self):
-        d = {}
+    def test_set_item_with_indexes(self) -> None:
+        d: dict[str, Any] = {}
 
         keylist_util.set_item(d, "a", None)
         self.assertEqual(d, {"a": None})

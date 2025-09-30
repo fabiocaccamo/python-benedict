@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import unittest
+from typing import Any
 
 from benedict.core import clone as _clone
 from benedict.core import nest as _nest
@@ -9,8 +12,8 @@ class nest_test_case(unittest.TestCase):
     This class describes a nest test case.
     """
 
-    def test_nest(self):
-        ls = [
+    def test_nest(self) -> None:
+        ls: list[dict[str, Any]] = [
             {"id": 1, "parent_id": None, "name": "John"},
             {"id": 2, "parent_id": 1, "name": "Frank"},
             {"id": 3, "parent_id": 2, "name": "Tony"},
@@ -85,8 +88,8 @@ class nest_test_case(unittest.TestCase):
         self.assertEqual(ls, ls_clone)
         self.assertEqual(n, r)
 
-    def test_nest_with_wrong_keys(self):
-        ls = [
+    def test_nest_with_wrong_keys(self) -> None:
+        ls: list[dict[str, Any]] = [
             {"id": 1, "parent_id": None, "name": "John"},
             {"id": 2, "parent_id": 1, "name": "Frank"},
             {"id": 3, "parent_id": 2, "name": "Tony"},
@@ -104,13 +107,13 @@ class nest_test_case(unittest.TestCase):
         with self.assertRaises(ValueError):
             _ = _nest(ls, "id", "parent_id", "parent_id")
 
-    def test_nest_with_wrong_input(self):
+    def test_nest_with_wrong_input(self) -> None:
         ls = {"id": 1, "parent_id": None, "name": "John"}
         with self.assertRaises(ValueError):
-            _ = _nest(ls, "id", "parent_id", "children")
-        ls = [
+            _ = _nest(ls, "id", "parent_id", "children")  # type: ignore[arg-type]
+        ls2 = [
             [{"id": 1, "parent_id": None, "name": "John"}],
             [{"id": 2, "parent_id": 1, "name": "Frank"}],
         ]
         with self.assertRaises(ValueError):
-            _ = _nest(ls, "id", "parent_id", "children")
+            _ = _nest(ls2, "id", "parent_id", "children")  # type: ignore[arg-type]

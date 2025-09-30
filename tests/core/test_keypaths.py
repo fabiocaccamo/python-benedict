@@ -8,7 +8,7 @@ class keypaths_test_case(unittest.TestCase):
     This class describes a keypaths test case.
     """
 
-    def test_keypaths(self):
+    def test_keypaths(self) -> None:
         i = {
             "a": 1,
             "b": {
@@ -35,7 +35,7 @@ class keypaths_test_case(unittest.TestCase):
         ]
         self.assertEqual(o, r)
 
-    def test_keypaths_unsorted(self):
+    def test_keypaths_unsorted(self) -> None:
         i = {
             "b": {
                 "c": {
@@ -62,7 +62,7 @@ class keypaths_test_case(unittest.TestCase):
         ]
         self.assertEqual(o, r)
 
-    def test_keypaths_with_custom_separator(self):
+    def test_keypaths_with_custom_separator(self) -> None:
         i = {
             "a": 1,
             "b": {
@@ -89,7 +89,7 @@ class keypaths_test_case(unittest.TestCase):
         ]
         self.assertEqual(o, r)
 
-    def test_keypaths_with_invalid_separator(self):
+    def test_keypaths_with_invalid_separator(self) -> None:
         i = {
             "a": 1,
             "b": {
@@ -104,9 +104,9 @@ class keypaths_test_case(unittest.TestCase):
             },
         }
         with self.assertRaises(ValueError):
-            _ = _keypaths(i, separator=True)
+            _ = _keypaths(i, separator=True)  # type: ignore[arg-type]
 
-    def test_keypaths_without_separator(self):
+    def test_keypaths_without_separator(self) -> None:
         i = {
             "a": 1,
             "b": {
@@ -135,7 +135,7 @@ class keypaths_test_case(unittest.TestCase):
         ]
         self.assertEqual(o, r)
 
-    def test_keypaths_with_non_string_keys(self):
+    def test_keypaths_with_non_string_keys(self) -> None:
         i = {
             True: {
                 True: 1,
@@ -158,7 +158,7 @@ class keypaths_test_case(unittest.TestCase):
         ]
         self.assertEqual(o, r)
 
-    def test_keypaths_with_lists_and_indexes_included(self):
+    def test_keypaths_with_lists_and_indexes_included(self) -> None:
         i = {
             "a": 1,
             "b": {
@@ -224,7 +224,7 @@ class keypaths_test_case(unittest.TestCase):
         ]
         self.assertEqual(o, r)
 
-    def test_keypaths_with_lists_and_indexes_not_included(self):
+    def test_keypaths_with_lists_and_indexes_not_included(self) -> None:
         i = {
             "a": 1,
             "b": {
@@ -269,7 +269,7 @@ class keypaths_test_case(unittest.TestCase):
         ]
         self.assertEqual(o, r)
 
-    def test_keypaths_with_nested_lists_and_indexes_included(self):
+    def test_keypaths_with_nested_lists_and_indexes_included(self) -> None:
         i = {
             "a": {
                 "b": [

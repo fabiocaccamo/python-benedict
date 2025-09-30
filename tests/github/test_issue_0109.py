@@ -12,7 +12,7 @@ class github_issue_0109_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0109
     """
 
-    def test_set_dict_item_value_in_list(self):
+    def test_set_dict_item_value_in_list(self) -> None:
         d = benedict()
         d["a"] = "1"
         d["b[1]"] = "a"

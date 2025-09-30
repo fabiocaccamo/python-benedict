@@ -8,7 +8,7 @@ class merge_test_case(unittest.TestCase):
     This class describes a merge test case.
     """
 
-    def test_merge_with_flatten_dict(self):
+    def test_merge_with_flatten_dict(self) -> None:
         d = {
             "a": 1,
             "b": 1,
@@ -25,7 +25,7 @@ class merge_test_case(unittest.TestCase):
         }
         self.assertEqual(d, r)
 
-    def test_merge_with_lists(self):
+    def test_merge_with_lists(self) -> None:
         d = {
             "a": [0, 1, 2],
             "b": [5, 6, 7],
@@ -46,7 +46,7 @@ class merge_test_case(unittest.TestCase):
         }
         self.assertEqual(d, r)
 
-    def test_merge_with_lists_and_concat(self):
+    def test_merge_with_lists_and_concat(self) -> None:
         d = {
             "a": [0, 1, 2],
             "b": [5, 6, 7],
@@ -67,7 +67,7 @@ class merge_test_case(unittest.TestCase):
         }
         self.assertEqual(d, r)
 
-    def test_merge_with_multiple_dicts(self):
+    def test_merge_with_multiple_dicts(self) -> None:
         d = {
             "a": 1,
             "b": 1,
@@ -96,7 +96,7 @@ class merge_test_case(unittest.TestCase):
         }
         self.assertEqual(d, r)
 
-    def test_merge_with_nested_dict(self):
+    def test_merge_with_nested_dict(self) -> None:
         d = {
             "a": 1,
             "b": {
@@ -160,7 +160,7 @@ class merge_test_case(unittest.TestCase):
         }
         self.assertEqual(d, r)
 
-    def test_merge_without_overwrite(self):
+    def test_merge_without_overwrite(self) -> None:
         d = {
             "a": 1,
             "b": {

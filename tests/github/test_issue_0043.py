@@ -14,7 +14,7 @@ class github_issue_0043_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0043
     """
 
-    def test_to_yaml(self):
+    def test_to_yaml(self) -> None:
         b = benedict({"level1": {"level2": "Hello world"}})
         s = b.to_yaml()
         r = """level1:
@@ -22,7 +22,7 @@ class github_issue_0043_test_case(unittest.TestCase):
 """
         self.assertEqual(s, r)
 
-    def test_dict_compatibility(self):
+    def test_dict_compatibility(self) -> None:
         yaml.safe_dump(dict(benedict({})))
         yaml.safe_dump(dict(benedict({"level1": None})))
         yaml.safe_dump(dict(benedict({"level1": {"level2": "blablabla"}})))

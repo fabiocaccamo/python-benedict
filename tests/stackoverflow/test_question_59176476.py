@@ -2,7 +2,7 @@ import unittest
 
 
 class stackoverflow_question_59176476_test_case(unittest.TestCase):
-    def test_stackoverflow_question_59176476(self):
+    def test_stackoverflow_question_59176476(self) -> None:
         """
         https://stackoverflow.com/questions/59176476/in-python-how-to-parse-a-multi-layered-json
         """

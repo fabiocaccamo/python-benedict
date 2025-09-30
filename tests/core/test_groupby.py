@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import unittest
+from typing import Any
 
 from benedict.core import clone as _clone
 from benedict.core import groupby as _groupby
@@ -9,8 +12,8 @@ class groupby_test_case(unittest.TestCase):
     This class describes a groupby test case.
     """
 
-    def test_groupby(self):
-        ls = [
+    def test_groupby(self) -> None:
+        ls: list[dict[str, Any]] = [
             {"id": 1, "name": "John"},
             {"id": 2, "name": "Frank"},
             {"id": 3, "name": "Tony"},
@@ -51,13 +54,13 @@ class groupby_test_case(unittest.TestCase):
         self.assertEqual(len(d[3]), 3)
         self.assertEqual(len(d[4]), 2)
 
-    def test_groupby_with_wrong_input(self):
-        ls = {"id": 1, "name": "John"}
+    def test_groupby_with_wrong_input(self) -> None:
+        ls: list[list[dict[str, Any]]] | dict[str, Any] = {"id": 1, "name": "John"}
         with self.assertRaises(ValueError):
-            _ = _groupby(ls, "id")
+            _ = _groupby(ls, "id")  # type: ignore[arg-type]
         ls = [
             [{"id": 1, "name": "John"}],
             [{"id": 2, "name": "Frank"}],
         ]
         with self.assertRaises(ValueError):
-            _ = _groupby(ls, "id")
+            _ = _groupby(ls, "id")  # type: ignore[arg-type]

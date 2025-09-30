@@ -8,7 +8,7 @@ class io_dict_json_test_case(io_dict_test_case):
     This class describes an IODict / json test case.
     """
 
-    def test_from_json_with_valid_data(self):
+    def test_from_json_with_valid_data(self) -> None:
         j = '{"a": 1, "b": 2, "c": 3}'
         # static method
         d = IODict.from_json(j)
@@ -19,7 +19,7 @@ class io_dict_json_test_case(io_dict_test_case):
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, {"a": 1, "b": 2, "c": 3})
 
-    def test_from_json_with_valid_data_empty(self):
+    def test_from_json_with_valid_data_empty(self) -> None:
         j = "{}"
         # static method
         d = IODict.from_json(j)
@@ -30,7 +30,7 @@ class io_dict_json_test_case(io_dict_test_case):
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, {})
 
-    def test_from_json_with_valid_data_list(self):
+    def test_from_json_with_valid_data_list(self) -> None:
         j = "[0,1,2,3,4,5]"
         # static method
         d = IODict.from_json(j)
@@ -62,7 +62,7 @@ class io_dict_json_test_case(io_dict_test_case):
     #     self.assertTrue(isinstance(d, dict))
     #     self.assertEqual(d, { 'a': 1, 'b': 2, 'c': 3, })
 
-    def test_from_json_with_invalid_data(self):
+    def test_from_json_with_invalid_data(self) -> None:
         j = "Lorem ipsum est in ea occaecat nisi officia."
         # static method
         with self.assertRaises(ValueError):
@@ -71,7 +71,7 @@ class io_dict_json_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(j, format="json")
 
-    def test_from_json_with_valid_file_valid_content(self):
+    def test_from_json_with_valid_file_valid_content(self) -> None:
         filepath = self.input_path("valid-content.json")
         # static method
         d = IODict.from_json(filepath)
@@ -83,7 +83,9 @@ class io_dict_json_test_case(io_dict_test_case):
         d = IODict(filepath)
         self.assertTrue(isinstance(d, dict))
 
-    def test_from_json_with_valid_file_valid_content_but_unexpected_extension(self):
+    def test_from_json_with_valid_file_valid_content_but_unexpected_extension(
+        self,
+    ) -> None:
         filepath = self.input_path("valid-content.json.txt")
         # static method
         d = IODict.from_json(filepath)
@@ -95,7 +97,7 @@ class io_dict_json_test_case(io_dict_test_case):
         d = IODict(filepath)
         self.assertTrue(isinstance(d, dict))
 
-    def test_from_json_with_valid_file_valid_content_invalid_format(self):
+    def test_from_json_with_valid_file_valid_content_invalid_format(self) -> None:
         filepath = self.input_path("valid-content.base64")
         with self.assertRaises(ValueError):
             IODict.from_json(filepath)
@@ -112,7 +114,7 @@ class io_dict_json_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict.from_json(filepath)
 
-    def test_from_json_with_valid_file_invalid_content(self):
+    def test_from_json_with_valid_file_invalid_content(self) -> None:
         filepath = self.input_path("invalid-content.json")
         # static method
         with self.assertRaises(ValueError):
@@ -121,7 +123,7 @@ class io_dict_json_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(filepath, format="json")
 
-    def test_from_json_with_invalid_file(self):
+    def test_from_json_with_invalid_file(self) -> None:
         filepath = self.input_path("invalid-file.json")
         # static method
         with self.assertRaises(ValueError):
@@ -130,7 +132,7 @@ class io_dict_json_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(filepath, format="json")
 
-    def test_from_json_with_valid_url_valid_content(self):
+    def test_from_json_with_valid_url_valid_content(self) -> None:
         url = self.input_url("valid-content.json")
         # static method
         d = IODict.from_json(url)
@@ -142,7 +144,7 @@ class io_dict_json_test_case(io_dict_test_case):
         d = IODict(url)
         self.assertTrue(isinstance(d, dict))
 
-    def test_from_json_with_valid_url_invalid_content(self):
+    def test_from_json_with_valid_url_invalid_content(self) -> None:
         url = "https://github.com/fabiocaccamo/python-benedict"
         # static method
         with self.assertRaises(ValueError):
@@ -151,7 +153,7 @@ class io_dict_json_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(url, format="json")
 
-    def test_from_json_with_invalid_url(self):
+    def test_from_json_with_invalid_url(self) -> None:
         url = "https://github.com/fabiocaccamo/python-benedict-invalid"
         # static method
         with self.assertRaises(ValueError):
@@ -160,12 +162,12 @@ class io_dict_json_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(url, format="json")
 
-    def test_to_json(self):
+    def test_to_json(self) -> None:
         d = IODict({"x": 7, "y": 8, "z": 9, "a": 1, "b": 2, "c": 3})
         s = d.to_json(sort_keys=True)
         self.assertEqual(s, '{"a": 1, "b": 2, "c": 3, "x": 7, "y": 8, "z": 9}')
 
-    def test_to_json_file(self):
+    def test_to_json_file(self) -> None:
         d = IODict({"x": 7, "y": 8, "z": 9, "a": 1, "b": 2, "c": 3})
         filepath = self.output_path("test_to_json_file.json")
         d.to_json(filepath=filepath, sort_keys=True)

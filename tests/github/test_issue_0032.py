@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import unittest
+from typing import Any
 
 from benedict import benedict
 
@@ -14,7 +17,7 @@ class github_issue_0032_test_case(unittest.TestCase):
     """
 
     @staticmethod
-    def load_dict():
+    def load_dict() -> dict[str, Any]:
         return {
             "a": {
                 "b": {
@@ -26,7 +29,7 @@ class github_issue_0032_test_case(unittest.TestCase):
             }
         }
 
-    def test_pointers_with_dict(self):
+    def test_pointers_with_dict(self) -> None:
         b = benedict(self.load_dict())
         ab = benedict(b["a.b"])
         ab["c"]["d"] = 20

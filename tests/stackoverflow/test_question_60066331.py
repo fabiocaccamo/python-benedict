@@ -1,14 +1,15 @@
 import unittest
+from typing import Any
 
 
 class stackoverflow_question_60066331_test_case(unittest.TestCase):
-    def test_stackoverflow_question_60066331(self):
+    def test_stackoverflow_question_60066331(self) -> None:
         """
         https://stackoverflow.com/questions/60066331/find-elements-in-python-dict
         """
         from benedict import benedict as bdict
 
-        d = bdict(
+        d: bdict[Any] = bdict(
             {
                 "ResponseMetadata": {"NOT IMPORTANT"},
                 "hasMoreResults": True,

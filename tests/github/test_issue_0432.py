@@ -12,14 +12,14 @@ class github_issue_0432_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0432
     """
 
-    def test_tuple_as_key_like_dict_432(self):
+    def test_tuple_as_key_like_dict_432(self) -> None:
         d1 = {}
         d2 = benedict()
         d1[(0, 0, 1)] = "a"
         d2[(0, 0, 1)] = "a"
         self.assertEqual(d1, d2)
 
-    def test_tuple_as_key_like_dict_412(self):
+    def test_tuple_as_key_like_dict_412(self) -> None:
         d = {}
         d[("a", True)] = "test"
 
