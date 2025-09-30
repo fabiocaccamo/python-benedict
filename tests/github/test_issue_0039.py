@@ -13,7 +13,7 @@ class github_issue_0039_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0039
     """
 
-    def test_performance(self):
+    def test_performance(self) -> None:
         b = benedict()
 
         i_iterations = 500

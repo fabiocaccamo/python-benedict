@@ -11,7 +11,7 @@ class github_issue_0287_test_case(io_dict_test_case):
     - Run python -m unittest tests.github.test_issue_0287
     """
 
-    def test_sources_argument_with_all_list(self):
+    def test_sources_argument_with_all_list(self) -> None:
         filepath = self.input_path("valid-content.json")
         _ = benedict(filepath, sources=["*"])
         _ = benedict.from_json(filepath, sources=["*"])
@@ -22,7 +22,7 @@ class github_issue_0287_test_case(io_dict_test_case):
         _ = benedict(filepath, sources=["auto"])
         _ = benedict.from_json(filepath, sources=["auto"])
 
-    def test_sources_argument_with_all_string(self):
+    def test_sources_argument_with_all_string(self) -> None:
         filepath = self.input_path("valid-content.json")
         _ = benedict(filepath, sources="*")
         _ = benedict.from_json(filepath, sources="*")
@@ -33,7 +33,7 @@ class github_issue_0287_test_case(io_dict_test_case):
         _ = benedict(filepath, sources="auto")
         _ = benedict.from_json(filepath, sources="auto")
 
-    def test_sources_argument_with_list(self):
+    def test_sources_argument_with_list(self) -> None:
         filepath = self.input_path("valid-content.json")
 
         _ = benedict(filepath, sources=["file"])
@@ -52,7 +52,7 @@ class github_issue_0287_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             _ = benedict.from_json(filepath, sources=["data"])
 
-    def test_sources_argument_with_string(self):
+    def test_sources_argument_with_string(self) -> None:
         filepath = self.input_path("valid-content.json")
 
         _ = benedict(filepath, sources="file")

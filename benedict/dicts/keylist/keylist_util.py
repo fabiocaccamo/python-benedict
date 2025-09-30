@@ -1,13 +1,21 @@
+from __future__ import annotations
+
+from collections.abc import Iterable, Mapping, Sequence
+from typing import Any, TypeVar
+
 from benedict.utils import type_util
 
+_K = TypeVar("_K")
+_V = TypeVar("_V")
 
-def _get_index(key):
+
+def _get_index(key: Any) -> int | None:
     if type_util.is_integer(key):
         return key
     return None
 
 
-def _get_item_key_and_value(item, key):
+def _get_item_key_and_value(item: Any, key: Any) -> tuple[Any, Any]:
     if type_util.is_list_or_tuple(item):
         index = _get_index(key)
         if index is not None:
@@ -17,7 +25,7 @@ def _get_item_key_and_value(item, key):
     raise KeyError(f"Invalid key: {key!r}")
 
 
-def _get_or_new_item_value(item, key, subkey):
+def _get_or_new_item_value(item: Any, key: Any, subkey: Any) -> Any:
     try:
         _, value = _get_item_key_and_value(item, key)
         if not type_util.is_dict_or_list_or_tuple(value):
@@ -28,12 +36,12 @@ def _get_or_new_item_value(item, key, subkey):
     return value
 
 
-def _new_item_value(key):
+def _new_item_value(key: Any) -> dict[Any, Any] | list[Any]:
     index = _get_index(key)
     return {} if index is None else []
 
 
-def _set_item_value(item, key, value):
+def _set_item_value(item: Any, key: Any, value: Any) -> None:
     index = _get_index(key)
     if index is not None:
         try:
@@ -47,13 +55,17 @@ def _set_item_value(item, key, value):
         item[key] = value
 
 
-def get_item(d, keys):
+def get_item(
+    d: Mapping[_K, _V], keys: Sequence[Any]
+) -> tuple[Mapping[_K, _V], _K, _V] | tuple[None, None, None]:
     items = get_items(d, keys)
     return items[-1] if items else (None, None, None)
 
 
-def get_items(d, keys):
-    items = []
+def get_items(
+    d: Mapping[_K, _V], keys: Iterable[Any]
+) -> list[tuple[Mapping[_K, _V], _K, _V] | tuple[None, None, None]]:
+    items: list[tuple[Mapping[_K, _V], _K, _V] | tuple[None, None, None]] = []
     item = d
     for key in keys:
         try:
@@ -66,7 +78,7 @@ def get_items(d, keys):
     return items
 
 
-def set_item(d, keys, value):
+def set_item(d: Mapping[_K, _V], keys: Sequence[Any], value: _V) -> None:
     item = d
     i = 0
     j = len(keys)

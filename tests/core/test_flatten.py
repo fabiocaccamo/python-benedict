@@ -8,7 +8,7 @@ class flatten_test_case(unittest.TestCase):
     This class describes a flatten test case.
     """
 
-    def test_flatten(self):
+    def test_flatten(self) -> None:
         i = {
             "a": 1,
             "b": 2,
@@ -32,7 +32,7 @@ class flatten_test_case(unittest.TestCase):
         }
         self.assertEqual(o, r)
 
-    def test_flatten_with_custom_separator(self):
+    def test_flatten_with_custom_separator(self) -> None:
         i = {
             "a": 1,
             "b": 2,
@@ -56,7 +56,7 @@ class flatten_test_case(unittest.TestCase):
         }
         self.assertEqual(o, r)
 
-    def test_flatten_with_key_conflict(self):
+    def test_flatten_with_key_conflict(self) -> None:
         i = {
             "a": 1,
             "b": 2,

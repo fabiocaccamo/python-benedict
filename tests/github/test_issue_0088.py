@@ -12,12 +12,12 @@ class github_issue_0088_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0088
     """
 
-    def test_flatten_without_keypath_separator(self):
+    def test_flatten_without_keypath_separator(self) -> None:
         d = benedict({"a": {"b": {"c": 1}}}, keypath_separator=None)
         f = d.flatten(".")
         self.assertEqual(f, {"a.b.c": 1})
 
-    def test_flatten_with_separator_equal_to_keypath_separator(self):
+    def test_flatten_with_separator_equal_to_keypath_separator(self) -> None:
         d = benedict({"a": {"b": {"c": 1}}}, keypath_separator=".")
         with self.assertRaises(ValueError):
             _ = d.flatten(".")
@@ -25,7 +25,7 @@ class github_issue_0088_test_case(unittest.TestCase):
         with self.assertRaises(ValueError):
             _ = d.flatten("_")
 
-    def test_flatten_with_separator_different_from_keypath_separator(self):
+    def test_flatten_with_separator_different_from_keypath_separator(self) -> None:
         d = benedict({"a": {"b": {"c": 1}}}, keypath_separator="_")
         f = d.flatten(".")
         self.assertEqual(f, {"a.b.c": 1})

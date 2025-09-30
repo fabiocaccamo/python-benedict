@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 import json
 import unittest
+from typing import Any
 
 from benedict import benedict
 
@@ -13,8 +16,8 @@ class github_issue_0057_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0057
     """
 
-    def test_json_dump_with_initial_empty_dict_reference(self):
-        r = {}
+    def test_json_dump_with_initial_empty_dict_reference(self) -> None:
+        r: dict[str, Any] = {}
         d = benedict(r)
         d["a"] = 1
         self.assertEqual(d, {"a": 1})

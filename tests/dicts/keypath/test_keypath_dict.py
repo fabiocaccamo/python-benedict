@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import unittest
+from typing import Any
 
 from benedict.dicts.keypath import KeypathDict
 
@@ -8,7 +11,7 @@ class keypath_dict_test_case(unittest.TestCase):
     This class describes a KeypathDict test case.
     """
 
-    def test_init_with_custom_separator(self):
+    def test_init_with_custom_separator(self) -> None:
         d = {
             "a.b": {
                 "c.d": 1,
@@ -25,7 +28,7 @@ class keypath_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get("g.h/i.j"), 3)
         self.assertEqual(b.get("g.h/k.l"), 4)
 
-    def test_init_without_keypath_separator(self):
+    def test_init_without_keypath_separator(self) -> None:
         d = {
             "a": {
                 "b": 1,
@@ -42,7 +45,7 @@ class keypath_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get("d.e"), None)
         self.assertEqual(b.get("d.f"), None)
 
-    def test_init_with_dict_with_separator_in_keys(self):
+    def test_init_with_dict_with_separator_in_keys(self) -> None:
         d = {
             "a.b.c": 1,
             "c.d.e": 2,
@@ -50,7 +53,7 @@ class keypath_dict_test_case(unittest.TestCase):
         with self.assertRaises(ValueError):
             KeypathDict(d)
 
-    def test_update_with_dict_with_separator_in_keys(self):
+    def test_update_with_dict_with_separator_in_keys(self) -> None:
         d1 = {
             "a": 1,
             "b": 2,
@@ -65,7 +68,7 @@ class keypath_dict_test_case(unittest.TestCase):
         with self.assertRaises(ValueError):
             b.update(d2)
 
-    def test_update_with_dict_without_separator_in_keys(self):
+    def test_update_with_dict_without_separator_in_keys(self) -> None:
         d1 = {
             "a": 1,
             "b": 2,
@@ -85,7 +88,7 @@ class keypath_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get("a.y"), 5)
         self.assertEqual(b.get("a.z"), 6)
 
-    def test_fromkeys(self):
+    def test_fromkeys(self) -> None:
         k = [
             "a",
             "a.b",
@@ -112,7 +115,7 @@ class keypath_dict_test_case(unittest.TestCase):
         }
         self.assertEqual(b, r)
 
-    def test_fromkeys_with_value(self):
+    def test_fromkeys_with_value(self) -> None:
         k = [
             "a",
             "a.b",
@@ -139,7 +142,7 @@ class keypath_dict_test_case(unittest.TestCase):
         }
         self.assertEqual(b, r)
 
-    def test_get_with_1_valid_key(self):
+    def test_get_with_1_valid_key(self) -> None:
         d = {
             "a": 1,
             1: 1,
@@ -148,14 +151,14 @@ class keypath_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get("a", 2), 1)
         self.assertEqual(b.get(1, 2), 1)
 
-    def test_get_with_1_invalid_key(self):
+    def test_get_with_1_invalid_key(self) -> None:
         d = {
             "a": 1,
         }
         b = KeypathDict(d)
         self.assertEqual(b.get("b", 2), 2)
 
-    def test_get_with_1_not_str_key(self):
+    def test_get_with_1_not_str_key(self) -> None:
         d = {
             None: None,
             False: False,
@@ -166,14 +169,14 @@ class keypath_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get(True, True), True)
         self.assertEqual(b.get(0, 1), 0)
 
-    def test_getitem_with_1_valid_key(self):
+    def test_getitem_with_1_valid_key(self) -> None:
         d = {
             "a": 1,
         }
         b = KeypathDict(d)
         self.assertEqual(b["a"], 1)
 
-    def test_getitem_with_1_invalid_key(self):
+    def test_getitem_with_1_invalid_key(self) -> None:
         d = {
             "a": 1,
         }
@@ -181,7 +184,7 @@ class keypath_dict_test_case(unittest.TestCase):
         with self.assertRaises(KeyError):
             _ = b["b"]
 
-    def test_getitem_with_1_not_str_key(self):
+    def test_getitem_with_1_not_str_key(self) -> None:
         d = {
             None: None,
             False: False,
@@ -195,7 +198,7 @@ class keypath_dict_test_case(unittest.TestCase):
 
         self.assertEqual(b[0], 0)
 
-    def test_get_with_2_valid_keys(self):
+    def test_get_with_2_valid_keys(self) -> None:
         d = {
             "a": {
                 "b": 1,
@@ -204,7 +207,7 @@ class keypath_dict_test_case(unittest.TestCase):
         b = KeypathDict(d)
         self.assertEqual(b.get("a.b", 2), 1)
 
-    def test_get_with_2_invalid_keys(self):
+    def test_get_with_2_invalid_keys(self) -> None:
         d = {
             "a": {
                 "b": 1,
@@ -213,7 +216,7 @@ class keypath_dict_test_case(unittest.TestCase):
         b = KeypathDict(d)
         self.assertEqual(b.get("b.a", 2), 2)
 
-    def test_getitem_with_2_valid_keys(self):
+    def test_getitem_with_2_valid_keys(self) -> None:
         d = {
             "a": {
                 "b": 1,
@@ -222,7 +225,7 @@ class keypath_dict_test_case(unittest.TestCase):
         b = KeypathDict(d)
         self.assertEqual(b["a.b"], 1)
 
-    def test_getitem_with_2_invalid_keys(self):
+    def test_getitem_with_2_invalid_keys(self) -> None:
         d = {
             "a": {
                 "b": 1,
@@ -232,7 +235,7 @@ class keypath_dict_test_case(unittest.TestCase):
         with self.assertRaises(KeyError):
             _ = b["b.a"]
 
-    def test_get_with_3_valid_keys(self):
+    def test_get_with_3_valid_keys(self) -> None:
         d = {
             "a": {
                 "b": {
@@ -243,7 +246,7 @@ class keypath_dict_test_case(unittest.TestCase):
         b = KeypathDict(d)
         self.assertEqual(b.get("a.b.c", 2), 1)
 
-    def test_get_with_3_invalid_keys(self):
+    def test_get_with_3_invalid_keys(self) -> None:
         d = {
             "a": {
                 "b": {
@@ -254,14 +257,14 @@ class keypath_dict_test_case(unittest.TestCase):
         b = KeypathDict(d)
         self.assertEqual(b.get("c.b.a", 2), 2)
 
-    def test_get_with_empty_keys_list(self):
+    def test_get_with_empty_keys_list(self) -> None:
         d = {
             "a": 1,
         }
         b = KeypathDict(d)
         self.assertEqual(b.get([]), None)
 
-    def test_get_with_keys_list(self):
+    def test_get_with_keys_list(self) -> None:
         d = {
             "a": {
                 "b": {
@@ -286,7 +289,7 @@ class keypath_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get(["a", "b", "d"]), 2)
         self.assertEqual(b.get(["a", "b", "e"]), None)
 
-    def test_get_with_keys_list_and_no_keypath_separator(self):
+    def test_get_with_keys_list_and_no_keypath_separator(self) -> None:
         d = {
             "a": {
                 "b": {
@@ -301,7 +304,7 @@ class keypath_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get(["a", "b", "d"]), 2)
         self.assertEqual(b.get(["a", "b", "e"]), None)
 
-    def test_getitem_with_3_valid_keys(self):
+    def test_getitem_with_3_valid_keys(self) -> None:
         d = {
             "a": {
                 "b": {
@@ -312,7 +315,7 @@ class keypath_dict_test_case(unittest.TestCase):
         b = KeypathDict(d)
         self.assertEqual(b["a.b.c"], 1)
 
-    def test_getitem_with_3_invalid_keys(self):
+    def test_getitem_with_3_invalid_keys(self) -> None:
         d = {
             "a": {
                 "b": {
@@ -324,7 +327,7 @@ class keypath_dict_test_case(unittest.TestCase):
         with self.assertRaises(KeyError):
             _ = b["c.b.a"]
 
-    def test_get_item_with_keys_list(self):
+    def test_get_item_with_keys_list(self) -> None:
         d = {
             "a": {
                 "b": {
@@ -340,7 +343,7 @@ class keypath_dict_test_case(unittest.TestCase):
         with self.assertRaises(KeyError):
             _ = b[["a", "b", "e"]]
 
-    def test_get_item_with_keys_list_and_no_keypath_separator(self):
+    def test_get_item_with_keys_list_and_no_keypath_separator(self) -> None:
         d = {
             "a": {
                 "b": {
@@ -358,8 +361,8 @@ class keypath_dict_test_case(unittest.TestCase):
         with self.assertRaises(KeyError):
             _ = b[["a", "b", "e"]]
 
-    def test_has_with_1_key(self):
-        d = {
+    def test_has_with_1_key(self) -> None:
+        d: dict[str, Any] = {
             "a": 0,
             "b": None,
             "c": {},
@@ -370,8 +373,8 @@ class keypath_dict_test_case(unittest.TestCase):
         self.assertTrue("c" in b)
         self.assertFalse("d" in b)
 
-    def test_has_with_2_keys(self):
-        d = {
+    def test_has_with_2_keys(self) -> None:
+        d: dict[str, Any] = {
             "a": {
                 "a": 0,
                 "b": None,
@@ -386,8 +389,8 @@ class keypath_dict_test_case(unittest.TestCase):
         self.assertFalse("b" in b)
         self.assertFalse("b.a" in b)
 
-    def test_has_with_3_keys(self):
-        d = {
+    def test_has_with_3_keys(self) -> None:
+        d: dict[str, Any] = {
             "a": {
                 "b": {
                     "c": 0,
@@ -417,7 +420,7 @@ class keypath_dict_test_case(unittest.TestCase):
         self.assertTrue(3 in b["a.b.x"])
         self.assertFalse(4 in b["a.b.x"])
 
-    def test_has_with_keys_list(self):
+    def test_has_with_keys_list(self) -> None:
         d = {
             "a": {
                 "b": {
@@ -438,7 +441,7 @@ class keypath_dict_test_case(unittest.TestCase):
         self.assertTrue(["a", "b", "x", 2] in b)
         self.assertFalse(["a", "b", "x", 3] in b)
 
-    def test_has_with_keys_list_and_no_keypath_separator(self):
+    def test_has_with_keys_list_and_no_keypath_separator(self) -> None:
         d = {
             "a": {
                 "b": {
@@ -453,7 +456,7 @@ class keypath_dict_test_case(unittest.TestCase):
         self.assertTrue(["a", "b", "d"] in b)
         self.assertFalse(["a", "b", "e"] in b)
 
-    def test_keypath_separator_getter_setter(self):
+    def test_keypath_separator_getter_setter(self) -> None:
         d = KeypathDict({}, keypath_separator=None)
         self.assertEqual(d.keypath_separator, None)
         d["a.b.c"] = 1
@@ -472,11 +475,11 @@ class keypath_dict_test_case(unittest.TestCase):
         }
         self.assertEqual(d, r)
 
-    def test_set_override_existing_item(self):
-        d = {}
+    def test_set_override_existing_item(self) -> None:
+        d: dict[str, Any] = {}
         b = KeypathDict(d)
         b.set("a.b.c", 1)
-        r = {"a": {"b": {"c": 1}}}
+        r: dict[str, Any] = {"a": {"b": {"c": 1}}}
         b.set("a.b.c", 2)
         r = {"a": {"b": {"c": 2}}}
         self.assertEqual(b, r)
@@ -484,11 +487,11 @@ class keypath_dict_test_case(unittest.TestCase):
         r = {"a": {"b": {"c": {"d": 3}}}}
         self.assertEqual(b, r)
 
-    def test_setitem_override_existing_item(self):
-        d = {}
+    def test_setitem_override_existing_item(self) -> None:
+        d: dict[str, Any] = {}
         b = KeypathDict(d)
         b["a.b.c"] = 1
-        r = {"a": {"b": {"c": 1}}}
+        r: dict[str, Any] = {"a": {"b": {"c": 1}}}
         b["a.b.c"] = 2
         r = {"a": {"b": {"c": 2}}}
         self.assertEqual(b, r)
@@ -496,8 +499,8 @@ class keypath_dict_test_case(unittest.TestCase):
         r = {"a": {"b": {"c": {"d": 3}}}}
         self.assertEqual(b, r)
 
-    def test_setitem_with_keys_list(self):
-        d = {
+    def test_setitem_with_keys_list(self) -> None:
+        d: dict[str, Any] = {
             "a": {
                 "b": {
                     "c": 1,
@@ -515,8 +518,8 @@ class keypath_dict_test_case(unittest.TestCase):
         b[["a", "b", "e"]] = 5
         self.assertEqual(b["a.b.e"], 5)
 
-    def test_setitem_with_keys_list_and_no_keypath_separator(self):
-        d = {
+    def test_setitem_with_keys_list_and_no_keypath_separator(self) -> None:
+        d: dict[str, Any] = {
             "a": {
                 "b": {
                     "c": 1,
@@ -540,8 +543,8 @@ class keypath_dict_test_case(unittest.TestCase):
             _ = b["a.b.e"]
         self.assertEqual(b[["a", "b", "e"]], 5)
 
-    def test_setitem_with_dict_value_with_separator_in_keys(self):
-        d = {
+    def test_setitem_with_dict_value_with_separator_in_keys(self) -> None:
+        d: dict[str, Any] = {
             "a": {
                 "b": {
                     "c": 1,
@@ -559,7 +562,7 @@ class keypath_dict_test_case(unittest.TestCase):
         with self.assertRaises(ValueError):
             b["a.b.e"] = v
 
-    def test_delitem_with_1_valid_key(self):
+    def test_delitem_with_1_valid_key(self) -> None:
         d = {
             "a": 1,
         }
@@ -569,7 +572,7 @@ class keypath_dict_test_case(unittest.TestCase):
             del b["a"]
         self.assertEqual(b.get("a"), None)
 
-    def test_delitem_with_1_invalid_key(self):
+    def test_delitem_with_1_invalid_key(self) -> None:
         d = {
             "a": 1,
         }
@@ -578,7 +581,7 @@ class keypath_dict_test_case(unittest.TestCase):
             del b["b"]
         self.assertEqual(b.get("b"), None)
 
-    def test_delitem_with_2_valid_keys(self):
+    def test_delitem_with_2_valid_keys(self) -> None:
         d = {
             "a": {
                 "b": 1,
@@ -596,7 +599,7 @@ class keypath_dict_test_case(unittest.TestCase):
             del b["a"]
         self.assertEqual(b.get("a"), None)
 
-    def test_delitem_with_2_invalid_keys(self):
+    def test_delitem_with_2_invalid_keys(self) -> None:
         d = {
             "a": {
                 "b": 1,
@@ -607,7 +610,7 @@ class keypath_dict_test_case(unittest.TestCase):
             del b["a.c"]
         self.assertEqual(b.get("a"), {"b": 1})
 
-    def test_delitem_with_3_valid_keys(self):
+    def test_delitem_with_3_valid_keys(self) -> None:
         d = {
             "a": {
                 "b": {
@@ -633,7 +636,7 @@ class keypath_dict_test_case(unittest.TestCase):
             del b["a.b"]
         self.assertEqual(b.get("a.b"), None)
 
-    def test_delitem_with_3_invalid_keys(self):
+    def test_delitem_with_3_invalid_keys(self) -> None:
         d = {
             "a": {
                 "b": {
@@ -647,7 +650,7 @@ class keypath_dict_test_case(unittest.TestCase):
             del b["a.b.c.d"]
         self.assertEqual(b.get("a.b.c"), 1)
 
-    def test_delitem_with_keys_list(self):
+    def test_delitem_with_keys_list(self) -> None:
         d = {
             "a": {
                 "b": {
@@ -662,7 +665,7 @@ class keypath_dict_test_case(unittest.TestCase):
         del b[["a", "b", "c"]]
         self.assertEqual(b.get("a.b.c", 3), 3)
 
-    def test_delitem_with_keys_list_and_no_keypath_separator(self):
+    def test_delitem_with_keys_list_and_no_keypath_separator(self) -> None:
         d = {
             "a": {
                 "b": {
@@ -677,7 +680,7 @@ class keypath_dict_test_case(unittest.TestCase):
         del b[["a", "b", "c"]]
         self.assertEqual(b.get("a.b.c", 3), 3)
 
-    def test_pop_default(self):
+    def test_pop_default(self) -> None:
         d = {
             "a": 1,
         }
@@ -689,7 +692,7 @@ class keypath_dict_test_case(unittest.TestCase):
         val = b.pop("c", 3)
         self.assertEqual(val, 3)
 
-    def test_pop_with_1_valid_key(self):
+    def test_pop_with_1_valid_key(self) -> None:
         d = {
             "a": 1,
         }
@@ -697,7 +700,7 @@ class keypath_dict_test_case(unittest.TestCase):
         val = b.pop("a")
         self.assertEqual(val, 1)
 
-    def test_pop_with_1_invalid_key(self):
+    def test_pop_with_1_invalid_key(self) -> None:
         d = {
             "a": 1,
         }
@@ -709,7 +712,7 @@ class keypath_dict_test_case(unittest.TestCase):
         val = b.pop("b", None)
         self.assertEqual(val, None)
 
-    def test_pop_with_2_valid_keys(self):
+    def test_pop_with_2_valid_keys(self) -> None:
         d = {
             "a": {
                 "b": 1,
@@ -727,7 +730,7 @@ class keypath_dict_test_case(unittest.TestCase):
             _ = b.pop("a")
         self.assertEqual(val, {})
 
-    def test_pop_with_2_invalid_keys(self):
+    def test_pop_with_2_invalid_keys(self) -> None:
         d = {
             "a": {
                 "b": 1,
@@ -746,7 +749,7 @@ class keypath_dict_test_case(unittest.TestCase):
         with self.assertRaises(KeyError):
             _ = b.pop("x.y")
 
-    def test_pop_with_keys_list(self):
+    def test_pop_with_keys_list(self) -> None:
         d = {
             "a": {
                 "b": 1,
@@ -768,7 +771,7 @@ class keypath_dict_test_case(unittest.TestCase):
         val = b.pop(["a", "b"])
         self.assertEqual(val, 1)
 
-    def test_pop_with_keys_list_and_no_keypath_separator(self):
+    def test_pop_with_keys_list_and_no_keypath_separator(self) -> None:
         d = {
             "a": {
                 "b": 1,
@@ -790,7 +793,7 @@ class keypath_dict_test_case(unittest.TestCase):
         val = b.pop(["a", "b"])
         self.assertEqual(val, 1)
 
-    def test_setdefault_with_1_key(self):
+    def test_setdefault_with_1_key(self) -> None:
         d = {
             "a": None,
             "b": 0,
@@ -806,7 +809,7 @@ class keypath_dict_test_case(unittest.TestCase):
         self.assertEqual(b["c"], 1)
         self.assertEqual(b["d"], 2)
 
-    def test_setdefault_with_2_keys(self):
+    def test_setdefault_with_2_keys(self) -> None:
         d = {
             "x": {
                 "a": None,
@@ -824,7 +827,7 @@ class keypath_dict_test_case(unittest.TestCase):
         self.assertEqual(b["x.c"], 1)
         self.assertEqual(b["x.d"], 2)
 
-    def test_setdefault_with_3_keys(self):
+    def test_setdefault_with_3_keys(self) -> None:
         d = {
             "y": {
                 "z": {

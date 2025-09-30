@@ -2,7 +2,7 @@ import unittest
 
 
 class stackoverflow_question_58692636_test_case(unittest.TestCase):
-    def test_stackoverflow_question_58692636(self):
+    def test_stackoverflow_question_58692636(self) -> None:
         """
         https://stackoverflow.com/questions/58692636/python-script-fails-to-extract-data-from-xml/58695393#58695393
         """
@@ -120,6 +120,7 @@ class stackoverflow_question_58692636_test_case(unittest.TestCase):
             # print(props.dump())
             for key, value in props.items():
                 # print(key, value["#text"])
+                assert isinstance(key, str)
                 self.assertTrue(key.startswith("d:"))
                 self.assertTrue(value["#text"] is not None)
             # print('-----')

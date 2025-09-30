@@ -12,7 +12,7 @@ class github_issue_0053_test_case(unittest.TestCase):
     - Run python -m unittest tests.github.test_issue_0053
     """
 
-    def test_toml_dump_circular_reference(self):
+    def test_toml_dump_circular_reference(self) -> None:
         toml_str = """[build-system]
 requires = [ "poetry-core>=1.0.0",]
 build-backend = "poetry.core.masonry.api"

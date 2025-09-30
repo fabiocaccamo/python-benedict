@@ -1,4 +1,9 @@
+from __future__ import annotations
+
 import re
+from typing import Any, Literal, TypedDict, cast
+
+from typing_extensions import overload
 
 from benedict.serializers.abstract import AbstractSerializer
 from benedict.serializers.base64 import Base64Serializer
@@ -46,7 +51,7 @@ _XLS_SERIALIZER = XLSSerializer()
 _XML_SERIALIZER = XMLSerializer()
 _YAML_SERIALIZER = YAMLSerializer()
 
-_SERIALIZERS_LIST = [
+_SERIALIZERS_LIST: list[AbstractSerializer[Any, Any]] = [
     _BASE64_SERIALIZER,
     _CLI_SERIALIZER,
     _CSV_SERIALIZER,
@@ -62,17 +67,55 @@ _SERIALIZERS_LIST = [
     _XML_SERIALIZER,
 ]
 
-_SERIALIZERS_BY_EXTENSION = {}
+
+class SerializersByExtension(TypedDict, total=False):
+    b64: Base64Serializer
+    base64: Base64Serializer
+    cli: CLISerializer
+    csv: CSVSerializer
+    html: HTMLSerializer
+    ini: INISerializer
+    json: JSONSerializer
+    pickle: PickleSerializer
+    plist: PListSerializer
+    qs: QueryStringSerializer
+    querystring: QueryStringSerializer
+    toml: TOMLSerializer
+    xls: XLSSerializer
+    xlsx: XLSSerializer
+    xlsm: XLSSerializer
+    xml: XMLSerializer
+    yaml: YAMLSerializer
+
+
+_SERIALIZERS_BY_EXTENSION: SerializersByExtension = {}
+FormatExtension = Literal[
+    "base64",
+    "b64",
+    "cli",
+    "csv",
+    "html",
+    "json",
+    "pickle",
+    "plist",
+    "qs",
+    "querystring",
+    "toml",
+    "xls",
+    "xlsx",
+    "xlsm",
+    "xml",
+]
 for serializer in _SERIALIZERS_LIST:
     for extension in serializer.extensions():
-        _SERIALIZERS_BY_EXTENSION[extension] = serializer
+        _SERIALIZERS_BY_EXTENSION[extension] = serializer  # type: ignore[literal-required]
 
 _SERIALIZERS_EXTENSIONS = [
     f".{extension}" for extension in _SERIALIZERS_BY_EXTENSION.keys()
 ]
 
 
-def get_format_by_path(path):
+def get_format_by_path(path: Any) -> str | None:
     path = str(path)
     path = path.lower()
     for extension in _SERIALIZERS_EXTENSIONS:
@@ -81,8 +124,71 @@ def get_format_by_path(path):
     return None
 
 
-def get_serializer_by_format(format):
-    format_key = (format or "").lower().strip()
-    format_key = re.sub(r"[\s\-\_]*", "", format_key)
-    serializer = _SERIALIZERS_BY_EXTENSION.get(format_key, None)
+@overload
+def get_serializer_by_format(format: Literal["base64", "b64"]) -> Base64Serializer: ...
+
+
+@overload
+def get_serializer_by_format(format: Literal["cli"]) -> CLISerializer: ...
+
+
+@overload
+def get_serializer_by_format(format: Literal["csv"]) -> CSVSerializer: ...
+
+
+@overload
+def get_serializer_by_format(format: Literal["html"]) -> HTMLSerializer: ...
+
+
+@overload
+def get_serializer_by_format(format: Literal["json"]) -> JSONSerializer: ...
+
+
+@overload
+def get_serializer_by_format(format: Literal["pickle"]) -> PickleSerializer: ...
+
+
+@overload
+def get_serializer_by_format(
+    format: Literal["qs", "querystring"],
+) -> QueryStringSerializer: ...
+
+
+@overload
+def get_serializer_by_format(format: Literal["toml"]) -> TOMLSerializer: ...
+
+
+@overload
+def get_serializer_by_format(
+    format: Literal["xls", "xlsx", "xlsm"],
+) -> XLSSerializer: ...
+
+
+@overload
+def get_serializer_by_format(format: Literal["xml"]) -> XMLSerializer: ...
+
+
+@overload
+def get_serializer_by_format(format: str) -> AbstractSerializer[Any, Any]: ...
+
+
+def get_serializer_by_format(
+    format: FormatExtension | str,
+) -> (
+    Base64Serializer
+    | CLISerializer
+    | CSVSerializer
+    | HTMLSerializer
+    | JSONSerializer
+    | PickleSerializer
+    | PListSerializer
+    | QueryStringSerializer
+    | TOMLSerializer
+    | XLSSerializer
+    | XMLSerializer
+    | AbstractSerializer[Any, Any]
+):
+    format_key = cast("FormatExtension", format.lower().strip())
+    format_key = cast("FormatExtension", re.sub(r"[\s\-\_]*", "", format_key))
+    serializer = _SERIALIZERS_BY_EXTENSION[format_key]
     return serializer

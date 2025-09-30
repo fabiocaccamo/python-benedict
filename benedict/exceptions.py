@@ -1,5 +1,5 @@
 class ExtrasRequireModuleNotFoundError(ModuleNotFoundError):
-    def __init__(self, *, target):
+    def __init__(self, *, target: str) -> None:
         message = (
             f"Extras require '[{target}]' module not found, "
             f"you can install it by running: "

@@ -8,7 +8,7 @@ class io_dict_query_string_test_case(io_dict_test_case):
     This class describes an IODict / query-string test case.
     """
 
-    def test_from_query_string_with_valid_data(self):
+    def test_from_query_string_with_valid_data(self) -> None:
         s = "ok=1&test=2&page=3&lib=python%20benedict&author=Fabio+Caccamo&author=Fabio%20Caccamo"
         r = {
             "ok": "1",
@@ -26,7 +26,7 @@ class io_dict_query_string_test_case(io_dict_test_case):
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, r)
 
-    def test_from_query_string_with_invalid_data(self):
+    def test_from_query_string_with_invalid_data(self) -> None:
         s = "Lorem ipsum est in ea occaecat nisi officia."
         # static method
         with self.assertRaises(ValueError):
@@ -35,7 +35,7 @@ class io_dict_query_string_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(s, format="query_string")
 
-    def test_from_query_string_with_valid_file_valid_content(self):
+    def test_from_query_string_with_valid_file_valid_content(self) -> None:
         filepath = self.input_path("valid-content.qs")
         # static method
         d = IODict.from_query_string(filepath)
@@ -47,7 +47,9 @@ class io_dict_query_string_test_case(io_dict_test_case):
         d = IODict(filepath)
         self.assertTrue(isinstance(d, dict))
 
-    def test_from_query_string_with_valid_file_valid_content_invalid_format(self):
+    def test_from_query_string_with_valid_file_valid_content_invalid_format(
+        self,
+    ) -> None:
         filepath = self.input_path("valid-content.base64")
         with self.assertRaises(ValueError):
             IODict.from_query_string(filepath)
@@ -64,7 +66,7 @@ class io_dict_query_string_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict.from_query_string(filepath)
 
-    def test_from_query_string_with_valid_file_invalid_content(self):
+    def test_from_query_string_with_valid_file_invalid_content(self) -> None:
         filepath = self.input_path("invalid-content.qs")
         # static method
         with self.assertRaises(ValueError):
@@ -73,7 +75,7 @@ class io_dict_query_string_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(filepath, format="query_string")
 
-    def test_from_query_string_with_invalid_file(self):
+    def test_from_query_string_with_invalid_file(self) -> None:
         filepath = self.input_path("invalid-file.qs")
         # static method
         with self.assertRaises(ValueError):
@@ -82,7 +84,7 @@ class io_dict_query_string_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(filepath, format="query_string")
 
-    def test_from_query_string_with_valid_url_valid_content(self):
+    def test_from_query_string_with_valid_url_valid_content(self) -> None:
         url = self.input_url("valid-content.qs")
         # static method
         d = IODict.from_query_string(url)
@@ -94,7 +96,7 @@ class io_dict_query_string_test_case(io_dict_test_case):
         d = IODict(url)
         self.assertTrue(isinstance(d, dict))
 
-    def test_from_query_string_with_valid_url_invalid_content(self):
+    def test_from_query_string_with_valid_url_invalid_content(self) -> None:
         url = "https://github.com/fabiocaccamo/python-benedict"
         # static method
         with self.assertRaises(ValueError):
@@ -103,7 +105,7 @@ class io_dict_query_string_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(url, format="query_string")
 
-    def test_from_query_string_with_invalid_url(self):
+    def test_from_query_string_with_invalid_url(self) -> None:
         url = "https://github.com/fabiocaccamo/python-benedict-invalid"
         # static method
         with self.assertRaises(ValueError):
@@ -112,7 +114,7 @@ class io_dict_query_string_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(url, format="query_string")
 
-    def test_to_query_string(self):
+    def test_to_query_string(self) -> None:
         d = IODict(
             {
                 "ok": "1",
@@ -125,7 +127,7 @@ class io_dict_query_string_test_case(io_dict_test_case):
         s = d.to_query_string()
         self.assertEqual(d, IODict.from_query_string(s))
 
-    def test_to_query_string_file(self):
+    def test_to_query_string_file(self) -> None:
         d = IODict(
             {
                 "ok": "1",

@@ -8,7 +8,7 @@ class clone_test_case(unittest.TestCase):
     This class describes a clone test case.
     """
 
-    def test_clone(self):
+    def test_clone(self) -> None:
         i = {
             "a": {
                 "b": {
@@ -24,7 +24,7 @@ class clone_test_case(unittest.TestCase):
         self.assertEqual(i["a"]["b"]["c"], 1)
         self.assertEqual(o["a"]["b"]["c"], 2)
 
-    def test_clone_empty(self):
+    def test_clone_empty(self) -> None:
         i = {
             "a": {
                 "b": {
