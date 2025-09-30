@@ -39,6 +39,7 @@ python-benedict is a dict subclass with **keylist/keypath/keyattr** support, **I
         -   [Disable keypath functionality](#disable-keypath-functionality)
         -   [List index support](#list-index-support)
     -   [I/O](#io)
+        -   [Data validation using Pydantic models](#data-validation-using-pydantic-models)
     -   [API](#api)
         -   [Utility methods](#utility-methods)
         -   [I/O methods](#io-methods)
@@ -64,6 +65,7 @@ Here the hierarchy of possible installation targets available when running `pip 
         - `[yaml]`
     - `[parse]`
     - `[s3]`
+    - `[validate]`
 
 ## Usage
 
@@ -126,7 +128,8 @@ or using the `getter/setter` property.
 d.keyattr_dynamic = True
 ```
 
-> **Warning** - even if this feature is very useful, it has some obvious limitations: it works only for string keys that are *unprotected* (not starting with an `_`) and that don't clash with the currently supported methods names.
+> [!WARNING]
+> Even if this feature is very useful, it has some obvious limitations: it works only for string keys that are *unprotected* (not starting with an `_`) and that don't clash with the currently supported methods names.
 
 ### Keylist
 Wherever a **key** is used, it is possible to use also a **list of keys**.
@@ -278,6 +281,31 @@ Here are the details of the supported formats, operations and extra options docs
 | `xml`          | :white_check_mark: | :white_check_mark: | [xmltodict](https://github.com/martinblech/xmltodict)                                 |
 | `yaml`         | :white_check_mark: | :white_check_mark: | [PyYAML](https://pyyaml.org/wiki/PyYAMLDocumentation)                                 |
 
+### Data validation using Pydantic models
+
+> [!IMPORTANT]
+> This feature **requires** the `validate` extra to be installed: `pip install "python-benedict[validate]`
+
+You can validate data in different ways:
+
+1. Using the `validate` method directly
+```python
+d = benedict(my_data)
+d.validate(schema=MySchema)
+```
+
+2. Using the `schema` parameter during initialization
+```python
+d = benedict(my_data, schema=MySchema)
+```
+
+3. Using the `schema` parameter with any `from_{format}` method
+```python
+d = benedict.from_json(my_data, schema=MySchema)
+```
+
+If validation fails, a `ValidationError` will be raised with details about what went wrong.
+
 ### API
 
 -   **Utility methods**
@@ -332,6 +360,7 @@ Here are the details of the supported formats, operations and extra options docs
     -   [`to_toml`](#to_toml)
     -   [`to_xml`](#to_xml)
     -   [`to_yaml`](#to_yaml)
+    -   [`validate`](#validate)
 
 -   **Parse methods**
 
@@ -812,6 +841,14 @@ s = d.to_xml(**kwargs)
 # https://pyyaml.org/wiki/PyYAMLDocumentation
 # A ValueError is raised in case of failure.
 s = d.to_yaml(**kwargs)
+```
+
+#### `validate`
+
+```python
+# Validate the dict and update it using a Pydantic schema.
+# A ValidationError is raised in case of failure.
+d.validate(schema=MySchema)
 ```
 
 ### Parse methods

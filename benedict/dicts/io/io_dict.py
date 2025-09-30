@@ -9,7 +9,8 @@ from typing_extensions import Self, TypeVar
 from benedict.dicts.base import BaseDict
 from benedict.dicts.io import io_util
 from benedict.exceptions import ExtrasRequireModuleNotFoundError
-from benedict.utils import type_util
+from benedict.utils import pydantic_util, type_util
+from benedict.utils.pydantic_util import PydanticModel
 
 _K = TypeVar("_K", default=str)
 _V = TypeVar("_V", default=Any)
@@ -29,7 +30,11 @@ class IODict(BaseDict[_K, _V]):
                 d = IODict._decode_init(arg, **kwargs)
                 super().__init__(d)
                 return
+
+        schema = kwargs.pop("schema", None)
         super().__init__(*args, **kwargs)
+        if schema:
+            self.validate(schema=schema)
 
     @staticmethod
     def _decode_init(s: str | Path, **kwargs: Any) -> dict[str, Any]:
@@ -37,10 +42,12 @@ class IODict(BaseDict[_K, _V]):
         default_format = autodetected_format or "json"
         format = kwargs.pop("format", default_format).lower()
         # decode data-string and initialize with dict data.
-        return IODict._decode(s, format, **kwargs)
+        data = IODict._decode(s, format, **kwargs)
+        return data
 
     @staticmethod
     def _decode(s: str | Path, format: str, **kwargs: Any) -> dict[str, Any]:
+        schema = kwargs.pop("schema", None)
         data = None
         try:
             data = io_util.decode(s, format, **kwargs)
@@ -54,12 +61,15 @@ class IODict(BaseDict[_K, _V]):
             ) from None
         # if possible return data as dict, otherwise raise exception
         if type_util.is_dict(data):
-            return data
+            pass
         elif type_util.is_list(data):
             # force list to dict
-            return {"values": data}
+            data = {"values": data}
         else:
             raise ValueError(f"Invalid data type: {type(data)}, expected dict or list.")
+        if schema:
+            data = pydantic_util.validate_data(data, schema=schema)
+        return data
 
     @staticmethod
     def _encode(d: Any, format: str, **kwargs: Any) -> Any:
@@ -353,3 +363,14 @@ class IODict(BaseDict[_K, _V]):
         A ValueError is raised in case of failure.
         """
         return cast("str", self._encode(self.dict(), "yaml", **kwargs))
+
+    def validate(self, *, schema: PydanticModel) -> None:
+        """
+        Validate the dict and update it using a Pydantic schema.
+
+        Args:
+            schema: Pydantic model class for validation
+        """
+        data = pydantic_util.validate_data(self, schema=schema)
+        self.clear()
+        self.update(data)

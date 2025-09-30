@@ -118,7 +118,7 @@ Twitter = "https://twitter.com/fabiocaccamo"
 
 [project.optional-dependencies]
 all = [
-    "python-benedict[io,parse,s3]",
+    "python-benedict[io,parse,s3,validate]",
 ]
 html = [
     "beautifulsoup4 >= 4.12.0, < 5.0.0",
@@ -138,6 +138,9 @@ s3 = [
 ]
 toml = [
     "toml >= 0.10.2, < 1.0.0",
+]
+validate = [
+    "pydantic >= 1.10.0",
 ]
 xls = [
     "openpyxl >= 3.0.0, < 4.0.0",
