@@ -13,4 +13,4 @@ toml == 0.10.2
 typing_extensions >= 4.14.1
 useful-types == 0.2.1
 xlrd == 2.0.2
-xmltodict == 0.15.1
+xmltodict == 1.0.2
