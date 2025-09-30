@@ -8,7 +8,7 @@ try:
     import ftfy
     import phonenumbers
     from dateutil import parser as date_parser
-    from MailChecker import MailChecker  # type: ignore[import-untyped]
+    from MailChecker import MailChecker
     from phonenumbers import PhoneNumberFormat, phonenumberutil
 
     parse_installed = True
@@ -277,7 +277,9 @@ def parse_list(
     val: str | tuple[Any, ...] | list[Any], separator: str | None = None
 ) -> list[Any] | None:
     v = _parse_with(val, type_util.is_list_or_tuple, _parse_list, separator=separator)
-    return list(v) if type_util.is_list_or_tuple(v) else v
+    if type_util.is_list_or_tuple(v):
+        return list(v)
+    return v  # type: ignore[return-value]
 
 
 def _parse_phonenumber(
@@ -317,7 +319,8 @@ def parse_phonenumber(
 
 
 def _parse_slug(val: str) -> str:
-    return slugify(val)
+    result: str = slugify(val)
+    return result
 
 
 def parse_slug(val: Any) -> str:

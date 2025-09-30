@@ -22,7 +22,7 @@ def _invert_list(
         _invert_item(d, key, value_item, flat)
 
 
-def invert(d: Any, flat: bool = False) -> Any:
+def invert(d: MutableMapping[_K, _V], flat: bool = False) -> MutableMapping[Any, Any]:
     new_dict = clone(d, empty=True)
     for key, value in d.items():
         if type_util.is_list_or_tuple(value):

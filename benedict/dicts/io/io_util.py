@@ -150,7 +150,7 @@ def read_content_from_file(filepath: str, format: str | None = None) -> str:
     binary_format = is_binary_format(format)
     if binary_format:
         return filepath
-    return fsutil.read_file(filepath)
+    return fsutil.read_file(filepath)  # type: ignore[no-any-return]
 
 
 def read_content_from_s3(
@@ -175,8 +175,8 @@ def read_content_from_url(
     if binary_format:
         dirpath = tempfile.gettempdir()
         filepath = fsutil.download_file(url, dirpath=dirpath, **requests_options)
-        return filepath
-    return fsutil.read_file_from_url(url, **requests_options)
+        return filepath  # type: ignore[no-any-return]
+    return fsutil.read_file_from_url(url, **requests_options)  # type: ignore[no-any-return]
 
 
 def write_content(filepath: str, content: str, **options: Any) -> None:

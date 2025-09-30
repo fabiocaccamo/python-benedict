@@ -7,7 +7,7 @@ except ModuleNotFoundError:
 
 try:
     # python >= 3.11
-    import tomllib  # type: ignore[import-not-found]
+    import tomllib
 
     tomllib_available = True
 except ImportError:

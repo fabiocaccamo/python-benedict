@@ -7,7 +7,7 @@ from typing_extensions import override
 from benedict.serializers.abstract import AbstractSerializer
 
 
-class PickleSerializer(AbstractSerializer[Any, str]):
+class PickleSerializer(AbstractSerializer[str, Any]):
     """
     This class describes a pickle serializer.
     """

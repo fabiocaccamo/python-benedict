@@ -318,7 +318,7 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
         Return a new dict subset for the given keys.
         It is possible to pass a single key or multiple keys (as list or *args).
         """
-        return cast("Self", _subset(self, keys, *args))  # type: ignore[misc]
+        return cast("Self", _subset(self, keys, *args))
 
     def swap(self, key1: _KPT, key2: _KPT) -> None:
         """

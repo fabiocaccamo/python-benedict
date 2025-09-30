@@ -4,7 +4,7 @@ import fsutil
 
 try:
     from openpyxl import load_workbook
-    from xlrd import open_workbook  # type: ignore[import-untyped]
+    from xlrd import open_workbook
 
     xls_installed = True
 except ModuleNotFoundError:

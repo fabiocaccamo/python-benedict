@@ -10,7 +10,7 @@ from benedict.serializers.abstract import AbstractSerializer
 from benedict.utils import type_util
 
 
-class JSONSerializer(AbstractSerializer[Any, str]):
+class JSONSerializer(AbstractSerializer[str, Any]):
     """
     This class describes a json serializer.
     """

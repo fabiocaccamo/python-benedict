@@ -7,7 +7,7 @@ try:
 except ModuleNotFoundError:
     html_installed = False
 
-from typing import Any, NoReturn, cast
+from typing import Any, NoReturn
 
 from benedict.extras import require_html
 from benedict.serializers.abstract import AbstractSerializer
@@ -33,7 +33,7 @@ class HTMLSerializer(AbstractSerializer[str, dict[str, Any]]):
         xml_content = soup.prettify()
         xml_serializer = XMLSerializer()
         data = xml_serializer.decode(xml_content)
-        return cast("dict[str, Any]", data)
+        return data
 
     def encode(self, d: dict[str, Any], **kwargs: Any) -> NoReturn:
         raise NotImplementedError

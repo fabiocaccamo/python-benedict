@@ -155,8 +155,8 @@ class BaseDict(dict[_K, _V]):
 
     def pop(self, key: _K, *args: Any) -> _V:
         if self._dict is not None:
-            return self._dict.pop(key, *args)
-        return super().pop(key, *args)
+            return self._dict.pop(key, *args)  # type: ignore[no-any-return]
+        return super().pop(key, *args)  # type: ignore[no-any-return]
 
     def setdefault(self, key: _K, default: _V | None = None) -> _V:
         default = self._get_dict_or_value(default)
@@ -165,7 +165,7 @@ class BaseDict(dict[_K, _V]):
             return self._dict.setdefault(key, default)
         return super().setdefault(key, default)
 
-    def update(self, other: Any) -> None:  # type: ignore[override]
+    def update(self, other: Any) -> None:
         other = self._get_dict_or_value(other)
         if self._dict is not None:
             self._dict.update(other)
