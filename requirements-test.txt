@@ -8,7 +8,7 @@ tox == 4.30.*
 # type stubs for mypy
 boto3-stubs[essential,lambda]==1.37.20
 decouple-types==1.0.2
-types-PyYAML==6.0.12.20250402
+types-PyYAML==6.0.12.20250915
 types-beautifulsoup4==4.12.0.20250204
 types-html5lib==1.1.11.20241018
 types-openpyxl==3.1.5.20250306
