@@ -14,7 +14,7 @@ repos:
       - id: fix-future-annotations
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.11.13
+    rev: v0.12.12
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
@@ -28,7 +28,7 @@ repos:
         exclude: "tests"
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer

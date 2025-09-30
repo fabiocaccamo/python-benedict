@@ -1,6 +1,6 @@
-coverage == 7.6.*
+coverage == 7.10.*
 mypy == 1.16.*
-orjson == 3.10.*
-pre-commit == 4.0.*
+orjson == 3.11.*
+pre-commit == 4.3.*
 python-decouple == 3.8
-tox == 4.23.*
+tox == 4.30.*
