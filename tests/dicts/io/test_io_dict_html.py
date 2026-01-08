@@ -48,16 +48,26 @@ class io_dict_html_test_case(io_dict_test_case):
         expected_title = (
             "Fabio Caccamo - Python/Django full-stack developer - Torino, Italy"
         )
-        url = "https://github.com/fabiocaccamo/python-benedict/raw/s3/tests/dicts/io/input/valid-content.html"
-        # static method
-        d = IODict.from_html(url)
-        self.assertTrue(isinstance(d, dict))
-        self.assertEqual(d["html"]["head"]["title"], expected_title)
-        # constructor explicit format
-        d = IODict(url, format="html")
-        self.assertTrue(isinstance(d, dict))
-        self.assertEqual(d["html"]["head"]["title"], expected_title)
-        # constructor implicit format (because there is not .html extension in the url)
+        url = "https://fabiocaccamo.com"
+
+        # mock fsutil.read_file_from_url to avoid real HTTP calls
+        with patch("benedict.dicts.io.io_util.fsutil.read_file_from_url") as mock_read:
+            filepath = self.input_path("valid-content.html")
+            with open(filepath, encoding="utf-8") as file:
+                mock_html_content = file.read()
+                mock_read.return_value = mock_html_content
+
+            # static method
+            d = IODict.from_html(url)
+            self.assertTrue(isinstance(d, dict))
+            self.assertEqual(d["html"]["head"]["title"], expected_title)
+
+            # constructor explicit format
+            d = IODict(url, format="html")
+            self.assertTrue(isinstance(d, dict))
+            self.assertEqual(d["html"]["head"]["title"], expected_title)
+
+        # constructor implicit format (because there is not . html extension in the url)
         with self.assertRaises(ValueError):
             _ = IODict(url)
 
