@@ -48,8 +48,7 @@ class io_dict_html_test_case(io_dict_test_case):
         expected_title = (
             "Fabio Caccamo - Python/Django full-stack developer - Torino, Italy"
         )
-        # url = f"https://github.com/fabiocaccamo/python-benedict/raw/s3/tests/dicts/io/input/valid-content.html"
-        url = "https://fabiocaccamo.com"
+        url = "https://github.com/fabiocaccamo/python-benedict/raw/s3/tests/dicts/io/input/valid-content.html"
         # static method
         d = IODict.from_html(url)
         self.assertTrue(isinstance(d, dict))
