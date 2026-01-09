@@ -42,6 +42,7 @@ jobs:
         pre-commit run --all-files --show-diff-on-failure --verbose
 
     - name: Run tests
+      shell: bash
       run: |
         coverage run --append --source=benedict -m unittest
         coverage report --show-missing
