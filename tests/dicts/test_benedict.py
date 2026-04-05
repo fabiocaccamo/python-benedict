@@ -1046,6 +1046,17 @@ b:
         self.assertTrue(bd_cities[1] in g["DE"])
         self.assertTrue(bd_cities[8] in g["DE"])
 
+    def test_groupby_with_key_values_containing_keypath_separator(self) -> None:
+        d = {
+            "users": [
+                {"name": "mario.rossi", "age": 23},
+                {"name": "mariorossi", "age": 42},
+            ],
+        }
+        bd = benedict(d)
+        with self.assertRaises(ValueError):
+            bd.groupby("users", "name")
+
     def test_invert(self) -> None:
         d = {
             "a": 1,

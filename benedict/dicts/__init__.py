@@ -195,7 +195,9 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
         """
         Group a list of dicts at key by the value of the given by_key and return a new dict.
         """
-        return cast("Self", self._cast(_groupby(self[key], by_key)))
+        result = _groupby(self[key], by_key)
+        keypath_util.check_keys(result, self._keypath_separator)
+        return cast("Self", self._cast(result))
 
     def invert(self, flat: bool = False) -> Self:
         """
