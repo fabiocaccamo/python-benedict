@@ -1,0 +1,3 @@
+build == 1.4.*
+cyclonedx-bom == 7.3.*
+pip-licenses == 5.5.*

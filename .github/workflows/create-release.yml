@@ -8,13 +8,53 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # environment: release
+    # environment: release  # uncomment to require manual approval before publishing to PyPI (recommended for extra protection)
     permissions:
-      id-token: write
+      contents: write    # needed to upload SBOM files as release assets via `gh release upload`
+      id-token: write    # needed for PyPI Trusted Publishing (OIDC) via pypa/gh-action-pypi-publish
 
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.x'
+          cache: 'pip'
+
+      - name: Upgrade pip
+        run: pip install pip --upgrade
+
+      - name: Install requirements
+        run: |
+          pip install -r requirements.txt -r requirements-release.txt
+          pip install ".[all]"
+
+      - name: Build package
+        run: python -m build
+
+      - name: Generate SBOM
+        run: |
+          cyclonedx-py environment \
+            --pyproject pyproject.toml \
+            --mc-type library \
+            --of JSON \
+            -o sbom.cyclonedx.json
+          cyclonedx-py environment \
+            --pyproject pyproject.toml \
+            --mc-type library \
+            --of XML \
+            -o sbom.cyclonedx.xml
+
+      - name: Generate license report
+        run: |
+          pip-licenses \
+            --ignore-packages build cyclonedx-bom cyclonedx-py pip-licenses \
+            --with-authors --with-urls --format=csv --output-file=licenses.csv
+          pip-licenses \
+            --ignore-packages build cyclonedx-bom cyclonedx-py pip-licenses \
+            --with-authors --with-urls --format=markdown --output-file=licenses.md
 
       - name: Extract release notes
         id: extract-release-notes
@@ -26,17 +66,16 @@ jobs:
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
           token: ${{ secrets.WORKFLOWS_CREATE_RELEASE_TOKEN }}
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.x'
-          cache: 'pip'
-
-      - name: Build Package
+      - name: Upload release assets
         run: |
-          pip install pip --upgrade
-          pip install build
-          python -m build
+          gh release upload ${{ github.ref_name }} \
+            sbom.cyclonedx.json \
+            sbom.cyclonedx.xml \
+            licenses.csv \
+            licenses.md \
+            --clobber
+        env:
+          GH_TOKEN: ${{ secrets.WORKFLOWS_CREATE_RELEASE_TOKEN }}
 
       - name: Publish on PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
