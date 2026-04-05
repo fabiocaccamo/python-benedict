@@ -11,6 +11,9 @@
 [![](https://img.shields.io/scrutinizer/quality/g/fabiocaccamo/python-benedict?logo=scrutinizer)](https://scrutinizer-ci.com/g/fabiocaccamo/python-benedict/?branch=main)
 [![](https://img.shields.io/badge/code%20style-black-000000.svg?logo=python&logoColor=black)](https://github.com/psf/black)
 [![](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![](https://img.shields.io/badge/security-policy-blue?logo=github)](https://github.com/fabiocaccamo/python-benedict/blob/main/SECURITY.md)
+[![](https://img.shields.io/badge/SBOM-CycloneDX-blue?logo=dependabot)](https://github.com/fabiocaccamo/python-benedict/releases/latest)
+[![](https://api.securityscorecards.dev/projects/github.com/fabiocaccamo/python-benedict/badge)](https://scorecard.dev/viewer/?uri=github.com/fabiocaccamo/python-benedict)
 
 # python-benedict
 python-benedict is a dict subclass with **keylist/keypath/keyattr** support, **I/O** shortcuts (`base64`, `cli`, `csv`, `html`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xls`, `xml`, `yaml`) and many **utilities**... for humans, obviously.
@@ -44,6 +47,7 @@ python-benedict is a dict subclass with **keylist/keypath/keyattr** support, **I
         -   [I/O methods](#io-methods)
         -   [Parse methods](#parse-methods)
 -   [Testing](#testing)
+-   [Security](#security)
 -   [License](#license)
 
 ## Installation
@@ -1029,6 +1033,13 @@ tox
 # or run tests using unittest
 python -m unittest
 ```
+
+## Security
+
+- **SBOM** — a Software Bill of Materials in [CycloneDX](https://cyclonedx.org/) format (JSON and XML) is generated and published as a release asset on every release. You can download it from the [Releases](https://github.com/fabiocaccamo/python-benedict/releases/latest) page.
+- **Trusted Publishing** — packages are published to PyPI via [OIDC Trusted Publishing](https://docs.pypi.org/trusted-publishers/), without long-lived secrets.
+- **OpenSSF Scorecard** — the repository is evaluated weekly against the [OpenSSF Scorecard](https://scorecard.dev/viewer/?uri=github.com/fabiocaccamo/python-benedict) checks; results are visible in the GitHub Security tab.
+- **Reporting** — to report a vulnerability, please follow the [Security Policy](SECURITY.md).
 
 ## License
 Released under [MIT License](LICENSE.txt).
