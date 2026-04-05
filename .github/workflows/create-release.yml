@@ -34,8 +34,8 @@ jobs:
 
       - name: Build Package
         run: |
-          pip install pip --upgrade
-          pip install build
+          python -m pip install --upgrade pip
+          python -m pip install build
           python -m build
 
       - name: Publish on PyPI
