@@ -125,3 +125,8 @@ dmypy.json
 # custom
 TODO.txt
 test-coverage.sh
+
+# generated at release time, not committed
+sbom.cyclonedx.*
+licenses.csv
+licenses.md
