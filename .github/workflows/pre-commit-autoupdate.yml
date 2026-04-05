@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.x'
-      - uses: browniebroke/pre-commit-autoupdate-action@main
+      - uses: browniebroke/pre-commit-autoupdate-action@v1
       - uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
