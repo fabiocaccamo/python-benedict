@@ -68,6 +68,22 @@ class KeyattrDict(BaseDict[_K, _V]):
                 raise AttributeError(attr_message)
             self.__setitem__(attr_k, value)
 
+    def __dir__(self) -> list[str]:
+        # Extend tab-completion (VSCode, IPython, etc.) with the dict keys when
+        # keyattr is enabled, since keys are accessible as attributes via __getattr__.
+        # Non-string keys are excluded: __dir__ must return strings (Python protocol)
+        # and non-string keys can never be valid attribute names anyway.
+        keys: list[str] = (
+            [key for key in self.keys() if isinstance(key, str)]
+            if self._keyattr_enabled
+            else []
+        )
+        return sorted(set(list(super().__dir__()) + keys))
+
+    def _ipython_key_completions_(self) -> list[Any]:
+        # Used by IPython/Jupyter for subscript tab-completion: obj["<TAB>"]
+        return list(self.keys())
+
     def __setstate__(self, state: Mapping[str, Any]) -> None:
         super().__setstate__(state)
         self._keyattr_enabled = state["_keyattr_enabled"]

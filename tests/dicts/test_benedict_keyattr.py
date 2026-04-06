@@ -216,3 +216,37 @@ class benedict_keyattr_test_case(unittest.TestCase):
         d = benedict(keyattr_dynamic=False)
         c = benedict(d)
         self.assertFalse(c.keyattr_dynamic)
+
+    def test_dir_with_keyattr_enabled(self) -> None:
+        d = benedict({"a": 1, "b": 2}, keyattr_enabled=True)
+        result = dir(d)
+        self.assertIn("a", result)
+        self.assertIn("b", result)
+
+    def test_dir_with_keyattr_disabled(self) -> None:
+        d = benedict({"a": 1, "b": 2}, keyattr_enabled=False)
+        result = dir(d)
+        self.assertNotIn("a", result)
+        self.assertNotIn("b", result)
+
+    def test_dir_with_nested_keys(self) -> None:
+        d = benedict({"a": {"b": {"c": 1}}}, keyattr_enabled=True)
+        self.assertIn("a", dir(d))
+        self.assertIn("b", dir(d.a))
+        self.assertIn("c", dir(d.a.b))
+
+    def test_ipython_key_completions(self) -> None:
+        d = benedict({"a": 1, "b": 2})
+        self.assertEqual(sorted(d._ipython_key_completions_()), ["a", "b"])
+
+    def test_ipython_key_completions_with_nested_keys(self) -> None:
+        d = benedict({"a": {"b": {"c": 1}}})
+        self.assertEqual(d._ipython_key_completions_(), ["a"])
+        self.assertEqual(d.a._ipython_key_completions_(), ["b"])
+        self.assertEqual(d.a.b._ipython_key_completions_(), ["c"])
+
+    def test_dir_skips_non_string_keys(self) -> None:
+        d = benedict({1: "a", "b": 2}, keyattr_enabled=True)
+        result = dir(d)
+        self.assertIn("b", result)
+        self.assertNotIn(1, result)
