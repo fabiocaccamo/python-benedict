@@ -3,6 +3,7 @@
 [![](https://static.pepy.tech/badge/python-benedict/month)](https://pepy.tech/project/python-benedict)
 [![](https://img.shields.io/github/stars/fabiocaccamo/python-benedict?logo=github&style=flat)](https://github.com/fabiocaccamo/python-benedict/stargazers)
 [![](https://img.shields.io/pypi/l/python-benedict.svg?color=blue)](https://github.com/fabiocaccamo/python-benedict/blob/main/LICENSE.txt)
+[![](https://img.shields.io/badge/SBOM-CycloneDX-blue?logo=dependabot)](https://github.com/fabiocaccamo/python-benedict/releases/latest)
 
 [![](https://results.pre-commit.ci/badge/github/fabiocaccamo/python-benedict/main.svg)](https://results.pre-commit.ci/latest/github/fabiocaccamo/python-benedict/main)
 [![](https://img.shields.io/github/actions/workflow/status/fabiocaccamo/python-benedict/test-package.yml?branch=main&label=build&logo=github)](https://github.com/fabiocaccamo/python-benedict)
@@ -11,8 +12,6 @@
 [![](https://img.shields.io/scrutinizer/quality/g/fabiocaccamo/python-benedict?logo=scrutinizer)](https://scrutinizer-ci.com/g/fabiocaccamo/python-benedict/?branch=main)
 [![](https://img.shields.io/badge/code%20style-black-000000.svg?logo=python&logoColor=black)](https://github.com/psf/black)
 [![](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![](https://img.shields.io/badge/security-policy-blue?logo=github)](https://github.com/fabiocaccamo/python-benedict/blob/main/SECURITY.md)
-[![](https://img.shields.io/badge/SBOM-CycloneDX-blue?logo=dependabot)](https://github.com/fabiocaccamo/python-benedict/releases/latest)
 [![](https://api.securityscorecards.dev/projects/github.com/fabiocaccamo/python-benedict/badge)](https://scorecard.dev/viewer/?uri=github.com/fabiocaccamo/python-benedict)
 
 # python-benedict
