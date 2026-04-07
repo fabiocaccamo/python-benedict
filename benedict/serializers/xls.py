@@ -156,6 +156,17 @@ class XLSSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
             values = [cell.value for cell in row]
             items.append(dict(zip(columns, values)))
 
+        try:
+            # explicitly close vba_archive if present: Workbook.close() never
+            # closes it, so relying on GC (__del__ -> close()) is unsafe because
+            # the underlying BytesIO may already be finalized first, causing a
+            # ValueError when ZipFile tries to flush the end-of-central-directory
+            vba_archive = getattr(workbook, "vba_archive", None)
+            if vba_archive is not None:
+                vba_archive.close()
+        except Exception:
+            pass
+
         # close the worksheet
         workbook.close()
 
