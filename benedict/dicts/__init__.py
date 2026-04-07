@@ -88,12 +88,15 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
         )
         for key, value in self.items():
             obj[key] = _clone(value, memo=memo)
+        if self._frozen:
+            obj.freeze()
         return obj
 
     def __getitem__(self, key: _KPT) -> Any:  # type: ignore[override]
         return self._cast(super().__getitem__(key))
 
     def __setitem__(self, key: _KPT, value: _V) -> None:  # type: ignore[override]
+        self._check_frozen()
         super().__setitem__(key, self._cast(value))
 
     def _cast(self, value: Any) -> Any:
@@ -133,7 +136,17 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
         """
         Creates and return a copy of the current instance (shallow copy).
         """
-        return cast("Self", self._cast(super().copy()))
+        obj_type = type(self)
+        obj = obj_type(
+            keyattr_enabled=self._keyattr_enabled,
+            keyattr_dynamic=self._keyattr_dynamic,
+            keypath_separator=self._keypath_separator,
+        )
+        for key, value in self.items():
+            obj[key] = value
+        if self._frozen:
+            obj.freeze()
+        return obj
 
     def deepcopy(self) -> Self:
         """

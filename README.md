@@ -294,6 +294,8 @@ Here are the details of the supported formats, operations and extra options docs
     -   [`filter`](#filter)
     -   [`find`](#find)
     -   [`flatten`](#flatten)
+    -   [`freeze`](#freeze)
+    -   [`frozen`](#frozen)
     -   [`groupby`](#groupby)
     -   [`invert`](#invert)
     -   [`items_sorted_by_keys`](#items_sorted_by_keys)
@@ -311,6 +313,7 @@ Here are the details of the supported formats, operations and extra options docs
     -   [`swap`](#swap)
     -   [`traverse`](#traverse)
     -   [`unflatten`](#unflatten)
+    -   [`unfreeze`](#unfreeze)
     -   [`unique`](#unique)
 
 -   **I/O methods**
@@ -424,6 +427,22 @@ f = d.find(keys, default=0)
 ```python
 # Return a new flattened dict using the given separator to join nested dict keys to flatten keypaths.
 f = d.flatten(separator="_")
+```
+
+#### `freeze`
+
+```python
+# Make the dict immutable: any attempt to modify it will raise a TypeError.
+# Only top-level keys are frozen; nested dicts are not affected.
+d.freeze()
+```
+
+#### `frozen`
+
+```python
+# Return True if the dict is frozen (immutable), False otherwise.
+if d.frozen:
+    ...
 ```
 
 #### `groupby`
@@ -562,6 +581,13 @@ d.traverse(f)
 ```python
 # Return a new unflattened dict using the given separator to split dict keys to nested keypaths.
 u = d.unflatten(separator="_")
+```
+
+#### `unfreeze`
+
+```python
+# Make the dict mutable again after a freeze() call.
+d.unfreeze()
 ```
 
 #### `unique`

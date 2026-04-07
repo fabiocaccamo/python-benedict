@@ -19,7 +19,8 @@ _V = TypeVar("_V", default=Any)
 
 
 class BaseDict(dict[_K, _V]):
-    _dict: dict[_K, _V] | None = None
+    _dict: dict[_K, _V] | None
+    _frozen: bool
 
     @classmethod
     def _get_dict_or_value(cls, value: Any) -> Any:
@@ -32,11 +33,19 @@ class BaseDict(dict[_K, _V]):
                     value[key] = key_val
         return value
 
+    def __new__(cls, *args: Any, **kwargs: Any) -> Self:
+        obj = super().__new__(cls)
+        # bypass subclass __setattr__ (e.g. KeyattrDict) which may access _dict before it exists
+        object.__setattr__(obj, "_dict", None)
+        object.__setattr__(obj, "_frozen", False)
+        return obj
+
     def __init__(self, *args: Any, **kwargs: Any) -> None:
-        self._dict = None
         if len(args) == 1 and isinstance(args[0], Mapping):
-            self._dict = self._get_dict_or_value(args[0])
-            super().__init__(self._dict)
+            # bypass subclass __setattr__ (e.g. KeyattrDict) which may treat _dict as a key
+            d = self._get_dict_or_value(args[0])
+            object.__setattr__(self, "_dict", d)
+            super().__init__(d)
             return
         super().__init__(*args, **kwargs)
 
@@ -54,9 +63,12 @@ class BaseDict(dict[_K, _V]):
         obj = self.__class__()
         for key, value in self.items():
             obj[key] = _clone(value, memo=memo)
+        if self._frozen:
+            obj.freeze()
         return obj
 
     def __delitem__(self, key: _K) -> None:
+        self._check_frozen()
         if self._dict is not None:
             del self._dict[key]
             return
@@ -73,6 +85,7 @@ class BaseDict(dict[_K, _V]):
         return super().__getitem__(key)
 
     def __ior__(self, other: Any) -> Self:  # type: ignore[misc,override]
+        self._check_frozen()
         if self._dict is not None:
             return cast("Self", self._dict.__ior__(other))
         return super().__ior__(other)
@@ -98,6 +111,7 @@ class BaseDict(dict[_K, _V]):
         return super().__repr__()
 
     def __setitem__(self, key: _K, value: _V) -> None:
+        self._check_frozen()
         value = self._get_dict_or_value(value)
         if self._dict is not None:
             is_dict_item = key in self._dict and isinstance(self._dict[key], dict)
@@ -114,24 +128,46 @@ class BaseDict(dict[_K, _V]):
         super().__setitem__(key, value)
 
     def __setstate__(self, state: Mapping[str, Any]) -> None:
-        self._dict = state["_dict"]
-        self._dict = state["_dict"]
+        object.__setattr__(self, "_dict", state.get("_dict", None))
+        object.__setattr__(self, "_frozen", state.get("_frozen", False))
 
     def __str__(self) -> str:
         if self._dict is not None:
             return str(self._dict)
         return super().__str__()
 
+    def _check_frozen(self) -> None:
+        if self._frozen:
+            raise TypeError(
+                f"{self.__class__.__name__!r} object is frozen and cannot be modified."
+            )
+
+    @property
+    def frozen(self) -> bool:
+        return self._frozen
+
+    def freeze(self) -> Self:
+        object.__setattr__(self, "_frozen", True)
+        return self
+
+    def unfreeze(self) -> Self:
+        object.__setattr__(self, "_frozen", False)
+        return self
+
     def clear(self) -> None:
+        self._check_frozen()
         if self._dict is not None:
             self._dict.clear()
             return
         super().clear()
 
     def copy(self) -> Self:
-        if self._dict is not None:
-            return cast("Self", self._dict.copy())
-        return cast("Self", super().copy())
+        obj = self.__class__()
+        for key, value in self.items():
+            obj[key] = value
+        if self._frozen:
+            obj.freeze()
+        return obj
 
     def dict(self) -> Self:
         if self._dict is not None:
@@ -154,11 +190,13 @@ class BaseDict(dict[_K, _V]):
         return super().keys()
 
     def pop(self, key: _K, *args: Any) -> _V:
+        self._check_frozen()
         if self._dict is not None:
             return self._dict.pop(key, *args)  # type: ignore[no-any-return]
         return super().pop(key, *args)  # type: ignore[no-any-return]
 
     def setdefault(self, key: _K, default: _V | None = None) -> _V:
+        self._check_frozen()
         default = self._get_dict_or_value(default)
         assert default is not None
         if self._dict is not None:
@@ -166,6 +204,7 @@ class BaseDict(dict[_K, _V]):
         return super().setdefault(key, default)
 
     def update(self, other: Any) -> None:
+        self._check_frozen()
         other = self._get_dict_or_value(other)
         if self._dict is not None:
             self._dict.update(other)
