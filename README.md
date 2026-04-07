@@ -131,6 +131,9 @@ d.keyattr_dynamic = True
 
 > **Warning** - even if this feature is very useful, it has some obvious limitations: it works only for string keys that are *unprotected* (not starting with an `_`) and that don't clash with the currently supported methods names.
 
+#### Tab-completion support
+`benedict` supports tab-completion in **VSCode**, **IPython**, and **Jupyter** for both attribute-style access (`d.<TAB>`) and subscript-style access (`d["<TAB>"]`).
+
 ### Keylist
 Wherever a **key** is used, it is possible to use also a **list of keys**.
 
