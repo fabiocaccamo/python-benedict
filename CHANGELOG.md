@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.36.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.36.0) - 2026-04-12
+-   Add `Python 3.14` support.
+-   Add `freeze` / `unfreeze` / `frozen` support to make a `benedict` instance immutable. #71
+-   Add tab-completion support in VSCode and IPython/Jupyter via `keyattr`. #502
+-   Raise `ValueError` in `groupby` when key values contain the `keypath_separator`. #540
+-   Add SBOM, license report and OpenSSF Scorecard. #556
+-   Fix `ResourceWarning` in `xls` serializer by explicitly closing `vba_archive`.
+-   Bump requirements and `pre-commit` hooks.
+
 ## [0.35.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.35.0) - 2025-10-01
 -   Add type annotations. #157 (by [@Tatsh](https://github.com/Tatsh) in #491)
 -   Bump requirements and `pre-commit` hooks.
