@@ -1064,10 +1064,18 @@ python -m unittest
 
 ## Security
 
-- **SBOM** — a Software Bill of Materials in [CycloneDX](https://cyclonedx.org/) format (JSON and XML) is generated and published as a release asset on every release. You can download it from the [Releases](https://github.com/fabiocaccamo/python-benedict/releases/latest) page.
-- **Trusted Publishing** — packages are published to PyPI via [OIDC Trusted Publishing](https://docs.pypi.org/trusted-publishers/), without long-lived secrets.
-- **OpenSSF Scorecard** — the repository is evaluated weekly against the [OpenSSF Scorecard](https://scorecard.dev/viewer/?uri=github.com/fabiocaccamo/python-benedict) checks; results are visible in the GitHub Security tab.
-- **Reporting** — to report a vulnerability, please follow the [Security Policy](SECURITY.md).
+### SBOM
+
+A Software Bill of Materials in [CycloneDX](https://cyclonedx.org/) format (JSON and XML) is generated and published as a release asset on every release. You can download it from the [Releases](https://github.com/fabiocaccamo/python-benedict/releases/latest) page.
+
+### Trusted Publishing
+This package is published to PyPI via [OIDC Trusted Publishing](https://docs.pypi.org/trusted-publishers/), without long-lived secrets.
+
+### OpenSSF Scorecard
+The repository is evaluated weekly against the [OpenSSF Scorecard](https://scorecard.dev/viewer/?uri=github.com/fabiocaccamo/python-benedict) checks. Results are visible in the GitHub Security tab.
+
+### Reporting
+To report a vulnerability, please follow the [Security Policy](SECURITY.md).
 
 ## License
 Released under [MIT License](LICENSE.txt).
