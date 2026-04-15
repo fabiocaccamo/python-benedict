@@ -304,12 +304,13 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
     def setdefault(self, key: _KPT, default: _V | None = None) -> _V:  # type: ignore[override]
         return cast("_V", self._cast(super().setdefault(key, default)))
 
-    def rename(self, key: _KPT, key_new: _KPT) -> None:
+    def rename(self, key: _KPT, key_new: _KPT, deep: bool = False) -> None:
         """
         Rename a dict item key from 'key' to 'key_new'.
         If key_new exists, a KeyError will be raised.
+        If deep is True, the key is renamed at every nesting level.
         """
-        _rename(self, key, key_new)  # type: ignore[misc]
+        _rename(self, key, key_new, deep=deep)  # type: ignore[misc]
 
     def search(
         self,

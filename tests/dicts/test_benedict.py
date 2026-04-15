@@ -1871,6 +1871,59 @@ b:
         with self.assertRaises(KeyError):
             b.rename("aa", "b")
 
+    def test_rename_deep(self) -> None:
+        d = {
+            "fname": "Alice",
+            "contact": {
+                "fname": "Bob",
+                "city": "Rome",
+                "detail": {
+                    "fname": "Charlie",
+                },
+            },
+        }
+        b = benedict(d)
+        b.rename("fname", "first_name", deep=True)
+        r = {
+            "first_name": "Alice",
+            "contact": {
+                "first_name": "Bob",
+                "city": "Rome",
+                "detail": {
+                    "first_name": "Charlie",
+                },
+            },
+        }
+        self.assertEqual(b, r)
+
+    def test_rename_deep_with_keypath(self) -> None:
+        # When deep=True, the keypath is resolved only at the top-level benedict.
+        # In nested plain dicts the key is matched literally, so a dotted keypath
+        # string like "a.x" is NOT further resolved inside nested dicts.
+        d = {
+            "a": {
+                "x": 1,
+                "y": 2,
+            },
+            "b": {
+                "x": 3,
+            },
+        }
+        b = benedict(d)
+        # "a.x" is resolved at top level via keypath → renames a["x"] to a["xx"];
+        # literal "a.x" is not found in any nested dict → no other change.
+        b.rename("a.x", "a.xx", deep=True)
+        r = {
+            "a": {
+                "xx": 1,
+                "y": 2,
+            },
+            "b": {
+                "x": 3,
+            },
+        }
+        self.assertEqual(b, r)
+
     def test_search(self) -> None:
         d: dict[str, Any] = {
             "a": "Hello world",

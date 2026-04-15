@@ -542,6 +542,9 @@ d.remove("password", deep=True)
 # Rename a dict item key from "key" to "key_new".
 # If key_new exists, a KeyError will be raised.
 d.rename("first_name", "firstname")
+
+# Use deep=True to rename the key at every nesting level.
+d.rename("fname", "first_name", deep=True)
 ```
 
 #### `search`
