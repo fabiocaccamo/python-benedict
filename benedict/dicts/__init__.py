@@ -167,12 +167,13 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
         """
         return _dump(data or self)
 
-    def filter(self, predicate: Callable[[_KPT, _V], bool]) -> Self:
+    def filter(self, predicate: Callable[[_KPT, _V], bool], deep: bool = False) -> Self:
         """
         Return a new filtered dict using the given predicate function.
         Predicate function receives key, value arguments and should return a bool value.
+        If deep is True, the predicate is applied recursively to nested dicts.
         """
-        return cast("Self", _filter(self, predicate))
+        return cast("Self", _filter(self, predicate, deep=deep))
 
     def find(self, keys: Iterable[str], default: _V | None = None) -> _V | None:
         """

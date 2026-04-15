@@ -373,6 +373,50 @@ class benedict_test_case(unittest.TestCase):
         self.assertEqual(f, r)
         self.assertTrue(isinstance(f, benedict))
 
+    def test_filter_deep(self) -> None:
+        d = {
+            "a": 1,
+            "b": "hello",
+            "nested": {
+                "c": 2,
+                "d": "world",
+            },
+        }
+        b = benedict(d)
+        f = b.filter(lambda key, val: not isinstance(val, str), deep=True)
+        r = {
+            "a": 1,
+            "nested": {
+                "c": 2,
+            },
+        }
+        self.assertTrue(isinstance(f, benedict))
+        self.assertFalse(b is f)
+        self.assertEqual(f, r)
+
+    def test_filter_deep_with_keypath(self) -> None:
+        # deep=True applies the predicate recursively on each plain-dict level;
+        # keypath resolution is NOT involved because the predicate receives the
+        # raw key at each level ("a", "b", "nested"), not a composed keypath.
+        d = {
+            "a": 1,
+            "secret": "hidden",
+            "nested": {
+                "secret": "also hidden",
+                "value": 42,
+            },
+        }
+        b = benedict(d)
+        f = b.filter(lambda key, val: key != "secret", deep=True)
+        r = {
+            "a": 1,
+            "nested": {
+                "value": 42,
+            },
+        }
+        self.assertTrue(isinstance(f, benedict))
+        self.assertEqual(f, r)
+
     def test_find(self) -> None:
         d = {
             "a": 1,

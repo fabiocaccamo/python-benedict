@@ -411,6 +411,9 @@ print(d.dump())
 # Predicate function receives key, value arguments and should return a bool value.
 predicate = lambda k, v: v is not None
 f = d.filter(predicate)
+
+# Use deep=True to apply the predicate recursively to all nested dicts.
+f = d.filter(predicate, deep=True)
 ```
 
 #### `find`
