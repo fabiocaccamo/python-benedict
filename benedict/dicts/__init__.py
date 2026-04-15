@@ -293,12 +293,13 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
     def pop(self, key: _KPT, *args: Any) -> _V:  # type: ignore[override]
         return cast("_V", self._cast(super().pop(key, *args)))
 
-    def remove(self, keys: Iterable[_KPT], *args: Any) -> None:
+    def remove(self, keys: Iterable[_KPT], *args: Any, deep: bool = False) -> None:
         """
         Remove multiple keys from the current dict instance.
         It is possible to pass a single key or more keys (as list or *args).
+        If deep is True, the keys are removed at every nesting level.
         """
-        _remove(self, keys, *args)
+        _remove(self, keys, *args, deep=deep)
 
     def setdefault(self, key: _KPT, default: _V | None = None) -> _V:  # type: ignore[override]
         return cast("_V", self._cast(super().setdefault(key, default)))

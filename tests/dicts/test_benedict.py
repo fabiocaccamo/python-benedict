@@ -1789,6 +1789,59 @@ b:
         }
         self.assertEqual(b, r)
 
+    def test_remove_deep(self) -> None:
+        d = {
+            "a": 1,
+            "password": "topsecret",
+            "user": {
+                "name": "Alice",
+                "password": "secret",
+                "address": {
+                    "city": "Rome",
+                    "password": "nested",
+                },
+            },
+        }
+        b = benedict(d)
+        b.remove("password", deep=True)
+        r = {
+            "a": 1,
+            "user": {
+                "name": "Alice",
+                "address": {
+                    "city": "Rome",
+                },
+            },
+        }
+        self.assertEqual(b, r)
+
+    def test_remove_deep_with_keypath(self) -> None:
+        # When deep=True, the keypath is resolved only at the top-level benedict.
+        # In nested plain dicts the key is matched literally, so a dotted keypath
+        # string like "user.password" is NOT further resolved inside nested dicts.
+        d = {
+            "user": {
+                "name": "Alice",
+                "password": "secret",
+            },
+            "other": {
+                "password": "other_secret",
+            },
+        }
+        b = benedict(d)
+        # "user.password" is resolved at top level via keypath → removes user["password"];
+        # literal "user.password" is not found in any nested dict → no other change.
+        b.remove("user.password", deep=True)
+        r = {
+            "user": {
+                "name": "Alice",
+            },
+            "other": {
+                "password": "other_secret",
+            },
+        }
+        self.assertEqual(b, r)
+
     def test_rename(self) -> None:
         d = {
             "a": {

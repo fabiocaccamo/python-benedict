@@ -50,3 +50,81 @@ class remove_test_case(unittest.TestCase):
             "b": 2,
         }
         self.assertEqual(d, r)
+
+    def test_remove_deep_with_single_key(self) -> None:
+        d = {
+            "a": 1,
+            "b": {
+                "password": "secret",
+                "name": "test",
+            },
+            "password": "topsecret",
+        }
+        _remove(d, "password", deep=True)
+        r = {
+            "a": 1,
+            "b": {
+                "name": "test",
+            },
+        }
+        self.assertEqual(d, r)
+
+    def test_remove_deep_with_multiple_keys(self) -> None:
+        d = {
+            "a": 1,
+            "secret": "x",
+            "b": {
+                "secret": "y",
+                "token": "z",
+                "name": "test",
+                "c": {
+                    "token": "w",
+                    "value": 42,
+                },
+            },
+        }
+        _remove(d, ["secret", "token"], deep=True)
+        r = {
+            "a": 1,
+            "b": {
+                "name": "test",
+                "c": {
+                    "value": 42,
+                },
+            },
+        }
+        self.assertEqual(d, r)
+
+    def test_remove_deep_inside_list(self) -> None:
+        d = {
+            "users": [
+                {"name": "Alice", "password": "abc"},
+                {"name": "Bob", "password": "xyz"},
+            ],
+            "password": "admin",
+        }
+        _remove(d, "password", deep=True)
+        r = {
+            "users": [
+                {"name": "Alice"},
+                {"name": "Bob"},
+            ],
+        }
+        self.assertEqual(d, r)
+
+    def test_remove_without_deep_leaves_nested_untouched(self) -> None:
+        d = {
+            "a": 1,
+            "b": {
+                "password": "secret",
+            },
+            "password": "topsecret",
+        }
+        _remove(d, "password")
+        r = {
+            "a": 1,
+            "b": {
+                "password": "secret",
+            },
+        }
+        self.assertEqual(d, r)

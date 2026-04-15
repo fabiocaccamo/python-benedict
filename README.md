@@ -531,6 +531,9 @@ d.nest("values", id_key="id", parent_id_key="parent_id", children_key="children"
 # Remove multiple keys from the dict.
 # It is possible to pass a single key or more keys (as list or *args).
 d.remove(["firstname", "lastname", "email"])
+
+# Use deep=True to remove the key(s) at every nesting level.
+d.remove("password", deep=True)
 ```
 
 #### `rename`
