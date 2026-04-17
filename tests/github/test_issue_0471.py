@@ -125,6 +125,7 @@ class github_issue_0471_test_case(unittest.TestCase):
         ini = "[DEFAULT]\nname = Alice\nage = 30\n"
         d = IODict.from_ini(ini, schema=UserSchema)
         self.assertEqual(d, {"name": "Alice", "age": 30})
+        self.assertIsInstance(d["age"], int)
 
     # -------------------------------------------------------------------------
     # schema not installed error message
