@@ -430,6 +430,9 @@ f = d.find(keys, default=0)
 ```python
 # Return a new flattened dict using the given separator to join nested dict keys to flatten keypaths.
 f = d.flatten(separator="_")
+
+# Return a new flattened dict also flattening list/tuple values using [i] index notation.
+f = d.flatten(separator="_", indexes=True)
 ```
 
 #### `freeze`
