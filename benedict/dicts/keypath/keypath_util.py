@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from typing import Any, TypeAlias
 
-from benedict.core import traverse
+from benedict.core.traverse import traverse
 from benedict.utils import type_util
 
 KEY_INDEX_RE = r"(?:\[[\'\"]*(\-?[\d]+)[\'\"]*\]){1}$"
