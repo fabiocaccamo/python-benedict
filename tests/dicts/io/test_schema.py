@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib
+import json
 import sys
 import unittest
 from unittest.mock import patch
@@ -18,21 +19,7 @@ class UserSchema(pydantic.BaseModel):
     age: int
 
 
-class ItemSchema(pydantic.BaseModel):
-    title: str
-    price: float
-
-
-class github_issue_0471_test_case(unittest.TestCase):
-    """
-    Tests for python-benedict[schema] optional dependency (pydantic-based).
-    Covers apply_schema utility, from_{format} and to_{format} with schema kwarg.
-    """
-
-    # -------------------------------------------------------------------------
-    # schema_util.apply_schema
-    # -------------------------------------------------------------------------
-
+class schema_util_test_case(unittest.TestCase):
     def test_apply_schema_valid(self) -> None:
         data = {"name": "Alice", "age": 30}
         result = schema_util.apply_schema(data, UserSchema)
@@ -54,10 +41,29 @@ class github_issue_0471_test_case(unittest.TestCase):
             with self.assertRaises(ExtrasRequireModuleNotFoundError):
                 schema_util.apply_schema({"name": "X", "age": 1}, UserSchema)
 
-    # -------------------------------------------------------------------------
-    # from_json with schema
-    # -------------------------------------------------------------------------
+    def test_pydantic_not_installed_at_import_time(self) -> None:
+        module_key = "benedict.utils.schema_util"
+        original_module = sys.modules.pop(module_key, None)
+        try:
+            with patch.dict("sys.modules", {"pydantic": None}):
+                reimported = importlib.import_module(module_key)
+                self.assertFalse(reimported.pydantic_installed)
+        finally:
+            if original_module is not None:
+                sys.modules[module_key] = original_module
 
+
+class schema_extras_test_case(unittest.TestCase):
+    def test_require_schema_error_message(self) -> None:
+        from benedict.extras import require_schema
+
+        with self.assertRaises(ExtrasRequireModuleNotFoundError) as ctx:
+            require_schema(installed=False)
+        self.assertIn("schema", str(ctx.exception))
+        self.assertIn("python-benedict[schema]", str(ctx.exception))
+
+
+class io_dict_from_json_schema_test_case(unittest.TestCase):
     def test_from_json_with_schema_valid(self) -> None:
         j = '{"name": "Alice", "age": 30}'
         d = IODict.from_json(j, schema=UserSchema)
@@ -79,19 +85,23 @@ class github_issue_0471_test_case(unittest.TestCase):
         d = IODict.from_json(j)
         self.assertEqual(d, {"name": "Alice", "age": 30})
 
-    # -------------------------------------------------------------------------
-    # from_yaml with schema
-    # -------------------------------------------------------------------------
 
+class io_dict_from_yaml_schema_test_case(unittest.TestCase):
     def test_from_yaml_with_schema_valid(self) -> None:
         y = "name: Alice\nage: 30\n"
         d = IODict.from_yaml(y, schema=UserSchema)
         self.assertEqual(d, {"name": "Alice", "age": 30})
 
-    # -------------------------------------------------------------------------
-    # to_json with schema
-    # -------------------------------------------------------------------------
 
+class io_dict_from_ini_schema_test_case(unittest.TestCase):
+    def test_from_ini_with_schema_valid(self) -> None:
+        ini = "[DEFAULT]\nname = Alice\nage = 30\n"
+        d = IODict.from_ini(ini, schema=UserSchema)
+        self.assertEqual(d, {"name": "Alice", "age": 30})
+        self.assertIsInstance(d["age"], int)
+
+
+class io_dict_to_json_schema_test_case(unittest.TestCase):
     def test_to_json_with_schema_valid(self) -> None:
         d = benedict({"name": "Alice", "age": 30})
         result = d.to_json(schema=UserSchema)
@@ -101,8 +111,6 @@ class github_issue_0471_test_case(unittest.TestCase):
     def test_to_json_with_schema_coerces_types(self) -> None:
         d = benedict({"name": "Bob", "age": "25"})
         result = d.to_json(schema=UserSchema)
-        import json
-
         parsed = json.loads(result)
         self.assertEqual(parsed["age"], 25)
         self.assertIsInstance(parsed["age"], int)
@@ -116,40 +124,3 @@ class github_issue_0471_test_case(unittest.TestCase):
         d = benedict({"name": "Alice", "age": 30})
         result = d.to_json()
         self.assertIn('"name": "Alice"', result)
-
-    # -------------------------------------------------------------------------
-    # from_ini with schema
-    # -------------------------------------------------------------------------
-
-    def test_from_ini_with_schema_valid(self) -> None:
-        ini = "[DEFAULT]\nname = Alice\nage = 30\n"
-        d = IODict.from_ini(ini, schema=UserSchema)
-        self.assertEqual(d, {"name": "Alice", "age": 30})
-        self.assertIsInstance(d["age"], int)
-
-    # -------------------------------------------------------------------------
-    # schema not installed error message
-    # -------------------------------------------------------------------------
-
-    def test_extras_require_schema_error_message(self) -> None:
-        from benedict.extras import require_schema
-
-        with self.assertRaises(ExtrasRequireModuleNotFoundError) as ctx:
-            require_schema(installed=False)
-        self.assertIn("schema", str(ctx.exception))
-        self.assertIn("python-benedict[schema]", str(ctx.exception))
-
-    def test_schema_util_pydantic_not_installed_at_import_time(self) -> None:
-        """
-        Simulate pydantic being unavailable at import time so that the
-        'except ModuleNotFoundError' branch in schema_util is executed.
-        """
-        module_key = "benedict.utils.schema_util"
-        original_module = sys.modules.pop(module_key, None)
-        try:
-            with patch.dict("sys.modules", {"pydantic": None}):
-                reimported = importlib.import_module(module_key)
-                self.assertFalse(reimported.pydantic_installed)
-        finally:
-            if original_module is not None:
-                sys.modules[module_key] = original_module
