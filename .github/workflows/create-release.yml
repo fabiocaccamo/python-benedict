@@ -5,13 +5,15 @@ on:
     tags:
       - '*.*.*'
 
+permissions: read-all
+
 jobs:
   build:
     runs-on: ubuntu-latest
     # environment: release  # uncomment to require manual approval before publishing to PyPI (recommended for extra protection)
     permissions:
       contents: write    # needed to upload SBOM files as release assets via `gh release upload`
-      id-token: write    # needed for PyPI Trusted Publishing (OIDC) via pypa/gh-action-pypi-publish
+      id-token: write    # needed for PyPI Trusted Publishing (OIDC) via pypa/gh-action-pypi-publish and SLSA provenance
 
     steps:
       - name: Checkout
@@ -81,4 +83,5 @@ jobs:
         uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # release/v1
         with:
           packages-dir: dist/
+          attestations: true
           # password: ${{ secrets.WORKFLOWS_PUBLISH_TO_PYPI_TOKEN }}
