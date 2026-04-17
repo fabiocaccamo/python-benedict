@@ -24,6 +24,7 @@ python-benedict is a dict subclass with **keylist/keypath/keyattr** support, **I
 -   **Keypath** support using **keypath-separator** *(dot syntax by default)*.
 -   Keypath **list-index** support  *(also negative)* using the standard `[n]` suffix.
 -   Normalized **I/O operations** with most common formats: `base64`, `cli`, `csv`, `html`, `ini`, `json`, `pickle`, `plist`, `query-string`, `toml`, `xls`, `xml`, `yaml`.
+-   `NEW` Optional **Pydantic v2 schema** validation and type coercion on all `from_*` / `to_*` I/O methods via the `schema` kwarg *(requires `python-benedict[schema]`).*
 -   Multiple **I/O operations** backends: `file-system` *(read/write)*, `url` *(read-only)*, `s3` *(read/write)*.
 -   Many **utility** and **parse methods** to retrieve data as needed *(check the [API](#api) section)*.
 -   Well **tested**. ;)
@@ -67,6 +68,7 @@ Here the hierarchy of possible installation targets available when running `pip 
         - `[yaml]`
     - `[parse]`
     - `[s3]`
+    - `[schema]`
 
 ## Usage
 
@@ -613,6 +615,29 @@ d.unique()
 
 These methods are available for input/output operations.
 
+All `from_*` and `to_*` methods accept an optional `schema` keyword argument. When a [Pydantic v2](https://docs.pydantic.dev/) model class is passed, the data is validated and type-coerced through the model before being returned (on decode) or serialized (on encode). This requires the `python-benedict[schema]` extra.
+
+```
+pip install "python-benedict[schema]"
+```
+
+```python
+from benedict import benedict
+from pydantic import BaseModel
+
+class User(BaseModel):
+    name: str
+    age: int
+
+# validate and coerce types on decode
+d = benedict.from_json('{"name": "Alice", "age": "30"}', schema=User)
+assert d["age"] == 30  # coerced from str to int
+
+# validate and coerce types on encode
+d = benedict({"name": "Bob", "age": "25"})
+s = d.to_json(schema=User)  # age is coerced to int before serialization
+```
+
 #### `from_base64`
 
 ```python
@@ -665,6 +690,7 @@ d = benedict.from_html(s, **kwargs)
 # Accept as first argument: url, filepath or data-string.
 # It's possible to pass decoder specific options using kwargs:
 # https://docs.python.org/3/library/configparser.html
+# It's possible to pass a Pydantic v2 model class as schema= to validate and coerce data.
 # A ValueError is raised in case of failure.
 d = benedict.from_ini(s, **kwargs)
 ```
@@ -676,6 +702,7 @@ d = benedict.from_ini(s, **kwargs)
 # Accept as first argument: url, filepath or data-string.
 # It's possible to pass decoder specific options using kwargs:
 # https://docs.python.org/3/library/json.html
+# It's possible to pass a Pydantic v2 model class as schema= to validate and coerce data.
 # A ValueError is raised in case of failure.
 d = benedict.from_json(s, **kwargs)
 ```
@@ -752,6 +779,7 @@ d = benedict.from_xml(s, **kwargs)
 # Accept as first argument: url, filepath or data-string.
 # It's possible to pass decoder specific options using kwargs:
 # https://pyyaml.org/wiki/PyYAMLDocumentation
+# It's possible to pass a Pydantic v2 model class as schema= to validate and coerce data.
 # A ValueError is raised in case of failure.
 d = benedict.from_yaml(s, **kwargs)
 ```
@@ -794,6 +822,7 @@ s = d.to_ini(**kwargs)
 # Return the dict instance encoded in json format and optionally save it at the specified filepath.
 # It's possible to pass encoder specific options using kwargs:
 # https://docs.python.org/3/library/json.html
+# It's possible to pass a Pydantic v2 model class as schema= to validate and coerce data before encoding.
 # A ValueError is raised in case of failure.
 s = d.to_json(**kwargs)
 ```
