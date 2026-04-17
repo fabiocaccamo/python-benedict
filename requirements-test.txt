@@ -1,6 +1,6 @@
 coverage == 7.13.*
 mypy == 1.20.*
-orjson >= 3.11.6, < 4.0.0
+orjson >= 3.11.6, == 3.11.*
 pre-commit == 4.5.*
 python-decouple == 3.8
 tox == 4.52.*
