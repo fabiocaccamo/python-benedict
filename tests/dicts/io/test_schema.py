@@ -236,7 +236,9 @@ class io_dict_from_base64_schema_test_case(unittest.TestCase):
 
     def test_from_base64_with_schema_strips_extra_fields(self) -> None:
         s = base64.b64encode(
-            json.dumps({"name": "Alice", "age": 30, "email": "alice@example.com"}).encode()
+            json.dumps(
+                {"name": "Alice", "age": 30, "email": "alice@example.com"}
+            ).encode()
         ).decode()
         d = IODict.from_base64(s, schema=UserSchema)
         self.assertEqual(d, {"name": "Alice", "age": 30})
@@ -250,13 +252,17 @@ class io_dict_from_base64_schema_test_case(unittest.TestCase):
 
 class io_dict_from_pickle_schema_test_case(unittest.TestCase):
     def test_from_pickle_with_schema_valid(self) -> None:
-        s = base64.b64encode(pickle.dumps({"name": "Alice", "age": 30}, protocol=2)).decode()
+        s = base64.b64encode(
+            pickle.dumps({"name": "Alice", "age": 30}, protocol=2)
+        ).decode()
         d = IODict.from_pickle(s, schema=UserSchema)
         self.assertEqual(d, {"name": "Alice", "age": 30})
 
     def test_from_pickle_with_schema_strips_extra_fields(self) -> None:
         s = base64.b64encode(
-            pickle.dumps({"name": "Alice", "age": 30, "email": "alice@example.com"}, protocol=2)
+            pickle.dumps(
+                {"name": "Alice", "age": 30, "email": "alice@example.com"}, protocol=2
+            )
         ).decode()
         d = IODict.from_pickle(s, schema=UserSchema)
         self.assertEqual(d, {"name": "Alice", "age": 30})
@@ -275,7 +281,9 @@ class io_dict_from_plist_schema_test_case(unittest.TestCase):
         self.assertEqual(d, {"name": "Alice", "age": 30})
 
     def test_from_plist_with_schema_strips_extra_fields(self) -> None:
-        s = plistlib.dumps({"name": "Alice", "age": 30, "email": "alice@example.com"}).decode()
+        s = plistlib.dumps(
+            {"name": "Alice", "age": 30, "email": "alice@example.com"}
+        ).decode()
         d = IODict.from_plist(s, schema=UserSchema)
         self.assertEqual(d, {"name": "Alice", "age": 30})
         self.assertNotIn("email", d)
@@ -373,7 +381,9 @@ class io_dict_to_xml_schema_test_case(unittest.TestCase):
         self.assertIn("30", result)
 
     def test_to_xml_with_schema_strips_extra_fields(self) -> None:
-        d = benedict({"root": {"name": "Alice", "age": 30, "email": "alice@example.com"}})
+        d = benedict(
+            {"root": {"name": "Alice", "age": 30, "email": "alice@example.com"}}
+        )
         result = d.to_xml(schema=XMLWrappedSchema)
         self.assertNotIn("email", result)
         self.assertIn("Alice", result)
