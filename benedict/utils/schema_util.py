@@ -1,9 +1,13 @@
 from __future__ import annotations
 
-import importlib.util
 from typing import Any
 
-pydantic_installed = importlib.util.find_spec("pydantic") is not None
+try:
+    import pydantic
+
+    pydantic_installed = True
+except ImportError:
+    pydantic_installed = False
 
 
 def apply_schema(data: Any, schema: Any) -> Any:
@@ -13,8 +17,6 @@ def apply_schema(data: Any, schema: Any) -> Any:
     Raises ExtrasRequireModuleNotFoundError if pydantic is not installed.
     Raises TypeError if schema is not a pydantic BaseModel subclass.
     """
-    import pydantic
-
     from benedict.extras import require_schema
 
     require_schema(installed=pydantic_installed)
