@@ -8,7 +8,7 @@ from benedict.dicts.keylist import keylist_util
 from benedict.utils import type_util
 
 
-def _unflatten_item(key: str, value: Any, separator: str) -> tuple[list[Any], Any]:
+def _unflatten_item(key: Any, value: Any, separator: str) -> tuple[list[Any], Any]:
     # Lazy import to avoid a circular import cycle with benedict.dicts
     from benedict.dicts.keypath.keypath_util import parse_keys  # noqa: PLC0415
 
