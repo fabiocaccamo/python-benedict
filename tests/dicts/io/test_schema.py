@@ -62,6 +62,22 @@ class schema_util_test_case(unittest.TestCase):
             with self.assertRaises(ExtrasRequireModuleNotFoundError):
                 schema_util.apply_schema({"name": "X", "age": 1}, UserSchema)
 
+    def test_apply_schema_non_class_raises_type_error(self) -> None:
+        with self.assertRaises(TypeError):
+            schema_util.apply_schema({"name": "Alice", "age": 30}, "not-a-class")
+
+    def test_apply_schema_non_basemodel_class_raises_type_error(self) -> None:
+        class NotAModel:
+            pass
+
+        with self.assertRaises(TypeError):
+            schema_util.apply_schema({"name": "Alice", "age": 30}, NotAModel)
+
+    def test_apply_schema_instance_raises_type_error(self) -> None:
+        instance = UserSchema(name="Alice", age=30)
+        with self.assertRaises(TypeError):
+            schema_util.apply_schema({"name": "Alice", "age": 30}, instance)
+
     def test_pydantic_not_installed_at_import_time(self) -> None:
         module_key = "benedict.utils.schema_util"
         original_module = sys.modules.pop(module_key, None)
