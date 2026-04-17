@@ -107,6 +107,17 @@ class unflatten_test_case(unittest.TestCase):
         u = _unflatten(f, separator="/")
         self.assertEqual(u, i)
 
+    def test_unflatten_after_flatten_with_indexes_empty_list(self) -> None:
+        i = {
+            "a": 1,
+            "b": [],
+        }
+        f = _flatten(i, indexes=True)
+        self.assertEqual(f, {"a": 1})
+        u = _unflatten(f)
+        self.assertEqual(u, {"a": 1})
+        self.assertNotIn("b", u)
+
     def test_unflatten_with_nested_dict(self) -> None:
         d = {
             "a": 1,
