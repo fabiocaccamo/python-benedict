@@ -5,6 +5,7 @@ __all__ = [
     "require_html",
     "require_parse",
     "require_s3",
+    "require_schema",
     "require_toml",
     "require_xls",
     "require_xml",
@@ -31,6 +32,10 @@ def require_parse(*, installed: bool) -> None:
 
 def require_s3(*, installed: bool) -> None:
     _require_optional_dependencies(target="s3", installed=installed)
+
+
+def require_schema(*, installed: bool) -> None:
+    _require_optional_dependencies(target="schema", installed=installed)
 
 
 def require_toml(*, installed: bool) -> None:
