@@ -136,3 +136,43 @@ class rename_test_case(unittest.TestCase):
             },
         }
         self.assertEqual(d, r)
+
+    def test_rename_deep_inside_list_nested_in_dict(self) -> None:
+        d = {
+            "section": {
+                "users": [
+                    {"fname": "Alice", "age": 30},
+                    {"fname": "Bob", "age": 25},
+                ],
+            },
+        }
+        _rename(d, "fname", "first_name", deep=True)
+        r = {
+            "section": {
+                "users": [
+                    {"first_name": "Alice", "age": 30},
+                    {"first_name": "Bob", "age": 25},
+                ],
+            },
+        }
+        self.assertEqual(d, r)
+
+    def test_rename_deep_inside_tuple_nested_in_dict(self) -> None:
+        d = {
+            "section": {
+                "users": (
+                    {"fname": "Alice", "age": 30},
+                    {"fname": "Bob", "age": 25},
+                ),
+            },
+        }
+        _rename(d, "fname", "first_name", deep=True)
+        r = {
+            "section": {
+                "users": (
+                    {"first_name": "Alice", "age": 30},
+                    {"first_name": "Bob", "age": 25},
+                ),
+            },
+        }
+        self.assertEqual(d, r)
