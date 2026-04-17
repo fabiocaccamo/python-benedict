@@ -17,4 +17,4 @@ typing_extensions >= 4.14.1
 urllib3 >= 2.6.3
 xlrd == 2.0.2
 xmltodict == 1.0.4
-zipp >= 3.19.1
+zipp == 3.23.1
