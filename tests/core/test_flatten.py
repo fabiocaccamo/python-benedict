@@ -166,6 +166,14 @@ class flatten_test_case(unittest.TestCase):
         }
         with self.assertRaises(KeyError):
             _ = _flatten(i)
+
+    def test_flatten_with_indexes_list_key_conflict(self) -> None:
+        i = {
+            "b[0]": "conflict",
+            "b": ["x"],
+        }
+        with self.assertRaises(KeyError):
+            _ = _flatten(i, indexes=True)
         # r = {
         #     'a': 1,
         #     'b': 2,
