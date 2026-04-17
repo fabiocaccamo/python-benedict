@@ -45,5 +45,5 @@ class YAMLSerializer(AbstractSerializer[str, Any]):
     def encode(self, d: Any, **kwargs: Any) -> str:
         require_yaml(installed=yaml_installed)
         d = self._json_serializer.decode(self._json_serializer.encode(d))
-        data = yaml.dump(d, **kwargs)
+        data = yaml.safe_dump(d, **kwargs)
         return cast("str", data)
