@@ -1,13 +1,9 @@
 from __future__ import annotations
 
+import importlib.util
 from typing import Any
 
-try:
-    import pydantic
-
-    pydantic_installed = True
-except ModuleNotFoundError:
-    pydantic_installed = False
+pydantic_installed = importlib.util.find_spec("pydantic") is not None
 
 
 def apply_schema(data: Any, schema: Any) -> Any:
