@@ -119,7 +119,7 @@ Twitter = "https://twitter.com/fabiocaccamo"
 
 [project.optional-dependencies]
 all = [
-    "python-benedict[io,parse,s3]",
+    "python-benedict[io,parse,s3,schema]",
 ]
 html = [
     "beautifulsoup4 >= 4.12.0, < 5.0.0",
@@ -136,6 +136,9 @@ parse = [
 ]
 s3 = [
     "boto3 >= 1.24.89, < 2.0.0",
+]
+schema = [
+    "pydantic >= 2.0.0, < 3.0.0",
 ]
 toml = [
     "toml >= 0.10.2, < 1.0.0",
