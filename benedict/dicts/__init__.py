@@ -182,17 +182,18 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
         """
         return _find(self, keys, default)  # type: ignore[misc]
 
-    def flatten(self, separator: str = "_") -> Self:
+    def flatten(self, separator: str = "_", indexes: bool = False) -> Self:
         """
         Return a new flattened dict using the given separator
         to join nested dict keys to flatten keypaths.
+        If indexes is True, list/tuple values are also flattened using [i] notation.
         """
         if separator == self._keypath_separator:
             raise ValueError(
                 f"Invalid flatten separator: {separator!r}, "
                 "flatten separator must be different from keypath separator."
             )
-        return cast("Self", _flatten(self, separator))
+        return cast("Self", _flatten(self, separator, indexes))
 
     def get(self, key: _KPT, default: _V | None = None) -> Any:  # type: ignore[override]
         return self._cast(super().get(key, default))
