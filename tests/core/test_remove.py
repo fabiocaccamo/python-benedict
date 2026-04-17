@@ -128,3 +128,43 @@ class remove_test_case(unittest.TestCase):
             },
         }
         self.assertEqual(d, r)
+
+    def test_remove_deep_inside_list_nested_in_dict(self) -> None:
+        d = {
+            "section": {
+                "users": [
+                    {"name": "Alice", "password": "abc"},
+                    {"name": "Bob", "password": "xyz"},
+                ],
+            },
+        }
+        _remove(d, "password", deep=True)
+        r = {
+            "section": {
+                "users": [
+                    {"name": "Alice"},
+                    {"name": "Bob"},
+                ],
+            },
+        }
+        self.assertEqual(d, r)
+
+    def test_remove_deep_inside_tuple_nested_in_dict(self) -> None:
+        d = {
+            "section": {
+                "users": (
+                    {"name": "Alice", "password": "abc"},
+                    {"name": "Bob", "password": "xyz"},
+                ),
+            },
+        }
+        _remove(d, "password", deep=True)
+        r = {
+            "section": {
+                "users": (
+                    {"name": "Alice"},
+                    {"name": "Bob"},
+                ),
+            },
+        }
+        self.assertEqual(d, r)
