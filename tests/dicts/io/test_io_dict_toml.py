@@ -50,9 +50,9 @@ d = 4
 
     @unittest.skipIf(
         tomllib_available,
-        "standard tomlib is available, exception will not be raised",
+        "standard tomllib is available, exception will not be raised",
     )
-    @patch("benedict.serializers.toml.toml_installed", False)
+    @patch("benedict.serializers.toml.tomli_installed", False)
     def test_from_toml_with_valid_data_but_toml_extra_not_installed(self) -> None:
         j = """
 a = 1
@@ -184,7 +184,7 @@ d = 4
         self.assertFileExists(filepath)
         self.assertEqual(d, IODict.from_toml(filepath))
 
-    @patch("benedict.serializers.toml.toml_installed", False)
+    @patch("benedict.serializers.toml.tomli_w_installed", False)
     def test_to_toml_with_extra_not_installed(self) -> None:
         d = IODict(
             {
