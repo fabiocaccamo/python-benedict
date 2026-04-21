@@ -14,10 +14,10 @@ class toml_serializer_test_case(unittest.TestCase):
     that handles them correctly and guard against regression.
     """
 
-    def test_encode_ansi_control_character(self):
+    def test_encode_ansi_control_character(self) -> None:
         """Scenario 1 — falsification clause #1.
 
-        `benedict({"color": "\033[31m"}).to_toml()` must not raise. On
+        `benedict({"color": "\\033[31m"}).to_toml()` must not raise. On
         baseline (uiri/toml) this raises IndexError in the encoder.
         """
         payload = {"color": "\033[31m"}
@@ -28,7 +28,7 @@ class toml_serializer_test_case(unittest.TestCase):
         decoded = IODict.from_toml(encoded)
         self.assertEqual(decoded["color"], "\033[31m")
 
-    def test_encode_issue_439_literal_examples(self):
+    def test_encode_issue_439_literal_examples(self) -> None:
         """Scenario 2 — regression guard for issue #439's cited examples.
 
         These pass on baseline (literal backslashes, not control chars).
@@ -44,7 +44,7 @@ class toml_serializer_test_case(unittest.TestCase):
         self.assertEqual(decoded["reset"], "\\033\\[00;00m")
         self.assertEqual(decoded["lightblue"], "\\033\\[01;30m")
 
-    def test_roundtrip_control_chars_and_unicode(self):
+    def test_roundtrip_control_chars_and_unicode(self) -> None:
         """Scenario 4 — round-trip integrity across tricky values."""
         payload = {
             "ansi_red": "\033[31m",
@@ -60,7 +60,7 @@ class toml_serializer_test_case(unittest.TestCase):
         for key, value in payload.items():
             self.assertEqual(decoded[key], value, f"round-trip mismatch for {key!r}")
 
-    def test_encode_nested_dict(self):
+    def test_encode_nested_dict(self) -> None:
         """Structural coverage — nested dicts still encode correctly."""
         payload = {
             "section": {
@@ -73,7 +73,7 @@ class toml_serializer_test_case(unittest.TestCase):
         self.assertEqual(decoded["section"]["key"], "value")
         self.assertEqual(decoded["section"]["control"], "\033[31m")
 
-    def test_serializer_decode_roundtrip(self):
+    def test_serializer_decode_roundtrip(self) -> None:
         """Direct serializer-level round-trip (bypasses IODict convenience layer)."""
         serializer = TOMLSerializer()
         payload = {"color": "\033[31m", "count": 42}
