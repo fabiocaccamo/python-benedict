@@ -12,14 +12,14 @@ try:
     import boto3
 
     s3_installed = True
-except ModuleNotFoundError:
+except ModuleNotFoundError:  # pragma: no cover
     s3_installed = False
 
 try:
     import fsutil
 
     fsutil_installed = True
-except ModuleNotFoundError:
+except ModuleNotFoundError:  # pragma: no cover
     fsutil_installed = False
 
 from benedict.extras import require_fsutil, require_s3

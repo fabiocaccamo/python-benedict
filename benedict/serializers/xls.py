@@ -4,7 +4,7 @@ try:
     import fsutil
 
     fsutil_installed = True
-except ModuleNotFoundError:
+except ModuleNotFoundError:  # pragma: no cover
     fsutil_installed = False
 
 try:
@@ -12,7 +12,7 @@ try:
     from xlrd import open_workbook
 
     xls_installed = True
-except ModuleNotFoundError:
+except ModuleNotFoundError:  # pragma: no cover
     xls_installed = False
 
 from collections.abc import Sequence
