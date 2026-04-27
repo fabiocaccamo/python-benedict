@@ -6,7 +6,7 @@ try:
     import pydantic
 
     pydantic_installed = True
-except ImportError:
+except ImportError:  # pragma: no cover
     pydantic_installed = False
 
 
