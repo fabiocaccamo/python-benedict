@@ -15,7 +15,6 @@ requests == 2.33.1
 toml == 0.10.2
 typing_extensions >= 4.14.1
 urllib3 >= 2.6.3
-useful-types == 0.2.1
 xlrd == 2.0.2
 xmltodict == 1.0.4
 zipp == 3.23.1

@@ -136,6 +136,34 @@ class io_util_test_case(unittest.TestCase):
         }
         self.assertEqual(result, expected_result)
 
+    @patch("benedict.dicts.io.io_util.fsutil_installed", False)
+    def test_read_content_from_file_with_io_extra_not_installed(self) -> None:
+        filepath = "/tmp/test-file.json"
+        with self.assertRaises(ExtrasRequireModuleNotFoundError):
+            io_util.read_content_from_file(filepath, format="json")
+
+    @patch("benedict.dicts.io.io_util.fsutil_installed", False)
+    def test_read_content_from_url_with_io_extra_not_installed(self) -> None:
+        url = "https://example.com/data.json"
+        with self.assertRaises(ExtrasRequireModuleNotFoundError):
+            io_util.read_content_from_url(url, {}, format="json")
+
+    @patch("benedict.dicts.io.io_util.fsutil_installed", False)
+    def test_read_content_from_s3_with_io_extra_not_installed(self) -> None:
+        s3_options = {
+            "aws_access_key_id": "",
+            "aws_secret_access_key": "",
+        }
+        s3_url = "s3://my-bucket/my-key.txt"
+        with self.assertRaises(ExtrasRequireModuleNotFoundError):
+            io_util.read_content_from_s3(s3_url, s3_options)
+
+    @patch("benedict.dicts.io.io_util.fsutil_installed", False)
+    def test_write_content_to_file_with_io_extra_not_installed(self) -> None:
+        filepath = "/tmp/test-file.json"
+        with self.assertRaises(ExtrasRequireModuleNotFoundError):
+            io_util.write_content_to_file(filepath, '{"a": 1}')
+
     @patch("benedict.dicts.io.io_util.s3_installed", False)
     def test_read_content_from_s3_with_s3_extra_not_installed(self) -> None:
         s3_options = {

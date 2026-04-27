@@ -47,6 +47,7 @@ python-benedict is a dict subclass with **keylist/keypath/keyattr** support, **I
         -   [I/O methods](#io-methods)
         -   [Parse methods](#parse-methods)
 -   [Testing](#testing)
+-   [Contributing](#contributing)
 -   [Security](#security)
 -   [License](#license)
 
@@ -1102,6 +1103,10 @@ tox
 # or run tests using unittest
 python -m unittest
 ```
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to submit bug reports, feature requests, and pull requests.
 
 ## Security
 

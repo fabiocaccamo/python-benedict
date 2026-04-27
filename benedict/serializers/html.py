@@ -4,7 +4,7 @@ try:
     from bs4 import BeautifulSoup
 
     html_installed = True
-except ModuleNotFoundError:
+except ModuleNotFoundError:  # pragma: no cover
     html_installed = False
 
 from typing import Any, NoReturn

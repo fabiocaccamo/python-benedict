@@ -2,7 +2,7 @@ try:
     import toml
 
     toml_installed = True
-except ModuleNotFoundError:
+except ModuleNotFoundError:  # pragma: no cover
     toml_installed = False
 
 try:

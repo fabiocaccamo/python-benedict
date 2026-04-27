@@ -1,6 +1,7 @@
 from benedict.exceptions import ExtrasRequireModuleNotFoundError
 
 __all__ = [
+    "require_fsutil",
     "require_html",
     "require_parse",
     "require_s3",
@@ -19,6 +20,10 @@ def _require_optional_dependencies(*, target: str, installed: bool) -> None:
 
 def require_html(*, installed: bool) -> None:
     _require_optional_dependencies(target="html", installed=installed)
+
+
+def require_fsutil(*, installed: bool) -> None:
+    _require_optional_dependencies(target="io", installed=installed)
 
 
 def require_parse(*, installed: bool) -> None:
