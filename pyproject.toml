@@ -94,7 +94,6 @@ dependencies = [
     "python-slugify >= 7.0.0, < 9.0.0",
     "requests >= 2.33.0, < 3.0.0",
     "typing_extensions >= 4.13.2, < 4.16.0",
-    "useful-types >= 0.2.1, < 0.3.0"
 ]
 dynamic = ["version"]
 maintainers = [
