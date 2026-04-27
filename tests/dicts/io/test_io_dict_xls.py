@@ -91,6 +91,25 @@ class io_dict_xls_test_case(io_dict_test_case):
                 with self.assertRaises(ExtrasRequireModuleNotFoundError):
                     _ = IODict(filepath)
 
+    @patch("benedict.serializers.xls.fsutil_installed", False)
+    def test_from_xls_with_valid_file_valid_content_but_io_extra_not_installed(
+        self,
+    ) -> None:
+        for extension in self._extensions:
+            with self.subTest(
+                msg=f"test_from_xls_({extension})_with_valid_file_valid_content_but_io_extra_not_installed"
+            ):
+                filepath = self.input_path(f"valid-content.{extension}")
+                # static method
+                with self.assertRaises(ExtrasRequireModuleNotFoundError):
+                    _ = IODict.from_xls(filepath)
+                # constructor explicit format
+                with self.assertRaises(ExtrasRequireModuleNotFoundError):
+                    _ = IODict(filepath, format=extension)
+                # constructor implicit format
+                with self.assertRaises(ExtrasRequireModuleNotFoundError):
+                    _ = IODict(filepath)
+
     def test_from_xls_with_valid_url_valid_content(self) -> None:
         expected_dict = {
             "values": [

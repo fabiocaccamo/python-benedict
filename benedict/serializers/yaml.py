@@ -6,7 +6,7 @@ try:
     from yaml.representer import SafeRepresenter
 
     yaml_installed = True
-except ModuleNotFoundError:
+except ModuleNotFoundError:  # pragma: no cover
     yaml_installed = False
 
 

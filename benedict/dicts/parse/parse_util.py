@@ -12,7 +12,7 @@ try:
     from phonenumbers import PhoneNumberFormat, phonenumberutil
 
     parse_installed = True
-except ModuleNotFoundError:
+except ModuleNotFoundError:  # pragma: no cover
     parse_installed = False
 
 

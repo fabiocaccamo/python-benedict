@@ -4,7 +4,7 @@ try:
     import xmltodict
 
     xml_installed = True
-except ModuleNotFoundError:
+except ModuleNotFoundError:  # pragma: no cover
     xml_installed = False
 
 
