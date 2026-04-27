@@ -1,6 +1,11 @@
 from __future__ import annotations
 
-import fsutil
+try:
+    import fsutil
+
+    fsutil_installed = True
+except ModuleNotFoundError:
+    fsutil_installed = False
 
 try:
     from openpyxl import load_workbook
@@ -15,7 +20,7 @@ from typing import Any, NoReturn
 
 from slugify import slugify
 
-from benedict.extras import require_xls
+from benedict.extras import require_fsutil, require_xls
 from benedict.serializers.abstract import AbstractSerializer
 
 
@@ -175,6 +180,7 @@ class XLSSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
 
     def decode(self, s: str, **kwargs: Any) -> list[dict[str, Any]]:
         require_xls(installed=xls_installed)
+        require_fsutil(installed=fsutil_installed)
         extension = fsutil.get_file_extension(s)
         if extension in ["xlsx", "xlsm"]:
             return self._decode(s, **kwargs)
