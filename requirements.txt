@@ -11,7 +11,7 @@ python-fsutil == 0.16.1
 python-slugify == 8.0.4
 pyyaml == 6.0.3
 requests == 2.33.1
-toml == 0.10.2
+tomli == 2.0.2
 tomli-w == 1.2.0
 typing_extensions >= 4.14.1
 urllib3 >= 2.6.3
