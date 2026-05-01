@@ -1,17 +1,17 @@
 coverage == 7.13.*
 mypy == 1.20.*
-orjson >= 3.11.6, == 3.11.*
-pre-commit == 4.5.*
+orjson == 3.11.*
+pre-commit == 4.6.*
 python-decouple == 3.8
-tox == 4.52.*
+tox == 4.53.*
 
 # type stubs for mypy
-boto3-stubs[essential,lambda]==1.42.80
+boto3-stubs[essential,lambda]==1.43.1
 decouple-types==1.0.2
-types-PyYAML==6.0.12.20250915
+types-PyYAML==6.0.12.20260408
 types-beautifulsoup4==4.12.0.20250516
-types-html5lib==1.1.11.20251117
-types-openpyxl==3.1.5.20260322
-types-python-dateutil==2.9.0.20260323
-types-toml==0.10.8.20240310
-types-xmltodict==1.0.1.20260113
+types-html5lib==1.1.11.20260408
+types-openpyxl==3.1.5.20260408
+types-python-dateutil==2.9.0.20260408
+types-toml==0.10.8.20260408
+types-xmltodict==1.0.1.20260408
