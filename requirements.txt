@@ -6,6 +6,7 @@ idna >= 3.7
 mailchecker == 6.0.20
 openpyxl == 3.1.5
 phonenumbers == 9.0.27
+pydantic >= 2.0.0, < 3.0.0
 python-dateutil == 2.9.0.post0
 python-fsutil == 0.16.1
 python-slugify == 8.0.4
@@ -15,6 +16,5 @@ tomli == 2.0.2
 tomli-w == 1.2.0
 typing_extensions >= 4.14.1
 urllib3 >= 2.6.3
-useful-types == 0.2.1
 xlrd == 2.0.2
 xmltodict == 1.0.4

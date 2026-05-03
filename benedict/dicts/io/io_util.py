@@ -12,17 +12,22 @@ try:
     import boto3
 
     s3_installed = True
-except ModuleNotFoundError:
+except ModuleNotFoundError:  # pragma: no cover
     s3_installed = False
 
-import fsutil
+try:
+    import fsutil
 
-from benedict.extras import require_s3
+    fsutil_installed = True
+except ModuleNotFoundError:  # pragma: no cover
+    fsutil_installed = False
+
+from benedict.extras import require_fsutil, require_s3
 from benedict.serializers import (
     get_format_by_path,
     get_serializer_by_format,
 )
-from benedict.utils import type_util
+from benedict.utils import schema_util, type_util
 
 
 def autodetect_format(s: Any) -> str | None:
@@ -56,10 +61,13 @@ def decode(s: Any, format: str, **kwargs: Any) -> Any:
     if not serializer:
         raise ValueError(f"Invalid format: {format}.")
     options = kwargs.copy()
+    schema = options.pop("schema", None)
     if format in ["b64", "base64"]:
         options.setdefault("subformat", "json")
     content = read_content(s, format, options)
     data = serializer.decode(content, **options)
+    if schema is not None:
+        data = schema_util.apply_schema(data, schema)
     return data
 
 
@@ -68,6 +76,9 @@ def encode(d: Any, format: str, filepath: str | None = None, **kwargs: Any) -> A
     if not serializer:
         raise ValueError(f"Invalid format: {format}.")
     options = kwargs.copy()
+    schema = options.pop("schema", None)
+    if schema is not None:
+        d = schema_util.apply_schema(d, schema)
     content = serializer.encode(d, **options)
     if filepath:
         filepath = str(filepath)
@@ -88,7 +99,7 @@ def is_data(s: str | bytes) -> bool:
 
 
 def is_filepath(s: Path | str) -> bool:
-    if fsutil.is_file(s):
+    if fsutil_installed and fsutil.is_file(s):
         return True
     return bool(
         get_format_by_path(s)
@@ -147,15 +158,18 @@ def read_content(
 
 
 def read_content_from_file(filepath: str, format: str | None = None) -> str:
+    require_fsutil(installed=fsutil_installed)
     binary_format = is_binary_format(format)
     if binary_format:
         return filepath
-    return fsutil.read_file(filepath)  # type: ignore[no-any-return]
+    content = fsutil.read_file(filepath)
+    return str(content)
 
 
 def read_content_from_s3(
     url: str, s3_options: Mapping[str, Any], format: str | None = None
 ) -> str:
+    require_fsutil(installed=fsutil_installed)
     require_s3(installed=s3_installed)
     s3_url = parse_s3_url(url)
     dirpath = tempfile.gettempdir()
@@ -171,12 +185,14 @@ def read_content_from_s3(
 def read_content_from_url(
     url: str, requests_options: Mapping[str, Any], format: str | None = None
 ) -> str:
+    require_fsutil(installed=fsutil_installed)
     binary_format = is_binary_format(format)
     if binary_format:
         dirpath = tempfile.gettempdir()
         filepath = fsutil.download_file(url, dirpath=dirpath, **requests_options)
-        return filepath  # type: ignore[no-any-return]
-    return fsutil.read_file_from_url(url, **requests_options)  # type: ignore[no-any-return]
+        return str(filepath)
+    content = fsutil.read_file_from_url(url, **requests_options)
+    return str(content)
 
 
 def write_content(filepath: str, content: str, **options: Any) -> None:
@@ -187,12 +203,14 @@ def write_content(filepath: str, content: str, **options: Any) -> None:
 
 
 def write_content_to_file(filepath: str, content: str, **options: Any) -> None:
+    require_fsutil(installed=fsutil_installed)
     fsutil.write_file(filepath, content)
 
 
 def write_content_to_s3(
     url: str, content: str, s3_options: Mapping[str, Any], **options: Any
 ) -> None:
+    require_fsutil(installed=fsutil_installed)
     require_s3(installed=s3_installed)
     s3_url = parse_s3_url(url)
     dirpath = tempfile.gettempdir()

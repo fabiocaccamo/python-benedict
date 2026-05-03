@@ -90,11 +90,8 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "python-fsutil >= 0.16.0, < 1.0.0",
     "python-slugify >= 7.0.0, < 9.0.0",
-    "requests >= 2.33.0, < 3.0.0",
     "typing_extensions >= 4.13.2, < 4.16.0",
-    "useful-types >= 0.2.1, < 0.3.0"
 ]
 dynamic = ["version"]
 maintainers = [
@@ -119,13 +116,15 @@ Twitter = "https://twitter.com/fabiocaccamo"
 
 [project.optional-dependencies]
 all = [
-    "python-benedict[io,parse,s3]",
+    "python-benedict[io,parse,s3,schema]",
 ]
 html = [
     "beautifulsoup4 >= 4.12.0, < 5.0.0",
     "python-benedict[xml]",
 ]
 io = [
+    "python-fsutil >= 0.16.1, < 1.0.0",
+    "requests >= 2.33.0, < 3.0.0",
     "python-benedict[html,toml,xls,xml,yaml]",
 ]
 parse = [
@@ -136,6 +135,10 @@ parse = [
 ]
 s3 = [
     "boto3 >= 1.24.89, < 2.0.0",
+    "python-fsutil >= 0.16.1, < 1.0.0",
+]
+schema = [
+    "pydantic >= 2.0.0, < 3.0.0",
 ]
 toml = [
     "tomli >= 2.0.0, < 3.0.0; python_version < '3.11'",
@@ -143,6 +146,7 @@ toml = [
 ]
 xls = [
     "openpyxl >= 3.0.0, < 4.0.0",
+    "python-fsutil >= 0.16.1, < 1.0.0",
     "xlrd >= 2.0.0, < 3.0.0",
 ]
 xml = [
