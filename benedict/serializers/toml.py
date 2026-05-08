@@ -10,14 +10,14 @@ try:
     import tomli
 
     tomli_installed = True
-except ModuleNotFoundError:
+except ModuleNotFoundError:  # pragma: no cover
     tomli_installed = False
 
 try:
     import tomli_w
 
     tomli_w_installed = True
-except ModuleNotFoundError:
+except ModuleNotFoundError:  # pragma: no cover
     tomli_w_installed = False
 
 from typing import Any
