@@ -1,11 +1,11 @@
 beautifulsoup4 == 4.14.3
-boto3 == 1.42.80
-certifi >= 2024.7.4
+boto3 == 1.43.6
+certifi >= 2026.4.22
 ftfy == 6.3.1
-idna >= 3.7
+idna >= 3.13
 mailchecker == 6.0.20
 openpyxl == 3.1.5
-phonenumbers == 9.0.27
+phonenumbers == 9.0.30
 pydantic >= 2.0.0, < 3.0.0
 python-dateutil == 2.9.0.post0
 python-fsutil == 0.16.1
@@ -14,6 +14,6 @@ pyyaml == 6.0.3
 requests == 2.33.1
 toml == 0.10.2
 typing_extensions >= 4.14.1
-urllib3 >= 2.6.3
+urllib3 >= 2.7.0
 xlrd == 2.0.2
 xmltodict == 1.0.4
