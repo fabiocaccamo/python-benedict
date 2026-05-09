@@ -141,7 +141,8 @@ schema = [
     "pydantic >= 2.0.0, < 3.0.0",
 ]
 toml = [
-    "toml >= 0.10.2, < 1.0.0",
+    "tomli >= 2.0.0, < 3.0.0; python_version < '3.11'",
+    "tomli-w >= 1.0.0, < 2.0.0",
 ]
 xls = [
     "openpyxl >= 3.0.0, < 4.0.0",
