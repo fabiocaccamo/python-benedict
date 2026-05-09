@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.37.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.37.0) - 2026-05-09
+-   Add optional `schema` kwarg support (`python-benedict[schema]` with `pydantic` v2) to all `from_*` and `to_*` I/O methods. (#565)
+-   Add `indexes=True` option to `flatten` / `unflatten` for list/tuple flattening with round-trip support. (#561)
+-   Add `deep` argument support to `filter` method to apply the predicate recursively to all nested dicts.
+-   Add `deep` argument support to `remove` method to remove the key(s) at every nesting level.
+-   Add `deep` argument support to `rename` method to rename the key at every nesting level.
+-   Reduce dependencies making the core installation super lightweight. #567
+-   Swap `uiri/toml` encoder for `tomli_w`. #439
+-   Fix `yaml` serializer to use `safe_dump` and add `pickle` security warning (CWE-502). (#563)
+-   Fix `orjson` and `requests` requirements to address CVE-2025-67221 and CVE-2024-27454. (#562)
+-   Add `CONTRIBUTING.md`.
+-   Bump requirements and `pre-commit` hooks.
+
 ## [0.36.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.36.0) - 2026-04-12
 -   Add `Python 3.14` support.
 -   Add `freeze` / `unfreeze` / `frozen` support to make a `benedict` instance immutable. #71
