@@ -222,6 +222,8 @@ def _parse_float(val: str) -> float | None:
 
 
 def parse_float(val: str) -> float | None:
+    if isinstance(val, (bool, int)):
+        return float(val)
     return _parse_with(val, type_util.is_float, _parse_float)
 
 
@@ -245,10 +247,15 @@ def _parse_int(val: str) -> int | None:
     try:
         return int(val)
     except ValueError:
-        return None
+        try:
+            return int(float(val))
+        except ValueError:
+            return None
 
 
 def parse_int(val: int | str) -> int | None:
+    if isinstance(val, bool):
+        return int(val)
     return _parse_with(val, type_util.is_integer, _parse_int)
 
 
