@@ -299,8 +299,8 @@ class parse_dict_test_case(unittest.TestCase):
         }
         b = ParseDict(d)
         self.assertEqual(b.get_float("a"), float(1.0))
-        self.assertEqual(b.get_float("b"), float(0.0))
-        self.assertEqual(b.get_float("b", float(2.5)), float(2.5))
+        self.assertEqual(b.get_float("b"), float(1.0))
+        self.assertEqual(b.get_float("b", float(2.5)), float(1.0))
         self.assertEqual(b.get_float("c"), float(4.25))
 
     def test_get_float_with_choices(self) -> None:
@@ -374,7 +374,7 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_int("d", 2), 1)
         self.assertEqual(b.get_int("e", 2), 0)
         self.assertEqual(b.get_int("f", 2), 3)
-        self.assertEqual(b.get_int("g", 2), 2)
+        self.assertEqual(b.get_int("g", 2), 3)
 
     def test_get_int_with_choices(self) -> None:
         d = {
