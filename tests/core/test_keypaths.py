@@ -106,6 +106,10 @@ class keypaths_test_case(unittest.TestCase):
         with self.assertRaises(ValueError):
             _ = _keypaths(i, separator=True)  # type: ignore[arg-type]
 
+    def test_keypaths_with_empty_separator(self) -> None:
+        with self.assertRaises(ValueError):
+            _ = _keypaths({"a": {"b": 1}}, separator="")
+
     def test_keypaths_without_separator(self) -> None:
         i = {
             "a": 1,
