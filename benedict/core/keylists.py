@@ -23,7 +23,10 @@ def _get_keylist_for_list(
     keylist = []
     for key, value in enumerate(ls):
         keys = list(parent_keys)
-        keys[-1] += f"[{key}]"
+        # Stringify the parent key before appending the index so non-string keys
+        # (e.g. int/None/bool) holding a list don't raise a TypeError. String keys
+        # are unaffected: f"{'a'}[0]" == "a[0]".
+        keys[-1] = f"{keys[-1]}[{key}]"
         keylist += [keys]
         keylist += _get_keylist_for_value(value, keys, indexes)
     return keylist
