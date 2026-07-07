@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.38.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.38.0) - 2026-07-07
+-   Fix `keylists` / `keypaths` to handle non-string dict keys holding lists. (by [@Sanjays2402](https://github.com/Sanjays2402) in #583)
+-   Fix `match` to anchor string patterns and consume the full keypath. (by [@gaoflow](https://github.com/gaoflow) in #579)
+-   Fix `query-string` serializer to accept array/bracketed keys and trailing `&`. (#586)
+-   Reject empty `keypath_separator`. (by [@CodingFeng101](https://github.com/CodingFeng101) in #580)
+-   Fix `int` parsing to catch `OverflowError`. #578 (#584)
+-   Bump requirements and `pre-commit` hooks.
+
 ## [0.37.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.37.0) - 2026-05-09
 -   Add optional `schema` kwarg support (`python-benedict[schema]` with `pydantic` v2) to all `from_*` and `to_*` I/O methods. (#565)
 -   Add `indexes=True` option to `flatten` / `unflatten` for list/tuple flattening with round-trip support. (#561)
