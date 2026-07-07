@@ -221,7 +221,7 @@ def _parse_float(val: str) -> float | None:
         return None
 
 
-def parse_float(val: str) -> float | None:
+def parse_float(val: float | int | str) -> float | None:
     if isinstance(val, (bool, int)):
         return float(val)
     return _parse_with(val, type_util.is_float, _parse_float)
