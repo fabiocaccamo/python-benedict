@@ -57,6 +57,17 @@ class match_test_case(unittest.TestCase):
         ]
         self.assertEqual(values, expected_values)
 
+    def test_match_with_suffix_wildcard(self) -> None:
+        # Suffix wildcard like "*.jpg" must not match "IMG_0001.jpg.bak" –
+        # i.e. the full keypath must be consumed, not just a prefix.
+        d = {
+            "IMG_0001.jpg": "IMG_0001.jpg",
+            "IMG_0001.jpg.bak": "IMG_0001.jpg.bak",
+            "DOC_0001.pdf": "DOC_0001.pdf",
+        }
+        values = _match(d, "*.jpg")
+        self.assertEqual(values, ["IMG_0001.jpg"])
+
     def test_match_with_invalid_pattern(self) -> None:
         d = self._get_dict()
         with self.assertRaises(ValueError):
