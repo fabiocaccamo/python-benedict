@@ -30,9 +30,18 @@ class QueryStringSerializer(
     def decode(  # type: ignore[override]
         self, s: str, flat: bool = True
     ) -> dict[str, str] | dict[str, list[str]]:
-        qs_re = r"(?:([\w\-\%\+\.\|]+\=[\w\-\%\+\.\|]*)+(?:[\&]{1})?)+"
-        qs_pattern = re.compile(qs_re)
-        if qs_pattern.match(s):
+        # A query string is a sequence of "key=value" pairs joined by "&".
+        # Each key must be non-empty and free of whitespace, "=" and "&";
+        # each value must be free of whitespace and "&" (spaces are encoded
+        # as "+" or "%20"). This accepts real-world keys such as array-style
+        # "a[]" / "user[name]" while still rejecting other formats (TOML, YAML,
+        # JSON, XML), plain text and URLs.
+        pair_re = re.compile(r"^[^\s=&]+=[^\s&]*$")
+        pairs = s.split("&")
+        # Allow exactly one trailing empty segment (trailing "&" is valid)
+        if pairs and not pairs[-1]:
+            pairs = pairs[:-1]
+        if all(pair_re.match(pair) for pair in pairs):
             data = parse_qs(s)
             if flat:
                 return {key: value[0] for key, value in data.items()}

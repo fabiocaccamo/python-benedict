@@ -26,6 +26,31 @@ class io_dict_query_string_test_case(io_dict_test_case):
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, r)
 
+    def test_from_query_string_with_array_style_keys(self) -> None:
+        # array-style keys (PHP / HTML form syntax) are valid query strings
+        s = "a[]=1&a[]=2"
+        r = {"a[]": "1"}
+        # static method
+        d = IODict.from_query_string(s)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, r)
+        # constructor
+        d = IODict(s, format="query_string")
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, r)
+
+    def test_from_query_string_with_bracketed_keys(self) -> None:
+        s = "user[name]=joe&user[age]=42"
+        r = {"user[name]": "joe", "user[age]": "42"}
+        # static method
+        d = IODict.from_query_string(s)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, r)
+        # constructor
+        d = IODict(s, format="query_string")
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, r)
+
     def test_from_query_string_with_invalid_data(self) -> None:
         s = "Lorem ipsum est in ea occaecat nisi officia."
         # static method
