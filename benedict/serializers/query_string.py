@@ -28,13 +28,13 @@ class QueryStringSerializer(
 
     @staticmethod
     def _parse_bracket_notation(
-        data: dict[str, list[str]], flat: bool
+        data: dict[str, list[str]],
     ) -> dict[str, Any]:
         """Convert parse_qs output into nested dicts / lists for bracket keys.
 
         - ``a[]=1&a[]=2``       → ``{"a": ["1", "2"]}``
         - ``user[name]=joe``    → ``{"user": {"name": "joe"}}``
-        - Regular keys honour *flat*: single string when True, list when False.
+        - Regular keys always return a scalar string value.
         """
         _array_re = re.compile(r"^([^\[]+)\[\]$")
         _nested_re = re.compile(r"^([^\[]+)\[([^\]]+)\]$")
@@ -51,7 +51,7 @@ class QueryStringSerializer(
                     result[parent] = {}
                 result[parent][child] = values[0] if len(values) == 1 else values
             else:
-                result[key] = values[0] if flat else values
+                result[key] = values[0]
         return result
 
     @override
@@ -71,7 +71,7 @@ class QueryStringSerializer(
             pairs = pairs[:-1]
         if all(pair_re.match(pair) for pair in pairs):
             data = parse_qs(s)
-            return self._parse_bracket_notation(data, flat)
+            return self._parse_bracket_notation(data)
         raise ValueError(f"Invalid query string: {s}")
 
     @override

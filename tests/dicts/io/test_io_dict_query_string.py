@@ -61,7 +61,7 @@ class io_dict_query_string_test_case(io_dict_test_case):
 
     def test_from_query_string_with_valid_data_flat_false(self) -> None:
         s = "a=1&b=2"
-        r = {"a": ["1"], "b": ["2"]}
+        r = {"a": "1", "b": "2"}
         # static method
         d = IODict.from_query_string(s, flat=False)
         self.assertTrue(isinstance(d, dict))
