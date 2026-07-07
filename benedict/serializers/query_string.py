@@ -26,6 +26,32 @@ class QueryStringSerializer(
             ],
         )
 
+    @staticmethod
+    def _parse_bracket_notation(data: dict[str, list[str]], flat: bool) -> dict:
+        """Convert parse_qs output into nested dicts / lists for bracket keys.
+
+        - ``a[]=1&a[]=2``       → ``{"a": ["1", "2"]}``
+        - ``user[name]=joe``    → ``{"user": {"name": "joe"}}``
+        - Regular keys honour *flat*: single string when True, list when False.
+        """
+        _array_re = re.compile(r"^([^\[]+)\[\]$")
+        _nested_re = re.compile(r"^([^\[]+)\[([^\]]+)\]$")
+        result: dict = {}
+        for key, values in data.items():
+            m_array = _array_re.match(key)
+            m_nested = _nested_re.match(key)
+            if m_array:
+                base = m_array.group(1)
+                result[base] = values
+            elif m_nested:
+                parent, child = m_nested.group(1), m_nested.group(2)
+                if parent not in result or not isinstance(result[parent], dict):
+                    result[parent] = {}
+                result[parent][child] = values[0] if len(values) == 1 else values
+            else:
+                result[key] = values[0] if flat else values
+        return result
+
     @override
     def decode(  # type: ignore[override]
         self, s: str, flat: bool = True
@@ -43,9 +69,7 @@ class QueryStringSerializer(
             pairs = pairs[:-1]
         if all(pair_re.match(pair) for pair in pairs):
             data = parse_qs(s)
-            if flat:
-                return {key: value[0] for key, value in data.items()}
-            return data
+            return self._parse_bracket_notation(data, flat)
         raise ValueError(f"Invalid query string: {s}")
 
     @override
