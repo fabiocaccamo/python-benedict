@@ -34,7 +34,8 @@ class QueryStringSerializer(
 
         - ``a[]=1&a[]=2``       → ``{"a": ["1", "2"]}``
         - ``user[name]=joe``    → ``{"user": {"name": "joe"}}``
-        - Regular keys always return a scalar string value.
+        - Regular keys (no brackets) always return a scalar string value;
+          the *flat* parameter on :meth:`decode` does not affect them.
         """
         _array_re = re.compile(r"^([^\[]+)\[\]$")
         _nested_re = re.compile(r"^([^\[]+)\[([^\]]+)\]$")
