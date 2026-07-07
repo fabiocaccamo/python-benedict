@@ -124,9 +124,7 @@ class keypaths_test_case(unittest.TestCase):
                 },
             },
         }
-        # with self.assertRaises(ValueError):
-        #     o = _keypaths(i, separator=None)
-        o = _keypaths(i)
+        o = _keypaths(i, separator=None)
         r = [
             "a",
             "b",
