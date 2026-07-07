@@ -60,6 +60,29 @@ class keylists_test_case(unittest.TestCase):
         for k in r:
             self.assertTrue(k in o)
 
+    def test_keylists_with_non_string_keys_and_lists_and_indexes_included(
+        self,
+    ) -> None:
+        # A non-string key (int/None/bool) holding a list used to raise
+        # 'TypeError: unsupported operand type(s) for +=: 'int' and 'str''
+        # while the same key holding a dict worked fine.
+        i = {
+            0: [1, 2],
+            None: [3, 4],
+        }
+        o = _keylists(i, indexes=True)
+        r = [
+            [0],
+            ["0[0]"],
+            ["0[1]"],
+            [None],
+            ["None[0]"],
+            ["None[1]"],
+        ]
+        self.assertEqual(len(o), len(r))
+        for k in r:
+            self.assertTrue(k in o)
+
     def test_keylists_with_lists_and_indexes_included(self) -> None:
         i = {
             "a": 1,
