@@ -27,7 +27,9 @@ class QueryStringSerializer(
         )
 
     @staticmethod
-    def _parse_bracket_notation(data: dict[str, list[str]], flat: bool) -> dict:
+    def _parse_bracket_notation(
+        data: dict[str, list[str]], flat: bool
+    ) -> dict[str, Any]:
         """Convert parse_qs output into nested dicts / lists for bracket keys.
 
         - ``a[]=1&a[]=2``       → ``{"a": ["1", "2"]}``
@@ -36,7 +38,7 @@ class QueryStringSerializer(
         """
         _array_re = re.compile(r"^([^\[]+)\[\]$")
         _nested_re = re.compile(r"^([^\[]+)\[([^\]]+)\]$")
-        result: dict = {}
+        result: dict[str, Any] = {}
         for key, values in data.items():
             m_array = _array_re.match(key)
             m_nested = _nested_re.match(key)
