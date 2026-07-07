@@ -13,8 +13,8 @@ def keypaths(
     indexes: bool = False,
     sort: bool = True,
 ) -> list[str]:
-    separator = separator or "."
-    if not type_util.is_string(separator):
+    separator = "." if separator is None else separator
+    if not type_util.is_string(separator) or not separator:
         raise ValueError("separator argument must be a (non-empty) string.")
     kls = keylists(d, indexes=indexes)
     kps = [separator.join([f"{key}" for key in kl]) for kl in kls]
