@@ -499,6 +499,23 @@ class keypath_dict_test_case(unittest.TestCase):
         r = {"a": {"b": {"c": {"d": 3}}}}
         self.assertEqual(b, r)
 
+    def test_setitem_string_subkey_overrides_list_value(self) -> None:
+        # a string subkey cannot index a list, so it overrides the list like a scalar
+        b = KeypathDict({"a": [1, 2]})
+        b["a.x"] = 1
+        self.assertEqual(b, {"a": {"x": 1}})
+        b = KeypathDict({"a": [1, 2]})
+        b["a.x.y"] = 1
+        self.assertEqual(b, {"a": {"x": {"y": 1}}})
+        # a list-of-scalar element is likewise overridden by a string subkey
+        b = KeypathDict({"a": [5]})
+        b["a[0].x"] = 3
+        self.assertEqual(b, {"a": [{"x": 3}]})
+        # a valid integer index keeps the list
+        b = KeypathDict({"a": [1, 2]})
+        b["a[0]"] = 9
+        self.assertEqual(b, {"a": [9, 2]})
+
     def test_setitem_with_keys_list(self) -> None:
         d: dict[str, Any] = {
             "a": {

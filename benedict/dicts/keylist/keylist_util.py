@@ -28,7 +28,11 @@ def _get_item_key_and_value(item: Any, key: Any) -> tuple[Any, Any]:
 def _get_or_new_item_value(item: Any, key: Any, subkey: Any) -> Any:
     try:
         _, value = _get_item_key_and_value(item, key)
-        if not type_util.is_dict_or_list_or_tuple(value):
+        # a list can only hold an integer-index subkey; anything else needs a dict
+        keeps_subkey = type_util.is_dict(value) or (
+            type_util.is_list_or_tuple(value) and _get_index(subkey) is not None
+        )
+        if not keeps_subkey:
             raise TypeError
     except (IndexError, KeyError, TypeError):
         value = _new_item_value(subkey)
