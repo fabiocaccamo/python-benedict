@@ -98,10 +98,10 @@ page = params.get_int("page", 1)
 It is possible to get/set items using **keys as attributes** (dotted notation).
 
 ```python
-d = benedict(keyattr_dynamic=True) # default False
+d = benedict(keyattr_dynamic=True)  # default False
 d.profile.firstname = "Fabio"
 d.profile.lastname = "Caccamo"
-print(d) # -> { "profile":{ "firstname":"Fabio", "lastname":"Caccamo" } }
+print(d)  # -> { "profile":{ "firstname":"Fabio", "lastname":"Caccamo" } }
 ```
 
 By default, if the `keyattr_dynamic` is not explicitly set to `True`, this functionality works for get/set only already existing items.
@@ -110,7 +110,7 @@ By default, if the `keyattr_dynamic` is not explicitly set to `True`, this funct
 You can disable the keyattr functionality passing `keyattr_enabled=False` option in the constructor.
 
 ```python
-d = benedict(existing_dict, keyattr_enabled=False) # default True
+d = benedict(existing_dict, keyattr_enabled=False)  # default True
 ```
 
 or using the `getter/setter` property.
@@ -123,7 +123,7 @@ d.keyattr_enabled = False
 You can enable the dynamic attributes access functionality passing `keyattr_dynamic=True` in the constructor.
 
 ```python
-d = benedict(existing_dict, keyattr_dynamic=True) # default False
+d = benedict(existing_dict, keyattr_dynamic=True)  # default False
 ```
 
 or using the `getter/setter` property.
@@ -146,15 +146,15 @@ d = benedict()
 # set values by keys list
 d[["profile", "firstname"]] = "Fabio"
 d[["profile", "lastname"]] = "Caccamo"
-print(d) # -> { "profile":{ "firstname":"Fabio", "lastname":"Caccamo" } }
-print(d["profile"]) # -> { "firstname":"Fabio", "lastname":"Caccamo" }
+print(d)  # -> { "profile":{ "firstname":"Fabio", "lastname":"Caccamo" } }
+print(d["profile"])  # -> { "firstname":"Fabio", "lastname":"Caccamo" }
 
 # check if keypath exists in dict
-print([["profile", "lastname"]] in d) # -> True
+print([["profile", "lastname"]] in d)  # -> True
 
 # delete value by keys list
 del d[["profile", "lastname"]]
-print(d["profile"]) # -> { "firstname":"Fabio" }
+print(d["profile"])  # -> { "firstname":"Fabio" }
 ```
 
 ### Keypath
@@ -170,11 +170,11 @@ d = benedict()
 # set values by keypath
 d["profile.firstname"] = "Fabio"
 d["profile.lastname"] = "Caccamo"
-print(d) # -> { "profile":{ "firstname":"Fabio", "lastname":"Caccamo" } }
-print(d["profile"]) # -> { "firstname":"Fabio", "lastname":"Caccamo" }
+print(d)  # -> { "profile":{ "firstname":"Fabio", "lastname":"Caccamo" } }
+print(d["profile"])  # -> { "firstname":"Fabio", "lastname":"Caccamo" }
 
 # check if keypath exists in dict
-print("profile.lastname" in d) # -> True
+print("profile.lastname" in d)  # -> True
 
 # delete value by keypath
 del d["profile.lastname"]
@@ -237,7 +237,10 @@ d = benedict("/root/data.yml", format="yaml")
 d = benedict("https://localhost:8000/data.xml", format="xml")
 
 # s3
-d = benedict("s3://my-bucket/data.xml", s3_options={"aws_access_key_id": "...", "aws_secret_access_key": "..."})
+d = benedict(
+    "s3://my-bucket/data.xml",
+    s3_options={"aws_access_key_id": "...", "aws_secret_access_key": "..."},
+)
 
 # data
 d = benedict('{"a": 1, "b": 2, "c": 3, "x": 7, "y": 8, "z": 9}')
@@ -254,12 +257,14 @@ All supported sources (**file**, **url**, **s3**, **data**) are allowed by defau
 
 ```python
 # url
-d = benedict("https://localhost:8000/data.json", sources=["url"]) # -> ok
-d = benedict.from_json("https://localhost:8000/data.json", sources=["url"]) # -> ok
+d = benedict("https://localhost:8000/data.json", sources=["url"])  # -> ok
+d = benedict.from_json("https://localhost:8000/data.json", sources=["url"])  # -> ok
 
 # s3
-d = benedict("s3://my-bucket/data.json", sources=["url"]) # -> raise ValueError
-d = benedict.from_json("s3://my-bucket/data.json", sources=["url"]) # -> raise ValueError
+d = benedict("s3://my-bucket/data.json", sources=["url"])  # -> raise ValueError
+d = benedict.from_json(
+    "s3://my-bucket/data.json", sources=["url"]
+)  # -> raise ValueError
 ```
 
 #### Output methods
@@ -588,6 +593,8 @@ d.swap("firstname", "lastname")
 # Traverse a dict passing each item (dict, key, value) to the given callback function.
 def f(d, key, value):
     print(f"dict: {d} - key: {key} - value: {value}")
+
+
 d.traverse(f)
 ```
 
@@ -626,9 +633,11 @@ pip install "python-benedict[schema]"
 from benedict import benedict
 from pydantic import BaseModel
 
+
 class User(BaseModel):
     name: str
     age: int
+
 
 # validate and coerce types on decode
 d = benedict.from_json('{"name": "Alice", "age": "30"}', schema=User)
@@ -1026,7 +1035,7 @@ d.get_list_item(key, index=0, default=None, separator=",")
 #### `get_phonenumber`
 
 ```python
-# Get phone number by key or keypath and return a dict with different formats (e164, international, national).
+# Get phone number by key or keypath and return a dict with different formats (e164, international, national).
 # If country code is specified (alpha 2 code), it will be used to parse phone number correctly.
 d.get_phonenumber(key, country_code=None, default=None)
 ```
@@ -1075,7 +1084,7 @@ d.get_uuid(key, default="", choices=[])
 #### `get_uuid_list`
 
 ```python
-# Get value by key or keypath trying to return it as list of valid uuid values.
+# Get value by key or keypath trying to return it as list of valid uuid values.
 # If separator is specified and value is a string it will be splitted.
 d.get_uuid_list(key, default=[], separator=",")
 ```
