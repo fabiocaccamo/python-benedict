@@ -91,7 +91,7 @@ classifiers = [
 ]
 dependencies = [
     "python-slugify >= 7.0.0, < 9.0.0",
-    "typing_extensions >= 4.13.2, < 4.16.0",
+    "typing_extensions >= 4.13.2, < 4.17.0",
 ]
 dynamic = ["version"]
 maintainers = [
