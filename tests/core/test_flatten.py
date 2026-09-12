@@ -32,6 +32,31 @@ class flatten_test_case(unittest.TestCase):
         }
         self.assertEqual(o, r)
 
+    def test_flatten_with_falsy_parent_keys(self) -> None:
+        for key in (0, False, None):
+            for separator in ("_", "/"):
+                for indexes in (False, True):
+                    with self.subTest(key=key, separator=separator, indexes=indexes):
+                        data = {key: {"child": 1}, "child": 2}
+                        self.assertEqual(
+                            _flatten(data, separator=separator, indexes=indexes),
+                            {f"{key}{separator}child": 1, "child": 2},
+                        )
+                        self.assertEqual(data, {key: {"child": 1}, "child": 2})
+
+    def test_flatten_with_falsy_parent_keys_and_indexed_lists(self) -> None:
+        for key in (0, False, None):
+            with self.subTest(key=key):
+                self.assertEqual(
+                    _flatten({key: {"items": [{"value": 1}]}}, indexes=True),
+                    {f"{key}_items[0]_value": 1},
+                )
+
+    def test_flatten_preserves_non_string_leaf_keys(self) -> None:
+        for key in (0, False, None, 1):
+            with self.subTest(key=key):
+                self.assertEqual(_flatten({key: "value"}), {key: "value"})
+
     def test_flatten_with_custom_separator(self) -> None:
         i = {
             "a": 1,
