@@ -100,6 +100,11 @@ class BaseDict(dict[_K, _V]):
             return len(self._dict)
         return super().__len__()
 
+    def __ne__(self, other: object) -> bool:
+        if self._dict is not None:
+            return self._dict != other
+        return super().__ne__(other)
+
     def __or__(self, other: dict[_K, _V]) -> Self:  # type: ignore[override]
         if self._dict is not None:
             return cast("Self", self._dict.__or__(other))
