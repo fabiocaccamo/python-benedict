@@ -520,7 +520,7 @@ d.merge(a, b, c, overwrite=True, concat=False)
 # Move an item from key_src to key_dst.
 # It can be used to rename a key.
 # If key_dst exists, its value will be overwritten.
-d.move("a", "b", overwrite=True)
+d.move("a", "b")
 ```
 
 #### `nest`
