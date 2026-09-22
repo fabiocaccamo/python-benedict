@@ -121,6 +121,22 @@ class base_dict_test_case(unittest.TestCase):
             b["a"]
         self.assertEqual(b, b.dict())
 
+    def test__ne__(self) -> None:
+        b = BaseDict(a=1)
+        self.assertFalse(b != {"a": 1})
+        self.assertTrue(b != {"a": 2})
+        self.assertTrue(b != object())
+
+    def test__ne__with_pointer(self) -> None:
+        d = {"a": 1}
+        b = BaseDict(d)
+        d["a"] = 2
+        self.assertFalse(b != {"a": 2})
+        self.assertFalse({"a": 2} != b)
+        self.assertTrue(b != {"a": 1})
+        self.assertTrue({"a": 1} != b)
+        self.assertTrue(b != object())
+
     def test__getitem__with_pointer(self) -> None:
         d = {
             "a": 1,

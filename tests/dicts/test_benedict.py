@@ -14,6 +14,18 @@ class benedict_test_case(unittest.TestCase):
     This class describes a benedict test case.
     """
 
+    def test_inequality_after_mutation(self) -> None:
+        for initial in ({}, {"a": 1}):
+            with self.subTest(initial=initial):
+                d = benedict(initial.copy())
+                d["a"] = 2
+                for other in ({"a": 2}, benedict({"a": 2})):
+                    self.assertTrue(d == other)
+                    self.assertFalse(d != other)
+                    self.assertFalse(other != d)
+                self.assertTrue(d != initial)
+                self.assertTrue(initial != d)
+
     def test_clean(self) -> None:
         d = {
             "a": {},
