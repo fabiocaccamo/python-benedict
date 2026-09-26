@@ -71,7 +71,9 @@ class QueryStringSerializer(
         if pairs and not pairs[-1]:
             pairs = pairs[:-1]
         if all(pair_re.match(pair) for pair in pairs):
-            data = parse_qs(s)
+            # keep_blank_values=True: the pair_re above already accepts empty
+            # values ("a="), so keep them instead of silently dropping the key.
+            data = parse_qs(s, keep_blank_values=True)
             return self._parse_bracket_notation(data)
         raise ValueError(f"Invalid query string: {s}")
 

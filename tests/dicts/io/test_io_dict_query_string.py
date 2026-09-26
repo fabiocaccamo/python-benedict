@@ -59,6 +59,22 @@ class io_dict_query_string_test_case(io_dict_test_case):
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, r)
 
+    def test_from_query_string_with_empty_values(self) -> None:
+        # empty values ("a=") are valid query-string pairs and must be kept,
+        # not silently dropped
+        s = "a=&b=2"
+        r = {"a": "", "b": "2"}
+        # static method
+        d = IODict.from_query_string(s)
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, r)
+        # constructor
+        d = IODict(s, format="query_string")
+        self.assertTrue(isinstance(d, dict))
+        self.assertEqual(d, r)
+        # round-trip: encoding back yields the same query string
+        self.assertEqual(d.to_query_string(), s)
+
     def test_from_query_string_with_valid_data_flat_false(self) -> None:
         s = "a=1&b=2"
         r = {"a": "1", "b": "2"}
