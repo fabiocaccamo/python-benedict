@@ -14,6 +14,13 @@ class benedict_test_case(unittest.TestCase):
     This class describes a benedict test case.
     """
 
+    def test_clean_nested_tuple_and_set_values(self) -> None:
+        data = benedict(
+            {"tuple": ({"keep": 1, "drop": None}, (None, 2)), "set": {(None, 3)}}
+        )
+        self.assertIsNone(data.clean())
+        self.assertEqual(data, {"tuple": ({"keep": 1}, (2,)), "set": {(3,)}})
+
     def test_clean(self) -> None:
         d = {
             "a": {},

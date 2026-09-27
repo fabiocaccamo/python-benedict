@@ -31,9 +31,10 @@ def _clean_list(
 
 def _clean_set(values: set[_T], strings: bool, collections: bool) -> set[_T]:
     return {
-        value
+        cleaned
         for value in values
-        if _clean_value(value, strings=strings, collections=collections) is not None
+        if (cleaned := _clean_value(value, strings=strings, collections=collections))
+        is not None
     }
 
 
@@ -45,9 +46,10 @@ def _clean_tuple(
     values: tuple[_T, ...], strings: bool, collections: bool
 ) -> tuple[_T, ...]:
     return tuple(
-        value
+        cleaned
         for value in values
-        if _clean_value(value, strings=strings, collections=collections) is not None
+        if (cleaned := _clean_value(value, strings=strings, collections=collections))
+        is not None
     )
 
 
