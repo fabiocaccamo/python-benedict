@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import copy
 import unittest
+from collections import OrderedDict, UserDict
 from collections.abc import Iterable
+from types import MappingProxyType
 from typing import Any
 
 from benedict.dicts.base import BaseDict
@@ -151,6 +153,54 @@ class base_dict_test_case(unittest.TestCase):
         b["a"] = 1
         self.assertEqual(len(b), 1)
         self.assertEqual(b, b.dict())
+
+    def test__reversed__with_pointer(self) -> None:
+        data = {"a": 1, "b": 2}
+        wrapped = BaseDict(data)
+        data["c"] = 3
+        self.assertEqual(list(reversed(wrapped)), ["c", "b", "a"])
+        del wrapped["a"]
+        wrapped["a"] = 4
+        self.assertEqual(list(reversed(wrapped)), ["a", "c", "b"])
+        wrapped.freeze()
+        self.assertEqual(list(reversed(wrapped)), ["a", "c", "b"])
+        data.clear()
+        self.assertEqual(list(reversed(wrapped)), [])
+
+    def test__reversed__without_pointer(self) -> None:
+        wrapped: BaseDict[str, int] = BaseDict()
+        self.assertEqual(list(reversed(wrapped)), [])
+        wrapped.update({"a": 1, "b": 2})
+        self.assertEqual(list(reversed(wrapped)), ["b", "a"])
+        wrapped.freeze()
+        self.assertEqual(list(reversed(wrapped)), ["b", "a"])
+
+    def test__reversed__iterator_mutation(self) -> None:
+        data = {"a": 1, "b": 2}
+        wrapped = BaseDict(data)
+        iterator = reversed(wrapped)
+        self.assertIs(iter(iterator), iterator)
+        self.assertEqual(next(iterator), "b")
+        data["a"] = 3
+        self.assertEqual(next(iterator), "a")
+        with self.assertRaises(StopIteration):
+            next(iterator)
+        iterator = reversed(wrapped)
+        data["c"] = 4
+        with self.assertRaises(RuntimeError):
+            next(iterator)
+
+    def test__reversed__other_mappings(self) -> None:
+        ordered = OrderedDict({"a": 1, "b": 2})
+        wrapped = BaseDict(ordered)
+        ordered.move_to_end("a")
+        self.assertEqual(list(reversed(wrapped)), ["a", "b"])
+        data = {"a": 1}
+        proxy = BaseDict(MappingProxyType(data))
+        data["b"] = 2
+        self.assertEqual(list(reversed(proxy)), ["b", "a"])
+        # Mappings without reverse iteration keep the existing dict fallback.
+        self.assertEqual(list(reversed(BaseDict(UserDict({"a": 1})))), ["a"])
 
     def test__len__with_pointer(self) -> None:
         d = {

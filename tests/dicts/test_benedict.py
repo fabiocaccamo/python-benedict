@@ -14,6 +14,16 @@ class benedict_test_case(unittest.TestCase):
     This class describes a benedict test case.
     """
 
+    def test_reversed_after_mutation(self) -> None:
+        data = {"a": 1}
+        wrapped = benedict(data)
+        wrapped["b"] = 2
+        self.assertEqual(list(reversed(wrapped)), ["b", "a"])
+        del data["a"]
+        self.assertEqual(list(reversed(wrapped)), ["b"])
+        wrapped.freeze()
+        self.assertEqual(list(reversed(wrapped)), ["b"])
+
     def test_clean(self) -> None:
         d = {
             "a": {},
