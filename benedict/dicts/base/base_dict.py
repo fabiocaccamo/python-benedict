@@ -23,15 +23,32 @@ class BaseDict(dict[_K, _V]):
     _dict: dict[_K, _V] | None
     _frozen: bool
 
+    # ids of mappings being unwrapped anywhere on the call stack, to detect
+    # self-referential structures instead of recursing forever
+    _unwrapping_ids: set[int] = set()
+
     @classmethod
     def _get_dict_or_value(cls, value: Any) -> Any:
         value = value.dict() if isinstance(value, cls) else value
         if isinstance(value, MutableMapping):
-            for key in value.keys():
-                key_val = value[key]
-                if isinstance(key_val, cls):
-                    key_val = cls._get_dict_or_value(value[key])
-                    value[key] = key_val
+            value_id = id(value)
+            if value_id in cls._unwrapping_ids:
+                # it contains itself; unwind here before reaching code with no cycle
+                # protection of its own
+                raise ValueError(
+                    "Cannot assign a dict that contains itself "
+                    "(directly or indirectly): self-referential "
+                    "(cyclic) structures are not supported."
+                )
+            cls._unwrapping_ids.add(value_id)
+            try:
+                for key in value.keys():
+                    key_val = value[key]
+                    if isinstance(key_val, cls):
+                        key_val = cls._get_dict_or_value(value[key])
+                        value[key] = key_val
+            finally:
+                cls._unwrapping_ids.discard(value_id)
         return value
 
     def __new__(cls, *args: Any, **kwargs: Any) -> Self:
@@ -88,7 +105,8 @@ class BaseDict(dict[_K, _V]):
     def __ior__(self, other: Any) -> Self:  # type: ignore[misc,override]
         self._check_frozen()
         if self._dict is not None:
-            return cast("Self", self._dict.__ior__(other))
+            self._dict.__ior__(other)
+            return self
         return super().__ior__(other)
 
     def __iter__(self) -> Iterator[_K]:
@@ -100,6 +118,11 @@ class BaseDict(dict[_K, _V]):
         if self._dict is not None:
             return len(self._dict)
         return super().__len__()
+
+    def __ne__(self, other: object) -> bool:
+        if self._dict is not None:
+            return self._dict != other
+        return super().__ne__(other)
 
     def __or__(self, other: dict[_K, _V]) -> Self:  # type: ignore[override]
         if self._dict is not None:
@@ -200,6 +223,12 @@ class BaseDict(dict[_K, _V]):
         if self._dict is not None:
             return self._dict.pop(key, *args)  # type: ignore[no-any-return]
         return super().pop(key, *args)  # type: ignore[no-any-return]
+
+    def popitem(self) -> tuple[_K, _V]:
+        self._check_frozen()
+        if self._dict is not None:
+            return self._dict.popitem()
+        return super().popitem()
 
     def setdefault(self, key: _K, default: _V | None = None) -> _V:
         self._check_frozen()
