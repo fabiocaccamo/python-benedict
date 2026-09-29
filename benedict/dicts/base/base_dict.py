@@ -6,6 +6,7 @@ from collections.abc import (
     KeysView,
     Mapping,
     MutableMapping,
+    Reversible,
     ValuesView,
 )
 from typing import Any, cast
@@ -132,6 +133,11 @@ class BaseDict(dict[_K, _V]):
         if self._dict is not None:
             return repr(self._dict)
         return super().__repr__()
+
+    def __reversed__(self) -> Iterator[_K]:
+        if isinstance(self._dict, Reversible):
+            return reversed(self._dict)
+        return super().__reversed__()
 
     def __setitem__(self, key: _K, value: _V) -> None:
         self._check_frozen()
