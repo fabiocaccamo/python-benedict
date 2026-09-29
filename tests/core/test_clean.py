@@ -11,6 +11,27 @@ class clean_test_case(unittest.TestCase):
     This class describes a clean test case.
     """
 
+    def test_clean_nested_tuple_values(self) -> None:
+        nested = {"keep": 1, "drop": None}
+        data = {"items": (nested, (None, 2), {None, 3}, ["", 4], (None,), 0, False)}
+        _clean(data)
+        self.assertEqual(data, {"items": ({"keep": 1}, (2,), {3}, [4], 0, False)})
+        self.assertEqual(nested, {"keep": 1, "drop": None})
+
+    def test_clean_nested_set_values(self) -> None:
+        data = {"items": {(None, 1), (" ", 2), (None,), (3, (None, 4))}}
+        _clean(data)
+        self.assertEqual(data, {"items": {(1,), (2,), (3, (4,))}})
+
+    def test_clean_nested_tuple_options(self) -> None:
+        data = {"items": (None, "", (" ", None))}
+        _clean(data, strings=False)
+        self.assertEqual(data, {"items": ("", (" ",))})
+
+        data = {"items": (None, "", (" ", None))}
+        _clean(data, collections=False)
+        self.assertEqual(data, {"items": (None, "", (" ", None))})
+
     def test_clean(self) -> None:
         i = {
             "a": {},
