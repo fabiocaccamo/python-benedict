@@ -162,6 +162,19 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(b["a"], 1)
         self.assertEqual(b, b.dict())
 
+    def test__ior__preserves_identity(self) -> None:
+        for use_pointer in (False, True):
+            for other in ({"a": 2, "b": 3}, [("a", 2), ("b", 3)]):
+                with self.subTest(use_pointer=use_pointer, other=other):
+                    source = {"a": 1}
+                    b = BaseDict(source) if use_pointer else BaseDict(a=1)
+                    original = b
+                    b |= other
+                    self.assertIs(b, original)
+                    self.assertEqual(b, {"a": 2, "b": 3})
+                    if use_pointer:
+                        self.assertEqual(source, {"a": 2, "b": 3})
+
     def test__iter__(self) -> None:
         b = BaseDict()
         i = iter(b)

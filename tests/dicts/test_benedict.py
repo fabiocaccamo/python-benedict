@@ -26,6 +26,15 @@ class benedict_test_case(unittest.TestCase):
         self.assertTrue(wrapped != {"count": 1})
         self.assertTrue({"count": 1} != wrapped)
 
+    def test_inplace_union_preserves_keypath_configuration(self) -> None:
+        source = {"item": {"name": "old"}}
+        b = benedict(source, keypath_separator="/")
+        original = b
+        b |= {"item": {"name": "new"}}
+        self.assertIs(b, original)
+        self.assertEqual(b["item/name"], "new")
+        self.assertEqual(source, {"item": {"name": "new"}})
+
     def test_clean(self) -> None:
         d = {
             "a": {},
