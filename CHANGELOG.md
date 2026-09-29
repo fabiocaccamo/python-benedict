@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.39.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.39.0) - 2026-09-29
+-   Forward missing `overwrite` argument in `move` method. #602
+-   Fix `clean` recursive cleaning of nested collections (when `collections=True`). (by [@x0Lazarus](https://github.com/x0Lazarus))
+-   Fix query-string parsing: keep empty values instead of dropping the key. (by [@Master-Norna](https://github.com/Master-Norna) in #604)
+-   Read current wrapped keys when iterating in `reverse`. (by [@x0Lazarus](https://github.com/x0Lazarus) in #607)
+-   Honor dictionary wrappers and freezing in `popitem` method. (by [@vitalivo](https://github.com/vitalivo) in #601)
+-   Preserve falsy parent keys when flattening dictionaries. (by [@rastagan-git](https://github.com/rastagan-git) in #600)
+-   Compare current wrapped contents when checking inequality. (by [@x0Lazarus](https://github.com/x0Lazarus) in #606)
+-   Preserve wrapper identity during in-place dictionary union. (by [@Gonghan-Princess](https://github.com/Gonghan-Princess) in #598)
+-   Prevent `RecursionError` when a dict contains itself. #592 (by [@dualfroz](https://github.com/dualfroz) in #597)
+-   Bump requirements, GitHub actions and `pre-commit` hooks.
+
 ## [0.38.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.38.0) - 2026-07-07
 -   Fix `keylists` / `keypaths` to handle non-string dict keys holding lists. (by [@Sanjays2402](https://github.com/Sanjays2402) in #583)
 -   Fix `match` to anchor string patterns and consume the full keypath. (by [@gaoflow](https://github.com/gaoflow) in #579)
