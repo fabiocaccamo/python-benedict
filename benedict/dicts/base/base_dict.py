@@ -104,7 +104,8 @@ class BaseDict(dict[_K, _V]):
     def __ior__(self, other: Any) -> Self:  # type: ignore[misc,override]
         self._check_frozen()
         if self._dict is not None:
-            return cast("Self", self._dict.__ior__(other))
+            self._dict.__ior__(other)
+            return self
         return super().__ior__(other)
 
     def __iter__(self) -> Iterator[_K]:
