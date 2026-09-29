@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import copy
 import unittest
+from collections import OrderedDict, UserDict
 from collections.abc import Iterable
+from types import MappingProxyType
 from typing import Any
 
 from benedict.dicts.base import BaseDict
@@ -12,6 +14,34 @@ class base_dict_test_case(unittest.TestCase):
     """
     This class describes a BaseDict test case.
     """
+
+    def test_popitem(self) -> None:
+        b = BaseDict(a=1, b=2)
+        self.assertEqual(b.popitem(), ("b", 2))
+        self.assertEqual(b, {"a": 1})
+        self.assertEqual(b.popitem(), ("a", 1))
+        with self.assertRaises(KeyError):
+            b.popitem()
+
+    def test_popitem_with_pointer(self) -> None:
+        d = {"a": 1}
+        b = BaseDict(d)
+        d["b"] = 2
+        self.assertEqual(b.popitem(), ("b", 2))
+        self.assertEqual(d, {"a": 1})
+        self.assertEqual(b.popitem(), ("a", 1))
+        self.assertEqual(d, {})
+        with self.assertRaises(KeyError):
+            b.popitem()
+
+    def test_popitem_frozen(self) -> None:
+        for b in (BaseDict(a=1), BaseDict({"a": 1}), BaseDict()):
+            with self.subTest(wrapped=b._dict is not None, empty=not b):
+                b.freeze()
+                original = dict(b.items())
+                with self.assertRaises(TypeError):
+                    b.popitem()
+                self.assertEqual(b, original)
 
     def test__bool__(self) -> None:
         b = BaseDict()
@@ -121,6 +151,39 @@ class base_dict_test_case(unittest.TestCase):
             b["a"]
         self.assertEqual(b, b.dict())
 
+    def test__not_equal__with_pointer(self) -> None:
+        data = {"a": 1}
+        wrapped = BaseDict(data)
+        for value in (2, 3):
+            data["a"] = value
+            for other in ({"a": value}, BaseDict({"a": value})):
+                with self.subTest(value=value, other_type=type(other)):
+                    self.assertTrue(wrapped == other)
+                    self.assertFalse(wrapped != other)
+                    self.assertFalse(other != wrapped)
+                    self.assertTrue(wrapped != {"a": 1})
+                    self.assertTrue({"a": 1} != wrapped)
+        data.clear()
+        self.assertFalse(wrapped != {})
+        self.assertTrue(wrapped != {"a": 1})
+
+    def test__not_equal__without_pointer(self) -> None:
+        wrapped: BaseDict[str, int] = BaseDict()
+        wrapped["a"] = 1
+        self.assertFalse(wrapped != {"a": 1})
+        self.assertTrue(wrapped != {"a": 2})
+        self.assertTrue(wrapped != None)  # noqa: E711
+
+    def test__not_equal__reflected_comparison(self) -> None:
+        class Other:
+            def __ne__(self, other: object) -> bool:
+                return False
+
+        for wrapped in (BaseDict(), BaseDict({"a": 1})):
+            with self.subTest(wrapped=wrapped):
+                self.assertFalse(wrapped != Other())
+                self.assertTrue(wrapped != 1)
+
     def test__getitem__with_pointer(self) -> None:
         d = {
             "a": 1,
@@ -128,6 +191,19 @@ class base_dict_test_case(unittest.TestCase):
         b = BaseDict(d)
         self.assertEqual(b["a"], 1)
         self.assertEqual(b, b.dict())
+
+    def test__ior__preserves_identity(self) -> None:
+        for use_pointer in (False, True):
+            for other in ({"a": 2, "b": 3}, [("a", 2), ("b", 3)]):
+                with self.subTest(use_pointer=use_pointer, other=other):
+                    source = {"a": 1}
+                    b = BaseDict(source) if use_pointer else BaseDict(a=1)
+                    original = b
+                    b |= other
+                    self.assertIs(b, original)
+                    self.assertEqual(b, {"a": 2, "b": 3})
+                    if use_pointer:
+                        self.assertEqual(source, {"a": 2, "b": 3})
 
     def test__iter__(self) -> None:
         b = BaseDict()
@@ -151,6 +227,54 @@ class base_dict_test_case(unittest.TestCase):
         b["a"] = 1
         self.assertEqual(len(b), 1)
         self.assertEqual(b, b.dict())
+
+    def test__reversed__with_pointer(self) -> None:
+        data = {"a": 1, "b": 2}
+        wrapped = BaseDict(data)
+        data["c"] = 3
+        self.assertEqual(list(reversed(wrapped)), ["c", "b", "a"])
+        del wrapped["a"]
+        wrapped["a"] = 4
+        self.assertEqual(list(reversed(wrapped)), ["a", "c", "b"])
+        wrapped.freeze()
+        self.assertEqual(list(reversed(wrapped)), ["a", "c", "b"])
+        data.clear()
+        self.assertEqual(list(reversed(wrapped)), [])
+
+    def test__reversed__without_pointer(self) -> None:
+        wrapped: BaseDict[str, int] = BaseDict()
+        self.assertEqual(list(reversed(wrapped)), [])
+        wrapped.update({"a": 1, "b": 2})
+        self.assertEqual(list(reversed(wrapped)), ["b", "a"])
+        wrapped.freeze()
+        self.assertEqual(list(reversed(wrapped)), ["b", "a"])
+
+    def test__reversed__iterator_mutation(self) -> None:
+        data = {"a": 1, "b": 2}
+        wrapped = BaseDict(data)
+        iterator = reversed(wrapped)
+        self.assertIs(iter(iterator), iterator)
+        self.assertEqual(next(iterator), "b")
+        data["a"] = 3
+        self.assertEqual(next(iterator), "a")
+        with self.assertRaises(StopIteration):
+            next(iterator)
+        iterator = reversed(wrapped)
+        data["c"] = 4
+        with self.assertRaises(RuntimeError):
+            next(iterator)
+
+    def test__reversed__other_mappings(self) -> None:
+        ordered = OrderedDict({"a": 1, "b": 2})
+        wrapped = BaseDict(ordered)
+        ordered.move_to_end("a")
+        self.assertEqual(list(reversed(wrapped)), ["a", "b"])
+        data = {"a": 1}
+        proxy = BaseDict(MappingProxyType(data))
+        data["b"] = 2
+        self.assertEqual(list(reversed(proxy)), ["b", "a"])
+        # Mappings without reverse iteration keep the existing dict fallback.
+        self.assertEqual(list(reversed(BaseDict(UserDict({"a": 1})))), ["a"])
 
     def test__len__with_pointer(self) -> None:
         d = {

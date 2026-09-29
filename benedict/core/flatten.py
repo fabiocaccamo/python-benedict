@@ -62,7 +62,7 @@ def _flatten_item(
             new_value = _flatten_item(
                 value,
                 base_dict=new_dict,
-                base_key=new_key,
+                base_key=str(new_key),
                 separator=separator,
                 indexes=indexes,
             )

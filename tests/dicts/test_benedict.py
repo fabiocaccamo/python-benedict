@@ -21,6 +21,37 @@ class benedict_test_case(unittest.TestCase):
         self.assertIsNone(data.clean())
         self.assertEqual(data, {"tuple": ({"keep": 1}, (2,)), "set": {(3,)}})
 
+    def test_reversed_after_mutation(self) -> None:
+        data = {"a": 1}
+        wrapped = benedict(data)
+        wrapped["b"] = 2
+        self.assertEqual(list(reversed(wrapped)), ["b", "a"])
+        del data["a"]
+        self.assertEqual(list(reversed(wrapped)), ["b"])
+        wrapped.freeze()
+        self.assertEqual(list(reversed(wrapped)), ["b"])
+
+    def test_inequality_after_mutation(self) -> None:
+        original = {"count": 1}
+        wrapped = benedict(original)
+        wrapped["count"] = 2
+        for other in ({"count": 2}, benedict({"count": 2})):
+            with self.subTest(other_type=type(other)):
+                self.assertTrue(wrapped == other)
+                self.assertFalse(wrapped != other)
+                self.assertFalse(other != wrapped)
+        self.assertTrue(wrapped != {"count": 1})
+        self.assertTrue({"count": 1} != wrapped)
+
+    def test_inplace_union_preserves_keypath_configuration(self) -> None:
+        source = {"item": {"name": "old"}}
+        b = benedict(source, keypath_separator="/")
+        original = b
+        b |= {"item": {"name": "new"}}
+        self.assertIs(b, original)
+        self.assertEqual(b["item/name"], "new")
+        self.assertEqual(source, {"item": {"name": "new"}})
+
     def test_clean(self) -> None:
         d = {
             "a": {},
@@ -465,6 +496,15 @@ class benedict_test_case(unittest.TestCase):
         self.assertEqual(f, r)
         self.assertEqual(type(b), type(f))
         self.assertTrue(isinstance(f, benedict))
+
+    def test_flatten_with_falsy_parent_keys(self) -> None:
+        for key in (0, False, None):
+            with self.subTest(key=key):
+                source = benedict({key: {"child": 1}, "child": 2})
+                result = source.flatten()
+                self.assertEqual(result, {f"{key}_child": 1, "child": 2})
+                self.assertIsInstance(result, benedict)
+                self.assertEqual(source, {key: {"child": 1}, "child": 2})
 
     def test_flatten_with_custom_keypath_separator(self) -> None:
         d = {
