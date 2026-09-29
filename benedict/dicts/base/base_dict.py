@@ -218,6 +218,12 @@ class BaseDict(dict[_K, _V]):
             return self._dict.pop(key, *args)  # type: ignore[no-any-return]
         return super().pop(key, *args)  # type: ignore[no-any-return]
 
+    def popitem(self) -> tuple[_K, _V]:
+        self._check_frozen()
+        if self._dict is not None:
+            return self._dict.popitem()
+        return super().popitem()
+
     def setdefault(self, key: _K, default: _V | None = None) -> _V:
         self._check_frozen()
         default = self._get_dict_or_value(default)

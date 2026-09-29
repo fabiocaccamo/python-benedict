@@ -13,6 +13,34 @@ class base_dict_test_case(unittest.TestCase):
     This class describes a BaseDict test case.
     """
 
+    def test_popitem(self) -> None:
+        b = BaseDict(a=1, b=2)
+        self.assertEqual(b.popitem(), ("b", 2))
+        self.assertEqual(b, {"a": 1})
+        self.assertEqual(b.popitem(), ("a", 1))
+        with self.assertRaises(KeyError):
+            b.popitem()
+
+    def test_popitem_with_pointer(self) -> None:
+        d = {"a": 1}
+        b = BaseDict(d)
+        d["b"] = 2
+        self.assertEqual(b.popitem(), ("b", 2))
+        self.assertEqual(d, {"a": 1})
+        self.assertEqual(b.popitem(), ("a", 1))
+        self.assertEqual(d, {})
+        with self.assertRaises(KeyError):
+            b.popitem()
+
+    def test_popitem_frozen(self) -> None:
+        for b in (BaseDict(a=1), BaseDict({"a": 1}), BaseDict()):
+            with self.subTest(wrapped=b._dict is not None, empty=not b):
+                b.freeze()
+                original = dict(b.items())
+                with self.assertRaises(TypeError):
+                    b.popitem()
+                self.assertEqual(b, original)
+
     def test__bool__(self) -> None:
         b = BaseDict()
         self.assertFalse(b)
