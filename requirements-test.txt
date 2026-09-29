@@ -3,12 +3,12 @@ mypy == 2.3.*
 orjson == 3.12.*
 pre-commit == 4.6.*
 python-decouple == 3.8
-tox == 4.61.*
+tox == 4.64.*
 
 # type stubs for mypy
-boto3-stubs[essential,lambda]==1.43.83
+boto3-stubs[essential,lambda]==1.43.103
 decouple-types==1.0.2
-types-PyYAML==6.0.12.20260815
+types-PyYAML==6.0.12.20260906
 types-beautifulsoup4==4.12.0.20250516
 types-html5lib==1.1.11.20260518
 types-openpyxl==3.1.5.20260827
