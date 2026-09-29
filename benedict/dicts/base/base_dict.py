@@ -22,15 +22,32 @@ class BaseDict(dict[_K, _V]):
     _dict: dict[_K, _V] | None
     _frozen: bool
 
+    # ids of mappings being unwrapped anywhere on the call stack, to detect
+    # self-referential structures instead of recursing forever
+    _unwrapping_ids: set[int] = set()
+
     @classmethod
     def _get_dict_or_value(cls, value: Any) -> Any:
         value = value.dict() if isinstance(value, cls) else value
         if isinstance(value, MutableMapping):
-            for key in value.keys():
-                key_val = value[key]
-                if isinstance(key_val, cls):
-                    key_val = cls._get_dict_or_value(value[key])
-                    value[key] = key_val
+            value_id = id(value)
+            if value_id in cls._unwrapping_ids:
+                # it contains itself; unwind here before reaching code with no cycle
+                # protection of its own
+                raise ValueError(
+                    "Cannot assign a dict that contains itself "
+                    "(directly or indirectly): self-referential "
+                    "(cyclic) structures are not supported."
+                )
+            cls._unwrapping_ids.add(value_id)
+            try:
+                for key in value.keys():
+                    key_val = value[key]
+                    if isinstance(key_val, cls):
+                        key_val = cls._get_dict_or_value(value[key])
+                        value[key] = key_val
+            finally:
+                cls._unwrapping_ids.discard(value_id)
         return value
 
     def __new__(cls, *args: Any, **kwargs: Any) -> Self:
