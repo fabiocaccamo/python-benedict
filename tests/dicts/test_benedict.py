@@ -23,7 +23,7 @@ class benedict_test_case(unittest.TestCase):
         self.assertEqual(list(reversed(wrapped)), ["b"])
         wrapped.freeze()
         self.assertEqual(list(reversed(wrapped)), ["b"])
-        
+
     def test_inequality_after_mutation(self) -> None:
         original = {"count": 1}
         wrapped = benedict(original)
