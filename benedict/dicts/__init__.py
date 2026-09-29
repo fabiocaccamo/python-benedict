@@ -271,12 +271,12 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
             keypath_util.check_keys(other, self._keypath_separator)
         _merge(self, *others, **kwargs)
 
-    def move(self, key_src: _KPT, key_dest: _KPT) -> None:
+    def move(self, key_src: _KPT, key_dest: _KPT, overwrite: bool = True) -> None:
         """
         Move a dict instance value item from 'key_src' to 'key_dst'.
         If key_dst exists, its value will be overwritten.
         """
-        _move(self, key_src, key_dest)  # type: ignore[misc]
+        _move(self, key_src, key_dest, overwrite=overwrite)  # type: ignore[misc]
 
     def nest(
         self,
