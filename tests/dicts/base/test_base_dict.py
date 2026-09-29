@@ -121,6 +121,39 @@ class base_dict_test_case(unittest.TestCase):
             b["a"]
         self.assertEqual(b, b.dict())
 
+    def test__not_equal__with_pointer(self) -> None:
+        data = {"a": 1}
+        wrapped = BaseDict(data)
+        for value in (2, 3):
+            data["a"] = value
+            for other in ({"a": value}, BaseDict({"a": value})):
+                with self.subTest(value=value, other_type=type(other)):
+                    self.assertTrue(wrapped == other)
+                    self.assertFalse(wrapped != other)
+                    self.assertFalse(other != wrapped)
+                    self.assertTrue(wrapped != {"a": 1})
+                    self.assertTrue({"a": 1} != wrapped)
+        data.clear()
+        self.assertFalse(wrapped != {})
+        self.assertTrue(wrapped != {"a": 1})
+
+    def test__not_equal__without_pointer(self) -> None:
+        wrapped: BaseDict[str, int] = BaseDict()
+        wrapped["a"] = 1
+        self.assertFalse(wrapped != {"a": 1})
+        self.assertTrue(wrapped != {"a": 2})
+        self.assertTrue(wrapped != None)  # noqa: E711
+
+    def test__not_equal__reflected_comparison(self) -> None:
+        class Other:
+            def __ne__(self, other: object) -> bool:
+                return False
+
+        for wrapped in (BaseDict(), BaseDict({"a": 1})):
+            with self.subTest(wrapped=wrapped):
+                self.assertFalse(wrapped != Other())
+                self.assertTrue(wrapped != 1)
+
     def test__getitem__with_pointer(self) -> None:
         d = {
             "a": 1,

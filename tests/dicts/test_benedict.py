@@ -14,6 +14,18 @@ class benedict_test_case(unittest.TestCase):
     This class describes a benedict test case.
     """
 
+    def test_inequality_after_mutation(self) -> None:
+        original = {"count": 1}
+        wrapped = benedict(original)
+        wrapped["count"] = 2
+        for other in ({"count": 2}, benedict({"count": 2})):
+            with self.subTest(other_type=type(other)):
+                self.assertTrue(wrapped == other)
+                self.assertFalse(wrapped != other)
+                self.assertFalse(other != wrapped)
+        self.assertTrue(wrapped != {"count": 1})
+        self.assertTrue({"count": 1} != wrapped)
+
     def test_inplace_union_preserves_keypath_configuration(self) -> None:
         source = {"item": {"name": "old"}}
         b = benedict(source, keypath_separator="/")
