@@ -135,3 +135,58 @@ class base_dict_freeze_test_case(unittest.TestCase):
         c = copy.deepcopy(b)
         self.assertFalse(c.frozen)
         c["a"] = 2  # must not raise
+
+    def test_frozen_dict_supports_methods_that_return_a_new_dict(self) -> None:
+        # These are documented as returning a new dict and do not mutate the
+        # source, but each builds its result with clone(empty=True), which
+        # used to clear a deep copy that had inherited the frozen flag.
+        from benedict import benedict
+
+        source = {"a": 1, "nested": {"x": 1, "y": 2}}
+
+        b = benedict(source).freeze()
+        self.assertEqual(
+            dict(b.flatten()), {"a": 1, "nested_x": 1, "nested_y": 2}
+        )
+
+        b = benedict(source).freeze()
+        self.assertEqual(dict(b.subset(["a"])), {"a": 1})
+
+        b = benedict(source).freeze()
+        self.assertEqual(dict(b.filter(lambda key, value: key == "a")), {"a": 1})
+
+        b = benedict({"a_b": 1}).freeze()
+        self.assertEqual(dict(b.unflatten()), {"a": {"b": 1}})
+
+    def test_frozen_dict_is_unchanged_by_those_methods(self) -> None:
+        from benedict import benedict
+
+        b = benedict({"a": 1, "nested": {"x": 1}}).freeze()
+        b.flatten()
+        b.subset(["a"])
+        self.assertTrue(b.frozen)
+        self.assertEqual(dict(b), {"a": 1, "nested": {"x": 1}})
+        with self.assertRaises(TypeError):
+            b["z"] = 1
+
+    def test_new_dict_from_a_frozen_dict_is_not_frozen(self) -> None:
+        # The result is a fresh container the caller owns, so it is writable.
+        from benedict import benedict
+
+        result = benedict({"a": 1, "nested": {"x": 1}}).freeze().flatten()
+        self.assertFalse(result.frozen)
+        result["z"] = 1  # must not raise
+
+    def test_clone_of_a_frozen_dict_stays_frozen(self) -> None:
+        # Unchanged: a full clone keeps the frozen state, only the empty
+        # clone used internally does not.
+        from benedict import benedict
+
+        clone = benedict({"a": 1}).freeze().clone()
+        self.assertTrue(clone.frozen)
+
+    def test_empty_clone_of_a_frozen_dict_keeps_its_settings(self) -> None:
+        from benedict import benedict
+
+        b = benedict({"a": {"b": 1}}, keypath_separator="/").freeze()
+        self.assertEqual(b.flatten(separator="_")._keypath_separator, "/")
