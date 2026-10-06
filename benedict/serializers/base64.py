@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import base64
 from collections.abc import MutableMapping
-from typing import Any, cast
+from typing import Any
 from urllib.parse import unquote
 
 from benedict.serializers.abstract import AbstractSerializer
@@ -34,8 +34,6 @@ class Base64CoreSerializer(AbstractSerializer[str, str | bytes]):
     def decode(self, s: str, **kwargs: Any) -> str | bytes:
         value: bytes | str = self._fix_url_encoding_and_padding(s)
         encoding = kwargs.pop("encoding", "utf-8")
-        if encoding:
-            value = cast("str", value).encode(encoding)
         value = base64.b64decode(value)
         if encoding:
             return value.decode(encoding)
@@ -49,11 +47,7 @@ class Base64CoreSerializer(AbstractSerializer[str, str | bytes]):
         if isinstance(value, str):
             value = value.encode()
         value = base64.b64encode(value)
-        if encoding:
-            value = value.decode(encoding)
-        else:
-            value = value.decode()
-        return value
+        return value.decode("ascii")
 
 
 class Base64Serializer(Base64CoreSerializer):
