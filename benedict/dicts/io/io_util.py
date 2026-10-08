@@ -33,7 +33,11 @@ from benedict.utils import schema_util, type_util
 def autodetect_format(s: Any) -> str | None:
     s = str(s)
     if any([is_url(s), is_s3(s), is_filepath(s)]):
-        return get_format_by_path(s)
+        autodetected_format = get_format_by_path(s)
+        # never auto-detect pickle, decoding it executes arbitrary code
+        if autodetected_format == "pickle":
+            return None
+        return autodetected_format
     return None
 
 

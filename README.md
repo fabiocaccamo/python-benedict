@@ -246,6 +246,13 @@ d = benedict(
 d = benedict('{"a": 1, "b": 2, "c": 3, "x": 7, "y": 8, "z": 9}')
 ```
 
+When the `format` is not specified, it is auto-detected from the source extension, with one exception: `pickle` is **never** auto-detected, because decoding it executes arbitrary code. It must always be requested explicitly:
+
+```python
+d = benedict("/root/data.pickle", format="pickle")
+d = benedict.from_pickle("/root/data.pickle")
+```
+
 #### Input methods
 
 - All *input* methods can be accessed as class methods and are prefixed by `from_*` followed by the format name.

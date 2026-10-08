@@ -39,6 +39,18 @@ class io_util_test_case(unittest.TestCase):
         s = "https://github.com/fabiocaccamo/python-benedict.jpg"
         self.assertEqual(io_util.autodetect_format(s), None)
 
+    def test_autodetect_format_by_path_with_pickle_format(self) -> None:
+        s = "path-to/data.pickle"
+        self.assertEqual(io_util.autodetect_format(s), None)
+
+    def test_autodetect_format_by_url_with_pickle_format(self) -> None:
+        s = "https://github.com/fabiocaccamo/python-benedict.pickle"
+        self.assertEqual(io_util.autodetect_format(s), None)
+
+    def test_autodetect_format_by_s3_with_pickle_format(self) -> None:
+        s = "s3://my-bucket/data.pickle"
+        self.assertEqual(io_util.autodetect_format(s), None)
+
     def test_decode_with_invalid_format(self) -> None:
         with self.assertRaises(KeyError):
             io_util.decode("", format="xxx")

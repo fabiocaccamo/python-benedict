@@ -1,7 +1,7 @@
 import datetime as dt
 import unittest
 
-from benedict.serializers import PickleSerializer
+from benedict.serializers import PickleSerializer, get_format_by_path
 from benedict.utils import type_util
 
 
@@ -9,6 +9,12 @@ class pickle_serializer_test_case(unittest.TestCase):
     """
     This class describes a pickle serializer test case.
     """
+
+    def test_pickle_extension_is_still_registered(self) -> None:
+        # is_filepath relies on get_format_by_path to recognise a ".pickle"
+        # path, unregistering the extension would break format="pickle"
+        self.assertEqual(get_format_by_path("path-to/data.pickle"), "pickle")
+        self.assertIn("pickle", PickleSerializer().extensions())
 
     # def test_decode_pickle(self):
     #     s = 'gAJ9cQBYBAAAAGRhdGVxAWNkYXRldGltZQpkYXRldGltZQpxAmNfY29kZWNzCmVuY29kZQpxA1gLAAAAB8OBBAMAAAAAAABxBFgGAAAAbGF0aW4xcQWGcQZScQeFcQhScQlzLg=='
