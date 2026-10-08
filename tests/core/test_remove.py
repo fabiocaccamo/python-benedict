@@ -168,3 +168,13 @@ class remove_test_case(unittest.TestCase):
             },
         }
         self.assertEqual(d, r)
+
+    def test_remove_deep_inside_nested_lists(self) -> None:
+        d = {"users": [[{"name": "Alice", "password": "abc", "token": "xyz"}]]}
+        _remove(d, ["password"], "token", deep=True)
+        self.assertEqual(d, {"users": [[{"name": "Alice"}]]})
+
+    def test_remove_deep_inside_mixed_nested_sequences(self) -> None:
+        d = {"users": ([({"name": "Alice", "password": "abc"},)],)}
+        _remove(d, "password", deep=True)
+        self.assertEqual(d, {"users": ([({"name": "Alice"},)],)})

@@ -6,16 +6,19 @@ from typing import Any
 from benedict.utils import type_util
 
 
+def _remove_deep_value(value: Any, keys_list: list[Any]) -> None:
+    if type_util.is_dict(value):
+        _remove_deep(value, keys_list)
+    elif type_util.is_list_or_tuple(value):
+        for item in value:
+            _remove_deep_value(item, keys_list)
+
+
 def _remove_deep(d: MutableMapping[Any, Any], keys_list: list[Any]) -> None:
     for key in keys_list:
         d.pop(key, None)
     for value in list(d.values()):
-        if type_util.is_dict(value):
-            _remove_deep(value, keys_list)
-        elif type_util.is_list_or_tuple(value):
-            for item in value:
-                if type_util.is_dict(item):
-                    _remove_deep(item, keys_list)
+        _remove_deep_value(value, keys_list)
 
 
 def remove(
@@ -30,12 +33,7 @@ def remove(
             d.pop(key, None)
         # Then recurse into nested plain dicts (keys are matched literally).
         for value in list(d.values()):
-            if type_util.is_dict(value):
-                _remove_deep(value, keys_list)
-            elif type_util.is_list_or_tuple(value):
-                for item in value:
-                    if type_util.is_dict(item):
-                        _remove_deep(item, keys_list)
+            _remove_deep_value(value, keys_list)
     else:
         for key in keys_list:
             d.pop(key, None)
