@@ -46,6 +46,7 @@ from benedict.dicts.keylist import KeylistDict
 from benedict.dicts.keypath import KeypathDict, keypath_util
 from benedict.dicts.parse import ParseDict
 from benedict.serializers import JSONSerializer, YAMLSerializer
+from benedict.utils import cycle_util
 
 __all__ = [
     "benedict",
@@ -99,7 +100,7 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
         self._check_frozen()
         super().__setitem__(key, self._cast(value))
 
-    def _cast(self, value: Any) -> Any:
+    def _cast(self, value: Any, _path_ids: set[int] | None = None) -> Any:
         """
         Cast a dict instance to a benedict instance
         keeping the pointer to the original dict.
@@ -114,8 +115,11 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
                 check_keys=False,
             )
         elif isinstance(value, list):
-            for index, item in enumerate(value):
-                value[index] = self._cast(item)
+            path_ids = set() if _path_ids is None else _path_ids
+            with cycle_util.visit(value, path_ids) as visiting:
+                if visiting:
+                    for index, item in enumerate(value):
+                        value[index] = self._cast(item, path_ids)
         return value
 
     def clean(self, strings: bool = True, collections: bool = True) -> None:

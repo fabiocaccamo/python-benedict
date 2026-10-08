@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import unittest
 from typing import Any
 
@@ -67,3 +69,27 @@ class traverse_test_case(unittest.TestCase):
             },
         }
         self.assertEqual(o, r)
+
+    def test_traverse_self_referential_dict(self) -> None:
+        i: dict[str, Any] = {"a": {"b": 1}}
+        i["self"] = i
+        keys: list[Any] = []
+        _traverse(i, lambda d, key, value: keys.append(key))
+        # the dict containing itself is visited once, without recursing forever
+        self.assertEqual(keys, ["a", "b", "self"])
+
+    def test_traverse_self_referential_list(self) -> None:
+        ls: list[Any] = [{"a": 1}]
+        ls.append(ls)
+        i = {"x": ls}
+        keys: list[Any] = []
+        _traverse(i, lambda d, key, value: keys.append(key))
+        self.assertEqual(keys, ["x", 0, "a", 1])
+
+    def test_traverse_shared_references_are_visited_each_time(self) -> None:
+        shared = {"x": 1}
+        i = {"a": shared, "b": [shared, shared]}
+        keys: list[Any] = []
+        _traverse(i, lambda d, key, value: keys.append(key))
+        # shared (non cyclic) references are not cycles and must still be visited
+        self.assertEqual(keys, ["a", "x", "b", 0, "x", 1, "x"])
