@@ -68,6 +68,14 @@ class match_test_case(unittest.TestCase):
         values = _match(d, "*.jpg")
         self.assertEqual(values, ["IMG_0001.jpg"])
 
+    def test_match_does_not_ignore_a_terminal_newline(self) -> None:
+        # 2026-10-09: Exact string patterns must consume the whole keypath.
+        d = {"key": 1, "key\n": 2, "key\nextra": 3}
+        self.assertEqual(_match(d, "key"), [1])
+        self.assertEqual(_match(d, "key*"), [1, 2, 3])
+        self.assertEqual(_match(d, "key\n"), [2])
+        self.assertEqual(_match(d, re.compile("key")), [1, 2, 3])
+
     def test_match_with_invalid_pattern(self) -> None:
         d = self._get_dict()
         with self.assertRaises(ValueError):
