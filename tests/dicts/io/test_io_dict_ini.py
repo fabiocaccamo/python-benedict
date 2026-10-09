@@ -8,6 +8,31 @@ class io_dict_ini_test_case(io_dict_test_case):
     This class describes an IODict / ini test case.
     """
 
+    def test_from_ini_with_valueless_options(self) -> None:
+        s = "[app]\nflag\nempty =\ncount = 2\nratio = 1.5\nenabled = yes\n"
+        expected = {
+            "app": {
+                "flag": None,
+                "empty": "",
+                "count": 2,
+                "ratio": 1.5,
+                "enabled": True,
+            },
+        }
+        self.assertEqual(IODict.from_ini(s, allow_no_value=True), expected)
+        self.assertEqual(IODict(s, format="ini", allow_no_value=True), expected)
+
+    def test_from_ini_with_valueless_defaults(self) -> None:
+        s = "[DEFAULT]\nflag\n[app]\nname = demo\n"
+        expected = {"flag": None, "app": {"flag": None, "name": "demo"}}
+        self.assertEqual(IODict.from_ini(s, allow_no_value=True), expected)
+
+    def test_from_ini_rejects_valueless_options_by_default(self) -> None:
+        s = "[app]\nflag\n"
+        for options in ({}, {"allow_no_value": False}):
+            with self.subTest(options=options), self.assertRaises(ValueError):
+                IODict.from_ini(s, **options)
+
     def test_from_ini_with_valid_data(self) -> None:
         s = """
 [DEFAULT]

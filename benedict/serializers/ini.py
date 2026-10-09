@@ -37,6 +37,8 @@ class INISerializer(AbstractSerializer[str, dict[str, Any]]):
     def _get_section_option_value(
         parser: RawConfigParser, section: str, option: str
     ) -> str | int | float | bool | None:
+        if parser.get(section, option) is None:
+            return None
         value = None
         funcs: list[Callable[[str, str], Any]] = [
             parser.getint,
