@@ -289,6 +289,17 @@ ForwardX11 = no
         s = d.to_ini()
         self.assertEqual(d, IODict.from_ini(s))
 
+    def test_to_ini_with_valueless_options(self) -> None:
+        d = IODict({"flag": None, "app": {"flag": None, "empty": "", "count": 2}})
+        s = d.to_ini(allow_no_value=True)
+        self.assertEqual(IODict.from_ini(s, allow_no_value=True), d)
+
+    def test_to_ini_with_none_values_without_allow_no_value(self) -> None:
+        # unchanged: without allow_no_value, None is written as a string
+        d = IODict({"flag": None, "app": {"flag": None}})
+        s = d.to_ini()
+        self.assertEqual(IODict.from_ini(s), {"flag": "None", "app": {"flag": "None"}})
+
     def test_to_ini_file(self) -> None:
         d = IODict(
             {
