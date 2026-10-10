@@ -37,7 +37,7 @@ def _get_keylist_for_value(
 ) -> list[list[Any]]:
     if type_util.is_dict(value):
         return _get_keylist_for_dict(value, parent_keys, indexes)
-    elif type_util.is_list(value) and indexes:
+    elif type_util.is_list_or_tuple(value) and indexes:
         return _get_keylist_for_list(value, parent_keys, indexes)
     return []
 

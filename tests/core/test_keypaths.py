@@ -303,3 +303,20 @@ class keypaths_test_case(unittest.TestCase):
             "a.b[2][0].y",
         ]
         self.assertEqual(o, r)
+
+    def test_keypaths_with_tuple_indexes(self) -> None:
+        data = {"items": ({"value": 1}, (2, 3), [4])}
+        self.assertEqual(
+            _keypaths(data, indexes=True),
+            [
+                "items",
+                "items[0]",
+                "items[0].value",
+                "items[1]",
+                "items[1][0]",
+                "items[1][1]",
+                "items[2]",
+                "items[2][0]",
+            ],
+        )
+        self.assertEqual(_keypaths(data, indexes=False), ["items"])

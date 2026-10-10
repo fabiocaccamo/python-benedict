@@ -3,6 +3,7 @@ from __future__ import annotations
 import re
 import unittest
 
+from benedict import benedict
 from benedict.core import match as _match
 
 
@@ -72,3 +73,8 @@ class match_test_case(unittest.TestCase):
         d = self._get_dict()
         with self.assertRaises(ValueError):
             _ = _match(d, 100)  # type: ignore[arg-type]
+
+    def test_match_with_tuple_indexes(self) -> None:
+        data = benedict({"items": ({"value": 1}, {"value": 2})})
+        self.assertEqual(data["items[0].value"], 1)
+        self.assertEqual(data.match("items[*].value"), [1, 2])
