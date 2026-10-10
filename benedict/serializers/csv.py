@@ -51,8 +51,8 @@ class CSVSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
         columns = kwargs.pop("columns", None)
         columns_row = kwargs.pop("columns_row", True)
         if not columns and len(ls) and type_util.is_dict(ls[0]):
-            keys = [str(key) for key in ls[0].keys()]
-            columns = sorted(keys)
+            # 2026-10-11: Keep original keys for lookup while sorting their labels.
+            columns = sorted(ls[0].keys(), key=str)
         f = StringIO()
         w = csv.writer(f, **kwargs)
         if columns_row and columns:

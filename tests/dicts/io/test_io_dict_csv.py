@@ -181,6 +181,20 @@ class io_dict_csv_test_case(io_dict_test_case):
 """
         self.assertEqual(s, r)
 
+    # 2026-10-11: Column labels must not replace the keys used for row lookup.
+    def test_to_csv_with_non_string_keys(self) -> None:
+        for row, expected in (
+            ({2: "second", 1: "first"}, "1,2\nfirst,second\n"),
+            ({2: "second", "a": "first"}, "2,a\nsecond,first\n"),
+            ({2: "second", "10": "first"}, "10,2\nfirst,second\n"),
+        ):
+            with self.subTest(row=row):
+                d = IODict({"values": [row]})
+                self.assertEqual(d.to_csv(), expected)
+                self.assertEqual(
+                    d.to_csv(columns_row=False), expected.split("\n", 1)[1]
+                )
+
     def test_to_csv_with_custom_columns(self) -> None:
         d = IODict(
             {
