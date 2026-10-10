@@ -195,6 +195,13 @@ class io_dict_csv_test_case(io_dict_test_case):
                     d.to_csv(columns_row=False), expected.split("\n", 1)[1]
                 )
 
+    # 2026-10-11: Inferred labels stringify None while explicit columns keep it.
+    def test_to_csv_with_none_key(self) -> None:
+        d = IODict({"values": [{None: "first", "a": "second"}]})
+        self.assertEqual(d.to_csv(), "None,a\nfirst,second\n")
+        self.assertEqual(d.to_csv(columns_row=False), "first,second\n")
+        self.assertEqual(d.to_csv(columns=[None, "a"]), ",a\nfirst,second\n")
+
     def test_to_csv_with_custom_columns(self) -> None:
         d = IODict(
             {
