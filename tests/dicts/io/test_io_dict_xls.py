@@ -72,6 +72,41 @@ class io_dict_xls_test_case(io_dict_test_case):
                 self.assertTrue(isinstance(d, dict))
                 self.assertEqual(d, expected_dict)
 
+    # 2026-10-11: Headerless sheets derive integer columns without slugifying them.
+    def test_from_xls_without_column_row(self) -> None:
+        expected = {
+            "values": [
+                dict(enumerate(["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"])),
+                dict(enumerate(range(10, 17))),
+                dict(enumerate(range(20, 27))),
+                dict(enumerate(range(30, 37))),
+            ]
+        }
+        for extension in self._extensions:
+            with self.subTest(extension=extension):
+                filepath = self.input_path(f"valid-content.{extension}")
+                self.assertEqual(IODict.from_xls(filepath, columns_row=False), expected)
+                self.assertEqual(
+                    IODict.from_xls(
+                        filepath, columns_row=False, columns_standardized=False
+                    ),
+                    expected,
+                )
+                self.assertEqual(
+                    IODict.from_xls(
+                        filepath,
+                        columns=[f"Column {index}" for index in range(7)],
+                        columns_row=False,
+                        columns_standardized=True,
+                    ),
+                    {
+                        "values": [
+                            {f"column_{key}": value for key, value in row.items()}
+                            for row in expected["values"]
+                        ]
+                    },
+                )
+
     @patch("benedict.serializers.xls.xls_installed", False)
     def test_from_xls_with_valid_file_valid_content_but_xls_extra_not_installed(
         self,

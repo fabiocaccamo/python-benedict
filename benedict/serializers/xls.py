@@ -85,7 +85,10 @@ class XLSSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
         # get columns
         columns = kwargs.pop("columns", None)
         columns_row = kwargs.pop("columns_row", True)
-        columns_standardized = kwargs.pop("columns_standardized", columns is None)
+        # 2026-10-11: Generated integer indexes are not worksheet column names.
+        columns_standardized = kwargs.pop(
+            "columns_standardized", columns is None and columns_row
+        )
         if not columns:
             if columns_row:
                 # if first row is for column names read the names
@@ -139,7 +142,10 @@ class XLSSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
         # get columns
         columns = kwargs.pop("columns", None)
         columns_row = kwargs.pop("columns_row", True)
-        columns_standardized = kwargs.pop("columns_standardized", columns is None)
+        # 2026-10-11: Generated integer indexes are not worksheet column names.
+        columns_standardized = kwargs.pop(
+            "columns_standardized", columns is None and columns_row
+        )
         if not columns:
             if columns_row:
                 # if first row is for column names read the names
