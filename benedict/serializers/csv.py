@@ -27,7 +27,7 @@ class CSVSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
             kwargs.setdefault("quoting", csv.QUOTE_ALL)
         columns = kwargs.pop("columns", None)
         columns_row = kwargs.pop("columns_row", True)
-        # 2026-10-11: Let csv handle record endings and preserve quoted newlines.
+        # let csv handle line endings and preserve newlines in quoted fields
         f = StringIO(s, newline="")
         r = csv.reader(f, **kwargs)
         ln = 0
@@ -51,10 +51,9 @@ class CSVSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
         kwargs.setdefault("lineterminator", "\n")
         columns = kwargs.pop("columns", None)
         columns_row = kwargs.pop("columns_row", True)
-        # 2026-10-11: Supplied headers keep their existing writer behavior.
         headers = columns
         if not columns and len(ls) and type_util.is_dict(ls[0]):
-            # 2026-10-11: Keep original keys for lookup while sorting their labels.
+            # keep original keys for values lookup, use their string labels as headers
             columns = sorted(ls[0].keys(), key=str)
             headers = [str(key) for key in columns]
         f = StringIO()

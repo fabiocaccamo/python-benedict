@@ -12,7 +12,6 @@ class csv_serializer_test_case(unittest.TestCase):
         # TODO
         pass
 
-    # 2026-10-11: CSV readers accept CR, LF and CRLF without rewriting quoted data.
     def test_decode_csv_newlines(self) -> None:
         from benedict.serializers import CSVSerializer
 
