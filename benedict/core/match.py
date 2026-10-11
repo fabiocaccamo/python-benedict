@@ -21,8 +21,8 @@ def match(
         pattern = re.sub(r"([\*]{1})", "(.)*", pattern)
         # escape square brackets
         pattern = re.sub(r"(\[([^\[\]]*)\])", "\\[\\g<2>\\]", pattern)
-        # anchor to end so the full keypath must be consumed
-        pattern = pattern + "$"
+        # 2026-10-09: Consume the full keypath, including a terminal newline.
+        pattern = pattern + r"\Z"
         regex = re.compile(pattern, flags=re.DOTALL)
     else:
         raise ValueError(f"Expected regex or string, found: {type(pattern)}")
