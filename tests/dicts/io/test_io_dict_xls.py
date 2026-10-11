@@ -72,7 +72,23 @@ class io_dict_xls_test_case(io_dict_test_case):
                 self.assertTrue(isinstance(d, dict))
                 self.assertEqual(d, expected_dict)
 
-    # 2026-10-11: Headerless sheets derive integer columns without slugifying them.
+    def test_from_xls_with_numeric_column_names(self) -> None:
+        expected = {
+            "values": [
+                {
+                    "date_created": "today",
+                    "2024": 10,
+                    "23_5": 20,
+                    "0": 30,
+                    "": 40,
+                }
+            ]
+        }
+        for extension in ["xls", "xlsx"]:
+            with self.subTest(extension=extension):
+                filepath = self.input_path(f"numeric-columns.{extension}")
+                self.assertEqual(IODict.from_xls(filepath), expected)
+
     def test_from_xls_without_column_row(self) -> None:
         expected = {
             "values": [
