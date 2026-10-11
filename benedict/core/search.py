@@ -19,7 +19,8 @@ def _get_term(value: Any, case_sensitive: bool) -> tuple[Any, bool]:
 def _get_match(query: Any, value: Any, exact: bool, case_sensitive: bool) -> bool:
     q, q_is_str = _get_term(query, case_sensitive)
     v, v_is_str = _get_term(value, case_sensitive)
-    # TODO: add regex support
+    # TODO: add regex support (re.Pattern query) and opt-in wildcard support,
+    # use pattern_util.compile_wildcard_pattern (compile it once per search)
     if q_is_str and v_is_str and not exact:
         return q in v
     return bool(q == v)
