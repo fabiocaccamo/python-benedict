@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import time
 import unittest
 
 from benedict import benedict
@@ -70,12 +71,33 @@ class match_test_case(unittest.TestCase):
         self.assertEqual(values, ["IMG_0001.jpg"])
 
     def test_match_does_not_ignore_a_terminal_newline(self) -> None:
-        # 2026-10-09: Exact string patterns must consume the whole keypath.
         d = {"key": 1, "key\n": 2, "key\nextra": 3}
         self.assertEqual(_match(d, "key"), [1])
         self.assertEqual(_match(d, "key*"), [1, 2, 3])
         self.assertEqual(_match(d, "key\n"), [2])
         self.assertEqual(_match(d, re.compile("key")), [1, 2, 3])
+
+    def test_match_with_string_pattern_matches_special_chars_literally(self) -> None:
+        d = {"aXb": 1, "a.b": 2, "aab": 3, "f(1)": 4, "x|y": 5}
+        self.assertEqual(_match(d, "a.b"), [2])
+        self.assertEqual(_match(d, "a+b"), [])
+        self.assertEqual(_match(d, "f(1)"), [4])
+        self.assertEqual(_match(d, "x|y"), [5])
+
+    def test_match_with_string_pattern_and_consecutive_wildcards(self) -> None:
+        d = self._get_dict()
+        self.assertEqual(_match(d, "IMG_**.jpg"), _match(d, "IMG_*.jpg"))
+
+    def test_match_with_string_pattern_without_catastrophic_backtracking(
+        self,
+    ) -> None:
+        # these patterns used to take an exponential time
+        d = {"a" * 2000: 1}
+        start = time.monotonic()
+        self.assertEqual(_match(d, "*" * 30 + "z"), [])
+        self.assertEqual(_match(d, "*a" * 30 + "z"), [])
+        self.assertEqual(_match(d, "*a" * 30), [1])
+        self.assertLess(time.monotonic() - start, 1)
 
     def test_match_with_invalid_pattern(self) -> None:
         d = self._get_dict()

@@ -511,7 +511,8 @@ k = d.keypaths(indexes=False, sort=True)
 
 ```python
 # Return a list of all values whose keypath matches the given pattern (a regex or string).
-# If pattern is string, wildcard can be used (eg. [*] can be used to match all list indexes).
+# If pattern is string, wildcard can be used (eg. [*] can be used to match all list indexes),
+# all other characters are matched literally.
 # If indexes is True, the pattern will be matched also against list values.
 m = d.match(pattern, indexes=True)
 ```
