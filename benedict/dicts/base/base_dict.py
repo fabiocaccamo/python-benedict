@@ -233,7 +233,6 @@ class BaseDict(dict[_K, _V]):
     def setdefault(self, key: _K, default: _V | None = None) -> _V:
         self._check_frozen()
         default = self._get_dict_or_value(default)
-        assert default is not None
         if self._dict is not None:
             return self._dict.setdefault(key, default)
         return super().setdefault(key, default)

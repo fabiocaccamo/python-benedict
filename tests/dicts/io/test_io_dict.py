@@ -32,6 +32,13 @@ class io_dict_test_case(unittest.TestCase):
     def assertFileExists(self, filepath: str) -> None:
         self.assertTrue(os.path.isfile(filepath))
 
+    def test_setdefault_none_after_from_json(self) -> None:
+        d = IODict.from_json('{"existing": 1}')
+        self.assertEqual(d.setdefault("existing"), 1)
+        self.assertIsNone(d.setdefault("missing"))
+        self.assertIsNone(d.setdefault("explicit", None))
+        self.assertEqual(d.dict(), {"existing": 1, "missing": None, "explicit": None})
+
     def test_init_with_key_value_list(self) -> None:
         d = IODict(a="1", b="2", c="3")
         self.assertEqual(
