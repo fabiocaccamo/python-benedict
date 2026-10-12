@@ -15,6 +15,30 @@ class base_dict_test_case(unittest.TestCase):
     This class describes a BaseDict test case.
     """
 
+    def test_init_mapping_with_keywords(self) -> None:
+        for mapping_type in (dict, OrderedDict, UserDict):
+            with self.subTest(mapping_type=mapping_type):
+                source = mapping_type(existing=1)
+                wrapped = BaseDict(source, existing=2, added=3)
+                self.assertEqual(wrapped, {"existing": 2, "added": 3})
+                self.assertIs(wrapped.dict(), source)
+                self.assertEqual(source, {"existing": 2, "added": 3})
+
+    def test_init_keywords_without_mapping(self) -> None:
+        for args in ((), ([("existing", 1)],)):
+            with self.subTest(args=args):
+                self.assertEqual(
+                    BaseDict(*args, existing=2, added=3),
+                    dict(*args, existing=2, added=3),
+                )
+
+    def test_init_readonly_mapping_with_keywords(self) -> None:
+        source = MappingProxyType({"existing": 1})
+        wrapped = BaseDict(source, existing=2, added=3)
+        self.assertEqual(wrapped, dict(source, existing=2, added=3))
+        self.assertEqual(source, {"existing": 1})
+        self.assertIs(BaseDict(source).dict(), source)
+
     def test_popitem(self) -> None:
         b = BaseDict(a=1, b=2)
         self.assertEqual(b.popitem(), ("b", 2))

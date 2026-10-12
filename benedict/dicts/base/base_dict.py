@@ -62,8 +62,12 @@ class BaseDict(dict[_K, _V]):
         if len(args) == 1 and isinstance(args[0], Mapping):
             # bypass subclass __setattr__ (e.g. KeyattrDict) which may treat _dict as a key
             d = self._get_dict_or_value(args[0])
+            if kwargs and not isinstance(d, MutableMapping):
+                d = dict(d)
             object.__setattr__(self, "_dict", d)
             super().__init__(d)
+            if kwargs:
+                self.update(kwargs)
             return
         super().__init__(*args, **kwargs)
 
