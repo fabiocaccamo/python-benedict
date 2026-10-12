@@ -19,8 +19,9 @@ def clone(
         # so it does not inherit the source's frozen state. The copy is used
         # rather than a new instance to keep settings such as the keypath
         # separator.
-        unfreeze = getattr(d, "unfreeze", None)
-        if callable(unfreeze):
-            unfreeze()
+        from benedict.dicts.base import BaseDict
+
+        if isinstance(d, BaseDict):
+            d.unfreeze()
         d.clear()
     return d

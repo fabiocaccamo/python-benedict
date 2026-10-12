@@ -145,9 +145,7 @@ class base_dict_freeze_test_case(unittest.TestCase):
         source = {"a": 1, "nested": {"x": 1, "y": 2}}
 
         b = benedict(source).freeze()
-        self.assertEqual(
-            dict(b.flatten()), {"a": 1, "nested_x": 1, "nested_y": 2}
-        )
+        self.assertEqual(dict(b.flatten()), {"a": 1, "nested_x": 1, "nested_y": 2})
 
         b = benedict(source).freeze()
         self.assertEqual(dict(b.subset(["a"])), {"a": 1})
@@ -157,6 +155,9 @@ class base_dict_freeze_test_case(unittest.TestCase):
 
         b = benedict({"a_b": 1}).freeze()
         self.assertEqual(dict(b.unflatten()), {"a": {"b": 1}})
+
+        b = benedict({"a": 1, "b": 2}).freeze()
+        self.assertEqual(dict(b.invert()), {1: ["a"], 2: ["b"]})
 
     def test_frozen_dict_is_unchanged_by_those_methods(self) -> None:
         from benedict import benedict
@@ -190,3 +191,14 @@ class base_dict_freeze_test_case(unittest.TestCase):
 
         b = benedict({"a": {"b": 1}}, keypath_separator="/").freeze()
         self.assertEqual(b.flatten(separator="_")._keypath_separator, "/")
+
+    def test_invert_of_frozen_dict_keeps_source_frozen(self) -> None:
+        from benedict import benedict
+
+        b = benedict({"a": 1, "b": 2}).freeze()
+        inverted = b.invert()
+
+        self.assertTrue(b.frozen)
+        with self.assertRaises(TypeError):
+            b["c"] = 3
+        self.assertFalse(inverted.frozen)
