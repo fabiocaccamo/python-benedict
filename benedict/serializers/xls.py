@@ -63,6 +63,14 @@ class XLSSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
     def _get_sheet_columns_indexes(self, columns_count: int) -> list[int]:
         return list(range(columns_count))
 
+    @staticmethod
+    def _get_column_name(column: Any) -> str:
+        if column is None:
+            return ""
+        if isinstance(column, float) and column.is_integer():
+            column = int(column)
+        return str(column)
+
     def _decode_legacy(self, s: str, **kwargs: Any) -> list[dict[str, Any]]:
         options = {}
         options["filename"] = s
@@ -85,7 +93,9 @@ class XLSSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
         # get columns
         columns = kwargs.pop("columns", None)
         columns_row = kwargs.pop("columns_row", True)
-        columns_standardized = kwargs.pop("columns_standardized", columns is None)
+        columns_standardized = kwargs.pop(
+            "columns_standardized", columns is None and columns_row
+        )
         if not columns:
             if columns_row:
                 # if first row is for column names read the names
@@ -100,7 +110,10 @@ class XLSSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
 
         # standardize column names, eg. "Date Created" -> "date_created"
         if columns_standardized:
-            columns = [slugify(column or "", separator="_") for column in columns]
+            columns = [
+                slugify(self._get_column_name(column), separator="_")
+                for column in columns
+            ]
 
         # build list of dicts, one for each row
         items = []
@@ -139,7 +152,9 @@ class XLSSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
         # get columns
         columns = kwargs.pop("columns", None)
         columns_row = kwargs.pop("columns_row", True)
-        columns_standardized = kwargs.pop("columns_standardized", columns is None)
+        columns_standardized = kwargs.pop(
+            "columns_standardized", columns is None and columns_row
+        )
         if not columns:
             if columns_row:
                 # if first row is for column names read the names
@@ -152,7 +167,10 @@ class XLSSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
 
         # standardize column names, eg. "Date Created" -> "date_created"
         if columns_standardized:
-            columns = [slugify(column or "", separator="_") for column in columns]
+            columns = [
+                slugify(self._get_column_name(column), separator="_")
+                for column in columns
+            ]
 
         # build list of dicts, one for each row
         items = []
