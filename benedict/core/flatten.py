@@ -21,14 +21,14 @@ def _flatten_list(
     for i, value in enumerate(ls):
         new_key = f"{base_key}[{i}]"
         if isinstance(value, Mapping):
-            new_value = _flatten_item(
+            # nested items are written directly into new_dict
+            _flatten_item(
                 value,
                 base_dict=new_dict,
                 base_key=new_key,
                 separator=separator,
                 indexes=indexes,
             )
-            new_dict.update(new_value)
         elif isinstance(value, (list, tuple)):
             _flatten_list(
                 value,
@@ -59,14 +59,14 @@ def _flatten_item(
         new_key = _flatten_key(base_key, key, separator)
         value = d.get(key, None)
         if isinstance(value, Mapping):
-            new_value = _flatten_item(
+            # nested items are written directly into new_dict
+            _flatten_item(
                 value,
                 base_dict=new_dict,
                 base_key=str(new_key),
                 separator=separator,
                 indexes=indexes,
             )
-            new_dict.update(new_value)
             continue
         if indexes and isinstance(value, (list, tuple)):
             _flatten_list(
