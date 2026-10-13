@@ -4,6 +4,7 @@ import re
 import unittest
 from datetime import datetime
 from decimal import Decimal
+from types import MappingProxyType
 from typing import Any
 
 from benedict import benedict
@@ -14,12 +15,23 @@ class benedict_test_case(unittest.TestCase):
     This class describes a benedict test case.
     """
 
-    def test_remove_integer_key(self) -> None:
-        data = {0: "removed", "keep": 1}
-        wrapped = benedict(data)
-        self.assertIsNone(wrapped.remove(0))
-        self.assertEqual(data, {"keep": 1})
-        self.assertEqual(wrapped, {"keep": 1})
+    def test_init_mapping_with_keywords(self) -> None:
+        source = {"existing": 1}
+        wrapped = benedict(
+            source, existing=2, added=3, keypath_separator="/", keyattr_enabled=False
+        )
+        self.assertEqual(wrapped, {"existing": 2, "added": 3})
+        self.assertIs(wrapped.dict(), source)
+        self.assertEqual(source, {"existing": 2, "added": 3})
+        self.assertEqual(wrapped.keypath_separator, "/")
+        self.assertFalse(wrapped.keyattr_enabled)
+
+    def test_init_readonly_mapping_with_keywords(self) -> None:
+        source = MappingProxyType({"existing": 1})
+        wrapped = benedict(source, existing=2, added=3)
+        self.assertEqual(wrapped, {"existing": 2, "added": 3})
+        self.assertEqual(source, {"existing": 1})
+        self.assertIs(benedict(source).dict(), source)
 
     def test_clean_nested_tuple_and_set_values(self) -> None:
         data = benedict(
@@ -27,6 +39,13 @@ class benedict_test_case(unittest.TestCase):
         )
         self.assertIsNone(data.clean())
         self.assertEqual(data, {"tuple": ({"keep": 1}, (2,)), "set": {(3,)}})
+
+    def test_remove_integer_key(self) -> None:
+        data = {0: "removed", "keep": 1}
+        wrapped = benedict(data)
+        self.assertIsNone(wrapped.remove(0))
+        self.assertEqual(data, {"keep": 1})
+        self.assertEqual(wrapped, {"keep": 1})
 
     def test_reversed_after_mutation(self) -> None:
         data = {"a": 1}
@@ -566,6 +585,24 @@ class benedict_test_case(unittest.TestCase):
         }
         self.assertEqual(f, r)
         self.assertFalse(b is f)
+
+    def test_flatten_with_indexes(self) -> None:
+        d = {"a": {"b": 1}, "l": [{"x": 1}, [2, {"y": 3}]], "m": [1, [2, 3]]}
+        b = benedict(d)
+        f = b.flatten(indexes=True)
+        r = {
+            "a_b": 1,
+            "l[0]_x": 1,
+            "l[1][0]": 2,
+            "l[1][1]_y": 3,
+            "m[0]": 1,
+            "m[1][0]": 2,
+            "m[1][1]": 3,
+        }
+        # flattened keys must not be parsed as keypaths with indexes
+        self.assertEqual(dict(f.items()), r)
+        self.assertIsInstance(f, benedict)
+        self.assertEqual(b, d)
 
     def test_flatten_with_key_conflict(self) -> None:
         d = {
