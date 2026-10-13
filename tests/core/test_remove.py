@@ -8,6 +8,18 @@ class remove_test_case(unittest.TestCase):
     This class describes a remove test case.
     """
 
+    def test_remove_scalar_nonstring_keys(self) -> None:
+        for key in (0, 12, None):
+            with self.subTest(key=key):
+                data = {key: "removed", "keep": 1}
+                _remove(data, key)
+                self.assertEqual(data, {"keep": 1})
+
+    def test_remove_scalar_keys_deep_and_with_args(self) -> None:
+        data = {0: "top", 1: "other", "nested": {0: "child", "keep": 1}}
+        _remove(data, 0, 1, deep=True)
+        self.assertEqual(data, {"nested": {"keep": 1}})
+
     def test_remove_with_single_key(self) -> None:
         d = {
             "a": 1,

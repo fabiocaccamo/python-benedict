@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections.abc import MutableMapping
+from collections.abc import Iterable, MutableMapping
 from typing import Any
 
 from benedict.utils import type_util
@@ -24,7 +24,7 @@ def _remove_deep(d: MutableMapping[Any, Any], keys_list: list[Any]) -> None:
 def remove(
     d: MutableMapping[Any, Any], keys: Any, *args: Any, deep: bool = False
 ) -> None:
-    if type_util.is_string(keys):
+    if type_util.is_string(keys) or not isinstance(keys, Iterable):
         keys = [keys]
     keys_list: list[Any] = list(keys) + list(args)
     if deep:
