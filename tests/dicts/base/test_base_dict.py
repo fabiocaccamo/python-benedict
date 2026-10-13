@@ -5,9 +5,7 @@ import unittest
 from collections import OrderedDict, UserDict
 from collections.abc import Iterable
 from types import MappingProxyType
-from typing import Any
-
-from typing_extensions import assert_type
+from typing import Any, assert_type
 
 from benedict.dicts.base import BaseDict
 

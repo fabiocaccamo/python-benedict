@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 from collections.abc import Iterable, Mapping
-from typing import Any
+from typing import Any, Self
 
-from typing_extensions import Self, TypeVar
+from typing_extensions import TypeVar
 
 from benedict.dicts import KeylistDict
 from benedict.dicts.keypath import keypath_util

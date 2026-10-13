@@ -9,9 +9,9 @@ from collections.abc import (
     Reversible,
     ValuesView,
 )
-from typing import Any
+from typing import Any, Self
 
-from typing_extensions import Self, TypeVar
+from typing_extensions import TypeVar
 
 from benedict.core.clone import clone as _clone
 

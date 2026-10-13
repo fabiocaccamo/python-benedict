@@ -1,17 +1,4 @@
-try:
-    # python >= 3.11
-    import tomllib
-
-    tomllib_available = True
-except ImportError:
-    tomllib_available = False
-
-try:
-    import tomli
-
-    tomli_installed = True
-except ModuleNotFoundError:  # pragma: no cover
-    tomli_installed = False
+import tomllib
 
 try:
     import tomli_w
@@ -39,11 +26,7 @@ class TOMLSerializer(AbstractSerializer[str, Any]):
         )
 
     def decode(self, s: str, **kwargs: Any) -> Any:
-        if tomllib_available:
-            data = tomllib.loads(s, **kwargs)
-        else:
-            require_toml(installed=tomli_installed)
-            data = tomli.loads(s, **kwargs)
+        data = tomllib.loads(s, **kwargs)
         return data
 
     def encode(self, d: Any, **kwargs: Any) -> str:

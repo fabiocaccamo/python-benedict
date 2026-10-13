@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import traceback
 from pathlib import Path
-from typing import Any, NoReturn, cast
+from typing import Any, NoReturn, Self, cast
 
-from typing_extensions import Self, TypeVar
+from typing_extensions import TypeVar
 
 from benedict.dicts.base import BaseDict
 from benedict.dicts.io import io_util

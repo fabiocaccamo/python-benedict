@@ -10,10 +10,11 @@ from collections.abc import (
 )
 from typing import (
     Any,
+    Self,
     cast,
 )
 
-from typing_extensions import Self, TypeVar
+from typing_extensions import TypeVar
 
 from benedict.core import clean as _clean
 from benedict.core import clone as _clone

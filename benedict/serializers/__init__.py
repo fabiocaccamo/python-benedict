@@ -1,9 +1,7 @@
 from __future__ import annotations
 
 import re
-from typing import Any, Literal, TypedDict, cast
-
-from typing_extensions import overload
+from typing import Any, Literal, TypedDict, cast, overload
 
 from benedict.serializers.abstract import AbstractSerializer
 from benedict.serializers.base64 import Base64Serializer

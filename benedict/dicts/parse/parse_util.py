@@ -17,10 +17,10 @@ except ModuleNotFoundError:  # pragma: no cover
 
 
 from collections.abc import Callable
-from typing import Any, cast
+from typing import Any, cast, overload
 
 from slugify import slugify
-from typing_extensions import TypeIs, overload
+from typing_extensions import TypeIs
 
 from benedict.extras import require_parse
 from benedict.serializers import JSONSerializer

@@ -1,9 +1,7 @@
-import unittest
 from unittest.mock import patch
 
 from benedict.dicts.io import IODict
 from benedict.exceptions import ExtrasRequireModuleNotFoundError
-from benedict.serializers.toml import tomllib_available
 
 from .test_io_dict import io_dict_test_case
 
@@ -47,26 +45,6 @@ d = 4
                 },
             },
         )
-
-    @unittest.skipIf(
-        tomllib_available,
-        "standard tomllib is available, exception will not be raised",
-    )
-    @patch("benedict.serializers.toml.tomli_installed", False)
-    def test_from_toml_with_valid_data_but_toml_extra_not_installed(self) -> None:
-        j = """
-a = 1
-
-[b]
-c = 3
-d = 4
-"""
-        # static method
-        with self.assertRaises(ExtrasRequireModuleNotFoundError):
-            _ = IODict.from_toml(j)
-        # constructor
-        with self.assertRaises(ExtrasRequireModuleNotFoundError):
-            _ = IODict(j, format="toml")
 
     def test_from_toml_with_invalid_data(self) -> None:
         j = "Lorem ipsum est in ea occaecat nisi officia."
