@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.40.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.40.0) - 2026-10-13
+-   Add `Python 3.15` support.
+-   Drop `Python 3.10` support.
+-   Fix arbitrary code execution: exclude `pickle` from format auto-detection, it must be requested explicitly with `format="pickle"` or `from_pickle`. (GHSA-v3xm-c46x-phwc) (by [@Sengtocxoen](https://github.com/Sengtocxoen))
+-   Fix `match` string patterns: match special characters literally (only `*` is a wildcard) and prevent catastrophic backtracking (ReDoS). #624
+-   Fix `match` string patterns matching keys with a trailing newline. (by [@fhgffy](https://github.com/fhgffy) in #619)
+-   Include tuple indexes in `keypaths` discovery and `match`. (by [@xiehuanyi](https://github.com/xiehuanyi) in #620)
+-   Allow frozen dicts to use methods returning a new dict (`flatten`, `unflatten`, `subset`, `filter`, `invert`). (by [@itzzdev09](https://github.com/itzzdev09) in #614)
+-   Fix `flatten` quadratic time complexity (up to ~25x faster on nested data).
+-   Fix `flatten` with `indexes=True` on `benedict` instances: flattened keys (eg. `a[0]`) were parsed as keypaths.
+-   Fix `BaseDict.setdefault` raising `AssertionError` with omitted or `None` default. (by [@harbinresearcher](https://github.com/harbinresearcher) in #626)
+-   Fix keyword arguments ignored when constructing from a mapping (eg. `benedict(d, key=value)`), they are now set on the wrapped dict. (by [@sricharanreddycheruku](https://github.com/sricharanreddycheruku) in #627)
+-   Fix `remove` with a single non-string key (eg. `remove(0)`). (by [@xiehuanyi](https://github.com/xiehuanyi) in #628)
+-   Fix `BaseDict.dict` and union operator type annotations to return a plain `dict`. (by [@xiehuanyi](https://github.com/xiehuanyi) in #629)
+-   Fix `rename` and `remove` with `deep=True` to traverse nested lists and tuples. (by [@xiehuanyi](https://github.com/xiehuanyi) in #616)
+-   Fix `base64` serializer to keep the Base64 representation ASCII with non-UTF-8 payload encodings. (by [@xiehuanyi](https://github.com/xiehuanyi) in #615)
+-   Fix `ini` decoding of valueless options when using `allow_no_value=True`. (by [@ac1982](https://github.com/ac1982) in #618)
+-   Fix `ini` encoding of valueless `[DEFAULT]` options when using `allow_no_value=True`.
+-   Fix `csv` decoding of strings using carriage-return line endings. (by [@fhgffy](https://github.com/fhgffy) in #621)
+-   Fix `csv` encoding losing values of non-string keys. (by [@fhgffy](https://github.com/fhgffy) in #622)
+-   Fix `xls` decoding of sheets without columns row and with numeric column names. (by [@fhgffy](https://github.com/fhgffy) in #623)
+-   Bump requirements.
+
 ## [0.39.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.39.0) - 2026-09-29
 -   Forward missing `overwrite` argument in `move` method. #602
 -   Fix `clean` recursive cleaning of nested collections (when `collections=True`). (by [@x0Lazarus](https://github.com/x0Lazarus))
