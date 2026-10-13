@@ -4,6 +4,7 @@ import re
 import unittest
 from datetime import datetime
 from decimal import Decimal
+from types import MappingProxyType
 from typing import Any
 
 from benedict import benedict
@@ -13,6 +14,24 @@ class benedict_test_case(unittest.TestCase):
     """
     This class describes a benedict test case.
     """
+
+    def test_init_mapping_with_keywords(self) -> None:
+        source = {"existing": 1}
+        wrapped = benedict(
+            source, existing=2, added=3, keypath_separator="/", keyattr_enabled=False
+        )
+        self.assertEqual(wrapped, {"existing": 2, "added": 3})
+        self.assertIs(wrapped.dict(), source)
+        self.assertEqual(source, {"existing": 2, "added": 3})
+        self.assertEqual(wrapped.keypath_separator, "/")
+        self.assertFalse(wrapped.keyattr_enabled)
+
+    def test_init_readonly_mapping_with_keywords(self) -> None:
+        source = MappingProxyType({"existing": 1})
+        wrapped = benedict(source, existing=2, added=3)
+        self.assertEqual(wrapped, {"existing": 2, "added": 3})
+        self.assertEqual(source, {"existing": 1})
+        self.assertIs(benedict(source).dict(), source)
 
     def test_clean_nested_tuple_and_set_values(self) -> None:
         data = benedict(
