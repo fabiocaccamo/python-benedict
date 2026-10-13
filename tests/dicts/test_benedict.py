@@ -40,6 +40,13 @@ class benedict_test_case(unittest.TestCase):
         self.assertIsNone(data.clean())
         self.assertEqual(data, {"tuple": ({"keep": 1}, (2,)), "set": {(3,)}})
 
+    def test_remove_integer_key(self) -> None:
+        data = {0: "removed", "keep": 1}
+        wrapped = benedict(data)
+        self.assertIsNone(wrapped.remove(0))
+        self.assertEqual(data, {"keep": 1})
+        self.assertEqual(wrapped, {"keep": 1})
+
     def test_reversed_after_mutation(self) -> None:
         data = {"a": 1}
         wrapped = benedict(data)
