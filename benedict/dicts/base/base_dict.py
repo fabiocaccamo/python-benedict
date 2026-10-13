@@ -9,7 +9,7 @@ from collections.abc import (
     Reversible,
     ValuesView,
 )
-from typing import Any, Self
+from typing import Any, Self, overload
 
 from typing_extensions import TypeVar
 
@@ -17,6 +17,7 @@ from benedict.core.clone import clone as _clone
 
 _K = TypeVar("_K", default=str)
 _V = TypeVar("_V", default=Any)
+_D = TypeVar("_D")
 
 
 class BaseDict(dict[_K, _V]):
@@ -207,7 +208,16 @@ class BaseDict(dict[_K, _V]):
             return self._dict
         return self
 
-    def get(self, key: _K, default: _V | None = None) -> _V | None:  # type: ignore[override]
+    @overload
+    def get(self, key: _K, default: None = None) -> _V | None: ...
+
+    @overload
+    def get(self, key: _K, default: _V) -> _V: ...
+
+    @overload
+    def get(self, key: _K, default: _D) -> _V | _D: ...
+
+    def get(self, key: _K, default: Any = None) -> Any:
         if self._dict is not None:
             return self._dict.get(key, default)
         return super().get(key, default)
@@ -222,11 +232,20 @@ class BaseDict(dict[_K, _V]):
             return self._dict.keys()
         return super().keys()
 
-    def pop(self, key: _K, *args: Any) -> _V:
+    @overload
+    def pop(self, key: _K) -> _V: ...
+
+    @overload
+    def pop(self, key: _K, default: _V, /) -> _V: ...
+
+    @overload
+    def pop(self, key: _K, default: _D, /) -> _V | _D: ...
+
+    def pop(self, key: _K, *args: Any) -> Any:
         self._check_frozen()
         if self._dict is not None:
-            return self._dict.pop(key, *args)  # type: ignore[no-any-return]
-        return super().pop(key, *args)  # type: ignore[no-any-return]
+            return self._dict.pop(key, *args)
+        return super().pop(key, *args)
 
     def popitem(self) -> tuple[_K, _V]:
         self._check_frozen()
