@@ -1,12 +1,12 @@
 coverage == 7.16.*
-mypy == 2.3.*
-orjson == 3.12.*
+mypy == 2.4.*
+orjson == 3.13.*
 pre-commit == 4.6.*
 python-decouple == 3.8
-tox == 4.64.*
+tox == 4.65.*
 
 # type stubs for mypy
-boto3-stubs[essential,lambda]==1.43.103
+boto3-stubs[essential,lambda]==1.43.111
 decouple-types==1.0.2
 types-PyYAML==6.0.12.20260906
 types-beautifulsoup4==4.12.0.20250516
