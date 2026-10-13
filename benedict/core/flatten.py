@@ -84,7 +84,11 @@ def _flatten_item(
 
 
 def flatten(d: Any, separator: str = "_", indexes: bool = False) -> Any:
-    new_dict = clone(d, empty=True)
-    return _flatten_item(
-        d, base_dict=new_dict, base_key="", separator=separator, indexes=indexes
+    # collect items in a plain dict, flattened keys (eg. "a[0]")
+    # must not be parsed as keypaths by benedict instances
+    items = _flatten_item(
+        d, base_dict={}, base_key="", separator=separator, indexes=indexes
     )
+    new_dict = clone(d, empty=True)
+    new_dict.update(items)
+    return new_dict

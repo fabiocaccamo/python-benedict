@@ -560,6 +560,24 @@ class benedict_test_case(unittest.TestCase):
         self.assertEqual(f, r)
         self.assertFalse(b is f)
 
+    def test_flatten_with_indexes(self) -> None:
+        d = {"a": {"b": 1}, "l": [{"x": 1}, [2, {"y": 3}]], "m": [1, [2, 3]]}
+        b = benedict(d)
+        f = b.flatten(indexes=True)
+        r = {
+            "a_b": 1,
+            "l[0]_x": 1,
+            "l[1][0]": 2,
+            "l[1][1]_y": 3,
+            "m[0]": 1,
+            "m[1][0]": 2,
+            "m[1][1]": 3,
+        }
+        # flattened keys must not be parsed as keypaths with indexes
+        self.assertEqual(dict(f.items()), r)
+        self.assertIsInstance(f, benedict)
+        self.assertEqual(b, d)
+
     def test_flatten_with_key_conflict(self) -> None:
         d = {
             "a": 1,
