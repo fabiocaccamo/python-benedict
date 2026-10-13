@@ -15,6 +15,30 @@ class base_dict_test_case(unittest.TestCase):
     This class describes a BaseDict test case.
     """
 
+    def test_init_mapping_with_keywords(self) -> None:
+        for mapping_type in (dict, OrderedDict, UserDict):
+            with self.subTest(mapping_type=mapping_type):
+                source = mapping_type(existing=1)
+                wrapped = BaseDict(source, existing=2, added=3)
+                self.assertEqual(wrapped, {"existing": 2, "added": 3})
+                self.assertIs(wrapped.dict(), source)
+                self.assertEqual(source, {"existing": 2, "added": 3})
+
+    def test_init_keywords_without_mapping(self) -> None:
+        for args in ((), ([("existing", 1)],)):
+            with self.subTest(args=args):
+                self.assertEqual(
+                    BaseDict(*args, existing=2, added=3),
+                    dict(*args, existing=2, added=3),
+                )
+
+    def test_init_readonly_mapping_with_keywords(self) -> None:
+        source = MappingProxyType({"existing": 1})
+        wrapped = BaseDict(source, existing=2, added=3)
+        self.assertEqual(wrapped, dict(source, existing=2, added=3))
+        self.assertEqual(source, {"existing": 1})
+        self.assertIs(BaseDict(source).dict(), source)
+
     def test_popitem(self) -> None:
         b = BaseDict(a=1, b=2)
         self.assertEqual(b.popitem(), ("b", 2))
@@ -543,6 +567,34 @@ class base_dict_test_case(unittest.TestCase):
         v = b.setdefault("d", 4)
         self.assertEqual(v, 4)
         self.assertEqual(b, b.dict())
+
+    def test_setdefault_none(self) -> None:
+        for wrapped in (False, True):
+            for existing in (False, True):
+                for explicit in (False, True):
+                    with self.subTest(
+                        wrapped=wrapped, existing=existing, explicit=explicit
+                    ):
+                        data = {"a": 1} if existing else {}
+                        expected = data.copy()
+                        b = BaseDict(data) if wrapped else BaseDict(**data)
+                        if explicit:
+                            value = b.setdefault("a", None)
+                        else:
+                            value = b.setdefault("a")
+                        self.assertEqual(value, expected.setdefault("a"))
+                        self.assertEqual(b.dict(), expected)
+                        if wrapped:
+                            self.assertEqual(data, expected)
+
+    def test_setdefault_none_when_frozen(self) -> None:
+        b = BaseDict(a=1)
+        b.freeze()
+        for key in ("a", "missing"):
+            with self.subTest(key=key):
+                with self.assertRaises(TypeError):
+                    b.setdefault(key)
+        self.assertEqual(b.dict(), {"a": 1})
 
     def test_setdefault_with_pointer(self) -> None:
         d = {

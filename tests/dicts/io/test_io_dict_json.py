@@ -8,6 +8,13 @@ class io_dict_json_test_case(io_dict_test_case):
     This class describes an IODict / json test case.
     """
 
+    def test_from_json_and_setdefault_none(self) -> None:
+        d = IODict.from_json('{"existing": 1}')
+        self.assertEqual(d.setdefault("existing"), 1)
+        self.assertIsNone(d.setdefault("missing"))
+        self.assertIsNone(d.setdefault("explicit", None))
+        self.assertEqual(d.dict(), {"existing": 1, "missing": None, "explicit": None})
+
     def test_from_json_with_valid_data(self) -> None:
         j = '{"a": 1, "b": 2, "c": 3}'
         # static method
