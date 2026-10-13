@@ -9,7 +9,7 @@ from collections.abc import (
     Reversible,
     ValuesView,
 )
-from typing import Any, cast
+from typing import Any
 
 from typing_extensions import Self, TypeVar
 
@@ -124,10 +124,10 @@ class BaseDict(dict[_K, _V]):
             return self._dict != other
         return super().__ne__(other)
 
-    def __or__(self, other: dict[_K, _V]) -> Self:  # type: ignore[override]
+    def __or__(self, other: dict[_K, _V]) -> dict[_K, _V]:  # type: ignore[override]
         if self._dict is not None:
-            return cast("Self", self._dict.__or__(other))
-        return cast("Self", super().__or__(other))
+            return self._dict.__or__(other)
+        return super().__or__(other)
 
     def __repr__(self) -> str:
         if self._dict is not None:
@@ -198,9 +198,9 @@ class BaseDict(dict[_K, _V]):
             obj.freeze()
         return obj
 
-    def dict(self) -> Self:
+    def dict(self) -> dict[_K, _V]:
         if self._dict is not None:
-            return cast("Self", self._dict)
+            return self._dict
         return self
 
     def get(self, key: _K, default: _V | None = None) -> _V | None:  # type: ignore[override]
