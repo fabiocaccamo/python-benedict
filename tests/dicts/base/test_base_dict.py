@@ -544,6 +544,34 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(v, 4)
         self.assertEqual(b, b.dict())
 
+    def test_setdefault_none(self) -> None:
+        for wrapped in (False, True):
+            for existing in (False, True):
+                for explicit in (False, True):
+                    with self.subTest(
+                        wrapped=wrapped, existing=existing, explicit=explicit
+                    ):
+                        data = {"a": 1} if existing else {}
+                        expected = data.copy()
+                        b = BaseDict(data) if wrapped else BaseDict(**data)
+                        if explicit:
+                            value = b.setdefault("a", None)
+                        else:
+                            value = b.setdefault("a")
+                        self.assertEqual(value, expected.setdefault("a"))
+                        self.assertEqual(b.dict(), expected)
+                        if wrapped:
+                            self.assertEqual(data, expected)
+
+    def test_setdefault_none_when_frozen(self) -> None:
+        b = BaseDict(a=1)
+        b.freeze()
+        for key in ("a", "missing"):
+            with self.subTest(key=key):
+                with self.assertRaises(TypeError):
+                    b.setdefault(key)
+        self.assertEqual(b.dict(), {"a": 1})
+
     def test_setdefault_with_pointer(self) -> None:
         d = {
             "a": 1,
