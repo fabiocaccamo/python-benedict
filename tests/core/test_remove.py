@@ -1,4 +1,5 @@
 import unittest
+from collections.abc import Iterator
 
 from benedict.core import remove as _remove
 
@@ -7,6 +8,25 @@ class remove_test_case(unittest.TestCase):
     """
     This class describes a remove test case.
     """
+
+    def test_remove_legacy_sequence_keys(self) -> None:
+        class Keys:
+            def __getitem__(self, index: int) -> str:
+                return ["a", "b"][index]
+
+        data = {"a": 1, "b": 2, "keep": 3}
+        _remove(data, Keys())
+        self.assertEqual(data, {"keep": 3})
+
+    def test_remove_preserves_iteration_errors(self) -> None:
+        def keys() -> Iterator[str]:
+            yield "a"
+            raise TypeError("keys iteration failed")
+
+        data = {"a": 1, "b": 2}
+        with self.assertRaisesRegex(TypeError, "keys iteration failed"):
+            _remove(data, keys())
+        self.assertEqual(data, {"a": 1, "b": 2})
 
     def test_remove_scalar_nonstring_keys(self) -> None:
         for key in (0, 12, None):
