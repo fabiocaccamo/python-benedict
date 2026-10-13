@@ -57,6 +57,20 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(combined, {"a": 1, "b": 2})
         self.assertEqual(backing, {"a": 1})
 
+    def test_native_dict_result_types_without_pointer(self) -> None:
+        original = BaseDict[str, int](a=1)
+        raw = original.dict()
+        combined = original | {"b": 2}
+        assert_type(raw, dict[str, int])
+        assert_type(combined, dict[str, int])
+        self.assertIs(raw, original)
+        self.assertIs(type(combined), dict)
+        self.assertEqual(combined, {"a": 1, "b": 2})
+        self.assertEqual(original, {"a": 1})
+        raw["a"] = 3
+        self.assertEqual(original, {"a": 3})
+        self.assertEqual(combined, {"a": 1, "b": 2})
+
     def test__bool__(self) -> None:
         b = BaseDict()
         self.assertFalse(b)
