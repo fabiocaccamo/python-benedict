@@ -39,6 +39,23 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(source, {"existing": 1})
         self.assertIs(BaseDict(source).dict(), source)
 
+    def test_get_and_pop_preserve_default_types(self) -> None:
+        values = [BaseDict[str, int](found=3), BaseDict[str, int]({"found": 3})]
+        for value in values:
+            with self.subTest(wrapped=value._dict is not None):
+                assert_type(value.get("missing", "fallback"), int | str)
+                assert_type(value.get("missing"), int | None)
+                assert_type(value.get("found", 0), int)
+                self.assertEqual(value.get("missing", "fallback"), "fallback")
+                self.assertEqual(value.get("found", "fallback"), 3)
+                assert_type(value.pop("missing", "fallback"), int | str)
+                assert_type(value.pop("missing", None), int | None)
+                found = value.pop("found")
+                assert_type(found, int)
+                self.assertEqual(value.pop("missing", "fallback"), "fallback")
+                self.assertIsNone(value.pop("missing", None))
+                self.assertEqual(found, 3)
+
     def test_popitem(self) -> None:
         b = BaseDict(a=1, b=2)
         self.assertEqual(b.popitem(), ("b", 2))
