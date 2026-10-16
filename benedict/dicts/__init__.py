@@ -93,6 +93,10 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
             obj.freeze()
         return obj
 
+    def __delitem__(self, key: object) -> None:
+        self._check_frozen()
+        super().__delitem__(key)
+
     def __getitem__(self, key: _KPT) -> Any:  # type: ignore[override]
         return self._cast(super().__getitem__(key))
 
@@ -293,6 +297,7 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
         return _nest(self[key], id_key, parent_id_key, children_key)
 
     def pop(self, key: _KPT, *args: Any) -> _V:  # type: ignore[override]
+        self._check_frozen()
         return cast("_V", self._cast(super().pop(key, *args)))
 
     def remove(
