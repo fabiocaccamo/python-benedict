@@ -1,3 +1,4 @@
+import copy
 import unittest
 
 from benedict import benedict
@@ -40,6 +41,19 @@ class benedict_freeze_test_case(unittest.TestCase):
         with self.assertRaises(TypeError):
             del b["a"]
 
+    def test_freeze_prevents_delitem_keypath(self) -> None:
+        for separator in (".", "/"):
+            for key in (f"a{separator}b", ["a", "b"], "values[0]", ["values", 0]):
+                with self.subTest(separator=separator, key=key):
+                    b = benedict(
+                        {"a": {"b": 1}, "values": [1, 2]},
+                        keypath_separator=separator,
+                    ).freeze()
+                    with self.assertRaisesRegex(TypeError, "frozen"):
+                        del b[key]
+                    self.assertEqual(b, {"a": {"b": 1}, "values": [1, 2]})
+                    self.assertTrue(b.frozen)
+
     def test_freeze_prevents_clear(self) -> None:
         b = benedict({"a": 1})
         b.freeze()
@@ -51,6 +65,66 @@ class benedict_freeze_test_case(unittest.TestCase):
         b.freeze()
         with self.assertRaises(TypeError):
             b.pop("a")
+
+    def test_freeze_prevents_pop_keypath(self) -> None:
+        for separator in (".", "/"):
+            for key in (f"a{separator}b", ["a", "b"], "values[0]", ["values", 0]):
+                for args in ((), (None,), ("fallback",)):
+                    with self.subTest(separator=separator, key=key, args=args):
+                        b = benedict(
+                            {"a": {"b": 1}, "values": [1, 2]},
+                            keypath_separator=separator,
+                        ).freeze()
+                        with self.assertRaisesRegex(TypeError, "frozen"):
+                            b.pop(key, *args)
+                        self.assertEqual(b, {"a": {"b": 1}, "values": [1, 2]})
+                        self.assertTrue(b.frozen)
+
+    def test_freeze_prevents_pop_missing_keypath_with_default(self) -> None:
+        for key in ("missing", "a.missing", "missing.path", "values[5]"):
+            for default in (None, "fallback"):
+                with self.subTest(key=key, default=default):
+                    b = benedict({"a": {"b": 1}, "values": [1, 2]}).freeze()
+                    with self.assertRaisesRegex(TypeError, "frozen"):
+                        b.pop(key, default)
+                    self.assertEqual(b, {"a": {"b": 1}, "values": [1, 2]})
+
+    def test_keypath_deletion_when_mutable(self) -> None:
+        cases = (
+            (".", "a.b", {"a": {"b": 1}}, {"a": {}}),
+            ("/", "a/b", {"a": {"b": 1}}, {"a": {}}),
+            (".", ["a", "b"], {"a": {"b": 1}}, {"a": {}}),
+            (".", "values[0]", {"values": [1, 2]}, {"values": [2]}),
+            (".", ["values", 0], {"values": [1, 2]}, {"values": [2]}),
+        )
+        for unfreeze in (False, True):
+            for operation in ("del", "pop"):
+                for separator, key, source, expected in cases:
+                    with self.subTest(unfreeze=unfreeze, operation=operation, key=key):
+                        b = benedict(copy.deepcopy(source), keypath_separator=separator)
+                        if unfreeze:
+                            b.freeze().unfreeze()
+                        if operation == "del":
+                            del b[key]
+                        else:
+                            self.assertEqual(b.pop(key, "fallback"), 1)
+                        self.assertEqual(b, expected)
+                        missing_key = f"missing{separator}path"
+                        self.assertIsNone(b.pop(missing_key, None))
+                        self.assertEqual(b.pop(missing_key, "fallback"), "fallback")
+                        with self.assertRaises(KeyError):
+                            b.pop(missing_key)
+
+    def test_freeze_allows_direct_nested_mutation(self) -> None:
+        b = benedict({"a": {"b": 1}, "values": [1, 2]}).freeze()
+        child = b["a"]
+        self.assertFalse(child.frozen)
+        child["c"] = 2
+        del child["b"]
+        self.assertEqual(child.pop("c"), 2)
+        self.assertEqual(b["values"].pop(0), 1)
+        self.assertEqual(b, {"a": {}, "values": [2]})
+        self.assertTrue(b.frozen)
 
     def test_freeze_prevents_update(self) -> None:
         b = benedict({"a": 1})
