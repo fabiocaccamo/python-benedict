@@ -3,10 +3,12 @@ from __future__ import annotations
 import re
 from collections.abc import (
     Callable,
+    ItemsView,
     Iterable,
     Iterator,
     Mapping,
     Sequence,
+    ValuesView,
 )
 from typing import (
     Any,
@@ -223,9 +225,8 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
         """
         return cast("Self", _invert(self, flat))
 
-    def items(self) -> Iterator[tuple[_KPT, Any]]:  # type: ignore[override]
-        for key, value in super().items():
-            yield (key, self._cast(value))  # type: ignore[misc]
+    def items(self) -> ItemsView[_KPT, Any]:  # type: ignore[override]
+        return _BenedictItemsView(self)
 
     def items_sorted_by_keys(self, reverse: bool = False) -> list[tuple[Any, Any]]:
         """
@@ -368,9 +369,36 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
         """
         _unique(self)
 
-    def values(self) -> Iterator[Any]:  # type: ignore[override]
-        for value in super().values():
-            yield self._cast(value)
+    def values(self) -> ValuesView[Any]:  # type: ignore[override]
+        return _BenedictValuesView(self)
+
+
+class _BenedictItemsView(ItemsView[Any, Any]):
+    """
+    Sized, dict-like items view that casts nested values on iteration.
+    """
+
+    _mapping: benedict[Any, Any]
+
+    def __iter__(self) -> Iterator[tuple[Any, Any]]:
+        mapping = self._mapping
+        # use the parent implementation, which reads from the backing `_dict`
+        for key, value in super(benedict, mapping).items():
+            yield key, mapping._cast(value)
+
+
+class _BenedictValuesView(ValuesView[Any]):
+    """
+    Sized, dict-like values view that casts nested values on iteration.
+    """
+
+    _mapping: benedict[Any, Any]
+
+    def __iter__(self) -> Iterator[Any]:
+        mapping = self._mapping
+        # use the parent implementation, which reads from the backing `_dict`
+        for value in super(benedict, mapping).values():
+            yield mapping._cast(value)
 
 
 # fix benedict json dumps support - #57 #59 #61
