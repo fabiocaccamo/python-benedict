@@ -57,3 +57,27 @@ class github_issue_0636_test_case(unittest.TestCase):
         self.assertIn(("a", {"b": 1}), d.items())
         self.assertIn({"b": 1}, d.values())
         self.assertNotIn(("a", {"b": 2}), d.items())
+
+    def test_items_membership_does_not_resolve_keypaths(self) -> None:
+        # like dict.items(), membership only matches actual keys
+        for d in (
+            benedict({"a": {"b": 1}, "l": [1, 2], "x": 1}),
+            benedict(a={"b": 1}, l=[1, 2], x=1),
+        ):
+            with self.subTest(pointer=d.dict() is not d):
+                self.assertIn(("x", 1), d.items())
+                self.assertNotIn(("a.b", 1), d.items())
+                self.assertNotIn(("l[0]", 1), d.items())
+                self.assertNotIn((["a", "b"], 1), d.items())
+                self.assertNotIn(("missing", 1), d.items())
+                self.assertNotIn("x", d.items())
+
+    def test_items_and_values_are_reversible(self) -> None:
+        for d in (
+            benedict({"a": 1, "b": {"c": 2}}),
+            benedict(a=1, b={"c": 2}),
+        ):
+            with self.subTest(pointer=d.dict() is not d):
+                self.assertEqual(list(reversed(d.items())), [("b", {"c": 2}), ("a", 1)])
+                self.assertEqual(list(reversed(d.values())), [{"c": 2}, 1])
+                self.assertIsInstance(next(reversed(d.values())), benedict)
