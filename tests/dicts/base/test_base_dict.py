@@ -39,6 +39,23 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(source, {"existing": 1})
         self.assertIs(BaseDict(source).dict(), source)
 
+    def test_get_and_pop_preserve_default_types(self) -> None:
+        values = [BaseDict[str, int](found=3), BaseDict[str, int]({"found": 3})]
+        for value in values:
+            with self.subTest(wrapped=value._dict is not None):
+                assert_type(value.get("missing", "fallback"), int | str)
+                assert_type(value.get("missing"), int | None)
+                assert_type(value.get("found", 0), int)
+                self.assertEqual(value.get("missing", "fallback"), "fallback")
+                self.assertEqual(value.get("found", "fallback"), 3)
+                assert_type(value.pop("missing", "fallback"), int | str)
+                assert_type(value.pop("missing", None), int | None)
+                found = value.pop("found")
+                assert_type(found, int)
+                self.assertEqual(value.pop("missing", "fallback"), "fallback")
+                self.assertIsNone(value.pop("missing", None))
+                self.assertEqual(found, 3)
+
     def test_popitem(self) -> None:
         b = BaseDict(a=1, b=2)
         self.assertEqual(b.popitem(), ("b", 2))
@@ -708,3 +725,53 @@ class base_dict_test_case(unittest.TestCase):
         v.sort()
         self.assertTrue(v, [1, 2, 3])
         self.assertEqual(b, b.dict())
+
+
+class base_dict_update_keywords_test_case(unittest.TestCase):
+    def test_update_with_no_arguments(self) -> None:
+        for value in (BaseDict(a=1), BaseDict({"a": 1})):
+            with self.subTest(wrapped=value._dict is not None):
+                self.assertIsNone(value.update())
+                self.assertEqual(value, {"a": 1})
+
+    def test_update_with_keywords_and_positional_source(self) -> None:
+        for value in (BaseDict(a=1), BaseDict({"a": 1})):
+            with self.subTest(wrapped=value._dict is not None):
+                value.update(b=2)
+                self.assertEqual(value, {"a": 1, "b": 2})
+                value.update({"a": 3}, a=4, c=5)
+                self.assertEqual(value, {"a": 4, "b": 2, "c": 5})
+
+    def test_update_keywords_unwrap_nested_base_dict(self) -> None:
+        source = {"a": 1}
+        nested = BaseDict(source)
+        for value in (BaseDict(), BaseDict({})):
+            with self.subTest(wrapped=value._dict is not None):
+                value.update(nested=nested)
+                self.assertIs(value["nested"], source)
+
+    def test_frozen_update_with_keywords_or_no_arguments(self) -> None:
+        for value in (BaseDict(a=1), BaseDict({"a": 1})):
+            value.freeze()
+            with self.subTest(wrapped=value._dict is not None):
+                with self.assertRaises(TypeError):
+                    value.update(a=2)
+                with self.assertRaises(TypeError):
+                    value.update()
+                self.assertEqual(value, {"a": 1})
+
+    def test_update_treats_reserved_keyword_names_as_keys(self) -> None:
+        for wrapped in (False, True):
+            for positional in (False, True):
+                for keyword in ("self", "other"):
+                    with self.subTest(
+                        wrapped=wrapped, positional=positional, keyword=keyword
+                    ):
+                        original = {"a": 1}
+                        value = BaseDict(original) if wrapped else BaseDict(a=1)
+                        args = ({"b": 2},) if positional else ()
+                        kwargs = {keyword: 3}
+                        expected = {"a": 1}
+                        expected.update(*args, **kwargs)
+                        self.assertIsNone(value.update(*args, **kwargs))
+                        self.assertEqual(value, expected)

@@ -2449,6 +2449,17 @@ b:
         self.assertEqual(type(b), type(u))
         self.assertTrue(isinstance(u, benedict))
 
+    def test_update_with_keywords(self) -> None:
+        d = {"a": 1}
+        b = benedict(d)
+        b.update(b=2)
+        b.update({"c": 3}, d={"e": 4})
+        b.update()
+        self.assertEqual(d, {"a": 1, "b": 2, "c": 3, "d": {"e": 4}})
+        self.assertEqual(b["d.e"], 4)
+        with self.assertRaises(ValueError):
+            b.update(**{"x.y": 5})
+
     def test_unique(self) -> None:
         d = {
             "a": {

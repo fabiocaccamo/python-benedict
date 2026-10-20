@@ -3,10 +3,13 @@ from __future__ import annotations
 import re
 from collections.abc import (
     Callable,
+    Collection,
+    ItemsView,
     Iterable,
     Iterator,
     Mapping,
     Sequence,
+    ValuesView,
 )
 from typing import (
     Any,
@@ -41,6 +44,7 @@ from benedict.core import traverse as _traverse
 from benedict.core import unflatten as _unflatten
 from benedict.core import unique as _unique
 from benedict.core.traverse import TraverseCallback
+from benedict.dicts.base import BaseDict
 from benedict.dicts.io import IODict
 from benedict.dicts.keyattr import KeyattrDict
 from benedict.dicts.keylist import KeylistDict
@@ -223,9 +227,8 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
         """
         return cast("Self", _invert(self, flat))
 
-    def items(self) -> Iterator[tuple[_KPT, Any]]:  # type: ignore[override]
-        for key, value in super().items():
-            yield (key, self._cast(value))  # type: ignore[misc]
+    def items(self) -> ItemsView[_KPT, Any]:  # type: ignore[override]
+        return _BenedictItemsView(self)
 
     def items_sorted_by_keys(self, reverse: bool = False) -> list[tuple[Any, Any]]:
         """
@@ -267,6 +270,8 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
         If overwrite is False, existing values will not be overwritten.
         If concat is True, list values will be concatenated together.
         """
+        # merge writes into existing nested dicts, check the frozen state here
+        self._check_frozen()
         others = [other] + list(args)
         for other in others:
             keypath_util.check_keys(other, self._keypath_separator)
@@ -368,9 +373,53 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
         """
         _unique(self)
 
-    def values(self) -> Iterator[Any]:  # type: ignore[override]
-        for value in super().values():
-            yield self._cast(value)
+    def values(self) -> ValuesView[Any]:  # type: ignore[override]
+        return _BenedictValuesView(self)
+
+
+class _BenedictItemsView(ItemsView[Any, Any]):
+    """
+    Items view (like dict.items()) that casts nested values on iteration.
+    Membership uses the stored items, keys are not parsed as keypaths.
+    """
+
+    _mapping: benedict[Any, Any]
+
+    def __contains__(self, item: object) -> bool:
+        items: Collection[object] = BaseDict.items(self._mapping)
+        return item in items
+
+    def __iter__(self) -> Iterator[tuple[Any, Any]]:
+        cast_value = self._mapping._cast
+        for key, value in BaseDict.items(self._mapping):
+            yield key, cast_value(value)
+
+    def __reversed__(self) -> Iterator[tuple[Any, Any]]:
+        mapping = self._mapping
+        for key in BaseDict.__reversed__(mapping):
+            yield key, mapping._cast(BaseDict.__getitem__(mapping, key))
+
+
+class _BenedictValuesView(ValuesView[Any]):
+    """
+    Values view (like dict.values()) that casts nested values on iteration.
+    """
+
+    _mapping: benedict[Any, Any]
+
+    def __contains__(self, value: object) -> bool:
+        # compare the stored values, without casting each of them
+        return value in BaseDict.values(self._mapping)
+
+    def __iter__(self) -> Iterator[Any]:
+        cast_value = self._mapping._cast
+        for value in BaseDict.values(self._mapping):
+            yield cast_value(value)
+
+    def __reversed__(self) -> Iterator[Any]:
+        mapping = self._mapping
+        for key in BaseDict.__reversed__(mapping):
+            yield mapping._cast(BaseDict.__getitem__(mapping, key))
 
 
 # fix benedict json dumps support - #57 #59 #61
