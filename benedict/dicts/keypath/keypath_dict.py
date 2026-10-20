@@ -72,6 +72,7 @@ class KeypathDict(KeylistDict[_K, _V]):
     def pop(self, key: _K, *args: Any) -> _V:  # type: ignore[override]
         return super().pop(self._parse_key(key), *args)  # type: ignore[no-any-return]
 
-    def update(self, other: Mapping[Any, _V]) -> None:  # type: ignore[override]
+    def update(self, other: Any = (), /, **kwargs: Any) -> None:
         keypath_util.check_keys(other, self._keypath_separator)
-        super().update(other)
+        keypath_util.check_keys(kwargs, self._keypath_separator)
+        super().update(other, **kwargs)
