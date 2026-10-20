@@ -3,6 +3,7 @@ from __future__ import annotations
 import re
 from collections.abc import (
     Callable,
+    Collection,
     ItemsView,
     Iterable,
     Iterator,
@@ -43,6 +44,7 @@ from benedict.core import traverse as _traverse
 from benedict.core import unflatten as _unflatten
 from benedict.core import unique as _unique
 from benedict.core.traverse import TraverseCallback
+from benedict.dicts.base import BaseDict
 from benedict.dicts.io import IODict
 from benedict.dicts.keyattr import KeyattrDict
 from benedict.dicts.keylist import KeylistDict
@@ -373,61 +375,49 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
         return _BenedictValuesView(self)
 
 
-def _get_raw_value(mapping: benedict[Any, Any], key: Any) -> Any:
-    # read the value stored at the given key, without keypath/keylist parsing
-    raw = mapping.dict()
-    if raw is mapping:
-        return dict.__getitem__(mapping, key)
-    return raw[key]
-
-
 class _BenedictItemsView(ItemsView[Any, Any]):
     """
-    Sized, dict-like items view that casts nested values on iteration.
+    Items view (like dict.items()) that casts nested values on iteration.
+    Membership uses the stored items, keys are not parsed as keypaths.
     """
 
     _mapping: benedict[Any, Any]
 
     def __contains__(self, item: object) -> bool:
-        # match actual keys only (like dict.items()), not keypaths
-        if not isinstance(item, tuple) or len(item) != 2:
-            return False
-        key, value = item
-        try:
-            current = _get_raw_value(self._mapping, key)
-        except (KeyError, TypeError):
-            return False
-        return current is value or current == value
+        items: Collection[object] = BaseDict.items(self._mapping)
+        return item in items
 
     def __iter__(self) -> Iterator[tuple[Any, Any]]:
-        mapping = self._mapping
-        # use the parent implementation, which reads from the backing `_dict`
-        for key, value in super(benedict, mapping).items():
-            yield key, mapping._cast(value)
+        cast_value = self._mapping._cast
+        for key, value in BaseDict.items(self._mapping):
+            yield key, cast_value(value)
 
     def __reversed__(self) -> Iterator[tuple[Any, Any]]:
         mapping = self._mapping
-        for key in reversed(mapping.dict()):
-            yield key, mapping._cast(_get_raw_value(mapping, key))
+        for key in BaseDict.__reversed__(mapping):
+            yield key, mapping._cast(BaseDict.__getitem__(mapping, key))
 
 
 class _BenedictValuesView(ValuesView[Any]):
     """
-    Sized, dict-like values view that casts nested values on iteration.
+    Values view (like dict.values()) that casts nested values on iteration.
     """
 
     _mapping: benedict[Any, Any]
 
+    def __contains__(self, value: object) -> bool:
+        # compare the stored values, without casting each of them
+        return value in BaseDict.values(self._mapping)
+
     def __iter__(self) -> Iterator[Any]:
-        mapping = self._mapping
-        # use the parent implementation, which reads from the backing `_dict`
-        for value in super(benedict, mapping).values():
-            yield mapping._cast(value)
+        cast_value = self._mapping._cast
+        for value in BaseDict.values(self._mapping):
+            yield cast_value(value)
 
     def __reversed__(self) -> Iterator[Any]:
         mapping = self._mapping
-        for key in reversed(mapping.dict()):
-            yield mapping._cast(_get_raw_value(mapping, key))
+        for key in BaseDict.__reversed__(mapping):
+            yield mapping._cast(BaseDict.__getitem__(mapping, key))
 
 
 # fix benedict json dumps support - #57 #59 #61

@@ -68,7 +68,9 @@ class github_issue_0636_test_case(unittest.TestCase):
                 self.assertIn(("x", 1), d.items())
                 self.assertNotIn(("a.b", 1), d.items())
                 self.assertNotIn(("l[0]", 1), d.items())
-                self.assertNotIn((["a", "b"], 1), d.items())
+                with self.assertRaises(TypeError):
+                    # unhashable key (keylist), same as dict.items()
+                    _ = (["a", "b"], 1) in d.items()
                 self.assertNotIn(("missing", 1), d.items())
                 self.assertNotIn("x", d.items())
 
@@ -81,3 +83,14 @@ class github_issue_0636_test_case(unittest.TestCase):
                 self.assertEqual(list(reversed(d.items())), [("b", {"c": 2}), ("a", 1)])
                 self.assertEqual(list(reversed(d.values())), [{"c": 2}, 1])
                 self.assertIsInstance(next(reversed(d.values())), benedict)
+
+    def test_values_membership(self) -> None:
+        for d in (
+            benedict({"a": {"b": 1}, "x": 1}),
+            benedict(a={"b": 1}, x=1),
+        ):
+            with self.subTest(pointer=d.dict() is not d):
+                self.assertIn(1, d.values())
+                self.assertIn({"b": 1}, d.values())
+                self.assertIn(benedict({"b": 1}), d.values())
+                self.assertNotIn({"b": 2}, d.values())
