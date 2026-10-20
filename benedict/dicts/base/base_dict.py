@@ -260,13 +260,14 @@ class BaseDict(dict[_K, _V]):
             return self._dict.setdefault(key, default)
         return super().setdefault(key, default)
 
-    def update(self, other: Any) -> None:
+    def update(self, other: Any = (), /, **kwargs: Any) -> None:
         self._check_frozen()
         other = self._get_dict_or_value(other)
+        kwargs = self._get_dict_or_value(kwargs)
         if self._dict is not None:
-            self._dict.update(other)
+            self._dict.update(other, **kwargs)
             return
-        super().update(other)
+        super().update(other, **kwargs)
 
     def values(self) -> ValuesView[_V]:  # type: ignore[override]
         if self._dict is not None:

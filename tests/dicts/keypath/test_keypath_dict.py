@@ -68,6 +68,26 @@ class keypath_dict_test_case(unittest.TestCase):
         with self.assertRaises(ValueError):
             b.update(d2)
 
+    def test_update_with_keywords(self) -> None:
+        b = KeypathDict({"a": 1})
+        b.update(b=2)
+        self.assertEqual(b, {"a": 1, "b": 2})
+        b.update({"a": 3}, a=4, c=5)
+        self.assertEqual(b, {"a": 4, "b": 2, "c": 5})
+
+    def test_update_with_no_arguments(self) -> None:
+        b = KeypathDict({"a": 1})
+        b.update()
+        self.assertEqual(b, {"a": 1})
+
+    def test_update_with_keywords_with_separator_in_keys(self) -> None:
+        b = KeypathDict({"a": 1})
+        with self.assertRaises(ValueError):
+            b.update(**{"a.x": 4})
+        with self.assertRaises(ValueError):
+            b.update(x={"a.y": 5})
+        self.assertEqual(b, {"a": 1})
+
     def test_update_with_dict_without_separator_in_keys(self) -> None:
         d1 = {
             "a": 1,
