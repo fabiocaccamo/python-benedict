@@ -126,6 +126,30 @@ class benedict_freeze_test_case(unittest.TestCase):
         self.assertEqual(b, {"a": {}, "values": [2]})
         self.assertTrue(b.frozen)
 
+    def test_freeze_prevents_merge(self) -> None:
+        b = benedict({"a": {"b": 1}}).freeze()
+        for other in ({"a": {"c": 2}}, {"d": 3}):
+            with self.subTest(other=other):
+                with self.assertRaisesRegex(TypeError, "frozen"):
+                    b.merge(other)
+                self.assertEqual(b, {"a": {"b": 1}})
+
+    def test_freeze_prevents_keylist_deletion_on_base_classes(self) -> None:
+        from benedict.dicts.keylist import KeylistDict
+        from benedict.dicts.keypath import KeypathDict
+
+        for cls in (KeylistDict, KeypathDict):
+            for operation in ("del", "pop"):
+                with self.subTest(cls=cls.__name__, operation=operation):
+                    d = cls({"a": {"b": 1}})
+                    d.freeze()
+                    with self.assertRaisesRegex(TypeError, "frozen"):
+                        if operation == "del":
+                            del d[["a", "b"]]
+                        else:
+                            d.pop(["a", "b"])
+                    self.assertEqual(d, {"a": {"b": 1}})
+
     def test_freeze_prevents_update(self) -> None:
         b = benedict({"a": 1})
         b.freeze()

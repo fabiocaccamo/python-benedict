@@ -30,6 +30,8 @@ class KeylistDict(BaseDict[list[str | int] | tuple[str | int, ...] | _K, _V]):
         return False
 
     def __delitem__(self, key: _K | list[Any] | tuple[str | int, ...]) -> None:
+        # keylist deletion acts on a nested parent, check the frozen state here
+        self._check_frozen()
         if type_util.is_list(key):
             self._delitem_bystreys(key)
             return
@@ -85,6 +87,8 @@ class KeylistDict(BaseDict[list[str | int] | tuple[str | int, ...] | _K, _V]):
         return default
 
     def pop(self, key: _K | list[str], *args: Any) -> Any:  # type: ignore[override]
+        # keylist pop acts on a nested parent, check the frozen state here
+        self._check_frozen()
         if type_util.is_list(key):
             return self._pop_bystreys(key, *args)
         return super().pop(key, *args)
