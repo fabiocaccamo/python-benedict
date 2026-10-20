@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.40.1](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.40.1) - 2026-10-20
+-   Fix `items` and `values` returning generators instead of views (no `len`, single iteration), eg. with `toml-rs`. #636 (by [@Gabrieljr42](https://github.com/Gabrieljr42) in #637)
+-   Honor freezing when deleting or popping a keypath and when merging into a frozen `benedict` instance. (by [@helo060228](https://github.com/helo060228) in #635)
+-   Support empty and keyword arguments in `update` method (eg. `update(key=value)`). (by [@xiehuanyi](https://github.com/xiehuanyi) in #633)
+-   Fix `BaseDict.get` and `pop` type annotations with fallback values of a different type. (by [@xiehuanyi](https://github.com/xiehuanyi) in #632)
+-   Set minimum `setuptools` version in `[build-system]`.
+-   Bump requirements and GitHub actions.
+
 ## [0.40.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.40.0) - 2026-10-13
 -   Add `Python 3.15` support.
 -   Drop `Python 3.10` support.
