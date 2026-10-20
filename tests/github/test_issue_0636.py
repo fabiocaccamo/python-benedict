@@ -1,5 +1,6 @@
 import unittest
 from collections.abc import ItemsView, ValuesView
+from unittest.mock import patch
 
 from benedict import benedict
 
@@ -94,3 +95,20 @@ class github_issue_0636_test_case(unittest.TestCase):
                 self.assertIn({"b": 1}, d.values())
                 self.assertIn(benedict({"b": 1}), d.values())
                 self.assertNotIn({"b": 2}, d.values())
+
+    def test_membership_does_not_cast_values(self) -> None:
+        # membership compares the stored values, casting each one is not needed
+        d = benedict({f"k{i}": {"v": i} for i in range(10)})
+        with patch.object(benedict, "_cast", side_effect=AssertionError("cast")):
+            self.assertIn({"v": 9}, d.values())
+            self.assertIn(("k9", {"v": 9}), d.items())
+            self.assertNotIn({"v": 10}, d.values())
+
+    def test_views_use_stored_keys_not_keypaths(self) -> None:
+        # a stored key like "x[0]" must not be parsed as a keypath with index
+        for d in (benedict({"x[0]": 1, "y": 2}), benedict(**{"x[0]": 1, "y": 2})):
+            with self.subTest(pointer=d.dict() is not d):
+                self.assertEqual(list(d.items()), [("x[0]", 1), ("y", 2)])
+                self.assertEqual(list(reversed(d.items())), [("y", 2), ("x[0]", 1)])
+                self.assertEqual(list(reversed(d.values())), [2, 1])
+                self.assertIn(("x[0]", 1), d.items())
