@@ -85,7 +85,7 @@ class BaseDict(dict[_K, _V]):
     def __deepcopy__(self, memo: dict[int, Any]) -> Self:
         obj = self.__class__()
         for key, value in self.items():
-            obj[key] = _clone(value, memo=memo)
+            obj[_clone(key, memo=memo)] = _clone(value, memo=memo)
         if self._frozen:
             obj.freeze()
         return obj
