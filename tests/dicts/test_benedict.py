@@ -78,6 +78,43 @@ class benedict_test_case(unittest.TestCase):
         self.assertEqual(b["item/name"], "new")
         self.assertEqual(source, {"item": {"name": "new"}})
 
+    def test_inplace_union_validates_keypath_separator(self) -> None:
+        for use_pointer in (False, True):
+            with self.subTest(use_pointer=use_pointer):
+                source = {"existing": 1}
+                b = benedict(source) if use_pointer else benedict(existing=1)
+                original = b
+
+                b |= {"added": 2}
+                self.assertIs(b, original)
+                self.assertEqual(b, {"existing": 1, "added": 2})
+                if use_pointer:
+                    self.assertEqual(source, {"existing": 1, "added": 2})
+
+                b |= {}
+                self.assertIs(b, original)
+                self.assertEqual(b, {"existing": 1, "added": 2})
+
+                with self.assertRaises(ValueError) as update_error:
+                    b.update({"invalid.key": 3})
+                with self.assertRaises(ValueError) as union_error:
+                    b |= {"invalid.key": 3}
+                self.assertEqual(
+                    str(union_error.exception), str(update_error.exception)
+                )
+                self.assertEqual(b, {"existing": 1, "added": 2})
+                if use_pointer:
+                    self.assertEqual(source, {"existing": 1, "added": 2})
+
+        for separator in ("/", None):
+            with self.subTest(separator=separator):
+                b = benedict(keypath_separator=separator)
+                original = b
+                b |= {"valid.key": 1}
+                self.assertIs(b, original)
+                self.assertEqual(list(dict.items(b)), [("valid.key", 1)])
+                self.assertEqual(b["valid.key"], 1)
+
     def test_clean(self) -> None:
         d = {
             "a": {},

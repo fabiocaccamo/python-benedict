@@ -23,6 +23,12 @@ class benedict_freeze_test_case(unittest.TestCase):
         with self.assertRaises(TypeError):
             b["b"] = 3
 
+    def test_freeze_prevents_inplace_union(self) -> None:
+        b = benedict({"a": 1}).freeze()
+        with self.assertRaisesRegex(TypeError, "frozen"):
+            b |= {"b": 2}
+        self.assertEqual(b, {"a": 1})
+
     def test_freeze_prevents_setitem_keypath(self) -> None:
         b = benedict({"a": {"b": 1}})
         b.freeze()

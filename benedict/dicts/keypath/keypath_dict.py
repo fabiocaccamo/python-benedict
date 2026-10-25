@@ -76,3 +76,7 @@ class KeypathDict(KeylistDict[_K, _V]):
         keypath_util.check_keys(other, self._keypath_separator)
         keypath_util.check_keys(kwargs, self._keypath_separator)
         super().update(other, **kwargs)
+
+    def __ior__(self, other: Any) -> Self:  # type: ignore[misc,override]
+        self.update(other)
+        return self
