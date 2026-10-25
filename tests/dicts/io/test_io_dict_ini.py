@@ -8,6 +8,58 @@ class io_dict_ini_test_case(io_dict_test_case):
     This class describes an IODict / ini test case.
     """
 
+    def test_from_ini_with_custom_default_section(self) -> None:
+        s = (
+            "[general]\ncount = 2\nratio = 1.5\nenabled = yes\nname = demo\n"
+            "[app]\ncount = 3\n"
+        )
+        expected = {
+            "count": 2,
+            "ratio": 1.5,
+            "enabled": True,
+            "name": "demo",
+            "app": {"count": 3, "ratio": 1.5, "enabled": True, "name": "demo"},
+        }
+        self.assertEqual(IODict.from_ini(s, default_section="general"), expected)
+        self.assertEqual(IODict(s, format="ini", default_section="general"), expected)
+
+    def test_from_ini_with_custom_defaults_and_literal_default_section(self) -> None:
+        s = "[general]\ncount = 2\n[DEFAULT]\ncount = 9\n[app]\nname = demo\n"
+        expected = {
+            "count": 2,
+            "DEFAULT": {"count": 9},
+            "app": {"count": 2, "name": "demo"},
+        }
+        self.assertEqual(IODict.from_ini(s, default_section="general"), expected)
+
+    def test_from_ini_with_custom_valueless_defaults(self) -> None:
+        s = "[general]\nflag\n[app]\nname = demo\n"
+        expected = {"flag": None, "app": {"flag": None, "name": "demo"}}
+        self.assertEqual(
+            IODict.from_ini(s, default_section="general", allow_no_value=True),
+            expected,
+        )
+
+    def test_to_ini_with_custom_default_section(self) -> None:
+        for value, line, options in (
+            (2, "count = 2", {}),
+            (None, "count", {"allow_no_value": True}),
+        ):
+            with self.subTest(value=value):
+                d = IODict({"count": value, "app": {"name": "demo"}})
+                s = d.to_ini(default_section="general", **options)
+                self.assertEqual(s, f"[general]\n{line}\n\n[app]\nname = demo\n\n")
+                self.assertEqual(
+                    IODict.from_ini(s, default_section="general", **options),
+                    {"count": value, "app": {"count": value, "name": "demo"}},
+                )
+
+    def test_to_ini_with_custom_defaults_and_literal_default_section(self) -> None:
+        d = IODict({"DEFAULT": {"count": 9}, "count": 2})
+        s = d.to_ini(default_section="general")
+        self.assertEqual(s, "[general]\ncount = 2\n\n[DEFAULT]\ncount = 9\n\n")
+        self.assertEqual(IODict.from_ini(s, default_section="general"), d)
+
     def test_from_ini_with_valueless_options(self) -> None:
         s = "[app]\nflag\nempty =\ncount = 2\nratio = 1.5\nenabled = yes\n"
         expected = {
