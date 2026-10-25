@@ -524,13 +524,33 @@ class benedict_test_case(unittest.TestCase):
         self.assertTrue(isinstance(f, benedict))
 
     def test_flatten_with_falsy_parent_keys(self) -> None:
-        for key in (0, False, None):
+        for key in (0, False, None, ""):
             with self.subTest(key=key):
                 source = benedict({key: {"child": 1}, "child": 2})
                 result = source.flatten()
                 self.assertEqual(result, {f"{key}_child": 1, "child": 2})
                 self.assertIsInstance(result, benedict)
                 self.assertEqual(source, {key: {"child": 1}, "child": 2})
+
+    def test_flatten_empty_parent_keys_round_trip(self) -> None:
+        for separator in ("_", "/"):
+            with self.subTest(separator=separator):
+                data = {"": {"": 1, "items": [{"value": 2}]}, "value": 3}
+                source = benedict(data)
+                result = source.flatten(separator=separator, indexes=True)
+                self.assertEqual(
+                    result,
+                    {
+                        separator: 1,
+                        f"{separator}items[0]{separator}value": 2,
+                        "value": 3,
+                    },
+                )
+                self.assertIsInstance(result, benedict)
+                self.assertEqual(result.unflatten(separator=separator), data)
+                self.assertEqual(
+                    data, {"": {"": 1, "items": [{"value": 2}]}, "value": 3}
+                )
 
     def test_flatten_with_custom_keypath_separator(self) -> None:
         d = {

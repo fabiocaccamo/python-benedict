@@ -1,11 +1,13 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
 from typing import Any
 
 from benedict.core.clone import clone
 
 
-def _flatten_key(base_key: str, key: str, separator: str) -> str:
-    if base_key and separator:
+def _flatten_key(base_key: str | None, key: str, separator: str) -> str:
+    if base_key is not None and separator:
         return f"{base_key}{separator}{key}"
     return key
 
@@ -49,7 +51,7 @@ def _flatten_list(
 def _flatten_item(
     d: Any,
     base_dict: Any,
-    base_key: str,
+    base_key: str | None,
     separator: str,
     indexes: bool = False,
 ) -> Any:
@@ -87,7 +89,7 @@ def flatten(d: Any, separator: str = "_", indexes: bool = False) -> Any:
     # collect items in a plain dict, flattened keys (eg. "a[0]")
     # must not be parsed as keypaths by benedict instances
     items = _flatten_item(
-        d, base_dict={}, base_key="", separator=separator, indexes=indexes
+        d, base_dict={}, base_key=None, separator=separator, indexes=indexes
     )
     new_dict = clone(d, empty=True)
     new_dict.update(items)
