@@ -98,6 +98,8 @@ class BaseDict(dict[_K, _V]):
         super().__delitem__(key)
 
     def __eq__(self, other: object) -> bool:
+        if isinstance(other, BaseDict) and other._dict is not None:
+            other = other._dict
         if self._dict is not None:
             return self._dict == other
         return super().__eq__(other)
@@ -125,6 +127,8 @@ class BaseDict(dict[_K, _V]):
         return super().__len__()
 
     def __ne__(self, other: object) -> bool:
+        if isinstance(other, BaseDict) and other._dict is not None:
+            other = other._dict
         if self._dict is not None:
             return self._dict != other
         return super().__ne__(other)

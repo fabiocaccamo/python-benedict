@@ -7,6 +7,7 @@ from collections.abc import Iterable
 from types import MappingProxyType
 from typing import Any, assert_type
 
+from benedict import benedict
 from benedict.dicts.base import BaseDict
 
 
@@ -196,6 +197,23 @@ class base_dict_test_case(unittest.TestCase):
         self.assertTrue(b == o1)
         self.assertFalse(b == o2)
         self.assertEqual(b, b.dict())
+
+    def test_comparisons_between_owned_and_wrapped_dicts(self) -> None:
+        for dict_type in (BaseDict, benedict):
+            backing = {"old": 1}
+            wrapped = dict_type(backing)
+            for current in ({"new": 2}, {"new": 3, "extra": 4}, {}):
+                with self.subTest(dict_type=dict_type, current=current):
+                    backing.clear()
+                    backing.update(current)
+                    owned = dict_type(**current)
+                    for left, right in ((owned, wrapped), (wrapped, owned)):
+                        self.assertTrue(left == right)
+                        self.assertFalse(left != right)
+                    owned["different"] = 5
+                    for left, right in ((owned, wrapped), (wrapped, owned)):
+                        self.assertFalse(left == right)
+                        self.assertTrue(left != right)
 
     def test__equal__with_pointer(self) -> None:
         d = {
