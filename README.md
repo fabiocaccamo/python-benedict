@@ -278,6 +278,15 @@ d = benedict.from_json(
 
 - All *output* methods can be accessed as instance methods and are prefixed by `to_*` followed by the format name.
 - In all *output* methods, if `filepath="..."` kwarg is specified, the output will be also **saved** at the specified filepath.
+- S3 outputs accept the same `s3_options` client settings as inputs. Omit them to use the standard AWS credentials and configuration:
+
+```python
+d.to_json(
+    filepath="s3://my-bucket/data.json",
+    s3_options={"region_name": "us-east-1"},
+    indent=2,
+)
+```
 
 #### Supported formats
 
