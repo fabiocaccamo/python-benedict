@@ -82,52 +82,58 @@ class XLSSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
         # load the worksheet
         workbook = open_workbook(**options)
 
-        # get sheet by index or by name
-        sheet_index, sheet_name = self._get_sheet_index_and_name_from_options(**kwargs)
-        if sheet_name:
-            sheet_names = workbook.sheet_names()
-            sheet_index = self._get_sheet_index_by_name(sheet_name, sheet_names)
-        sheet = workbook.sheet_by_index(sheet_index)
-        sheet_columns_range = range(sheet.ncols)
+        try:
+            # get sheet by index or by name
+            sheet_index, sheet_name = self._get_sheet_index_and_name_from_options(
+                **kwargs
+            )
+            if sheet_name:
+                sheet_names = workbook.sheet_names()
+                sheet_index = self._get_sheet_index_by_name(sheet_name, sheet_names)
+            sheet = workbook.sheet_by_index(sheet_index)
+            sheet_columns_range = range(sheet.ncols)
 
-        # get columns
-        columns = kwargs.pop("columns", None)
-        columns_row = kwargs.pop("columns_row", True)
-        columns_standardized = kwargs.pop(
-            "columns_standardized", columns is None and columns_row
-        )
-        if not columns:
-            if columns_row:
-                # if first row is for column names read the names
-                # for row in sheet.iter_rows(min_row=1, max_row=1):
+            # get columns
+            columns = kwargs.pop("columns", None)
+            columns_row = kwargs.pop("columns_row", True)
+            columns_standardized = kwargs.pop(
+                "columns_standardized", columns is None and columns_row
+            )
+            if not columns:
+                if columns_row:
+                    # if first row is for column names read the names
+                    # for row in sheet.iter_rows(min_row=1, max_row=1):
+                    columns = [
+                        sheet.cell_value(0, col_index)
+                        for col_index in sheet_columns_range
+                    ]
+                else:
+                    # otherwise use columns indexes as column names
+                    # for row in sheet.iter_rows(min_row=1, max_row=1):
+                    columns = list(sheet_columns_range)
+
+            # standardize column names, eg. "Date Created" -> "date_created"
+            if columns_standardized:
                 columns = [
-                    sheet.cell_value(0, col_index) for col_index in sheet_columns_range
+                    slugify(self._get_column_name(column), separator="_")
+                    for column in columns
                 ]
-            else:
-                # otherwise use columns indexes as column names
-                # for row in sheet.iter_rows(min_row=1, max_row=1):
-                columns = list(sheet_columns_range)
 
-        # standardize column names, eg. "Date Created" -> "date_created"
-        if columns_standardized:
-            columns = [
-                slugify(self._get_column_name(column), separator="_")
-                for column in columns
-            ]
+            # build list of dicts, one for each row
+            items = []
+            items_row_start = 1 if columns_row else 0
+            for row_index in range(items_row_start, sheet.nrows):
+                row = {}
+                for col_index in sheet_columns_range:
+                    col_key = columns[col_index]
+                    value = sheet.cell_value(row_index, col_index)
+                    row[col_key] = value
+                items.append(row)
 
-        # build list of dicts, one for each row
-        items = []
-        items_row_start = 1 if columns_row else 0
-        for row_index in range(items_row_start, sheet.nrows):
-            row = {}
-            for col_index in sheet_columns_range:
-                col_key = columns[col_index]
-                value = sheet.cell_value(row_index, col_index)
-                row[col_key] = value
-            items.append(row)
-
-        # print(items)
-        return items
+            # print(items)
+            return items
+        finally:
+            workbook.release_resources()
 
     def _decode(self, s: str, **kwargs: Any) -> list[dict[str, Any]]:
         options: dict[str, Any] = {}
@@ -140,61 +146,63 @@ class XLSSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
         # load the worksheet
         workbook = load_workbook(**options)
 
-        # get sheet by index or by name
-        sheet_index, sheet_name = self._get_sheet_index_and_name_from_options(**kwargs)
-        sheets = list(workbook)
-        if sheet_name:
-            sheet_names = [sheet.title for sheet in sheets]
-            sheet_index = self._get_sheet_index_by_name(sheet_name, sheet_names)
-        sheet = sheets[sheet_index]
-        sheet_columns_cells = list(sheet.iter_rows(min_row=1, max_row=1))[0]
-
-        # get columns
-        columns = kwargs.pop("columns", None)
-        columns_row = kwargs.pop("columns_row", True)
-        columns_standardized = kwargs.pop(
-            "columns_standardized", columns is None and columns_row
-        )
-        if not columns:
-            if columns_row:
-                # if first row is for column names read the names
-                # for row in sheet.iter_rows(min_row=1, max_row=1):
-                columns = [cell.value for cell in sheet_columns_cells]
-            else:
-                # otherwise use columns indexes as column names
-                # for row in sheet.iter_rows(min_row=1, max_row=1):
-                columns = self._get_sheet_columns_indexes(len(sheet_columns_cells))
-
-        # standardize column names, eg. "Date Created" -> "date_created"
-        if columns_standardized:
-            columns = [
-                slugify(self._get_column_name(column), separator="_")
-                for column in columns
-            ]
-
-        # build list of dicts, one for each row
-        items = []
-        items_row_start = 2 if columns_row else 1
-        for row in sheet.iter_rows(min_row=items_row_start):
-            values = [cell.value for cell in row]
-            items.append(dict(zip(columns, values)))
-
         try:
-            # explicitly close vba_archive if present: Workbook.close() never
-            # closes it, so relying on GC (__del__ -> close()) is unsafe because
-            # the underlying BytesIO may already be finalized first, causing a
-            # ValueError when ZipFile tries to flush the end-of-central-directory
-            vba_archive = getattr(workbook, "vba_archive", None)
-            if vba_archive is not None:
-                vba_archive.close()
-        except Exception:
-            pass
+            # get sheet by index or by name
+            sheet_index, sheet_name = self._get_sheet_index_and_name_from_options(
+                **kwargs
+            )
+            sheets = list(workbook)
+            if sheet_name:
+                sheet_names = [sheet.title for sheet in sheets]
+                sheet_index = self._get_sheet_index_by_name(sheet_name, sheet_names)
+            sheet = sheets[sheet_index]
+            sheet_columns_cells = list(sheet.iter_rows(min_row=1, max_row=1))[0]
 
-        # close the worksheet
-        workbook.close()
+            # get columns
+            columns = kwargs.pop("columns", None)
+            columns_row = kwargs.pop("columns_row", True)
+            columns_standardized = kwargs.pop(
+                "columns_standardized", columns is None and columns_row
+            )
+            if not columns:
+                if columns_row:
+                    # if first row is for column names read the names
+                    # for row in sheet.iter_rows(min_row=1, max_row=1):
+                    columns = [cell.value for cell in sheet_columns_cells]
+                else:
+                    # otherwise use columns indexes as column names
+                    # for row in sheet.iter_rows(min_row=1, max_row=1):
+                    columns = self._get_sheet_columns_indexes(len(sheet_columns_cells))
 
-        # print(items)
-        return items
+            # standardize column names, eg. "Date Created" -> "date_created"
+            if columns_standardized:
+                columns = [
+                    slugify(self._get_column_name(column), separator="_")
+                    for column in columns
+                ]
+
+            # build list of dicts, one for each row
+            items = []
+            items_row_start = 2 if columns_row else 1
+            for row in sheet.iter_rows(min_row=items_row_start):
+                values = [cell.value for cell in row]
+                items.append(dict(zip(columns, values)))
+
+            return items
+        finally:
+            try:
+                # explicitly close vba_archive if present: Workbook.close() never
+                # closes it, so relying on GC (__del__ -> close()) is unsafe because
+                # the underlying BytesIO may already be finalized first, causing a
+                # ValueError when ZipFile tries to flush the end-of-central-directory
+                vba_archive = getattr(workbook, "vba_archive", None)
+                if vba_archive is not None:
+                    vba_archive.close()
+            except Exception:
+                pass
+
+            # close the worksheet
+            workbook.close()
 
     def decode(self, s: str, **kwargs: Any) -> list[dict[str, Any]]:
         require_xls(installed=xls_installed)
