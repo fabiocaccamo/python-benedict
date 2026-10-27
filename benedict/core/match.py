@@ -4,7 +4,6 @@ import re
 from collections.abc import Mapping
 from typing import Any
 
-from benedict.core.keypaths import keypaths
 from benedict.utils import pattern_util, type_util
 
 
@@ -20,6 +19,21 @@ def match(
         regex = pattern_util.compile_wildcard_pattern(pattern)
     else:
         raise ValueError(f"Expected regex or string, found: {type(pattern)}")
-    kps = keypaths(d, separator=separator, indexes=indexes)
-    values = [d.get(kp) for kp in kps if regex.match(kp)]
-    return values
+    separator = "." if separator is None else separator
+    if not type_util.is_string(separator) or not separator:
+        raise ValueError("separator argument must be a (non-empty) string.")
+    items: list[tuple[str, Any]] = []
+
+    def collect(value: Any, path: str) -> None:
+        items.append((path, value))
+        if isinstance(value, Mapping):
+            for key, child in value.items():
+                collect(child, f"{path}{separator}{key}")
+        elif indexes and type_util.is_list_or_tuple(value):
+            for index, child in enumerate(value):
+                collect(child, f"{path}[{index}]")
+
+    for key, value in d.items():
+        collect(value, str(key))
+    items.sort(key=lambda item: item[0])
+    return [value for path, value in items if regex.match(path)]
