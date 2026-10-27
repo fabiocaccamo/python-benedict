@@ -180,8 +180,10 @@ def read_content_from_s3(
     filename = fsutil.get_filename(s3_url["key"])
     filepath = fsutil.join_path(dirpath, filename)
     s3 = boto3.client("s3", **s3_options)
-    s3.download_file(s3_url["bucket"], s3_url["key"], filepath)
-    s3.close()
+    try:
+        s3.download_file(s3_url["bucket"], s3_url["key"], filepath)
+    finally:
+        s3.close()
     content = read_content_from_file(filepath, format)
     return content
 
@@ -221,7 +223,11 @@ def write_content_to_s3(
     filename = fsutil.get_filename(s3_url["key"])
     filepath = fsutil.join_path(dirpath, filename)
     fsutil.write_file(filepath, content)
-    s3 = boto3.client("s3", **s3_options)
-    s3.upload_file(filepath, s3_url["bucket"], s3_url["key"])
-    s3.close()
-    fsutil.remove_file(filepath)
+    try:
+        s3 = boto3.client("s3", **s3_options)
+        try:
+            s3.upload_file(filepath, s3_url["bucket"], s3_url["key"])
+        finally:
+            s3.close()
+    finally:
+        fsutil.remove_file(filepath)
