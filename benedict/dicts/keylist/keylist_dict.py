@@ -61,6 +61,7 @@ class KeylistDict(BaseDict[list[str | int] | tuple[str | int, ...] | _K, _V]):
     def __setitem__(
         self, key: list[str | int] | tuple[str | int, ...] | _K, value: _V
     ) -> None:
+        self._check_frozen()
         if type_util.is_list(key):
             self._setitem_bystreys(key, value)
             return
