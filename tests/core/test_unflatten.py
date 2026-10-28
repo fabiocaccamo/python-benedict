@@ -1,5 +1,6 @@
 import unittest
 
+from benedict import benedict
 from benedict.core import flatten as _flatten
 from benedict.core import unflatten as _unflatten
 
@@ -148,4 +149,23 @@ class unflatten_test_case(unittest.TestCase):
                 },
             },
         }
+        self.assertEqual(u, r)
+
+    def test_unflatten_after_flatten_with_indexes_on_benedict_instance(self) -> None:
+        # regression test for values lost to keypath parsing of
+        # flattened keys (eg. "b[0]") when unflattening a benedict.
+        i = {
+            "a": 1,
+            "b": ["x", "y", "z"],
+            "c": [{"d": 2}, {"e": {"f": [3, 4]}}],
+        }
+        f = benedict(i).flatten(indexes=True)
+        u = f.unflatten()
+        self.assertEqual(u, i)
+
+    def test_unflatten_flattened_keys_dict_instance(self) -> None:
+        # unflatten a benedict holding literal flattened keys
+        d = benedict({"top[0]": 1, "top[1]": 2})
+        u = d.unflatten()
+        r = {"top": [1, 2]}
         self.assertEqual(u, r)
