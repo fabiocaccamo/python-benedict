@@ -333,6 +333,19 @@ class benedict_test_case(unittest.TestCase):
         output = b.dump()
         self.assertEqual(output, expected_output)
 
+    def test_dump_with_explicit_empty_data(self) -> None:
+        b = benedict({"existing": "value"})
+        for data, expected in (({}, "{}"), ([], "[]")):
+            with self.subTest(data=data):
+                self.assertEqual(b.dump(data), expected)
+                self.assertEqual(benedict.dump(data), expected)
+        self.assertEqual(b, {"existing": "value"})
+
+    def test_dump_with_explicit_nonempty_data(self) -> None:
+        b = benedict({"existing": "value"})
+        self.assertEqual(b.dump([1]), "[\n    1\n]")
+        self.assertEqual(b.dump(None), b.dump())
+
     def test_dump_with_datetime(self) -> None:
         d = {
             "datetime": datetime(2019, 6, 11),
