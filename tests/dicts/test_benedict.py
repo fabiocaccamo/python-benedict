@@ -481,6 +481,18 @@ class benedict_test_case(unittest.TestCase):
         self.assertTrue(isinstance(f, benedict))
         self.assertEqual(f, r)
 
+    def test_filter_deep_dicts_inside_sequences(self) -> None:
+        source = benedict(
+            {"rows": [{"missing": None, "present": 1}]}, keypath_separator="/"
+        )
+        result = source.filter(lambda key, value: value is not None, deep=True)
+        self.assertIsInstance(result, benedict)
+        self.assertEqual(result.keypath_separator, "/")
+        self.assertEqual(result, {"rows": [{"present": 1}]})
+        self.assertEqual(source, {"rows": [{"missing": None, "present": 1}]})
+        shallow = source.filter(lambda key, value: value is not None)
+        self.assertEqual(shallow, source)
+
     def test_find(self) -> None:
         d = {
             "a": 1,
