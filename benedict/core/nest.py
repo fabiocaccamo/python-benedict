@@ -12,6 +12,12 @@ def _nest_items(
     id_key: Any,
     children_key: Any,
 ) -> None:
+    # groupby() supplied a copy, so make that new output record writable
+    # without changing the frozen state of the caller's record.
+    from benedict.dicts.base import BaseDict
+
+    if isinstance(item, BaseDict):
+        item.unfreeze()
     children_items = nested_items.pop(item[id_key], [])
     item[children_key] = children_items
     for child_item in children_items:
