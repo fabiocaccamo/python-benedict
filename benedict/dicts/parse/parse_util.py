@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 import re
 from datetime import date, datetime
 from decimal import Decimal, DecimalException
@@ -248,8 +249,11 @@ def _parse_int(val: str) -> int | None:
         return int(val)
     except ValueError:
         try:
-            return int(float(val))
-        except (ValueError, OverflowError):
+            # Preserve the existing finite-float range without rounding the integer.
+            if not math.isfinite(float(val)):
+                return None
+            return int(Decimal(val))
+        except (DecimalException, ValueError, OverflowError):
             return None
 
 
