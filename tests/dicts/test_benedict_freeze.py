@@ -5,6 +5,27 @@ from benedict import benedict
 
 
 class benedict_freeze_test_case(unittest.TestCase):
+    def test_copy_module_preserves_settings_without_aliasing_outer_mapping(
+        self,
+    ) -> None:
+        source = {"a.b": 1, "nested": {"value": 2}}
+        original = benedict(
+            source, keypath_separator="/", keyattr_enabled=False, keyattr_dynamic=True
+        )
+
+        copied = copy.copy(original)
+
+        self.assertEqual(copied, original)
+        self.assertEqual(copied.keypath_separator, "/")
+        self.assertFalse(copied.keyattr_enabled)
+        self.assertTrue(copied.keyattr_dynamic)
+        self.assertIsNot(copied.dict(), source)
+        self.assertIs(copied["nested"].dict(), source["nested"])
+        copied["a.b"] = 3
+        copied["nested/value"] = 4
+        self.assertEqual(source, {"a.b": 1, "nested": {"value": 4}})
+        self.assertEqual(copied, {"a.b": 3, "nested": {"value": 4}})
+
     def test_freeze(self) -> None:
         b = benedict({"a": 1})
         self.assertFalse(b.frozen)
