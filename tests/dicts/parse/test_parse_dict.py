@@ -382,6 +382,17 @@ class parse_dict_test_case(unittest.TestCase):
         self.assertEqual(b.get_int("i", 2), 2)
         self.assertEqual(b.get_int("j", 2), 2)
 
+    def test_get_int_preserves_decimal_precision(self) -> None:
+        d = ParseDict(
+            {"number": "9007199254740993.0", "fraction": "1.999999999999999999"}
+        )
+        self.assertEqual(d.get_int("number"), 9007199254740993)
+        self.assertEqual(d.get_int("fraction"), 1)
+        self.assertEqual(
+            d.get_int("number", choices=[9007199254740993]), 9007199254740993
+        )
+        self.assertEqual(d.get_int_list("number"), [9007199254740993])
+
     def test_get_int_with_choices(self) -> None:
         d = {
             "a": 25,
