@@ -2460,6 +2460,33 @@ b:
         with self.assertRaises(ValueError):
             b.update(**{"x.y": 5})
 
+    def test_unique_literal_index_key_does_not_pop_list_item(self) -> None:
+        for wrapped in (False, True):
+            with self.subTest(wrapped=wrapped):
+                source = {"first": 1, "rows": [1, 2], "rows[0]": 1}
+                b = benedict(source) if wrapped else benedict(**source)
+                b.unique()
+                self.assertEqual(dict(b.items()), {"first": 1, "rows": [1, 2]})
+                if wrapped:
+                    self.assertEqual(source, {"first": 1, "rows": [1, 2]})
+
+    def test_unique_compares_literal_index_key_value(self) -> None:
+        b = benedict({"first": 1, "rows": [1, 2], "rows[0]": 3})
+        b.unique()
+        self.assertEqual(dict(b.items()), {"first": 1, "rows": [1, 2], "rows[0]": 3})
+
+    def test_unique_literal_index_key_without_parent(self) -> None:
+        b = benedict({"first": [1], "rows[0]": [1], "other": None})
+        b.unique()
+        self.assertEqual(dict(b.items()), {"first": [1], "other": None})
+
+    def test_unique_literal_index_key_frozen(self) -> None:
+        source = {"first": 1, "rows": [1, 2], "rows[0]": 1}
+        b = benedict(source).freeze()
+        with self.assertRaises(TypeError):
+            b.unique()
+        self.assertEqual(source, {"first": 1, "rows": [1, 2], "rows[0]": 1})
+
     def test_unique(self) -> None:
         d = {
             "a": {

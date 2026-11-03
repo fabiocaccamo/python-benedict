@@ -3,11 +3,14 @@ from typing import Any
 
 
 def unique(d: MutableMapping[Any, Any]) -> None:
+    from benedict.dicts.base import BaseDict
+
     values = []
-    keys = list(d.keys())
-    for key in keys:
-        value = d.get(key, None)
+    for key, value in list(d.items()):
         if value in values:
-            d.pop(key, None)
+            if isinstance(d, BaseDict):
+                BaseDict.pop(d, key, None)
+            else:
+                d.pop(key, None)
             continue
         values.append(value)
