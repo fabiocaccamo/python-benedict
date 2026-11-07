@@ -30,6 +30,21 @@ class io_dict_cli_test_case(io_dict_test_case):
         self.assertTrue(isinstance(d, dict))
         self.assertEqual(d, r)
 
+    def test_from_cli_with_hyphenated_options(self) -> None:
+        s = (
+            "--output-dir build --user-names first last "
+            "--log-level info --log-level debug --dry-run --dry-run --no-cache"
+        )
+        expected = {
+            "output_dir": "build",
+            "user_names": ["first", "last"],
+            "log_level": ["info", "debug"],
+            "dry_run": 2,
+            "no_cache": True,
+        }
+        self.assertEqual(IODict.from_cli(s), expected)
+        self.assertEqual(IODict(s, format="cli"), expected)
+
     def test_from_cli_with_invalid_arguments(self) -> None:
         s = """--help -h"""
         # static method

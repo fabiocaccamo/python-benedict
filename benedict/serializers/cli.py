@@ -14,7 +14,7 @@ class CLISerializer(AbstractSerializer[str | None, dict[str, Any]]):
     This class describes a CLI serializer.
     """
 
-    regex_keys_with_values = r"-+\w+(?=\s[^\s-])"
+    regex_keys_with_values = r"-+\w[\w-]*(?=\s[^\s-])"
     """
     Regex string.
     Used to search for keys (e.g. -STRING or --STRING)
@@ -25,7 +25,7 @@ class CLISerializer(AbstractSerializer[str | None, dict[str, Any]]):
     - Doesn't match: script.py, example, --verbose, -d, email@example.com
     """
 
-    regex_all_keys = r"-+\w+"
+    regex_all_keys = r"-+\w[\w-]*"
     """
     Regex string.
     Used to search for keys (e.g. -STRING or --STRING)
