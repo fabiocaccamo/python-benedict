@@ -20,9 +20,12 @@ def _unflatten_item(key: Any, value: Any, separator: str) -> tuple[list[Any], An
 
 def unflatten(d: MutableMapping[Any, Any], separator: str = "_") -> Any:
     new_dict = clone(d, empty=True)
-    keys = list(d.keys())
-    for key in keys:
-        value = d.get(key, None)
+    # Read the values through a plain-dict snapshot first: on a benedict
+    # instance `get` is keypath-aware, so a literal flattened key such as
+    # "top[0]" would be parsed as the keypath ["top", 0], miss, and
+    # silently return the default for every "[i]" key.
+    items = dict(d.items())
+    for key, value in items.items():
         new_keys, new_value = _unflatten_item(key, value, separator)
         keylist_util.set_item(new_dict, new_keys, new_value)
     return new_dict

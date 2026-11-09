@@ -149,3 +149,33 @@ class unflatten_test_case(unittest.TestCase):
             },
         }
         self.assertEqual(u, r)
+
+
+class benedict_unflatten_test_case(unittest.TestCase):
+    """
+    This class describes unflattening benedict instances, where the
+    keypath-aware get would otherwise lose list values (GH issue #655).
+    """
+
+    def test_benedict_unflatten_after_flatten_with_indexes(self) -> None:
+        from benedict import benedict
+
+        d = benedict({"top": [1, 2], "l": [{"a": 1}]})
+        f = d.flatten(indexes=True)
+        u = f.unflatten()
+        self.assertEqual(u, {"top": [1, 2], "l": [{"a": 1}]})
+
+    def test_benedict_unflatten_deep_nested(self) -> None:
+        from benedict import benedict
+
+        d = benedict({"a": {"b": [{"c": [1, 2, {"d": 3}]}]}})
+        f = d.flatten(indexes=True)
+        u = f.unflatten()
+        self.assertEqual(u, {"a": {"b": [{"c": [1, 2, {"d": 3}]}]}})
+        self.assertIsInstance(u, benedict)
+
+    def test_plain_dict_unflatten_unchanged(self) -> None:
+        d = {"top": [1, 2]}
+        f = _flatten(d, indexes=True)
+        u = _unflatten(f)
+        self.assertEqual(u, {"top": [1, 2]})
