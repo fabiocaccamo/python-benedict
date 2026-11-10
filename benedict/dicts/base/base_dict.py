@@ -9,7 +9,7 @@ from collections.abc import (
     Reversible,
     ValuesView,
 )
-from typing import Any, Self, overload
+from typing import Any, Self, cast, overload
 
 from typing_extensions import TypeVar
 
@@ -255,6 +255,14 @@ class BaseDict(dict[_K, _V]):
 
     def setdefault(self, key: _K, default: _V | None = None) -> _V:
         self._check_frozen()
+        missing = object()
+        current = (
+            self._dict.get(key, missing)
+            if self._dict is not None
+            else super().get(key, missing)
+        )
+        if current is not missing:
+            return cast("_V", current)
         default = self._get_dict_or_value(default)
         if self._dict is not None:
             return self._dict.setdefault(key, default)
