@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import copy
 import unittest
-from collections import OrderedDict, UserDict
+from collections import OrderedDict, UserDict, defaultdict
 from collections.abc import Iterable
 from types import MappingProxyType
 from typing import Any, assert_type
@@ -610,6 +610,63 @@ class base_dict_test_case(unittest.TestCase):
         v = b.setdefault("d", 4)
         self.assertEqual(v, 4)
         self.assertEqual(b, b.dict())
+
+    def test_setdefault_existing_keeps_unused_default_unchanged(self) -> None:
+        for wrapped in (False, True):
+            for existing in (None, False, [], {"stored": 2}):
+                with self.subTest(wrapped=wrapped, existing=existing):
+                    source = {"known": existing}
+                    b = BaseDict(source) if wrapped else BaseDict(**source)
+                    child = BaseDict({"nested": 1})
+                    fallback = {"child": child}
+
+                    result = b.setdefault("known", fallback)
+
+                    self.assertIs(result, existing)
+                    self.assertIs(fallback["child"], child)
+                    self.assertEqual(child.dict(), {"nested": 1})
+                    self.assertEqual(b.dict(), source)
+                    self.assertNotIn("child", b)
+
+    def test_setdefault_missing_unwraps_default(self) -> None:
+        for wrapped in (False, True):
+            with self.subTest(wrapped=wrapped):
+                source: dict[str, Any] = {}
+                b: BaseDict[str, Any] = BaseDict(source) if wrapped else BaseDict()
+                child = BaseDict({"nested": 1})
+                fallback = {"child": child}
+
+                result = b.setdefault("missing", fallback)
+
+                self.assertIs(result, fallback)
+                self.assertIs(b["missing"], fallback)
+                self.assertIs(fallback["child"], child.dict())
+                if wrapped:
+                    self.assertIs(source["missing"], fallback)
+
+    def test_setdefault_frozen_keeps_unused_default_unchanged(self) -> None:
+        for wrapped in (False, True):
+            for key in ("known", "missing"):
+                with self.subTest(wrapped=wrapped, key=key):
+                    source = {"known": 42}
+                    b = BaseDict(source) if wrapped else BaseDict(**source)
+                    b.freeze()
+                    child = BaseDict({"nested": 1})
+                    fallback = {"child": child}
+
+                    with self.assertRaises(TypeError):
+                        b.setdefault(key, fallback)
+
+                    self.assertIs(fallback["child"], child)
+                    self.assertEqual(b.dict(), {"known": 42})
+                    self.assertTrue(b.frozen)
+
+    def test_setdefault_does_not_call_missing_factory(self) -> None:
+        source: defaultdict[str, Any] = defaultdict(list)
+        b = BaseDict(source)
+        fallback = {"value": 42}
+        self.assertIs(b.setdefault("missing", fallback), fallback)
+        self.assertIs(source["missing"], fallback)
 
     def test_setdefault_none(self) -> None:
         for wrapped in (False, True):
