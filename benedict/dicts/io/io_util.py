@@ -166,7 +166,7 @@ def read_content_from_file(filepath: str, format: str | None = None) -> str:
     binary_format = is_binary_format(format)
     if binary_format:
         return filepath
-    content = fsutil.read_file(filepath)
+    content = fsutil.read_file(filepath, encoding="utf-8-sig")
     return str(content)
 
 

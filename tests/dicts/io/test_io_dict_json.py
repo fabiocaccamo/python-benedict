@@ -78,6 +78,11 @@ class io_dict_json_test_case(io_dict_test_case):
         with self.assertRaises(ValueError):
             IODict(j, format="json")
 
+    def test_from_json_with_valid_file_with_bom(self) -> None:
+        filepath = self.input_path("valid-content-bom.json")
+        d = IODict.from_json(filepath)
+        self.assertEqual(d, {"name": "Anna"})
+
     def test_from_json_with_valid_file_valid_content(self) -> None:
         filepath = self.input_path("valid-content.json")
         # static method
