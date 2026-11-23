@@ -97,6 +97,16 @@ class keypath_dict_test_case(unittest.TestCase):
         b.update([("b", 2)])
         self.assertEqual(b, {"a": 1, "b": 2})
 
+    def test_update_with_pairs_generator_without_separator(self) -> None:
+        b = KeypathDict(keypath_separator=None)
+
+        def pairs() -> Any:
+            yield ("a", 1)
+            yield ("b", b["a"] + 1)
+
+        b.update(pairs())
+        self.assertEqual(b, {"a": 1, "b": 2})
+
     def test_update_with_dict_without_separator_in_keys(self) -> None:
         d1 = {
             "a": 1,

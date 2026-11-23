@@ -73,7 +73,7 @@ class KeypathDict(KeylistDict[_K, _V]):
         return super().pop(self._parse_key(key), *args)  # type: ignore[no-any-return]
 
     def update(self, other: Any = (), /, **kwargs: Any) -> None:
-        if not isinstance(other, dict):
+        if self._keypath_separator and not isinstance(other, dict):
             # check_keys only inspects dicts, so materialize pairs and other mappings
             other = dict(other)
         keypath_util.check_keys(other, self._keypath_separator)
