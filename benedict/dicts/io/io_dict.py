@@ -63,7 +63,16 @@ class IODict(BaseDict[_K, _V]):
 
     @staticmethod
     def _encode(d: Any, format: str, **kwargs: Any) -> Any:
-        s = io_util.encode(d, format, **kwargs)
+        try:
+            s = io_util.encode(d, format, **kwargs)
+        except ExtrasRequireModuleNotFoundError as e:
+            raise e
+        except Exception as error:
+            error_traceback = traceback.format_exc()
+            raise ValueError(
+                f"{error_traceback}\n"
+                f"Unexpected error / Invalid data or format: {format}\n{error}"
+            ) from None
         return s
 
     @classmethod

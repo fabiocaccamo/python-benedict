@@ -173,3 +173,14 @@ d = 4
         )
         with self.assertRaises(ExtrasRequireModuleNotFoundError):
             _ = d.to_toml()
+
+    def test_to_toml_with_invalid_data(self) -> None:
+        # toml supports only string keys, encoding a dict with an
+        # integer key must raise the documented ValueError
+        d = IODict(
+            {
+                1: "a",
+            }
+        )
+        with self.assertRaises(ValueError):
+            _ = d.to_toml()
