@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 try:
     import yaml
 
@@ -10,11 +12,23 @@ except ModuleNotFoundError:  # pragma: no cover
     yaml_installed = False
 
 
+from datetime import date, datetime
 from typing import Any, cast
 
 from benedict.extras import require_yaml
 from benedict.serializers.abstract import AbstractSerializer
-from benedict.serializers.json import JSONSerializer
+from benedict.utils import type_util
+
+# values yaml can represent natively without losing their type.
+_YAML_NATIVE_TYPES: tuple[type, ...] = (
+    type(None),
+    bool,
+    float,
+    int,
+    str,
+    date,
+    datetime,
+)
 
 
 class YAMLSerializer(AbstractSerializer[str, Any]):
@@ -35,7 +49,6 @@ class YAMLSerializer(AbstractSerializer[str, Any]):
                 "yml",
             ],
         )
-        self._json_serializer = JSONSerializer()
 
     def decode(self, s: str, **kwargs: Any) -> Any:
         require_yaml(installed=yaml_installed)
@@ -44,6 +57,36 @@ class YAMLSerializer(AbstractSerializer[str, Any]):
 
     def encode(self, d: Any, **kwargs: Any) -> str:
         require_yaml(installed=yaml_installed)
-        d = self._json_serializer.decode(self._json_serializer.encode(d))
-        data = yaml.safe_dump(d, **kwargs)
+        data = yaml.safe_dump(self._encode_data(d), **kwargs)
         return cast("str", data)
+
+    def _encode_key(self, key: Any) -> Any:
+        if isinstance(key, (bool, float, int, str)) or key is None:
+            # keep keys that yaml can represent natively
+            return key
+        return str(key)
+
+    def _encode_data(self, data: Any, ancestors: set[int] | None = None) -> Any:
+        if ancestors is None:
+            ancestors = set()
+        if type_util.is_dict(data):
+            if id(data) in ancestors:
+                raise ValueError("Circular reference detected.")
+            ancestors.add(id(data))
+            try:
+                return {
+                    self._encode_key(key): self._encode_data(value, ancestors)
+                    for key, value in data.items()
+                }
+            finally:
+                ancestors.discard(id(data))
+        if type_util.is_list_or_tuple(data) or type_util.is_set(data):
+            return [self._encode_data(value, ancestors) for value in data]
+        if isinstance(data, (date, datetime)):
+            # yaml supports dates/timestamps natively
+            return data
+        if type_util.is_decimal(data):
+            return str(data)
+        if isinstance(data, _YAML_NATIVE_TYPES):
+            return data
+        return str(data)

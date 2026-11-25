@@ -1,3 +1,5 @@
+from datetime import date, datetime
+from decimal import Decimal
 from unittest.mock import patch
 
 from benedict.dicts.io import IODict
@@ -186,4 +188,53 @@ b:
             }
         )
         with self.assertRaises(ExtrasRequireModuleNotFoundError):
+            _ = d.to_yaml()
+
+    def test_to_yaml_with_integer_keys(self) -> None:
+        d = IODict(
+            {
+                1: "a",
+                2: {
+                    3: "b",
+                },
+            }
+        )
+        s = d.to_yaml()
+        self.assertEqual("1: a\n2:\n  3: b\n", s)
+        self.assertEqual(d, IODict.from_yaml(s))
+
+    def test_to_yaml_with_date_and_datetime_values(self) -> None:
+        d = IODict(
+            {
+                "date": date(2020, 1, 2),
+                "datetime": datetime(2020, 1, 2, 3, 4, 5),
+            }
+        )
+        s = d.to_yaml()
+        self.assertEqual(d, IODict.from_yaml(s))
+
+    def test_to_yaml_with_set_decimal_and_tuple_values(self) -> None:
+        d = IODict(
+            {
+                "s": {1, 2},
+                "d": Decimal("3.14"),
+                "t": (1, 2),
+            }
+        )
+        s = d.to_yaml()
+        d2 = IODict.from_yaml(s)
+        self.assertEqual(sorted(d2["s"]), [1, 2])
+        self.assertEqual(d2["d"], "3.14")
+        self.assertEqual(d2["t"], [1, 2])
+
+    def test_to_yaml_with_circular_reference(self) -> None:
+        d = IODict(
+            {
+                "a": {
+                    "b": 1,
+                },
+            }
+        )
+        d["a"]["c"] = d
+        with self.assertRaises(ValueError):
             _ = d.to_yaml()
