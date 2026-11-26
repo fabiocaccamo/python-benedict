@@ -130,3 +130,23 @@ class invert_test_case(unittest.TestCase):
             ],
         }
         self.assertEqual(o, r)
+
+    def test_invert_keeps_literal_values_as_keys(self) -> None:
+        from benedict import benedict
+
+        b = benedict({"a": "foo", "b": "foo bar"})
+        self.assertEqual(b.invert(), {"foo": ["a"], "foo bar": ["b"]})
+
+    def test_invert_rejects_dotted_values(self) -> None:
+        from benedict import benedict
+
+        b = benedict({"a": "one.two"})
+        with self.assertRaises(ValueError):
+            b.invert()
+
+    def test_invert_rejects_indexed_values(self) -> None:
+        from benedict import benedict
+
+        b = benedict({"a": "foo", "b": "foo[0]"})
+        with self.assertRaises(ValueError):
+            b.invert(flat=True)
