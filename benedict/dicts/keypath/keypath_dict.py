@@ -7,6 +7,7 @@ from typing_extensions import TypeVar
 
 from benedict.dicts import KeylistDict
 from benedict.dicts.keypath import keypath_util
+from benedict.utils import type_util
 
 _K = keypath_util.KeyType
 _V = TypeVar("_V", default=Any)
@@ -49,6 +50,15 @@ class KeypathDict(KeylistDict[_K, _V]):
         self._keypath_separator = state["_keypath_separator"]
 
     def _parse_key(self, key: _K) -> _K:
+        if (
+            self._keypath_separator
+            and type_util.is_string(key)
+            and self._is_stored_key(key)
+        ):
+            # a stored key (eg. "a[0]" or "a.b" as a real key) takes
+            # precedence over its keypath interpretation, otherwise it
+            # would be unreachable: get / in / del would always fail.
+            return key
         keys = keypath_util.parse_keys(key, self._keypath_separator)
         keys_count = len(keys)
         if keys_count == 0:
@@ -56,6 +66,13 @@ class KeypathDict(KeylistDict[_K, _V]):
         elif keys_count == 1:
             return keys[0]
         return keys
+
+    def _is_stored_key(self, key: str) -> bool:
+        """Check the underlying dictionary storage directly (raw key lookup),
+        bypassing keypath parsing to avoid recursion."""
+        if self._dict is not None:
+            return key in self._dict
+        return dict.__contains__(self, key)
 
     @classmethod
     def fromkeys(  # type: ignore[override]
