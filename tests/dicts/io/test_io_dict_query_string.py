@@ -188,6 +188,41 @@ class io_dict_query_string_test_case(io_dict_test_case):
         s = d.to_query_string()
         self.assertEqual(d, IODict.from_query_string(s))
 
+    def test_to_query_string_with_array_style_values(self) -> None:
+        # mirror of test_from_query_string_with_array_style_keys:
+        # list values are encoded as repeated array-style keys, so that
+        # encoding and decoding are inverse operations.
+        d = IODict({"ok": "1", "a": ["1", "2"]})
+        s = d.to_query_string()
+        self.assertEqual(s, "ok=1&a[]=1&a[]=2")
+        # round-trip
+        r = {"ok": "1", "a": ["1", "2"]}
+        self.assertEqual(IODict.from_query_string(s), r)
+        self.assertEqual(d, IODict.from_query_string(s))
+
+    def test_to_query_string_with_bracketed_values(self) -> None:
+        # mirror of test_from_query_string_with_bracketed_keys:
+        # one-level dict values are encoded as bracketed keys, so that
+        # encoding and decoding are inverse operations.
+        d = IODict({"ok": "1", "user": {"name": "joe", "age": "42"}})
+        s = d.to_query_string()
+        self.assertEqual(s, "ok=1&user[name]=joe&user[age]=42")
+        # round-trip
+        r = {"ok": "1", "user": {"name": "joe", "age": "42"}}
+        self.assertEqual(IODict.from_query_string(s), r)
+        self.assertEqual(d, IODict.from_query_string(s))
+
+    def test_to_query_string_with_bracketed_list_values(self) -> None:
+        # list values within a one-level dict are encoded as repeated
+        # bracketed keys, the notation the decoder turns back into a list.
+        d = IODict({"user": {"name": "joe", "tags": ["a", "b"]}})
+        s = d.to_query_string()
+        self.assertEqual(s, "user[name]=joe&user[tags]=a&user[tags]=b")
+        # round-trip
+        r = {"user": {"name": "joe", "tags": ["a", "b"]}}
+        self.assertEqual(IODict.from_query_string(s), r)
+        self.assertEqual(d, IODict.from_query_string(s))
+
     def test_to_query_string_file(self) -> None:
         d = IODict(
             {
