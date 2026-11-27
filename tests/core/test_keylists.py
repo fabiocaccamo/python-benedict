@@ -1,6 +1,7 @@
 import unittest
 
 from benedict.core import keylists as _keylists
+from benedict.core.keylists import keylist_items
 
 
 class keylists_test_case(unittest.TestCase):
@@ -229,3 +230,25 @@ class keylists_test_case(unittest.TestCase):
             ["b", "e"],
         ]
         self.assertEqual(o, r)
+
+    def test_keylist_items(self) -> None:
+        i = {2: "two", "a": {"b": [1, {"c": 3}]}}
+        self.assertEqual(
+            keylist_items(i),
+            [
+                ([2], "two"),
+                (["a"], {"b": [1, {"c": 3}]}),
+                (["a", "b"], [1, {"c": 3}]),
+            ],
+        )
+        self.assertEqual(
+            keylist_items(i, indexes=True),
+            [
+                ([2], "two"),
+                (["a"], {"b": [1, {"c": 3}]}),
+                (["a", "b"], [1, {"c": 3}]),
+                (["a", "b[0]"], 1),
+                (["a", "b[1]"], {"c": 3}),
+                (["a", "b[1]", "c"], 3),
+            ],
+        )

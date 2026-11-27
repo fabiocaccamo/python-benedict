@@ -1,6 +1,7 @@
 import unittest
 
 from benedict.core import keypaths as _keypaths
+from benedict.core.keypaths import keypath_items
 
 
 class keypaths_test_case(unittest.TestCase):
@@ -320,3 +321,29 @@ class keypaths_test_case(unittest.TestCase):
             ],
         )
         self.assertEqual(_keypaths(data, indexes=False), ["items"])
+
+    def test_keypath_items(self) -> None:
+        i = {"b": [1, {"c": 3}], 2: "two", "a.b": "literal"}
+        self.assertEqual(
+            keypath_items(i),
+            [("2", "two"), ("a.b", "literal"), ("b", [1, {"c": 3}])],
+        )
+        self.assertEqual(
+            keypath_items(i, sort=False),
+            [("b", [1, {"c": 3}]), ("2", "two"), ("a.b", "literal")],
+        )
+        self.assertEqual(
+            keypath_items(i, separator="/", indexes=True),
+            [
+                ("2", "two"),
+                ("a.b", "literal"),
+                ("b", [1, {"c": 3}]),
+                ("b[0]", 1),
+                ("b[1]", {"c": 3}),
+                ("b[1]/c", 3),
+            ],
+        )
+
+    def test_keypath_items_with_invalid_separator(self) -> None:
+        with self.assertRaises(ValueError):
+            keypath_items({"a": 1}, separator="")
