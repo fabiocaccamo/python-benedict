@@ -6,6 +6,7 @@ from typing import Any, Self
 from typing_extensions import TypeVar
 
 from benedict.dicts import KeylistDict
+from benedict.dicts.base import BaseDict
 from benedict.dicts.keypath import keypath_util
 from benedict.utils import type_util
 
@@ -50,7 +51,7 @@ class KeypathDict(KeylistDict[_K, _V]):
         self._keypath_separator = state["_keypath_separator"]
 
     def _parse_key(self, key: _K) -> _K:
-        if type_util.is_string(key) and super().__contains__(key):
+        if type_util.is_string(key) and BaseDict.__contains__(self, key):
             # a stored key (eg. "a[0]" or "a.b" as a real key) takes
             # precedence over its keypath interpretation, otherwise it
             # would be unreachable: get / in / del would always fail.
