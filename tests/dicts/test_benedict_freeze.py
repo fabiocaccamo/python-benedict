@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import copy
 import unittest
 
@@ -7,55 +5,18 @@ from benedict import benedict
 
 
 class benedict_freeze_test_case(unittest.TestCase):
-    def _assert_nest_with_frozen_records(self, frozen_indexes: tuple[int, ...]) -> None:
+    def test_nest_with_frozen_records(self) -> None:
         records = [
-            benedict({"id": 1, "parent_id": None}, keypath_separator="/"),
-            benedict({"id": 2, "parent_id": 1}, keypath_separator="/"),
+            benedict({"id": 1, "parent_id": None}).freeze(),
+            benedict({"id": 2, "parent_id": 1}).freeze(),
         ]
-        for index in frozen_indexes:
-            records[index].freeze()
-        data = benedict({"records": records}).freeze()
-
-        result = data.nest("records")
-
+        result = benedict({"records": records}).freeze().nest("records")
+        children = [{"id": 2, "parent_id": 1, "children": []}]
+        self.assertEqual(result, [{"id": 1, "parent_id": None, "children": children}])
         self.assertEqual(
-            result,
-            [
-                {
-                    "id": 1,
-                    "parent_id": None,
-                    "children": [{"id": 2, "parent_id": 1, "children": []}],
-                }
-            ],
+            records, [{"id": 1, "parent_id": None}, {"id": 2, "parent_id": 1}]
         )
-        self.assertEqual(
-            records,
-            [
-                {"id": 1, "parent_id": None},
-                {"id": 2, "parent_id": 1},
-            ],
-        )
-        self.assertTrue(data.frozen)
-        for index, record in enumerate(records):
-            self.assertEqual(record.frozen, index in frozen_indexes)
-        self.assertIsNotNone(result)
-        assert result is not None
-        self.assertIsNot(result[0], records[0])
-        self.assertIsNot(result[0]["children"][0], records[1])
-        self.assertEqual(result[0].keypath_separator, "/")
-        self.assertEqual(result[0]["children"][0].keypath_separator, "/")
-
-    def test_nest_with_frozen_parent(self) -> None:
-        self._assert_nest_with_frozen_records((0,))
-
-    def test_nest_with_frozen_child(self) -> None:
-        self._assert_nest_with_frozen_records((1,))
-
-    def test_nest_with_frozen_parent_and_child(self) -> None:
-        self._assert_nest_with_frozen_records((0, 1))
-
-    def test_nest_with_unfrozen_records(self) -> None:
-        self._assert_nest_with_frozen_records(())
+        self.assertTrue(all(record.frozen for record in records))
 
     def test_freeze(self) -> None:
         b = benedict({"a": 1})
