@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from collections.abc import MutableMapping, Sequence
 from typing import Any, TypeVar
 
@@ -27,7 +25,7 @@ def _invert_list(
 def invert(d: MutableMapping[_K, _V], flat: bool = False) -> MutableMapping[Any, Any]:
     # collect items in a plain dict, values used as keys (eg. "a[0]")
     # must not be parsed as keypaths by benedict instances
-    items: dict[Any, Any] = {}
+    items: MutableMapping[Any, Any] = {}
     for key, value in d.items():
         if type_util.is_list_or_tuple(value):
             _invert_list(items, key, value, flat)
