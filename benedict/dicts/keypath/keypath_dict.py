@@ -52,9 +52,7 @@ class KeypathDict(KeylistDict[_K, _V]):
 
     def _parse_key(self, key: _K) -> _K:
         if type_util.is_string(key) and BaseDict.__contains__(self, key):
-            # a stored key (eg. "a[0]" or "a.b" as a real key) takes
-            # precedence over its keypath interpretation, otherwise it
-            # would be unreachable: get / in / del would always fail.
+            # a stored key (eg. "a[0]") takes precedence over its keypath parsing
             return key
         keys = keypath_util.parse_keys(key, self._keypath_separator)
         keys_count = len(keys)
