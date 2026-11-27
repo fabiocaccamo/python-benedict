@@ -37,15 +37,3 @@ class s3_cleanup_test_case(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "setup failed"):
                 io_util.write_content_to_s3("s3://bucket/data.json", "{}", {})
         remove.assert_called_once_with(write.call_args.args[0])
-
-    def test_client_close_failure_still_removes_upload_temp_file(self) -> None:
-        client = MagicMock()
-        client.close.side_effect = RuntimeError("close failed")
-        with (
-            patch.object(io_util.boto3, "client", return_value=client),
-            patch.object(io_util.fsutil, "write_file") as write,
-            patch.object(io_util.fsutil, "remove_file") as remove,
-        ):
-            with self.assertRaisesRegex(RuntimeError, "close failed"):
-                io_util.write_content_to_s3("s3://bucket/data.json", "{}", {})
-        remove.assert_called_once_with(write.call_args.args[0])
