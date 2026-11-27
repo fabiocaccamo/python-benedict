@@ -74,6 +74,12 @@ class io_dict_csv_test_case(io_dict_test_case):
         d = IODict(filepath, format="csv")
         self.assertTrue(isinstance(d, dict))
 
+    def test_from_csv_with_valid_file_with_bom(self) -> None:
+        # Excel's "CSV UTF-8" starts the file with a byte order mark
+        filepath = self.input_path("valid-content-bom.csv")
+        d = IODict.from_csv(filepath)
+        self.assertEqual(d["values"], [{"name": "Anna", "city": "Berlin"}])
+
     # def test_from_csv_with_valid_file_valid_content_invalid_format(self):
     #     filepath = self.input_path('valid-content.base64')
     #     with self.assertRaises(ValueError):
