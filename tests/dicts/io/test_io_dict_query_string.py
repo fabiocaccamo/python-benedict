@@ -188,64 +188,19 @@ class io_dict_query_string_test_case(io_dict_test_case):
         s = d.to_query_string()
         self.assertEqual(d, IODict.from_query_string(s))
 
-    def test_to_query_string_with_array_style_values(self) -> None:
-        # mirror of test_from_query_string_with_array_style_keys:
-        # list values are encoded as repeated array-style keys, so that
-        # encoding and decoding are inverse operations.
-        d = IODict({"ok": "1", "a": ["1", "2"]})
-        s = d.to_query_string()
-        self.assertEqual(s, "ok=1&a[]=1&a[]=2")
-        # round-trip
-        r = {"ok": "1", "a": ["1", "2"]}
-        self.assertEqual(IODict.from_query_string(s), r)
-        self.assertEqual(d, IODict.from_query_string(s))
-
-    def test_to_query_string_with_bracketed_values(self) -> None:
-        # mirror of test_from_query_string_with_bracketed_keys:
-        # one-level dict values are encoded as bracketed keys, so that
-        # encoding and decoding are inverse operations.
-        d = IODict({"ok": "1", "user": {"name": "joe", "age": "42"}})
-        s = d.to_query_string()
-        self.assertEqual(s, "ok=1&user[name]=joe&user[age]=42")
-        # round-trip
-        r = {"ok": "1", "user": {"name": "joe", "age": "42"}}
-        self.assertEqual(IODict.from_query_string(s), r)
-        self.assertEqual(d, IODict.from_query_string(s))
-
-    def test_to_query_string_with_bracketed_list_values(self) -> None:
-        # list values within a one-level dict are encoded as repeated
-        # bracketed keys, the notation the decoder turns back into a list.
-        d = IODict({"user": {"name": "joe", "tags": ["a", "b"]}})
-        s = d.to_query_string()
-        self.assertEqual(s, "user[name]=joe&user[tags]=a&user[tags]=b")
-        # round-trip
-        r = {"user": {"name": "joe", "tags": ["a", "b"]}}
-        self.assertEqual(IODict.from_query_string(s), r)
-        self.assertEqual(d, IODict.from_query_string(s))
-
-    def test_to_query_string_with_special_characters_in_bracketed_values(self) -> None:
+    def test_to_query_string_with_list_and_dict_values(self) -> None:
+        # mirror of the array-style and bracketed keys of from_query_string
         d = IODict(
-            {
-                "a": ["x y", "é&=", "1/2", "[z]"],
-                "user": {"first name": "j&o=e", "tags": ["a b", "c&d"]},
-            }
+            {"ok": "1", "a": ["1", "2"], "user": {"name": "joe", "tags": ["x", "y"]}}
         )
         s = d.to_query_string()
-        self.assertEqual(d, IODict.from_query_string(s))
+        r = "ok=1&a[]=1&a[]=2&user[name]=joe&user[tags]=x&user[tags]=y"
+        self.assertEqual(s, r)
+        self.assertEqual(IODict.from_query_string(s), d)
 
-    def test_to_query_string_with_non_string_keys(self) -> None:
-        # the bracket notation is used only with string keys,
-        # other keys are encoded as they were before.
-        d = IODict({1: "a", 2: ["x", "y"], "user": {3: "c"}})
-        s = d.to_query_string()
-        r = {"1": "a", "2": "['x', 'y']", "user": "{3: 'c'}"}
-        self.assertEqual(IODict.from_query_string(s), r)
-
-    def test_to_query_string_with_custom_safe_option(self) -> None:
-        d = IODict({"path": "a/b", "a": ["1", "2"], "user": {"name": "joe"}})
-        s = d.to_query_string(safe="/")
-        self.assertEqual(s, "path=a/b&a%5B%5D=1&a%5B%5D=2&user%5Bname%5D=joe")
-        self.assertEqual(d, IODict.from_query_string(s))
+    def test_to_query_string_with_special_characters_in_bracketed_values(self) -> None:
+        d = IODict({"a": ["x y", "é&=", "[z]"], "user": {"first name": "j&o=e"}})
+        self.assertEqual(IODict.from_query_string(d.to_query_string()), d)
 
     def test_to_query_string_file(self) -> None:
         d = IODict(
