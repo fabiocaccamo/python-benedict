@@ -54,7 +54,8 @@ class CSVSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
         headers = columns
         if not columns and len(ls) and type_util.is_dict(ls[0]):
             # keep original keys for values lookup, use their string labels as headers
-            columns = sorted(ls[0].keys(), key=str)
+            keys = {key for item in ls if type_util.is_dict(item) for key in item}
+            columns = sorted(keys, key=str)
             headers = [str(key) for key in columns]
         f = StringIO()
         w = csv.writer(f, **kwargs)

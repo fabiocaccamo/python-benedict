@@ -62,8 +62,25 @@ class parse_util_test_case(unittest.TestCase):
         pass
 
     def test_parse_int(self) -> None:
-        # TODO
-        pass
+        cases = [
+            ("9007199254740993.0", 9007199254740993),
+            ("-9007199254740993.9", -9007199254740993),
+            ("9007199254740993e0", 9007199254740993),
+            ("9.007199254740993e15", 9007199254740993),
+            ("1.999999999999999999", 1),
+            ("-1.999999999999999999", -1),
+            ("42.0", 42),
+            (" -4.9 ", -4),
+            ("1_000.9", 1000),
+            ("1e-999999999", 0),
+            ("1e999999999", None),
+            ("NaN", None),
+            ("Infinity", None),
+            ("invalid", None),
+        ]
+        for value, expected in cases:
+            with self.subTest(value=value):
+                self.assertEqual(parse_util.parse_int(value), expected)
 
     def test_parse_list(self) -> None:
         def f(value: Any) -> list[Any] | None:

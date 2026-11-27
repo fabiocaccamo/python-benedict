@@ -108,3 +108,26 @@ class match_test_case(unittest.TestCase):
         data = benedict({"items": ({"value": 1}, {"value": 2})})
         self.assertEqual(data["items[0].value"], 1)
         self.assertEqual(data.match("items[*].value"), [1, 2])
+
+    def test_match_nested_plain_mappings(self) -> None:
+        data = {"items": [{"value": 2}, {"value": 1}]}
+        self.assertEqual(_match(data, "items[*].value"), [2, 1])
+        self.assertEqual(_match(data, "items[*].value", indexes=False), [])
+
+    def test_match_uses_original_keys_for_values(self) -> None:
+        data = {2: "two", None: "none", "a.b": "literal", "a": {"b": "nested"}}
+        self.assertEqual(
+            _match(data, "*"), ["two", "none", {"b": "nested"}, "literal", "nested"]
+        )
+        self.assertEqual(benedict({2: "two"}).match("*"), ["two"])
+
+    def test_match_custom_separator_and_tuple_indexes(self) -> None:
+        data = {"rows": ({"name": "first"}, {"name": "second"})}
+        self.assertEqual(
+            _match(data, "rows[*]/name", separator="/"), ["first", "second"]
+        )
+        wrapped = benedict(data, keypath_separator="/")
+        self.assertEqual(wrapped.match("rows[*]/name"), ["first", "second"])
+
+    def test_match_literal_bracket_keys(self) -> None:
+        self.assertEqual(_match({"item[0]": "literal"}, "item[0]"), ["literal"])

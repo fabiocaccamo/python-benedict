@@ -15,6 +15,15 @@ class base_dict_test_case(unittest.TestCase):
     This class describes a BaseDict test case.
     """
 
+    def test_copy_module_detaches_wrapped_mapping(self) -> None:
+        source = {"before": 1, "nested": {"value": 2}}
+        original = BaseDict(source)
+        copied = copy.copy(original)
+        self.assertIs(copied["nested"], original["nested"])
+        copied["before"] = 4
+        self.assertEqual(source, {"before": 1, "nested": {"value": 2}})
+        self.assertEqual(copied, {"before": 4, "nested": {"value": 2}})
+
     def test_init_mapping_with_keywords(self) -> None:
         for mapping_type in (dict, OrderedDict, UserDict):
             with self.subTest(mapping_type=mapping_type):
@@ -610,6 +619,18 @@ class base_dict_test_case(unittest.TestCase):
         v = b.setdefault("d", 4)
         self.assertEqual(v, 4)
         self.assertEqual(b, b.dict())
+
+    def test_setdefault_existing_keeps_unused_default_unchanged(self) -> None:
+        for wrapped in (False, True):
+            for existing in (None, {"stored": 2}):
+                with self.subTest(wrapped=wrapped, existing=existing):
+                    source = {"known": existing}
+                    b = BaseDict(source) if wrapped else BaseDict(**source)
+                    child = BaseDict({"nested": 1})
+                    fallback = {"child": child}
+                    self.assertIs(b.setdefault("known", fallback), existing)
+                    self.assertIs(fallback["child"], child)
+                    self.assertEqual(b.dict(), source)
 
     def test_setdefault_none(self) -> None:
         for wrapped in (False, True):

@@ -5,6 +5,19 @@ from benedict import benedict
 
 
 class benedict_freeze_test_case(unittest.TestCase):
+    def test_nest_with_frozen_records(self) -> None:
+        records = [
+            benedict({"id": 1, "parent_id": None}).freeze(),
+            benedict({"id": 2, "parent_id": 1}).freeze(),
+        ]
+        result = benedict({"records": records}).freeze().nest("records")
+        children = [{"id": 2, "parent_id": 1, "children": []}]
+        self.assertEqual(result, [{"id": 1, "parent_id": None, "children": children}])
+        self.assertEqual(
+            records, [{"id": 1, "parent_id": None}, {"id": 2, "parent_id": 1}]
+        )
+        self.assertTrue(all(record.frozen for record in records))
+
     def test_freeze(self) -> None:
         b = benedict({"a": 1})
         self.assertFalse(b.frozen)
@@ -22,6 +35,12 @@ class benedict_freeze_test_case(unittest.TestCase):
             b["a"] = 2
         with self.assertRaises(TypeError):
             b["b"] = 3
+
+    def test_freeze_prevents_inplace_union(self) -> None:
+        b = benedict({"a": 1}).freeze()
+        with self.assertRaisesRegex(TypeError, "frozen"):
+            b |= {"b": 2}
+        self.assertEqual(b, {"a": 1})
 
     def test_freeze_prevents_setitem_keypath(self) -> None:
         b = benedict({"a": {"b": 1}})

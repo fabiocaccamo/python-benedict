@@ -8,6 +8,16 @@ class io_dict_ini_test_case(io_dict_test_case):
     This class describes an IODict / ini test case.
     """
 
+    def test_from_ini_with_custom_default_section(self) -> None:
+        s = "[general]\ncount = 2\nname = demo\n[app]\ncount = 3\n"
+        expected = {"count": 2, "name": "demo", "app": {"count": 3, "name": "demo"}}
+        self.assertEqual(IODict.from_ini(s, default_section="general"), expected)
+
+    def test_to_ini_with_custom_default_section(self) -> None:
+        d = IODict({"count": 2, "app": {"name": "demo"}})
+        s = d.to_ini(default_section="general")
+        self.assertEqual(s, "[general]\ncount = 2\n\n[app]\nname = demo\n\n")
+
     def test_from_ini_with_valueless_options(self) -> None:
         s = "[app]\nflag\nempty =\ncount = 2\nratio = 1.5\nenabled = yes\n"
         expected = {

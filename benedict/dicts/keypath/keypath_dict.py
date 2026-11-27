@@ -6,7 +6,9 @@ from typing import Any, Self
 from typing_extensions import TypeVar
 
 from benedict.dicts import KeylistDict
+from benedict.dicts.base import BaseDict
 from benedict.dicts.keypath import keypath_util
+from benedict.utils import type_util
 
 _K = keypath_util.KeyType
 _V = TypeVar("_V", default=Any)
@@ -49,6 +51,9 @@ class KeypathDict(KeylistDict[_K, _V]):
         self._keypath_separator = state["_keypath_separator"]
 
     def _parse_key(self, key: _K) -> _K:
+        if type_util.is_string(key) and BaseDict.__contains__(self, key):
+            # a stored key (eg. "a[0]") takes precedence over its keypath parsing
+            return key
         keys = keypath_util.parse_keys(key, self._keypath_separator)
         keys_count = len(keys)
         if keys_count == 0:
@@ -73,6 +78,13 @@ class KeypathDict(KeylistDict[_K, _V]):
         return super().pop(self._parse_key(key), *args)  # type: ignore[no-any-return]
 
     def update(self, other: Any = (), /, **kwargs: Any) -> None:
+        if self._keypath_separator and not isinstance(other, dict):
+            # check_keys only inspects dicts, so materialize pairs and other mappings
+            other = dict(other)
         keypath_util.check_keys(other, self._keypath_separator)
         keypath_util.check_keys(kwargs, self._keypath_separator)
         super().update(other, **kwargs)
+
+    def __ior__(self, other: Any) -> Self:  # type: ignore[misc,override]
+        self.update(other)
+        return self

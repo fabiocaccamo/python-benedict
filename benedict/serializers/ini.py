@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from configparser import DEFAULTSECT as default_section
 from configparser import RawConfigParser
 from io import StringIO
 from json.decoder import JSONDecodeError
@@ -58,7 +57,7 @@ class INISerializer(AbstractSerializer[str, dict[str, Any]]):
         data: dict[str, Any] = {}
         for option, _ in parser.defaults().items():
             data[option] = self._get_section_option_value(
-                parser, default_section, option
+                parser, parser.default_section, option
             )
         for section in parser.sections():
             data[section] = {}
@@ -77,7 +76,9 @@ class INISerializer(AbstractSerializer[str, dict[str, Any]]):
         parser = self._get_parser(options=kwargs)
         for key, value in d.items():
             if not type_util.is_dict(value):
-                parser.set(default_section, key, None if value is None else f"{value}")
+                parser.set(
+                    parser.default_section, key, None if value is None else f"{value}"
+                )
                 continue
             section = key
             parser.add_section(section)
