@@ -53,7 +53,7 @@ class KeypathDict(KeylistDict[_K, _V]):
         if (
             self._keypath_separator
             and type_util.is_string(key)
-            and self._is_stored_key(key)
+            and super().__contains__(key)
         ):
             # a stored key (eg. "a[0]" or "a.b" as a real key) takes
             # precedence over its keypath interpretation, otherwise it
@@ -66,13 +66,6 @@ class KeypathDict(KeylistDict[_K, _V]):
         elif keys_count == 1:
             return keys[0]
         return keys
-
-    def _is_stored_key(self, key: str) -> bool:
-        """Check the underlying dictionary storage directly (raw key lookup),
-        bypassing keypath parsing to avoid recursion."""
-        if self._dict is not None:
-            return key in self._dict
-        return dict.__contains__(self, key)
 
     @classmethod
     def fromkeys(  # type: ignore[override]
