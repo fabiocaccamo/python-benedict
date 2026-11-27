@@ -1,11 +1,22 @@
 from collections.abc import Callable, MutableMapping
-from typing import TypeVar, cast
+from typing import Any, TypeVar, cast
 
 from benedict.core.clone import clone
 from benedict.utils import type_util
 
 _K = TypeVar("_K")
 _V = TypeVar("_V")
+
+
+def _filter_deep_value(value: Any, predicate: Callable[[_K, _V], bool]) -> Any:
+    if type_util.is_dict(value):
+        return _filter_deep(value, predicate)
+    if type_util.is_list_or_tuple(value):
+        # Reuse deepcopy's reconstruction protocol to preserve sequence subclasses
+        # (including named tuples), while substituting the filtered children.
+        memo = {id(item): _filter_deep_value(item, predicate) for item in value}
+        return clone(value, memo=memo)
+    return value
 
 
 def _filter_deep(
@@ -15,10 +26,7 @@ def _filter_deep(
     for key in list(d.keys()):
         value = d[key]
         if predicate(key, value):
-            if type_util.is_dict(value):
-                new_dict[key] = cast("_V", _filter_deep(value, predicate))
-            else:
-                new_dict[key] = value
+            new_dict[key] = cast("_V", _filter_deep_value(value, predicate))
     return new_dict
 
 
