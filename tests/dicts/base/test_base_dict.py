@@ -611,6 +611,18 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(v, 4)
         self.assertEqual(b, b.dict())
 
+    def test_setdefault_existing_keeps_unused_default_unchanged(self) -> None:
+        for wrapped in (False, True):
+            for existing in (None, {"stored": 2}):
+                with self.subTest(wrapped=wrapped, existing=existing):
+                    source = {"known": existing}
+                    b = BaseDict(source) if wrapped else BaseDict(**source)
+                    child = BaseDict({"nested": 1})
+                    fallback = {"child": child}
+                    self.assertIs(b.setdefault("known", fallback), existing)
+                    self.assertIs(fallback["child"], child)
+                    self.assertEqual(b.dict(), source)
+
     def test_setdefault_none(self) -> None:
         for wrapped in (False, True):
             for existing in (False, True):
