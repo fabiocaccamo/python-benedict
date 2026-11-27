@@ -15,6 +15,15 @@ class base_dict_test_case(unittest.TestCase):
     This class describes a BaseDict test case.
     """
 
+    def test_copy_module_detaches_wrapped_mapping(self) -> None:
+        source = {"before": 1, "nested": {"value": 2}}
+        original = BaseDict(source)
+        copied = copy.copy(original)
+        self.assertIs(copied["nested"], original["nested"])
+        copied["before"] = 4
+        self.assertEqual(source, {"before": 1, "nested": {"value": 2}})
+        self.assertEqual(copied, {"before": 4, "nested": {"value": 2}})
+
     def test_init_mapping_with_keywords(self) -> None:
         for mapping_type in (dict, OrderedDict, UserDict):
             with self.subTest(mapping_type=mapping_type):
