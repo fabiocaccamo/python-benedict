@@ -8,8 +8,8 @@ except ModuleNotFoundError:  # pragma: no cover
     fsutil_installed = False
 
 try:
-    from openpyxl import Workbook, load_workbook
-    from xlrd import Book, open_workbook
+    from openpyxl import load_workbook
+    from xlrd import open_workbook
 
     xls_installed = True
 except ModuleNotFoundError:  # pragma: no cover
@@ -82,13 +82,11 @@ class XLSSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
         # load the worksheet
         workbook = open_workbook(**options)
         try:
-            return self._read_legacy_workbook_items(workbook, **kwargs)
+            return self._read_items_legacy(workbook, **kwargs)
         finally:
             workbook.release_resources()
 
-    def _read_legacy_workbook_items(
-        self, workbook: Book, **kwargs: Any
-    ) -> list[dict[str, Any]]:
+    def _read_items_legacy(self, workbook: Any, **kwargs: Any) -> list[dict[str, Any]]:
         # get sheet by index or by name
         sheet_index, sheet_name = self._get_sheet_index_and_name_from_options(**kwargs)
         if sheet_name:
@@ -147,13 +145,11 @@ class XLSSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
         # load the worksheet
         workbook = load_workbook(**options)
         try:
-            return self._read_workbook_items(workbook, **kwargs)
+            return self._read_items(workbook, **kwargs)
         finally:
             self._close_workbook(workbook)
 
-    def _read_workbook_items(
-        self, workbook: Workbook, **kwargs: Any
-    ) -> list[dict[str, Any]]:
+    def _read_items(self, workbook: Any, **kwargs: Any) -> list[dict[str, Any]]:
         # get sheet by index or by name
         sheet_index, sheet_name = self._get_sheet_index_and_name_from_options(**kwargs)
         sheets = list(workbook)
@@ -192,11 +188,9 @@ class XLSSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
         for row in sheet.iter_rows(min_row=items_row_start):
             values = [cell.value for cell in row]
             items.append(dict(zip(columns, values)))
-
-        # print(items)
         return items
 
-    def _close_workbook(self, workbook: Workbook) -> None:
+    def _close_workbook(self, workbook: Any) -> None:
         try:
             # explicitly close vba_archive if present: Workbook.close() never
             # closes it, so relying on GC (__del__ -> close()) is unsafe because
