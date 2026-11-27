@@ -77,3 +77,22 @@ class github_issue_0683_test_case(unittest.TestCase):
         dict.__setitem__(d, "a.b", 1)
         self.assertEqual(d["a.b"], 1)
         self.assertIn("a.b", d)
+
+    def test_stored_bracket_key_reachable_without_keypath_separator(self) -> None:
+        # index notation is parsed even when the keypath separator is disabled.
+        d = benedict({"rows[0]": "a", "keep": 1}, keypath_separator=None)
+        self.assertEqual(d["rows[0]"], "a")
+        self.assertEqual(d.get("rows[0]"), "a")
+        self.assertIn("rows[0]", d)
+        d["rows[0]"] = "b"
+        self.assertEqual(dict(d), {"rows[0]": "b", "keep": 1})
+        self.assertEqual(d.pop("rows[0]"), "b")
+        self.assertEqual(dict(d), {"keep": 1})
+
+    def test_keypath_index_still_works_without_keypath_separator(self) -> None:
+        d = benedict({"rows": [1, 2], "keep": 1}, keypath_separator=None)
+        self.assertEqual(d["rows[0]"], 1)
+        self.assertEqual(d.get("rows[1]"), 2)
+        self.assertIn("rows[0]", d)
+        del d["rows[0]"]
+        self.assertEqual(d["rows"], [2])

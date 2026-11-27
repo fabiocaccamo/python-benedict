@@ -50,11 +50,7 @@ class KeypathDict(KeylistDict[_K, _V]):
         self._keypath_separator = state["_keypath_separator"]
 
     def _parse_key(self, key: _K) -> _K:
-        if (
-            self._keypath_separator
-            and type_util.is_string(key)
-            and super().__contains__(key)
-        ):
+        if type_util.is_string(key) and super().__contains__(key):
             # a stored key (eg. "a[0]" or "a.b" as a real key) takes
             # precedence over its keypath interpretation, otherwise it
             # would be unreachable: get / in / del would always fail.
