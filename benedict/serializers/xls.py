@@ -81,7 +81,12 @@ class XLSSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
 
         # load the worksheet
         workbook = open_workbook(**options)
+        try:
+            return self._read_items_legacy(workbook, **kwargs)
+        finally:
+            workbook.release_resources()
 
+    def _read_items_legacy(self, workbook: Any, **kwargs: Any) -> list[dict[str, Any]]:
         # get sheet by index or by name
         sheet_index, sheet_name = self._get_sheet_index_and_name_from_options(**kwargs)
         if sheet_name:
@@ -139,7 +144,12 @@ class XLSSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
 
         # load the worksheet
         workbook = load_workbook(**options)
+        try:
+            return self._read_items(workbook, **kwargs)
+        finally:
+            self._close_workbook(workbook)
 
+    def _read_items(self, workbook: Any, **kwargs: Any) -> list[dict[str, Any]]:
         # get sheet by index or by name
         sheet_index, sheet_name = self._get_sheet_index_and_name_from_options(**kwargs)
         sheets = list(workbook)
@@ -178,7 +188,9 @@ class XLSSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
         for row in sheet.iter_rows(min_row=items_row_start):
             values = [cell.value for cell in row]
             items.append(dict(zip(columns, values)))
+        return items
 
+    def _close_workbook(self, workbook: Any) -> None:
         try:
             # explicitly close vba_archive if present: Workbook.close() never
             # closes it, so relying on GC (__del__ -> close()) is unsafe because
@@ -192,9 +204,6 @@ class XLSSerializer(AbstractSerializer[str, list[dict[str, Any]]]):
 
         # close the worksheet
         workbook.close()
-
-        # print(items)
-        return items
 
     def decode(self, s: str, **kwargs: Any) -> list[dict[str, Any]]:
         require_xls(installed=xls_installed)
