@@ -223,6 +223,30 @@ class io_dict_query_string_test_case(io_dict_test_case):
         self.assertEqual(IODict.from_query_string(s), r)
         self.assertEqual(d, IODict.from_query_string(s))
 
+    def test_to_query_string_with_special_characters_in_bracketed_values(self) -> None:
+        d = IODict(
+            {
+                "a": ["x y", "é&=", "1/2", "[z]"],
+                "user": {"first name": "j&o=e", "tags": ["a b", "c&d"]},
+            }
+        )
+        s = d.to_query_string()
+        self.assertEqual(d, IODict.from_query_string(s))
+
+    def test_to_query_string_with_non_string_keys(self) -> None:
+        # the bracket notation is used only with string keys,
+        # other keys are encoded as they were before.
+        d = IODict({1: "a", 2: ["x", "y"], "user": {3: "c"}})
+        s = d.to_query_string()
+        r = {"1": "a", "2": "['x', 'y']", "user": "{3: 'c'}"}
+        self.assertEqual(IODict.from_query_string(s), r)
+
+    def test_to_query_string_with_custom_safe_option(self) -> None:
+        d = IODict({"path": "a/b", "a": ["1", "2"], "user": {"name": "joe"}})
+        s = d.to_query_string(safe="/")
+        self.assertEqual(s, "path=a/b&a%5B%5D=1&a%5B%5D=2&user%5Bname%5D=joe")
+        self.assertEqual(d, IODict.from_query_string(s))
+
     def test_to_query_string_file(self) -> None:
         d = IODict(
             {

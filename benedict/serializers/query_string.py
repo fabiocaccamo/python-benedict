@@ -83,6 +83,12 @@ class QueryStringSerializer(
         single value (any type that is not a sequence/mapping)."""
         return not isinstance(value, (Mapping, list, tuple, set, frozenset))
 
+    @staticmethod
+    def _is_plain_key(key: Any) -> bool:
+        """Return True if the bracket notation can be appended to the key
+        (a non-empty string that does not contain brackets already)."""
+        return isinstance(key, str) and bool(key) and "[" not in key and "]" not in key
+
     @classmethod
     def _encode_array_pairs(
         cls, key: str, value: list[Any] | tuple[Any, ...]
@@ -108,12 +114,12 @@ class QueryStringSerializer(
         ("user[tags]=a&user[tags]=b"), the notation the decoder turns
         back into a list.
         Return None when the value cannot be expressed with this notation
-        (empty mappings, bracketed/empty sub-keys, or unrepresentable
+        (empty mappings, bracketed/empty/non-string sub-keys, or unrepresentable
         sub-values), so the caller can fall back to the previous behaviour.
         """
         pairs: list[tuple[str, Any]] = []
         for sub_key, sub_value in value.items():
-            if not sub_key or "[" in sub_key or "]" in sub_key:
+            if not cls._is_plain_key(sub_key):
                 return None
             if cls._is_scalar(sub_value):
                 pairs.append((f"{key}[{sub_key}]", sub_value))
@@ -142,7 +148,7 @@ class QueryStringSerializer(
         pairs: list[tuple[str, Any]] = []
         for key, value in data.items():
             pair_values: list[tuple[str, Any]] | None = None
-            if key and "[" not in key and "]" not in key:
+            if cls._is_plain_key(key):
                 if isinstance(value, (list, tuple)):
                     pair_values = cls._encode_array_pairs(key, value)
                 elif isinstance(value, Mapping):
