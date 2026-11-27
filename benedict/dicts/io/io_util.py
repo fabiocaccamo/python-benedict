@@ -83,7 +83,7 @@ def encode(d: Any, format: str, filepath: str | None = None, **kwargs: Any) -> A
     schema = options.pop("schema", None)
     if schema is not None:
         d = schema_util.apply_schema(d, schema)
-    s3_options = options.pop("s3_options", None)
+    s3_options = options.pop("s3_options", None) or {}
     content = serializer.encode(d, **options)
     if filepath:
         filepath = str(filepath)
@@ -202,8 +202,7 @@ def read_content_from_url(
 
 def write_content(filepath: str, content: str, **options: Any) -> None:
     if is_s3(filepath):
-        s3_options = options.pop("s3_options", None) or {}
-        write_content_to_s3(filepath, content, s3_options=s3_options, **options)
+        write_content_to_s3(filepath, content, **options)
     else:
         write_content_to_file(filepath, content, **options)
 
