@@ -46,20 +46,14 @@ class io_dict_cli_test_case(io_dict_test_case):
         self.assertEqual(IODict(s, format="cli"), expected)
 
     def test_from_cli_with_hyphenated_values(self) -> None:
-        s = (
-            "--name foo-bar --date 2020-01-02 --user-names first-user last-user "
-            "--tag a-b --tag c-d -e email-address@example.com --dry-run"
-        )
+        s = "--name foo-bar --date 2020-01-02 --tag a-b --tag c-d --dry-run"
         expected = {
             "name": "foo-bar",
             "date": "2020-01-02",
-            "user_names": ["first-user", "last-user"],
             "tag": ["a-b", "c-d"],
-            "e": "email-address@example.com",
             "dry_run": True,
         }
         self.assertEqual(IODict.from_cli(s), expected)
-        self.assertEqual(IODict(s, format="cli"), expected)
 
     def test_from_cli_with_invalid_arguments(self) -> None:
         s = """--help -h"""

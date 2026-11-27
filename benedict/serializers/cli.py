@@ -17,23 +17,23 @@ class CLISerializer(AbstractSerializer[str | None, dict[str, Any]]):
     regex_keys_with_values = r"(?<!\S)-+\w[\w-]*(?=\s[^\s-])"
     """
     Regex string.
-    Used to search for keys (e.g. -STRING or --STRING) at the start of a token
+    Used to search for keys (e.g. -STRING or --STRING)
     that *aren't* followed by another key
 
-    Example input: script.py --username example-user --verbose -d -e email@example.com
+    Example input: script.py --username example --verbose -d -e email@example.com
     - Matches: --username, -e
-    - Doesn't match: script.py, example-user, --verbose, -d, email@example.com
+    - Doesn't match: script.py, example, --verbose, -d, email@example.com
     """
 
     regex_all_keys = r"(?<!\S)-+\w[\w-]*"
     """
     Regex string.
-    Used to search for keys (e.g. -STRING or --STRING) at the start of a token
+    Used to search for keys (e.g. -STRING or --STRING)
     no matter if they are followed by another key
 
-    Example input: script.py --username example-user --verbose -d -e email@example.com
+    Example input: script.py --username example --verbose -d -e email@example.com
     - Matches: --username, --verbose, -d, -e
-    - Doesn't match: script.py, example-user, email@example.com
+    - Doesn't match: script.py, example, email@example.com
     """
 
     def __init__(self) -> None:
