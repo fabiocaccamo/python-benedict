@@ -91,8 +91,9 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
             keyattr_dynamic=self._keyattr_dynamic,
             keypath_separator=self._keypath_separator,
         )
+        memo[id(self)] = obj
         for key, value in self.items():
-            obj[key] = _clone(value, memo=memo)
+            obj[_clone(key, memo=memo)] = _clone(value, memo=memo)
         if self._frozen:
             obj.freeze()
         return obj
