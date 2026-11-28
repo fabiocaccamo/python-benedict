@@ -188,6 +188,20 @@ class io_dict_query_string_test_case(io_dict_test_case):
         s = d.to_query_string()
         self.assertEqual(d, IODict.from_query_string(s))
 
+    def test_to_query_string_with_list_and_dict_values(self) -> None:
+        # mirror of the array-style and bracketed keys of from_query_string
+        d = IODict(
+            {"ok": "1", "a": ["1", "2"], "user": {"name": "joe", "tags": ["x", "y"]}}
+        )
+        s = d.to_query_string()
+        r = "ok=1&a[]=1&a[]=2&user[name]=joe&user[tags]=x&user[tags]=y"
+        self.assertEqual(s, r)
+        self.assertEqual(IODict.from_query_string(s), d)
+
+    def test_to_query_string_with_special_characters_in_bracketed_values(self) -> None:
+        d = IODict({"a": ["x y", "é&=", "[z]"], "user": {"first name": "j&o=e"}})
+        self.assertEqual(IODict.from_query_string(d.to_query_string()), d)
+
     def test_to_query_string_file(self) -> None:
         d = IODict(
             {

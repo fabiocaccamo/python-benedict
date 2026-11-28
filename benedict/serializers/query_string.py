@@ -78,8 +78,18 @@ class QueryStringSerializer(
         raise ValueError(f"Invalid query string: {s}")
 
     @override
-    def encode(
-        self, d: Mapping[str, str] | Mapping[str, list[str]], **kwargs: Any
-    ) -> str:
-        data = urlencode(d, **kwargs)
-        return data
+    def encode(self, d: Mapping[str, Any], **kwargs: Any) -> str:
+        # use the bracket notation supported by decode: "a[]=1&a[]=2", "user[name]=joe"
+        pairs: list[tuple[Any, Any]] = []
+        for key, value in d.items():
+            if isinstance(value, Mapping):
+                pairs += [
+                    (f"{key}[{sub_key}]", item) for sub_key, item in value.items()
+                ]
+            elif isinstance(value, (list, tuple)):
+                pairs += [(f"{key}[]", item) for item in value]
+            else:
+                pairs.append((key, value))
+        kwargs.setdefault("safe", "[]")
+        kwargs.setdefault("doseq", True)
+        return urlencode(pairs, **kwargs)
