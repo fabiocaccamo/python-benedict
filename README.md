@@ -819,7 +819,6 @@ d = benedict.from_yaml(s, **kwargs)
 # ('csv', json', 'query-string', 'toml', 'xml', 'yaml'), default: 'json'.
 # It's possible to choose the encoding, default 'utf-8'.
 # It's possible to pass decoder specific options using kwargs.
-# A ValueError is raised in case of failure.
 s = d.to_base64(subformat="json", encoding="utf-8", **kwargs)
 ```
 
@@ -829,7 +828,6 @@ s = d.to_base64(subformat="json", encoding="utf-8", **kwargs)
 # Return a list of dicts in the current dict encoded in csv format and optionally save it at the specified filepath.
 # It's possible to specify the key of the item (list of dicts) to encode, default: 'values'.
 # It's possible to specify the columns list, default: None (in this case the keys of the first item will be used).
-# A ValueError is raised in case of failure.
 s = d.to_csv(key="values", columns=None, columns_row=True, **kwargs)
 ```
 
@@ -839,7 +837,6 @@ s = d.to_csv(key="values", columns=None, columns_row=True, **kwargs)
 # Return the dict instance encoded in ini format and optionally save it at the specified filepath.
 # It's possible to pass encoder specific options using kwargs:
 # https://docs.python.org/3/library/configparser.html
-# A ValueError is raised in case of failure.
 s = d.to_ini(**kwargs)
 ```
 
@@ -850,7 +847,6 @@ s = d.to_ini(**kwargs)
 # It's possible to pass encoder specific options using kwargs:
 # https://docs.python.org/3/library/json.html
 # It's possible to pass a Pydantic v2 model class as schema= to validate and coerce data before encoding.
-# A ValueError is raised in case of failure.
 s = d.to_json(**kwargs)
 ```
 
@@ -861,7 +857,6 @@ s = d.to_json(**kwargs)
 # The pickle protocol used by default is 2.
 # It's possible to pass encoder specific options using kwargs:
 # https://docs.python.org/3/library/pickle.html
-# A ValueError is raised in case of failure.
 s = d.to_pickle(**kwargs)
 ```
 
@@ -871,7 +866,6 @@ s = d.to_pickle(**kwargs)
 # Return the dict instance encoded in p-list format and optionally save it at the specified filepath.
 # It's possible to pass encoder specific options using kwargs:
 # https://docs.python.org/3/library/plistlib.html
-# A ValueError is raised in case of failure.
 s = d.to_plist(**kwargs)
 ```
 
@@ -879,7 +873,6 @@ s = d.to_plist(**kwargs)
 
 ```python
 # Return the dict instance as query-string and optionally save it at the specified filepath.
-# A ValueError is raised in case of failure.
 s = d.to_query_string(**kwargs)
 ```
 
@@ -889,7 +882,6 @@ s = d.to_query_string(**kwargs)
 # Return the dict instance encoded in toml format and optionally save it at the specified filepath.
 # It's possible to pass encoder specific options using kwargs:
 # https://pypi.org/project/toml/
-# A ValueError is raised in case of failure.
 s = d.to_toml(**kwargs)
 ```
 
@@ -899,7 +891,6 @@ s = d.to_toml(**kwargs)
 # Return the dict instance encoded in xml format and optionally save it at the specified filepath.
 # It's possible to pass encoder specific options using kwargs:
 # https://github.com/martinblech/xmltodict
-# A ValueError is raised in case of failure.
 s = d.to_xml(**kwargs)
 ```
 
@@ -910,7 +901,6 @@ s = d.to_xml(**kwargs)
 # If filepath option is passed the output will be saved ath
 # It's possible to pass encoder specific options using kwargs:
 # https://pyyaml.org/wiki/PyYAMLDocumentation
-# A ValueError is raised in case of failure.
 s = d.to_yaml(**kwargs)
 ```
 

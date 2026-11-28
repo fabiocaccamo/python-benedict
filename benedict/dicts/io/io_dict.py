@@ -221,7 +221,6 @@ class IODict(BaseDict[_K, _V]):
         using the given subformat and encoding.
         Encoder specific options can be passed using kwargs.
         Return the encoded string and optionally save it at 'filepath'.
-        A ValueError is raised in case of failure.
         """
         kwargs["subformat"] = subformat
         kwargs["encoding"] = encoding
@@ -242,7 +241,6 @@ class IODict(BaseDict[_K, _V]):
         Encoder specific options can be passed using kwargs:
         https://docs.python.org/3/library/csv.html
         Return the encoded string and optionally save it at 'filepath'.
-        A ValueError is raised in case of failure.
         """
         kwargs["columns"] = columns
         kwargs["columns_row"] = columns_row
@@ -257,7 +255,6 @@ class IODict(BaseDict[_K, _V]):
         Encoder specific options can be passed using kwargs:
         https://docs.python.org/3/library/configparser.html
         Return the encoded string and optionally save it at 'filepath'.
-        A ValueError is raised in case of failure.
         """
         return cast("str", self._encode(self.dict(), "ini", **kwargs))
 
@@ -267,7 +264,6 @@ class IODict(BaseDict[_K, _V]):
         Encoder specific options can be passed using kwargs:
         https://docs.python.org/3/library/json.html
         Return the encoded string and optionally save it at 'filepath'.
-        A ValueError is raised in case of failure.
         """
         return cast("str", self._encode(self.dict(), "json", **kwargs))
 
@@ -278,7 +274,6 @@ class IODict(BaseDict[_K, _V]):
         Encoder specific options can be passed using kwargs:
         https://docs.python.org/3/library/pickle.html
         Return the encoded string and optionally save it at 'filepath'.
-        A ValueError is raised in case of failure.
         """
         return cast("str", self._encode(self.dict(), "pickle", **kwargs))
 
@@ -288,7 +283,6 @@ class IODict(BaseDict[_K, _V]):
         Encoder specific options can be passed using kwargs:
         https://docs.python.org/3/library/plistlib.html
         Return the encoded string and optionally save it at 'filepath'.
-        A ValueError is raised in case of failure.
         """
         return cast("str", self._encode(self.dict(), "plist", **kwargs))
 
@@ -296,7 +290,6 @@ class IODict(BaseDict[_K, _V]):
         """
         Encode the current dict instance in query-string format.
         Return the encoded string and optionally save it at 'filepath'.
-        A ValueError is raised in case of failure.
         """
         return cast("str", self._encode(self.dict(), "query_string", **kwargs))
 
@@ -306,7 +299,6 @@ class IODict(BaseDict[_K, _V]):
         Encoder specific options can be passed using kwargs:
         https://pypi.org/project/toml/
         Return the encoded string and optionally save it at 'filepath'.
-        A ValueError is raised in case of failure.
         """
         return cast("str", self._encode(self.dict(), "toml", **kwargs))
 
@@ -316,7 +308,6 @@ class IODict(BaseDict[_K, _V]):
         Encoder specific options can be passed using kwargs:
         https://github.com/martinblech/xmltodict
         Return the encoded string and optionally save it at 'filepath'.
-        A ValueError is raised in case of failure.
         """
         return cast("str", self._encode(self.dict(), "xml", **kwargs))
 
@@ -335,7 +326,6 @@ class IODict(BaseDict[_K, _V]):
         - https://openpyxl.readthedocs.io/ (for .xlsx and .xlsm files)
         - https://pypi.org/project/xlrd/ (for .xls files)
         Return the encoded string and optionally save it at 'filepath'.
-        A ValueError is raised in case of failure.
         """
         # kwargs["sheet"] = sheet
         # kwargs["columns"] = columns
@@ -350,6 +340,5 @@ class IODict(BaseDict[_K, _V]):
         Encoder specific options can be passed using kwargs:
         https://pyyaml.org/wiki/PyYAMLDocumentation
         Return the encoded string and optionally save it at 'filepath'.
-        A ValueError is raised in case of failure.
         """
         return cast("str", self._encode(self.dict(), "yaml", **kwargs))
