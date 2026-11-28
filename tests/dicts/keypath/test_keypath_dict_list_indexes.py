@@ -276,6 +276,30 @@ class keypath_dict_list_indexes_test_case(unittest.TestCase):
         self.assertEqual(b.get('a[""]'), None)
         self.assertEqual(b.get("a['']"), None)
 
+    def test_setitem_with_out_of_range_positive_index(self) -> None:
+        d = {
+            "a": [1, 2],
+        }
+        b = KeypathDict(d)
+        b["a[4]"] = 3
+        self.assertEqual(b["a"], [1, 2, None, None, 3])
+        self.assertEqual(b["a[4]"], 3)
+
+    def test_setitem_with_out_of_range_negative_index(self) -> None:
+        d = {
+            "a": [1, 2],
+        }
+        b = KeypathDict(d)
+        b["a[-4]"] = 3
+        self.assertEqual(b["a"], [3, None, 1, 2])
+        self.assertEqual(b["a[-4]"], 3)
+
+    def test_setitem_with_out_of_range_negative_index_and_missing_list(self) -> None:
+        b = KeypathDict()
+        b["a[-3]"] = 3
+        self.assertEqual(b["a"], [3, None, None])
+        self.assertEqual(b["a[-3]"], 3)
+
     def test_pop_with_flat_list(self) -> None:
         d = {
             "a": [1, 2, 3],

@@ -48,9 +48,15 @@ def _set_item_value(item: Any, key: Any, value: Any) -> None:
             # overwrite existing index
             item[index] = value
         except IndexError:
-            # insert index
-            item += [None] * (index - len(item))
-            item.insert(index, value)
+            if index >= 0:
+                # insert index
+                item += [None] * (index - len(item))
+                item.insert(index, value)
+            else:
+                # insert negative index: extend the list on the left
+                # so that the index becomes valid, eg. [1] -> [None, None, 1]
+                item[:0] = [None] * (-index - len(item))
+                item[index] = value
     else:
         item[key] = value
 

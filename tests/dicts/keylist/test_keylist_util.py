@@ -132,6 +132,8 @@ class keylist_util_test_case(unittest.TestCase):
             },
         )
         keylist_util.set_item(d, ["a", "b", "e", -11], 10)
+        # the list is extended on the left so that the "-11" index
+        # is valid and points to the value that has just been set
         self.assertEqual(
             d,
             {
@@ -139,8 +141,20 @@ class keylist_util_test_case(unittest.TestCase):
                     "b": {
                         "c": 0,
                         "d": 1,
-                        "e": [10, 4, 5, 6, None, None, 9],
+                        "e": [10, None, None, None, None, 4, 5, 6, None, None, 9],
                     },
                 },
             },
         )
+
+    def test_set_item_with_out_of_range_negative_index(self) -> None:
+        d: dict[str, Any] = {}
+
+        keylist_util.set_item(d, ["a", -3], 9)
+        self.assertEqual(d, {"a": [9, None, None]})
+        self.assertEqual(keylist_util.get_item(d, ["a", -3]), (d["a"], -3, 9))
+
+        d = {"a": [1, 2]}
+        keylist_util.set_item(d, ["a", -4], 9)
+        self.assertEqual(d, {"a": [9, None, 1, 2]})
+        self.assertEqual(keylist_util.get_item(d, ["a", -4]), (d["a"], -4, 9))
