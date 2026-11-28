@@ -169,6 +169,28 @@ class base_dict_test_case(unittest.TestCase):
         self.assertEqual(type(b1), type(b2))
         self.assertFalse(b1 is b2)
 
+    def test__deepcopy__with_custom_keys(self) -> None:
+        class Key:
+            pass
+
+        key = Key()
+        b1 = BaseDict({key: [key]})
+        b2 = copy.deepcopy(b1)
+        key_copy = next(iter(b2))
+        self.assertIsNot(key_copy, key)
+        self.assertIs(b2[key_copy][0], key_copy)
+
+    def test__deepcopy__with_backreference(self) -> None:
+        class Item:
+            parent: Any = None
+
+        item = Item()
+        b1 = BaseDict()
+        item.parent = b1
+        b1["item"] = item
+        b2 = copy.deepcopy(b1)
+        self.assertIs(b2["item"].parent, b2)
+
     def test__delitem__(self) -> None:
         b = BaseDict()
         with self.assertRaises(KeyError):

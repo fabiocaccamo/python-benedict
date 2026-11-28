@@ -199,6 +199,28 @@ class benedict_test_case(unittest.TestCase):
         c = b.deepcopy()
         self.assertEqual(c.keypath_separator, "/")
 
+    def test_deepcopy_with_custom_keys(self) -> None:
+        class Key:
+            pass
+
+        key = Key()
+        b = benedict({key: [key]})
+        c = b.deepcopy()
+        key_copy = next(iter(c))
+        self.assertIsNot(key_copy, key)
+        self.assertIs(c[key_copy][0], key_copy)
+
+    def test_deepcopy_with_backreference(self) -> None:
+        class Item:
+            parent: Any = None
+
+        item = Item()
+        b = benedict()
+        item.parent = b
+        b["item"] = item
+        c = b.deepcopy()
+        self.assertIs(c["item"].parent, c)
+
     def test_deepupdate_with_single_dict(self) -> None:
         d = {
             "a": 1,
