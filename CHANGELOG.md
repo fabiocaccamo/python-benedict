@@ -4,6 +4,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.41.0](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.41.0) - 2026-11-28
+-   Fix stored keys that look like keypaths (eg. `rows[0]`) being unreachable: a stored key now takes precedence over its keypath parsing (`get`, `in`, `del`, `dict()`, `flatten`). #683 (by [@rahul05ranjan](https://github.com/rahul05ranjan) in #684)
+-   Fix `unflatten` losing values when unflattening a `benedict` instance. #655 (by [@rahul05ranjan](https://github.com/rahul05ranjan) in #656)
+-   Fix `invert` parsing values as keypaths when they become keys (eg. `rows[0]`). #671 (by [@draarivpatel-ui](https://github.com/draarivpatel-ui) in #680)
+-   Fix `match` returning wrong values for keys that look like keypaths. (by [@ShahadatTest](https://github.com/ShahadatTest) in #647)
+-   Fix `to_query_string` encoding of list and dict values: use the bracket notation supported by the decoder (eg. `a[]=1&a[]=2`, `user[name]=joe`) instead of the percent-encoded Python repr. #681 (by [@rahul05ranjan](https://github.com/rahul05ranjan) in #682)
+-   Fix out-of-range negative index assignment (eg. `d["a[-4]"] = 1`): the list is extended on the left so that the value can be read back at the same index. #674 (by [@rahul05ranjan](https://github.com/rahul05ranjan) in #675)
+-   Validate the keypath separator in keys when using `update` with an iterable of pairs. (by [@imsurya26](https://github.com/imsurya26) in #672)
+-   Validate the keypath separator in keys when using the in-place union operator (`|=`). (by [@Gabrieljr42](https://github.com/Gabrieljr42) in #643)
+-   Compare the current wrapped contents of both dicts in `==` and `!=`. (by [@123qeew](https://github.com/123qeew) in #645)
+-   Fix `copy.copy` returning a copy still bound to the original wrapped dict. #662 (by [@rudycelekli](https://github.com/rudycelekli) in #664)
+-   Fix `setdefault` altering the given default value when the key already exists. (by [@liugedragon](https://github.com/liugedragon) in #669)
+-   Fix `nest` with frozen records (the input records are left unchanged). #661 (by [@rudycelekli](https://github.com/rudycelekli) in #663)
+-   Honor freezing in `KeylistDict` assignments using a list of keys. (by [@ShahadatTest](https://github.com/ShahadatTest) in #646)
+-   Preserve empty-string parent keys when flattening. (by [@UmutAlisoglu](https://github.com/UmutAlisoglu) in #644)
+-   Fix `dump` ignoring empty data (eg. `dump({})`). (by [@gary1110086](https://github.com/gary1110086) in #652)
+-   Fix `int` parsing losing precision with big integers. #657 (by [@jwalith4418-Mj](https://github.com/jwalith4418-Mj) in #658)
+-   Fix `cli` decoding of hyphenated option names (eg. `--dry-run`). (by [@Jinyong-Li](https://github.com/Jinyong-Li) in #667)
+-   Fix `csv` encoding to include the keys of every row when columns are not specified. (by [@shaurya703](https://github.com/shaurya703) in #665)
+-   Fix `ini` serializer to honor a custom `default_section`. (by [@Master-Norna](https://github.com/Master-Norna) in #642)
+-   Fix decoding of files starting with a byte order mark (BOM). (by [@jayhemnani9910](https://github.com/jayhemnani9910) in #670)
+-   Fix `s3_options` when writing to S3: they are passed only to the S3 client and no longer to the serializer. #649 (by [@chivector](https://github.com/chivector) in #650)
+-   Clean up S3 clients and temporary files after transfer errors. (by [@ShahadatTest](https://github.com/ShahadatTest) in #651)
+-   Release `xls` / `xlsx` workbook resources when decoding fails. (by [@ShahadatTest](https://github.com/ShahadatTest) in #648)
+-   Allow `python-dateutil` 3 and 4 in the `parse` extra. (by [@itzzdev09](https://github.com/itzzdev09) in #673)
+-   Remove inaccurate `ValueError` mention from `to_*` methods documentation.
+-   Bump requirements, GitHub actions and `pre-commit` hooks.
+
 ## [0.40.1](https://github.com/fabiocaccamo/python-benedict/releases/tag/0.40.1) - 2026-10-20
 -   Fix `items` and `values` returning generators instead of views (no `len`, single iteration), eg. with `toml-rs`. #636 (by [@Gabrieljr42](https://github.com/Gabrieljr42) in #637)
 -   Honor freezing when deleting or popping a keypath and when merging into a frozen `benedict` instance. (by [@helo060228](https://github.com/helo060228) in #635)
