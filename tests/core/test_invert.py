@@ -1,5 +1,6 @@
 import unittest
 
+from benedict import benedict
 from benedict.core import invert as _invert
 
 
@@ -130,3 +131,17 @@ class invert_test_case(unittest.TestCase):
             ],
         }
         self.assertEqual(o, r)
+
+    def test_invert_keeps_index_like_values_as_literal_keys(self) -> None:
+        b = benedict({"a": "foo", "b": "foo[0]"})
+        self.assertEqual(b.invert(), {"foo": ["a"], "foo[0]": ["b"]})
+        self.assertEqual(b.invert(flat=True), {"foo": "a", "foo[0]": "b"})
+
+    def test_invert_rejects_values_containing_keypath_separator(self) -> None:
+        b = benedict({"a": "one.two"})
+        with self.assertRaises(ValueError):
+            b.invert()
+
+    def test_invert_keeps_literal_values_without_keypath_separator(self) -> None:
+        b = benedict({"a": "one.two", "b": "foo[0]"}, keypath_separator=None)
+        self.assertEqual(b.invert(), {"one.two": ["a"], "foo[0]": ["b"]})

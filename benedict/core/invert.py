@@ -23,10 +23,14 @@ def _invert_list(
 
 
 def invert(d: MutableMapping[_K, _V], flat: bool = False) -> MutableMapping[Any, Any]:
-    new_dict = clone(d, empty=True)
+    # collect items in a plain dict, values used as keys (eg. "a[0]")
+    # must not be parsed as keypaths by benedict instances
+    items: MutableMapping[Any, Any] = {}
     for key, value in d.items():
         if type_util.is_list_or_tuple(value):
-            _invert_list(new_dict, key, value, flat)
+            _invert_list(items, key, value, flat)
         else:
-            _invert_item(new_dict, key, value, flat)
+            _invert_item(items, key, value, flat)
+    new_dict = clone(d, empty=True)
+    new_dict.update(items)
     return new_dict
