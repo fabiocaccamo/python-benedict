@@ -170,7 +170,7 @@ class benedict(KeyattrDict[_K, _V], KeypathDict[_V], IODict[_K, _V], ParseDict[_
         Return a readable string representation of any dict/list.
         This method can be used both as static method or instance method.
         """
-        return _dump(data or self)
+        return _dump(self if data is None else data)
 
     def filter(self, predicate: Callable[[_KPT, _V], bool], deep: bool = False) -> Self:
         """
